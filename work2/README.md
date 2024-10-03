@@ -1,6 +1,8 @@
 # Work 2 Overview
 
-***Due Date:** 2024-09-03*
+***Due Date:** 2024-11-03*
+
+**Datasets: https://raco.fib.upc.edu/avisos/attachment?assig=IML-MAI&idAvis=102511&idAdjunt=80773**
 
 deliver python scripts in a pycharm project
 folders should be used to organize the various algorithms
