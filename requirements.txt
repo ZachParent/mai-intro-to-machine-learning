@@ -11,11 +11,15 @@ fonttools==4.53.1
 importlib_metadata==8.5.0
 importlib_resources==6.4.5
 ipykernel==6.29.5
+ipympl==0.9.4
 ipython==8.18.1
+ipython-genutils==0.2.0
+ipywidgets==8.1.5
 jedi==0.19.1
 joblib==1.4.2
 jupyter_client==8.6.3
 jupyter_core==5.7.2
+jupyterlab_widgets==3.0.13
 kiwisolver==1.4.7
 matplotlib==3.9.2
 matplotlib-inline==0.1.7
@@ -47,4 +51,5 @@ traitlets==5.14.3
 typing_extensions==4.12.2
 tzdata==2024.1
 wcwidth==0.2.13
+widgetsnbextension==4.0.13
 zipp==3.20.2
