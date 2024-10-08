@@ -57,7 +57,7 @@ use `scipy.io.arffread` to read the .arff file
   - becomes 3 binary features: is_red, is_blue, is_green
   - `sklearn.preprocessing.OneHotEncoder`
 ---
-## Notes from 2024-10-08
+# Notes from 2024-10-08
 
 ### External libraries
 
@@ -102,3 +102,12 @@ There are many distance metrics listed in slides [work2/s2 -> slide 13](../slide
 - pandas is more efficient
 
 After these next 2 weeks (until 2024-10-22) we should have chosen the ideal configuration for KNN.
+
+## Questions for Prof
+- Should we eliminate features that have no relevance?
+  - we should let the feature weighting algorithm decide this, and some may have near zero weight
+- Can we use scikit-learn pipelines?
+  - yes
+- Slicing and preprocessing datasets. Should we merge the dataframes before processing or leave them separate?
+  - we can choose
+  - let's keep them separate and justify our choice, prevents bleeding
