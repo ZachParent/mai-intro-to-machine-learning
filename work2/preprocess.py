@@ -6,7 +6,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def load_data(file_pattern: str) -> list[pd.DataFrame]:
+def load_datasets(file_pattern: str) -> list[pd.DataFrame]:
     """
     Loads data from arff files matching the given pattern.
 
@@ -26,7 +26,7 @@ def load_data(file_pattern: str) -> list[pd.DataFrame]:
     return dfs
 
 
-def preprocess_mushrooms_data(data: pd.DataFrame) -> pd.DataFrame:
+def preprocess_mushrooms_datasets(data: pd.DataFrame) -> pd.DataFrame:
     """
     Preprocesses the mushrooms dataset without modifying the original.
     Column names and shape are unmodified in the result.
@@ -40,7 +40,7 @@ def preprocess_mushrooms_data(data: pd.DataFrame) -> pd.DataFrame:
     pass
 
 
-def preprocess_hepatitis_data(data: pd.DataFrame) -> pd.DataFrame:
+def preprocess_hepatitis_datasets(data: pd.DataFrame) -> pd.DataFrame:
     """
     Preprocesses the hepatitis dataset without modifying the original.
     Column names and shape are unmodified in the result.
