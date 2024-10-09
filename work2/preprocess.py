@@ -1,7 +1,9 @@
 import pandas as pd
 from scipy.io import arff
-from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import LabelEncoder, MinMaxScaler
+from sklearn.impute import SimpleImputer
 import glob
+import numpy as np
 import logging
 
 logger = logging.getLogger(__name__)
@@ -58,11 +60,24 @@ def preprocess_hepatitis_datasets(data: pd.DataFrame) -> pd.DataFrame:
     output:
         pd.DataFrame - preprocessed dataframe
     """
+    le = LabelEncoder()
+    scaler = MinMaxScaler()
+    imputer = SimpleImputer(strategy='mean')
 
-    missing_values = count_missing_values(data)
+    catergorical_cols = ["SEX", "STEROID", "ANTIVIRALS", "FATIGUE", "MALAISE", "ANOREXIA", "LIVER_BIG",
+                         "LIVER_FIRM", "SPLEEN_PALPABLE", "SPIDERS", "ASCITES", "VARICES", "HISTOLOGY", "Class"]
+    numerical_cols = ["AGE", "BILIRUBIN", "ALK_PHOSPHATE", "SGOT", "ALBUMIN", "PROTIME"]
 
-    # Print the result
-    print(f"Total missing values: {missing_values}")
+    # Apply Label Encoding to each column of the data
+    for column in catergorical_cols:
+        data[column] = le.fit_transform(data[column])
+
+    # Fill in missing entries in the data using simple imputer
+    data[numerical_cols] = imputer.fit_transform(data[numerical_cols])
+
+    # Normalise the data in the numerical columns using Min-Max scaling.
+    # (good in situations where distance-based algorithms will be used, we will be using k-NN)
+    data[numerical_cols] = scaler.fit_transform(data[numerical_cols])
 
     return data
 
