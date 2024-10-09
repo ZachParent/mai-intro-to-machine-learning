@@ -1,5 +1,6 @@
 import pandas as pd
 from scipy.io import arff
+from sklearn.preprocessing import LabelEncoder
 import glob
 import logging
 
@@ -37,7 +38,13 @@ def preprocess_mushrooms_datasets(data: pd.DataFrame) -> pd.DataFrame:
     output:
         pd.DataFrame - preprocessed dataframe
     """
-    pass
+    le = LabelEncoder()
+
+    # Apply Label Encoding to each column of the data
+    for column in data.columns:
+        data[column] = le.fit_transform(data[column])
+
+    return data
 
 
 def preprocess_hepatitis_datasets(data: pd.DataFrame) -> pd.DataFrame:
@@ -51,4 +58,25 @@ def preprocess_hepatitis_datasets(data: pd.DataFrame) -> pd.DataFrame:
     output:
         pd.DataFrame - preprocessed dataframe
     """
-    pass
+
+    missing_values = count_missing_values(data)
+
+    # Print the result
+    print(f"Total missing values: {missing_values}")
+
+    return data
+
+
+def count_missing_values(data: pd.DataFrame) -> dict:
+    """
+    Returns the number of missing values in the entire DataFrame
+    and the number of missing values per column.
+    
+    Parameters:
+    data (pd.DataFrame): The DataFrame to check for missing values.
+    
+    Returns:
+    dict: A dictionary containing the total number of missing values and a column-wise breakdown.
+    """ 
+    return data.isnull().sum().sum()
+
