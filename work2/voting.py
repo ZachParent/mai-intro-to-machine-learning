@@ -1,23 +1,20 @@
 from typing import Callable, List
-import pandas as pd
+import numpy as np
 
 
-VotingFunc = Callable[[List[pd.Series], List[float], List[int]], int]
-"""A voting function that takes in a list of rows, a list of distances, and a
-list of classes and returns a class."""
+VotingFunc = Callable[[List[np.number], List[int]], int]
+"""A voting function that takes in a list of distances, and a list of classes and returns a class."""
 
 
 def majority_class_vote(
-    rows: List[pd.Series],
-    distances: List[float],
+    distances: List[np.number],
     classes: List[int],
 ) -> int:
     """
     Returns the class that appears most frequently in the list of rows.
 
     input:
-        rows: list[pd.Series] - list of rows
-        distances: list[float] - list of distances
+        distances: list[np.number] - list of distances
         classes: list[int] - list of classes
 
     output:
@@ -28,8 +25,7 @@ def majority_class_vote(
 
 
 def inverse_distance_weighted_vote(
-    rows: List[pd.Series],
-    distances: List[float],
+    distances: List[np.number],
     classes: List[int],
 ) -> int:
     """
@@ -37,8 +33,7 @@ def inverse_distance_weighted_vote(
     rows.
 
     input:
-        rows: list[pd.Series] - list of rows
-        distances: list[float] - list of distances
+        distances: list[np.number] - list of distances
         classes: list[int] - list of classes
 
     output:
@@ -49,8 +44,7 @@ def inverse_distance_weighted_vote(
 
 
 def shepards_work_vote(
-    rows: List[pd.Series],
-    distances: List[float],
+    distances: List[np.number],
     classes: List[int],
 ) -> int:
     """
@@ -58,8 +52,7 @@ def shepards_work_vote(
     rows, using an exponential instead of an inverse distance scheme.
 
     input:
-        rows: list[pd.Series] - list of rows
-        distances: list[float] - list of distances
+        distances: list[np.number] - list of distances
         classes: list[int] - list of classes
 
     output:

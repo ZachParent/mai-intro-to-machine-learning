@@ -1,12 +1,16 @@
 import typing
-import pandas as pd
+import numpy as np
 
 
-DistanceFunc = typing.Callable[[pd.Series, pd.Series], float]
+DistanceFunc = typing.Callable[
+    [np.ndarray[np.number], np.ndarray[np.number]], np.number
+]
 """A distance function takes in two rows and returns a distance."""
 
 
-def manhattan_distance(row1: pd.Series, row2: pd.Series) -> float:
+def manhattan_distance(
+    row1: np.ndarray[np.number], row2: np.ndarray[np.number]
+) -> np.number:
     """
     Calculates the Manhattan distance between two rows.
     """
@@ -14,7 +18,9 @@ def manhattan_distance(row1: pd.Series, row2: pd.Series) -> float:
     pass
 
 
-def euclidean_distance(row1: pd.Series, row2: pd.Series) -> float:
+def euclidean_distance(
+    row1: np.ndarray[np.number], row2: np.ndarray[np.number]
+) -> np.number:
     """
     Calculates the Euclidean distance between two rows.
     """
