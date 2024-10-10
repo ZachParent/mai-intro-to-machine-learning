@@ -37,8 +37,8 @@ class KNNClassifier(BaseEstimator, ClassifierMixin):
             X: np.ndarray[np.ndarray[np.number]] - training data
             y: np.ndarray[np.integer] - training labels
         """
-        self.X_train = X
-        self.y_train = y
+        self.X_train = np.array(X)
+        self.y_train = np.array(y)
         self.classes_ = np.unique(y)
         return self
 
@@ -51,7 +51,7 @@ class KNNClassifier(BaseEstimator, ClassifierMixin):
             np.ndarray[np.integer] - predicted classes
         """
         predictions = []
-        for x in X:
+        for x in np.array(X):
             distances = [self.distance_func(x_train, self.weights * x) for x_train in self.X_train]
             distances_and_classes = list(zip(distances, self.y_train))
             sorted_distances_and_classes = sorted(

@@ -1,4 +1,6 @@
+import numpy as np
 import pandas as pd
+from sklearn.preprocessing import LabelEncoder
 from scipy.io import arff
 import glob
 import logging
@@ -37,7 +39,11 @@ def preprocess_mushrooms_datasets(data: pd.DataFrame) -> pd.DataFrame:
     output:
         pd.DataFrame - preprocessed dataframe
     """
-    pass
+    result = data.copy()
+    for col in result.columns:
+        label_encoder = LabelEncoder()
+        result[col] = label_encoder.fit_transform(result[col])
+    return result
 
 
 def preprocess_hepatitis_datasets(data: pd.DataFrame) -> pd.DataFrame:
