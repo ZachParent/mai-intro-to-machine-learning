@@ -1,13 +1,7 @@
-from typing import Callable
 from sklearn.base import BaseEstimator
 import numpy as np
-from voting import VotingFunc
-from distance import DistanceFunc
-
-
-KNNClassifier = Callable[
-    [np.ndarray[np.ndarray[np.number], np.ndarray[np.integer]], int]
-]
+from .voting import VotingFunc
+from .distance import DistanceFunc
 
 
 class KNNClassifier(BaseEstimator):
