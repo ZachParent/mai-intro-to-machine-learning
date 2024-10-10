@@ -36,9 +36,9 @@ class InverseDistanceWeightedVote(VotingFunc):
     def __call__(self, distances: list[np.number], classes: list[int]) -> int:
         """
         Returns the class that has the smallest sum of inverse distances to the
-        rows.
+        row.
         """
-        inverse_distances = [1 / (d ** self.distance_weight) for d in distances]
+        inverse_distances = [1 / (d**self.distance_weight) for d in distances]
         class_sums = {}
         for cls, inv_dist in zip(classes, inverse_distances):
             class_sums[cls] = class_sums.get(cls, 0) + inv_dist
@@ -48,8 +48,11 @@ class InverseDistanceWeightedVote(VotingFunc):
 class ShepardsWorkVote(VotingFunc):
     def __call__(self, distances: list[np.number], classes: list[int]) -> int:
         """
-        Returns the class that has the smallest sum of squared distances to the
-        rows, using an exponential instead of an inverse distance scheme.
+        Returns the class that has the smallest sum of negative exponential
+        distances to the row.
         """
-        # TODO: implement
-        pass
+        exp_distances = [np.exp(-d) for d in distances]
+        class_sums = {}
+        for cls, exp_dist in zip(classes, exp_distances):
+            class_sums[cls] = class_sums.get(cls, 0) + exp_dist
+        return min(class_sums, key=class_sums.get)
