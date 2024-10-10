@@ -1,31 +1,32 @@
-import typing
 import numpy as np
 
 
-DistanceFunc = typing.Callable[
-    [np.ndarray[np.number], np.ndarray[np.number]], np.number
-]
-"""A distance function takes in two rows and returns a distance."""
+from abc import ABC, abstractmethod
+
+class DistanceFunc(ABC):
+    """A distance function takes in two rows and returns a distance."""
+
+    @abstractmethod
+    def __call__(self, row1: np.ndarray[np.number], row2: np.ndarray[np.number]) -> np.number:
+        pass
 
 
-def manhattan_distance(
-    row1: np.ndarray[np.number], row2: np.ndarray[np.number]
-) -> np.number:
-    """
-    Calculates the Manhattan distance between two rows.
-    """
-    # TODO: implement
-    pass
+class ManhattanDistance(DistanceFunc):
+    def __call__(self, row1: np.ndarray[np.number], row2: np.ndarray[np.number]) -> np.number:
+        """
+        Calculates the Manhattan distance between two rows.
+        """
+        # TODO: implement
+        pass
 
 
-def euclidean_distance(
-    row1: np.ndarray[np.number], row2: np.ndarray[np.number]
-) -> np.number:
-    """
-    Calculates the Euclidean distance between two rows.
-    """
-    # TODO: implement
-    pass
+class EuclideanDistance(DistanceFunc):
+    def __call__(self, row1: np.ndarray[np.number], row2: np.ndarray[np.number]) -> np.number:
+        """
+        Calculates the Euclidean distance between two rows.
+        """
+        # TODO: implement
+        pass
 
 
-# TODO: implement another distance metric
+# TODO: implement another distance metric as a class inheriting from DistanceFunc

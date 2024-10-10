@@ -1,17 +1,10 @@
-from typing import Callable, List
+from abc import ABC, abstractmethod
 import numpy as np
 
 
-VotingFunc = Callable[[List[np.number], List[int]], int]
-"""A voting function that takes in a list of distances, and a list of classes and returns a class."""
-
-
-def majority_class_vote(
-    distances: List[np.number],
-    classes: List[int],
-) -> int:
+class VotingFunc(ABC):
     """
-    Returns the class that appears most frequently in the list of rows.
+    A voting function that takes in a list of distances and a list of classes and returns a class.
 
     input:
         distances: list[np.number] - list of distances
@@ -20,43 +13,36 @@ def majority_class_vote(
     output:
         int - class
     """
-    # TODO: implement
-    pass
+
+    @abstractmethod
+    def __call__(self, distances: list[np.number], classes: list[int]) -> int:
+        pass
 
 
-def inverse_distance_weighted_vote(
-    distances: List[np.number],
-    classes: List[int],
-) -> int:
-    """
-    Returns the class that has the smallest sum of inverse distances to the
-    rows.
-
-    input:
-        distances: list[np.number] - list of distances
-        classes: list[int] - list of classes
-
-    output:
-        int - class
-    """
-    # TODO: implement
-    pass
+class MajorityClassVote(VotingFunc):
+    def __call__(self, distances: list[np.number], classes: list[int]) -> int:
+        """
+        Returns the class that appears most frequently in the list of rows.
+        """
+        # TODO: implement
+        pass
 
 
-def shepards_work_vote(
-    distances: List[np.number],
-    classes: List[int],
-) -> int:
-    """
-    Returns the class that has the smallest sum of squared distances to the
-    rows, using an exponential instead of an inverse distance scheme.
+class InverseDistanceWeightedVote(VotingFunc):
+    def __call__(self, distances: list[np.number], classes: list[int]) -> int:
+        """
+        Returns the class that has the smallest sum of inverse distances to the
+        rows.
+        """
+        # TODO: implement
+        pass
 
-    input:
-        distances: list[np.number] - list of distances
-        classes: list[int] - list of classes
 
-    output:
-        int - class
-    """
-    # TODO: implement
-    pass
+class ShepardsWorkVote(VotingFunc):
+    def __call__(self, distances: list[np.number], classes: list[int]) -> int:
+        """
+        Returns the class that has the smallest sum of squared distances to the
+        rows, using an exponential instead of an inverse distance scheme.
+        """
+        # TODO: implement
+        pass
