@@ -48,4 +48,16 @@ class KNNClassifier(BaseEstimator, ClassifierMixin):
         output:
             np.ndarray[np.integer] - predicted classes
         """
-        pass
+        predictions = []
+        for x in X:
+            distances = [self.distance_func(x_train, self.weights * x) for x_train in self.X_train]
+            distances_and_classes = list(zip(distances, self.y_train))
+            sorted_distances_and_classes = sorted(
+                distances_and_classes, key=lambda dis_and_cls: dis_and_cls[0]
+            )
+            k_nearest_distances_and_classes = sorted_distances_and_classes[: self.k]
+            k_nearest_distances = [dis for dis, _ in k_nearest_distances_and_classes]
+            k_nearest_classes = [cls for _, cls in k_nearest_distances_and_classes]
+            pred = self.voting_func(k_nearest_distances, k_nearest_classes)
+            predictions.append(pred)
+        return np.array(predictions)

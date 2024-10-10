@@ -16,8 +16,7 @@ class ManhattanDistance(DistanceFunc):
         """
         Calculates the Manhattan distance between two rows.
         """
-        # TODO: implement
-        pass
+        return np.sum(np.abs(row1 - row2))
 
 
 class EuclideanDistance(DistanceFunc):
@@ -25,8 +24,7 @@ class EuclideanDistance(DistanceFunc):
         """
         Calculates the Euclidean distance between two rows.
         """
-        # TODO: implement
-        pass
+        return np.sqrt(np.sum((row1 - row2) ** 2))
 
 
 # TODO: implement another distance metric as a class inheriting from DistanceFunc

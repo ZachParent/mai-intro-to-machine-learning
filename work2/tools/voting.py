@@ -24,8 +24,7 @@ class MajorityClassVote(VotingFunc):
         """
         Returns the class that appears most frequently in the list of rows.
         """
-        # TODO: implement
-        pass
+        return np.argmax(np.bincount(classes))
 
 
 class InverseDistanceWeightedVote(VotingFunc):
