@@ -1,10 +1,10 @@
-from sklearn.base import BaseEstimator
+from sklearn.base import BaseEstimator, ClassifierMixin
 import numpy as np
 from .voting import VotingFunc
 from .distance import DistanceFunc
 
 
-class KNNClassifier(BaseEstimator):
+class KNNClassifier(BaseEstimator, ClassifierMixin):
     """
     A KNN classifier.
     """
