@@ -39,6 +39,8 @@ class KNNClassifier(BaseEstimator, ClassifierMixin):
         """
         self.X_train = X
         self.y_train = y
+        self.classes_ = np.unique(y)
+        return self
 
     def predict(self, X: np.ndarray[np.ndarray[np.number]]) -> np.ndarray[np.integer]:
         """
