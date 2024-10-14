@@ -1,6 +1,8 @@
 from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.metrics import f1_score
 import numpy as np
+import pandas as pd
+from typing import Callable
 from .voting import VotingFunc
 from .distance import DistanceFunc
 
@@ -53,7 +55,10 @@ class KNNClassifier(BaseEstimator, ClassifierMixin):
         """
         predictions = []
         for x in np.array(X):
-            distances = [self.distance_func(x_train, self.weights * x) for x_train in self.X_train]
+            distances = [
+                self.distance_func(x_train, self.weights * x)
+                for x_train in self.X_train
+            ]
             distances_and_classes = list(zip(distances, self.y_train))
             sorted_distances_and_classes = sorted(
                 distances_and_classes, key=lambda dis_and_cls: dis_and_cls[0]
@@ -65,15 +70,50 @@ class KNNClassifier(BaseEstimator, ClassifierMixin):
             predictions.append(pred)
         return np.array(predictions)
 
-def run_knn(knn, train_df, test_df, target_col: str):
+
+def run_knn(
+    knn: KNNClassifier, train_df: pd.DataFrame, test_df: pd.DataFrame, target_col: str
+) -> tuple[np.ndarray, np.ndarray]:
+    """
+    Run KNN algorithm on the given train and test datasets.
+
+    Args:
+        knn (KNNClassifier): The KNN model to use.
+        train_df (pd.DataFrame): The training dataset.
+        test_df (pd.DataFrame): The testing dataset.
+        target_col (str): The name of the target column.
+
+    Returns:
+        tuple[np.ndarray, np.ndarray]: A tuple containing predictions and actual values.
+    """
     knn.fit(train_df.drop(target_col, axis=1), train_df[target_col])
     preds = knn.predict(test_df.drop(target_col, axis=1))
     actuals = test_df[target_col]
     return (preds, actuals)
 
-def cross_validate_knn(knn, train_dfs, test_dfs, target_col: str):
-    f1_scores = []
-    for train_df, test_df in zip(train_dfs, test_dfs):  
+
+def cross_validate_knn(
+    knn: KNNClassifier,
+    train_dfs: list[pd.DataFrame],
+    test_dfs: list[pd.DataFrame],
+    target_col: str,
+    score_func: Callable[[np.ndarray, np.ndarray], any],
+) -> np.ndarray:
+    """
+    Perform cross-validation for the KNN model.
+
+    Args:
+        knn (KNNClassifier): The KNN model to use.
+        train_dfs (list[pd.DataFrame]): List of training datasets.
+        test_dfs (list[pd.DataFrame]): List of testing datasets.
+        target_col (str): The name of the target column.
+        score_func (Callable[[np.ndarray, np.ndarray], float]): The scoring function to use.
+
+    Returns:
+        np.ndarray: An array of scores from cross-validation.
+    """
+    scores = []
+    for train_df, test_df in zip(train_dfs, test_dfs):
         preds, actuals = run_knn(knn, train_df, test_df, target_col)
-        f1_scores.append(f1_score(actuals, preds, average="weighted"))
-    return np.array(f1_scores)
+        scores.append(score_func(actuals, preds))
+    return np.array(scores)
