@@ -1,4 +1,5 @@
 from sklearn.base import BaseEstimator, ClassifierMixin
+from sklearn.metrics import f1_score
 import numpy as np
 from .voting import VotingFunc
 from .distance import DistanceFunc
@@ -63,3 +64,16 @@ class KNNClassifier(BaseEstimator, ClassifierMixin):
             pred = self.voting_func(k_nearest_distances, k_nearest_classes)
             predictions.append(pred)
         return np.array(predictions)
+
+def run_knn(knn, train_df, test_df, target_col: str):
+    knn.fit(train_df.drop(target_col, axis=1), train_df[target_col])
+    preds = knn.predict(test_df.drop(target_col, axis=1))
+    actuals = test_df[target_col]
+    return (preds, actuals)
+
+def cross_validate_knn(knn, train_dfs, test_dfs, target_col: str):
+    f1_scores = []
+    for train_df, test_df in zip(train_dfs, test_dfs):  
+        preds, actuals = run_knn(knn, train_df, test_df, target_col)
+        f1_scores.append(f1_score(actuals, preds, average="weighted"))
+    return np.array(f1_scores)
