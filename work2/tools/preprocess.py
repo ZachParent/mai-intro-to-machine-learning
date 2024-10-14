@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
-from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import LabelEncoder, StandardScaler
+from sklearn.impute import SimpleImputer
 from scipy.io import arff
 import glob
 import logging
@@ -57,4 +58,13 @@ def preprocess_hepatitis_datasets(data: pd.DataFrame) -> pd.DataFrame:
     output:
         pd.DataFrame - preprocessed dataframe
     """
-    pass
+    numerical_columns = ["BILIRUBIN", "ALK_PHOSPHATE", "SGOT", "ALBUMIN", "PROTIME"]
+    for col in numerical_columns:
+        median_imputer = SimpleImputer(strategy="median")
+        standard_scaler = StandardScaler()
+        data[col] = standard_scaler.fit_transform(median_imputer.fit_transform(data[[col]]))
+
+    for col in list(set(data.columns) - set(numerical_columns)):
+        label_encoder = LabelEncoder()
+        data[col] = label_encoder.fit_transform(data[col])
+    return data
