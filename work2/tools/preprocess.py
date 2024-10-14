@@ -44,6 +44,8 @@ def preprocess_mushrooms_datasets(data: pd.DataFrame) -> pd.DataFrame:
     for col in result.columns:
         label_encoder = LabelEncoder()
         result[col] = label_encoder.fit_transform(result[col])
+    # TODO: Remove this sampling step
+    result = result.iloc[:100]
     return result
 
 
