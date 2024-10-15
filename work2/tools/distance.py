@@ -36,7 +36,22 @@ class EuclideanDistance(DistanceFunc):
         return np.linalg.norm(row1 - row2)
 
 
-# TODO: implement another distance metric as a class inheriting from DistanceFunc
+# Good when there are correlated features in dataset
+class MahalanobisDistance(DistanceFunc):
+    def __init__(self, covariance_matrix: np.ndarray[np.number]):
+        """
+        Initializes the Mahalanobis distance with the given covariance matrix.
+        """
+        # Inverse of the covariance matrix is required for Mahalanobis distance
+        self.cov_inv = np.linalg.inv(covariance_matrix)
+    
+    def __call__(self, row1: np.ndarray[np.number], row2: np.ndarray[np.number]) -> np.number:
+        """
+        Calculates the Mahalanobis distance between two rows.
+        """
+        # Sanity check
+        if row1.shape != row2.shape:
+            raise ValueError("Shape of the two rows need to be the same")
 
-# NOTES ON WHICH METRIC TO IMPLEMENT:
-
+        delta = row1 - row2
+        return np.sqrt(delta.T @ self.cov_inv @ delta)

@@ -3,7 +3,6 @@ import numpy as np
 from .voting import VotingFunc
 from .distance import DistanceFunc
 
-
 class KNNClassifier(BaseEstimator, ClassifierMixin):
     """
     A KNN classifier.
@@ -39,6 +38,7 @@ class KNNClassifier(BaseEstimator, ClassifierMixin):
         """
         self.X_train = X
         self.y_train = y
+        self.classes_ = np.unique(y)
 
     def predict(self, X: np.ndarray[np.ndarray[np.number]]) -> np.ndarray[np.integer]:
         """
@@ -48,4 +48,40 @@ class KNNClassifier(BaseEstimator, ClassifierMixin):
         output:
             np.ndarray[np.integer] - predicted classes
         """
-        pass
+        predictions = [self._predict(x) for x in X]
+        return predictions
+
+    def _predict(self, x):
+
+        # Computing the distance
+        distances = []
+
+        for x_train in self.X_train:
+            if self.weights is not None:
+                x, x_train = self.apply_weights(x, x_train, self.weights)
+
+            distances.append(self.distance_func(x, x_train))
+
+        # Get the closest k neighbours
+        k_indices = np.argsort(distances)[:self.k]
+
+        k_nearest_labels = [self.y_train[i] for i in k_indices]
+        k_nearest_distances = [distances[i] for i in k_indices]
+
+        # Pass both distances and labels
+        return self.voting_func(k_nearest_distances, k_nearest_labels)
+    
+    def apply_weights(self, row1: np.ndarray, row2: np.ndarray, weights: np.ndarray):
+        """
+        Multiplies each feature in row1 and row2 by the corresponding feature weight.
+        
+        input:
+            row1: np.ndarray - the first feature vector
+            row2: np.ndarray - the second feature vector
+            weights: np.ndarray - weights for each feature
+            
+        output:
+            Tuple of row1 and row2 with applied weights.
+        """
+        return row1 * weights, row2 * weights
+
