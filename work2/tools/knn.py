@@ -45,6 +45,16 @@ class KNNClassifier(BaseEstimator, ClassifierMixin):
         self.classes_ = np.unique(y)
         return self
 
+    def predict_proba(self, X: np.ndarray[np.ndarray[np.number]]) -> np.ndarray[np.ndarray[np.number]]:
+        """
+        input:
+            X: np.ndarray[np.ndarray[np.number]] - data to classify
+
+        output:
+            np.ndarray[np.ndarray[np.number]] - predicted probabilities
+        """
+        pass
+
     def predict(self, X: np.ndarray[np.ndarray[np.number]]) -> np.ndarray[np.integer]:
         """
         input:
