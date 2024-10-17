@@ -1,4 +1,4 @@
-from typing import Callable
+from typing import Callable, Optional
 import numpy as np
 import pandas as pd
 from sklearn.base import BaseEstimator
@@ -8,7 +8,8 @@ def cross_validate(
     train_dfs: list[pd.DataFrame],
     test_dfs: list[pd.DataFrame],
     target_col: str,
-    score_func: Callable[[np.ndarray[np.number], np.ndarray[np.number]], any],
+    use_proba: bool = False,
+    score_func: Optional[Callable[[np.ndarray, np.ndarray], float]] = None,
 ) -> np.ndarray:
     """
     Perform cross-validation for the estimator.
@@ -23,7 +24,8 @@ def cross_validate(
     Returns:
         np.ndarray: An array of scores from cross-validation.
     """
-    scores = []
+    actuals_list = []
+    preds_list = []
     for train_df, test_df in zip(train_dfs, test_dfs):
         X_train = train_df.drop(target_col, axis=1)
         y_train = train_df[target_col]
@@ -31,6 +33,11 @@ def cross_validate(
         y_test = test_df[target_col]
 
         estimator.fit(X_train, y_train)
-        preds = estimator.predict(X_test)
-        scores.append(score_func(y_test, preds))
-    return np.array(scores)
+        if use_proba:
+            preds_list.append(estimator.predict_proba(X_test))
+        else:
+            preds_list.append(estimator.predict(X_test))
+        actuals_list.append(y_test)
+    if score_func:
+        return np.array([score_func(preds, actuals) for preds, actuals in zip(preds_list, actuals_list)])
+    return np.concatenate(actuals_list), np.concatenate(preds_list)
