@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder, StandardScaler
-from sklearn.impute import SimpleImputer
+from sklearn.impute import KNNImputer
 from scipy.io import arff
 import glob
 import logging
@@ -62,9 +62,9 @@ def preprocess_hepatitis_datasets(data: pd.DataFrame) -> pd.DataFrame:
     """
     numerical_columns = ["BILIRUBIN", "ALK_PHOSPHATE", "SGOT", "ALBUMIN", "PROTIME"]
     for col in numerical_columns:
-        median_imputer = SimpleImputer(strategy="median")
+        knn_imputer = KNNImputer(n_neighbors=5)
         standard_scaler = StandardScaler()
-        data[col] = standard_scaler.fit_transform(median_imputer.fit_transform(data[[col]]))
+        data[col] = standard_scaler.fit_transform(knn_imputer.fit_transform(data[[col]]))
 
     for col in list(set(data.columns) - set(numerical_columns)):
         label_encoder = LabelEncoder()
