@@ -66,7 +66,8 @@ def preprocess_hepatitis_datasets(data: pd.DataFrame) -> pd.DataFrame:
         standard_scaler = StandardScaler()
         data[col] = standard_scaler.fit_transform(knn_imputer.fit_transform(data[[col]]))
 
-    for col in list(set(data.columns) - set(numerical_columns)):
+    for col in list(set(data.columns) - set(numerical_columns) - set(["Class"])):
         label_encoder = LabelEncoder()
         data[col] = label_encoder.fit_transform(data[col])
+    data["Class"] = data["Class"].apply(lambda x: 1 if x == b"DIE" else 0)
     return data
