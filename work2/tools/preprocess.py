@@ -60,20 +60,27 @@ def preprocess_hepatitis_datasets(data: pd.DataFrame) -> pd.DataFrame:
     output:
         pd.DataFrame - preprocessed dataframe
     """
+    for col in data.columns:
+        if data[col].dtype == object:  # Only apply to object columns
+            data[col] = data[col].apply(lambda x: x.decode('utf-8') if isinstance(x, bytes) else x)
+
     le = LabelEncoder()
     scaler = MinMaxScaler()
-    imputer = SimpleImputer(strategy='mean')
+    num_imputer = SimpleImputer(strategy='mean')
+    cat_imputer = SimpleImputer(strategy='most_frequent', missing_values="?")
 
-    catergorical_cols = ["SEX", "STEROID", "ANTIVIRALS", "FATIGUE", "MALAISE", "ANOREXIA", "LIVER_BIG",
+    categorical_cols = ["SEX", "STEROID", "ANTIVIRALS", "FATIGUE", "MALAISE", "ANOREXIA", "LIVER_BIG",
                          "LIVER_FIRM", "SPLEEN_PALPABLE", "SPIDERS", "ASCITES", "VARICES", "HISTOLOGY", "Class"]
     numerical_cols = ["AGE", "BILIRUBIN", "ALK_PHOSPHATE", "SGOT", "ALBUMIN", "PROTIME"]
 
-    # Apply Label Encoding to each column of the data
-    for column in catergorical_cols:
+    data[categorical_cols] = cat_imputer.fit_transform(data[categorical_cols])
+
+    # Apply Label Encoding to each categorical column of the data
+    for column in categorical_cols:
         data[column] = le.fit_transform(data[column])
 
-    # Fill in missing entries in the data using simple imputer
-    data[numerical_cols] = imputer.fit_transform(data[numerical_cols])
+    # Fill in missing entries in the numerical data using simple imputer
+    data[numerical_cols] = num_imputer.fit_transform(data[numerical_cols])
 
     # Normalise the data in the numerical columns using Min-Max scaling.
     # (good in situations where distance-based algorithms will be used, we will be using k-NN)
