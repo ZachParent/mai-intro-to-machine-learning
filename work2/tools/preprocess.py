@@ -33,15 +33,6 @@ def load_datasets(file_pattern: str) -> list[pd.DataFrame]:
         # Decode byte-strings if necessary
         df = df.map(lambda x: x.decode() if isinstance(x, bytes) else x)
 
-        # Extract fold number and file type (train/test) from the filename
-        filename = os.path.basename(file)
-        fold_number = int(filename.split('.')[2])  # Assuming '000001' becomes 1
-        file_type = filename.split('.')[3]  # Assuming 'test' or 'train'
-
-        # Add fold number and dataset type as new columns
-        df['fold'] = fold_number
-        df['set'] = 'train' if file_type == 'train' else 'test'
-
         # Append dataframe to the list
         dfs.append(df)
 
@@ -58,9 +49,6 @@ def preprocess_hepatitis_datasets(df):
                         'ANOREXIA', 'LIVER_BIG', 'LIVER_FIRM', 'SPLEEN_PALPABLE',
                         'SPIDERS', 'ASCITES', 'VARICES', 'HISTOLOGY', 'Class']
 
-    # Columns to ignore but keep in the final output
-    ignored_cols = ['fold', 'set']
-
     # Create a column transformer for preprocessing
     preprocessor = ColumnTransformer(
         transformers=[
@@ -74,11 +62,10 @@ def preprocess_hepatitis_datasets(df):
                 ('passthrough', 'passthrough')
             ]), categorical_cols)
         ],
-        remainder='passthrough'  # Keep untransformed columns (including ignored columns)
     )
 
     # Apply the preprocessor to the dataframe, excluding ignored columns
-    processed_array = preprocessor.fit_transform(df.drop(columns=ignored_cols))
+    processed_array = preprocessor.fit_transform(df)
 
     # Convert processed array back to a DataFrame
     processed_df = pd.DataFrame(processed_array, columns=numeric_cols + categorical_cols)
@@ -89,7 +76,7 @@ def preprocess_hepatitis_datasets(df):
         processed_df[col] = le.fit_transform(processed_df[col])
 
     # Include ignored columns in the final DataFrame
-    final_df = pd.concat([df[ignored_cols].reset_index(drop=True), processed_df.reset_index(drop=True)], axis=1)
+    final_df = pd.concat([processed_df.reset_index(drop=True)], axis=1)
 
     # Ensure the final DataFrame has the same column order as the original DataFrame
     final_df = final_df[df.columns]
@@ -127,9 +114,6 @@ def preprocess_mushroom_datasets(df):
         'class'
     ]
 
-    # Columns to ignore but keep in the final output
-    ignored_cols = ['fold', 'set']
-
     # Create a column transformer for preprocessing
     preprocessor = ColumnTransformer(
         transformers=[
@@ -139,11 +123,10 @@ def preprocess_mushroom_datasets(df):
                 ('passthrough', 'passthrough')
             ]), categorical_cols)
         ],
-        remainder='passthrough'  # Keep untransformed columns (including ignored columns)
     )
 
     # Apply the preprocessor to the dataframe, excluding ignored columns
-    processed_array = preprocessor.fit_transform(df.drop(columns=ignored_cols))
+    processed_array = preprocessor.fit_transform(df)
 
     # Convert processed array back to a DataFrame
     processed_df = pd.DataFrame(processed_array, columns=categorical_cols)
@@ -154,7 +137,7 @@ def preprocess_mushroom_datasets(df):
         processed_df[col] = le.fit_transform(processed_df[col])
 
     # Include ignored columns in the final DataFrame
-    final_df = pd.concat([df[ignored_cols].reset_index(drop=True), processed_df.reset_index(drop=True)], axis=1)
+    final_df = pd.concat([processed_df.reset_index(drop=True)], axis=1)
 
     # Ensure the final DataFrame has the same column order as the original DataFrame
     final_df = final_df[df.columns]

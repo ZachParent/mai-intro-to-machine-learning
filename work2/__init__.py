@@ -1,3 +1,3 @@
-from .distance import ManhattanDistance, EuclideanDistance, ChebyshevDistance
-from .voting import MajorityClassVote, InverseDistanceWeightedVote, ShepardsWorkVote
+from tools.distance import EuclideanDistance, ManhattanDistance, ChebyshevDistance
+from tools.voting import MajorityClassVote, InverseDistanceWeightedVote, ShepardsWorkVote
 from .knn import KNNClassifier
