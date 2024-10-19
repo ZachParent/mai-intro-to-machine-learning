@@ -70,6 +70,33 @@ class KNNClassifier(BaseEstimator, ClassifierMixin):
         # Pass both distances and labels
         return self.voting_func(k_nearest_distances, k_nearest_labels)
     
+    def predict_proba(self, X: np.ndarray[np.ndarray[np.number]]) -> np.ndarray:
+        """
+        Estimate probability for each class by counting the votes from neighbors.
+        Returns an array of shape (n_samples, n_classes) with probability estimates.
+        """
+        probas = []
+        for x in X:
+            distances = []
+            for x_train in self.X_train:
+                if self.weights is not None:
+                    x, x_train = self.apply_weights(x, x_train, self.weights)
+                distances.append(self.distance_func(x, x_train))
+            
+            k_indices = np.argsort(distances)[:self.k]
+            k_nearest_labels = [self.y_train[i] for i in k_indices]
+            
+            # Count the occurrences of each class in the k neighbors
+            class_votes = np.zeros(len(self.classes_))
+            for label in k_nearest_labels:
+                class_votes[label] += 1
+            
+            # Convert vote counts into probabilities by normalizing
+            class_probabilities = class_votes / np.sum(class_votes)
+            probas.append(class_probabilities)
+        
+        return np.array(probas)
+    
     def apply_weights(self, row1: np.ndarray, row2: np.ndarray, weights: np.ndarray):
         """
         Multiplies each feature in row1 and row2 by the corresponding feature weight.
