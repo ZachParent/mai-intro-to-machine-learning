@@ -52,7 +52,6 @@ class KNNClassifier(BaseEstimator, ClassifierMixin):
         return predictions
 
     def _predict(self, x):
-
         # Computing the distance
         distances = []
 
