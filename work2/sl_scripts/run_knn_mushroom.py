@@ -3,18 +3,18 @@ import time
 
 from sklearn.metrics import precision_score, recall_score, f1_score
 
-from work2 import KNNClassifier
+from work2.tools.knn import KNNClassifier
 from work2.tools.distance import ManhattanDistance, EuclideanDistance, ChebyshevDistance
-from work2.tools.preprocess import load_datasets, preprocess_hepatitis_datasets
+from work2.tools.preprocess import load_datasets, preprocess_mushroom_datasets
 from work2.tools.voting import MajorityClassVote, InverseDistanceWeightedVote, ShepardsWorkVote
 from work2.tools.weighting import InformationGainWeighting, ReliefFWeighting, EqualWeighting
 
 if __name__ == '__main__':
-    train_dfs = load_datasets('./datasetsCBR/hepatitis/*train.arff')
-    test_dfs = load_datasets('./datasetsCBR/hepatitis/*test.arff')
+    train_dfs = load_datasets('./datasetsCBR/mushroom/*train.arff')
+    test_dfs = load_datasets('./datasetsCBR/mushroom/*test.arff')
 
-    processed_train_dfs = [preprocess_hepatitis_datasets(df) for df in train_dfs]
-    processed_test_dfs = [preprocess_hepatitis_datasets(df) for df in test_dfs]
+    processed_train_dfs = [preprocess_mushroom_datasets(df) for df in train_dfs]
+    processed_test_dfs = [preprocess_mushroom_datasets(df) for df in test_dfs]
 
     k_values = [1, 3, 5, 7]
 
@@ -56,11 +56,11 @@ if __name__ == '__main__':
                     # Perform 10-fold cross-validation (one dataset for testing, the rest for training)
                     for i in range(len(processed_train_dfs)):
                         # Ensure the correct pairing between train and test datasets
-                        X_train = processed_train_dfs[i].drop(columns=['Class']).to_numpy()
-                        y_train = processed_train_dfs[i]['Class'].to_numpy()
+                        X_train = processed_train_dfs[i].drop(columns=['class']).to_numpy()
+                        y_train = processed_train_dfs[i]['class'].to_numpy()
 
-                        X_test = processed_test_dfs[i].drop(columns=['Class']).to_numpy()
-                        y_test = processed_test_dfs[i]['Class'].to_numpy()
+                        X_test = processed_test_dfs[i].drop(columns=['class']).to_numpy()
+                        y_test = processed_test_dfs[i]['class'].to_numpy()
 
                         # Fit the current weighting mechanism
                         weighting_mechanism.fit(X_train, y_train)
@@ -134,7 +134,7 @@ if __name__ == '__main__':
     print(results_df)
 
     # Save the DataFrame to a CSV file
-    results_df.to_csv('./outputs/knn_results_hepatitis.csv', index=False)
+    results_df.to_csv('./outputs/knn_results_mushroom.csv', index=False)
 
     # Find the best combination of parameters based on accuracy
     best_row = results_df.loc[results_df['accuracy'].idxmax()]
@@ -160,11 +160,11 @@ if __name__ == '__main__':
 
     for i in range(len(processed_train_dfs)):
         # Get the train and test datasets for this fold
-        X_train = processed_train_dfs[i].drop(columns=['Class']).to_numpy()
-        y_train = processed_train_dfs[i]['Class'].to_numpy()
+        X_train = processed_train_dfs[i].drop(columns=['class']).to_numpy()
+        y_train = processed_train_dfs[i]['class'].to_numpy()
 
-        X_test = processed_test_dfs[i].drop(columns=['Class']).to_numpy()
-        y_test = processed_test_dfs[i]['Class'].to_numpy()
+        X_test = processed_test_dfs[i].drop(columns=['class']).to_numpy()
+        y_test = processed_test_dfs[i]['class'].to_numpy()
 
         # Fit the best weighting mechanism on the training set
         best_weighting_mechanism.fit(X_train, y_train)

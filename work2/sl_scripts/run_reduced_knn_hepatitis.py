@@ -2,23 +2,23 @@ import pandas as pd
 import time
 from sklearn.metrics import precision_score, recall_score, f1_score
 
-from work2 import KNNClassifier
-from work2.tools.distance import ManhattanDistance
-from work2.tools.preprocess import load_datasets, preprocess_mushroom_datasets
+from work2.tools.knn import KNNClassifier
+from work2.tools.distance import ManhattanDistance, ChebyshevDistance
+from work2.tools.preprocess import load_datasets, preprocess_hepatitis_datasets
 from work2.tools.voting import MajorityClassVote
-from work2.tools.weighting import InformationGainWeighting
+from work2.tools.weighting import InformationGainWeighting, ReliefFWeighting
 
 if __name__ == '__main__':
-    train_dfs = load_datasets('./datasetsCBR/mushroom/*train.arff')
-    test_dfs = load_datasets('./datasetsCBR/mushroom/*test.arff')
+    train_dfs = load_datasets('./datasetsCBR/hepatitis/*train.arff')
+    test_dfs = load_datasets('./datasetsCBR/hepatitis/*test.arff')
 
-    processed_train_dfs = [preprocess_mushroom_datasets(df) for df in train_dfs]
-    processed_test_dfs = [preprocess_mushroom_datasets(df) for df in test_dfs]
+    processed_train_dfs = [preprocess_hepatitis_datasets(df) for df in train_dfs]
+    processed_test_dfs = [preprocess_hepatitis_datasets(df) for df in test_dfs]
 
     # TODO adjust
     k_value = 1
-    weighting_mechanism = InformationGainWeighting()
-    distance_function = ManhattanDistance()
+    weighting_mechanism = ReliefFWeighting()
+    distance_function = ChebyshevDistance()
     voting_scheme = MajorityClassVote()
 
     # Prepare to store results in a DataFrame
@@ -33,6 +33,7 @@ if __name__ == '__main__':
 
     # Loop through each reduction method
     for reduction_method in reduction_methods:
+        print(reduction_method)
         # Variables to store cumulative results for 10-fold cross-validation
         cumulative_accuracy = 0
         cumulative_precision = 0
@@ -44,11 +45,11 @@ if __name__ == '__main__':
         # Perform 10-fold cross-validation (one dataset for testing, the rest for training)
         for i in range(len(processed_train_dfs)):
             # Ensure the correct pairing between train and test datasets
-            X_train = processed_train_dfs[i].drop(columns=['class']).to_numpy()
-            y_train = processed_train_dfs[i]['class'].to_numpy()
+            X_train = processed_train_dfs[i].drop(columns=['Class']).to_numpy()
+            y_train = processed_train_dfs[i]['Class'].to_numpy()
 
-            X_test = processed_test_dfs[i].drop(columns=['class']).to_numpy()
-            y_test = processed_test_dfs[i]['class'].to_numpy()
+            X_test = processed_test_dfs[i].drop(columns=['Class']).to_numpy()
+            y_test = processed_test_dfs[i]['Class'].to_numpy()
 
             # Fit the current weighting mechanism
             weighting_mechanism.fit(X_train, y_train)
@@ -131,8 +132,8 @@ if __name__ == '__main__':
     }[best_reduction]
 
     # Use the entire training dataset for final training
-    final_X_train = pd.concat([df.drop(columns=['class']) for df in processed_train_dfs]).to_numpy()
-    final_y_train = pd.concat([df['class'] for df in processed_train_dfs]).to_numpy()
+    final_X_train = pd.concat([df.drop(columns=['Class']) for df in processed_train_dfs]).to_numpy()
+    final_y_train = pd.concat([df['Class'] for df in processed_train_dfs]).to_numpy()
 
     # Apply the best reduction method
     final_X_train_reduced, final_y_train_reduced = best_method(final_X_train, final_y_train)
@@ -142,8 +143,8 @@ if __name__ == '__main__':
     final_knn.fit(final_X_train_reduced, final_y_train_reduced)
 
     # Evaluate the final model on the test set
-    final_X_test = pd.concat([df.drop(columns=['class']) for df in processed_test_dfs]).to_numpy()
-    final_y_test = pd.concat([df['class'] for df in processed_test_dfs]).to_numpy()
+    final_X_test = pd.concat([df.drop(columns=['Class']) for df in processed_test_dfs]).to_numpy()
+    final_y_test = pd.concat([df['Class'] for df in processed_test_dfs]).to_numpy()
     final_y_pred = final_knn.predict(final_X_test)
 
     # Calculate final evaluation metrics

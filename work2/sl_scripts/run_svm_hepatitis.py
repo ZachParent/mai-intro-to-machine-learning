@@ -3,16 +3,16 @@ import time
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 import numpy as np
 import pandas as pd
-from work2.svm import SVMClassifier
-from work2.tools.preprocess import load_datasets, preprocess_mushroom_datasets
+from work2.tools.svm import SVMClassifier
+from work2.tools.preprocess import load_datasets, preprocess_hepatitis_datasets
 
 if __name__ == '__main__':
     # Load and preprocess the datasets
-    train_dfs = load_datasets('./datasetsCBR/mushroom/*train.arff')
-    test_dfs = load_datasets('./datasetsCBR/mushroom/*test.arff')
+    train_dfs = load_datasets('./datasetsCBR/hepatitis/*train.arff')
+    test_dfs = load_datasets('./datasetsCBR/hepatitis/*test.arff')
 
-    processed_train_dfs = [preprocess_mushroom_datasets(df) for df in train_dfs]
-    processed_test_dfs = [preprocess_mushroom_datasets(df) for df in test_dfs]
+    processed_train_dfs = [preprocess_hepatitis_datasets(df) for df in train_dfs]
+    processed_test_dfs = [preprocess_hepatitis_datasets(df) for df in test_dfs]
 
     kernels = ["linear", "poly", "rbf", "sigmoid"]
     results = []
@@ -32,11 +32,11 @@ if __name__ == '__main__':
         # Loop through each dataset pair for training and testing
         for i in range(len(processed_train_dfs)):
             # Get the train and test datasets for this fold
-            X_train = processed_train_dfs[i].drop(columns=['class']).to_numpy()
-            y_train = processed_train_dfs[i]['class'].to_numpy()
+            X_train = processed_train_dfs[i].drop(columns=['Class']).to_numpy()
+            y_train = processed_train_dfs[i]['Class'].to_numpy()
 
-            X_test = processed_test_dfs[i].drop(columns=['class']).to_numpy()
-            y_test = processed_test_dfs[i]['class'].to_numpy()
+            X_test = processed_test_dfs[i].drop(columns=['Class']).to_numpy()
+            y_test = processed_test_dfs[i]['Class'].to_numpy()
 
             # Start timing for problem-solving time
             start_time = time.time()
@@ -96,17 +96,17 @@ if __name__ == '__main__':
 
     # Save the results to a CSV file
     results_df = pd.DataFrame(results)
-    results_df.to_csv('./outputs/svm_results_mushroom.csv', index=False)
+    results_df.to_csv('./outputs/svm_results_hepatitis.csv', index=False)
 
     # Identify and print the best kernel
     print(f"Best Kernel: {best_kernel} with Accuracy: {best_score}")
 
     # Train final model with the best kernel
     final_svm = SVMClassifier(kernel=best_kernel)
-    X_train_final = np.concatenate([processed_train_dfs[i].drop(columns=['class']).to_numpy() for i in range(len(processed_train_dfs))], axis=0)
-    y_train_final = np.concatenate([processed_train_dfs[i]['class'].to_numpy() for i in range(len(processed_train_dfs))], axis=0)
-    X_test_final = np.concatenate([processed_test_dfs[i].drop(columns=['class']).to_numpy() for i in range(len(processed_test_dfs))], axis=0)
-    y_test_final = np.concatenate([processed_test_dfs[i]['class'].to_numpy() for i in range(len(processed_test_dfs))], axis=0)
+    X_train_final = np.concatenate([processed_train_dfs[i].drop(columns=['Class']).to_numpy() for i in range(len(processed_train_dfs))], axis=0)
+    y_train_final = np.concatenate([processed_train_dfs[i]['Class'].to_numpy() for i in range(len(processed_train_dfs))], axis=0)
+    X_test_final = np.concatenate([processed_test_dfs[i].drop(columns=['Class']).to_numpy() for i in range(len(processed_test_dfs))], axis=0)
+    y_test_final = np.concatenate([processed_test_dfs[i]['Class'].to_numpy() for i in range(len(processed_test_dfs))], axis=0)
 
     final_svm.fit(X_train_final, y_train_final)
     y_pred_final = final_svm.predict(X_test_final)
