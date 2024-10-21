@@ -1,0 +1,5 @@
+k,distance_func,voting_func,weighting_func,reduction_func,TP,TN,FP,FN,train_time,test_time
+1,ManhattanDistance,MajorityClassVote,EqualWeighting,regular,123,0,32,0,0.004922389984130859,0.08785700798034668
+1,ManhattanDistance,MajorityClassVote,EqualWeighting,cnn,123,0,32,0,0.0035800933837890625,0.02810359001159668
+1,ManhattanDistance,MajorityClassVote,EqualWeighting,enn,123,0,32,0,0.0040590763092041016,0.09413814544677734
+1,ManhattanDistance,MajorityClassVote,EqualWeighting,drop2,123,0,32,0,0.003979682922363281,0.09341835975646973
