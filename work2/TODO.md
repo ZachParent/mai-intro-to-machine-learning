@@ -12,13 +12,20 @@
 - [ ] () Document scripts / makefile
 
 ### Build analysis
-- [ ] () create scripts for generating fancy plots
+- [ ] (@ZachParent) create scripts for generating fancy plots
 
 ### Write report
-- [ ] (@CaJiFan) create structure with subheadings
-- [ ] () write `methods`
+- [x] (@CaJiFan) create structure with subheadings
+- [ ] (@SheenaLang) `data`
+    - [ ] (@SheenaLang) dataset
     - [ ] (@SheenaLang) preprocessing
-- [ ] () write `results`
-- [ ] () write `discussion`
+- [ ] () write `methods`
+    - [ ] (@KacperPon) `knn`
+    - [ ] (@CaJiFan) `reduction`
+    - [ ] (@ZachParent) `svm`
+- [ ] () write `results and analysis`
+    - [ ] (@KacperPon) `knn`
+    - [ ] (@CaJiFan) `reduction`
+    - [ ] (@ZachParent) `svm`
 - [ ] () write `conclusion`
-- [ ] () write `introduction`
+- [ ] (@KacperPon) write `introduction`
