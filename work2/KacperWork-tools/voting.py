@@ -24,8 +24,10 @@ class MajorityClassVote(VotingFunc):
         """
         Returns the class that appears most frequently in the list of rows.
         """
-        # TODO: implement
-        pass
+        class_array = np.array(classes)
+        class_counts = np.bincount(class_array)
+
+        return np.argmax(class_counts)
 
 
 class InverseDistanceWeightedVote(VotingFunc):
@@ -34,8 +36,16 @@ class InverseDistanceWeightedVote(VotingFunc):
         Returns the class that has the smallest sum of inverse distances to the
         rows.
         """
-        # TODO: implement
-        pass
+        distances = np.array(distances)
+        classes = np.array(classes)
+
+        inverse_distances = 1 / distances # Calculating inverse distances
+
+        unique_classes = np.unique(classes)
+
+        inverse_sums = np.array([np.sum(inverse_distances[classes == unique_class]) for unique_class in unique_classes])
+
+        return unique_classes[np.argmin(inverse_sums)]
 
 
 class ShepardsWorkVote(VotingFunc):
@@ -44,5 +54,14 @@ class ShepardsWorkVote(VotingFunc):
         Returns the class that has the smallest sum of squared distances to the
         rows, using an exponential instead of an inverse distance scheme.
         """
-        # TODO: implement
-        pass
+        distances = np.array(distances)
+        classes = np.array(classes)
+
+        # Compute exponential weighting based on squared distances
+        weights = np.exp(-distances**2)
+
+        unique_classes = np.unique(classes)
+
+        weighted_sums = np.array([np.sum(weights[classes == unique_class]) for unique_class in unique_classes])
+
+        return unique_classes[np.argmax(weighted_sums)]
