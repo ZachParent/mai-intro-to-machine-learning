@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 import numpy as np
-import pandas as pd
 
 
 class VotingFunc(ABC):
@@ -32,14 +31,10 @@ class MajorityClassVote(VotingFunc):
 
 
 class InverseDistanceWeightedVote(VotingFunc):
-
-    def __init__(self, distance_weight: float = 1.0):
-        self.distance_weight = distance_weight
-
     def __call__(self, distances: list[np.number], classes: list[int]) -> int:
         """
         Returns the class that has the smallest sum of inverse distances to the
-        row.
+        rows.
         """
         distances = np.array(distances)
         classes = np.array(classes)
@@ -56,8 +51,8 @@ class InverseDistanceWeightedVote(VotingFunc):
 class ShepardsWorkVote(VotingFunc):
     def __call__(self, distances: list[np.number], classes: list[int]) -> int:
         """
-        Returns the class that has the smallest sum of negative exponential
-        distances to the row.
+        Returns the class that has the smallest sum of squared distances to the
+        rows, using an exponential instead of an inverse distance scheme.
         """
         distances = np.array(distances)
         classes = np.array(classes)
