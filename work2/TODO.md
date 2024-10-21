@@ -15,6 +15,7 @@
 - [ ] () create scripts for generating fancy plots
 
 ### Write report
+- [ ] (@CaJiFan) create structure with subheadings
 - [ ] () write `methods`
     - [ ] (@SheenaLang) preprocessing
 - [ ] () write `results`
