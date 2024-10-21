@@ -2,8 +2,8 @@ from sklearn.base import BaseEstimator, ClassifierMixin
 import numpy as np
 from sklearn.metrics import pairwise_distances
 
-from tools.voting import VotingFunc
-from tools.distance import DistanceFunc
+from tools.SheenaLang.voting import VotingFunc
+from tools.SheenaLang.distance import DistanceFunc
 
 
 class KNNClassifier(BaseEstimator, ClassifierMixin):
