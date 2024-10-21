@@ -2,11 +2,11 @@ import pandas as pd
 import time
 from sklearn.metrics import precision_score, recall_score, f1_score
 
-from work2.tools.knn import KNNClassifier
-from work2.tools.distance import ManhattanDistance
-from work2.tools.preprocess import load_datasets, preprocess_mushroom_datasets
-from work2.tools.voting import MajorityClassVote
-from work2.tools.weighting import InformationGainWeighting
+from tools.SheenaLang.knn import KNNClassifier
+from tools.SheenaLang.distance import ManhattanDistance
+from tools.SheenaLang.preprocess import load_datasets, preprocess_mushroom_datasets
+from tools.SheenaLang.voting import MajorityClassVote
+from tools.SheenaLang.weighting import InformationGainWeighting
 
 if __name__ == '__main__':
     train_dfs = load_datasets('./datasetsCBR/mushroom/*train.arff')

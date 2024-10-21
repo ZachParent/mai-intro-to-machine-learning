@@ -3,8 +3,8 @@ import time
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 import numpy as np
 import pandas as pd
-from work2.tools.svm import SVMClassifier
-from work2.tools.preprocess import load_datasets, preprocess_hepatitis_datasets
+from tools.SheenaLang.svm import SVMClassifier
+from tools.SheenaLang.preprocess import load_datasets, preprocess_hepatitis_datasets
 
 if __name__ == '__main__':
     # Load and preprocess the datasets

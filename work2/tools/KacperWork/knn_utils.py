@@ -1,8 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from tools.knn import KNNClassifier
-from tools.distance import EuclideanDistance, ManhattanDistance, MahalanobisDistance
-from tools.voting import InverseDistanceWeightedVote, MajorityClassVote, ShepardsWorkVote
+from tools.KacperWork.knn import KNNClassifier
+from tools.KacperWork.distance import EuclideanDistance, ManhattanDistance, MahalanobisDistance
+from tools.KacperWork.voting import InverseDistanceWeightedVote, MajorityClassVote, ShepardsWorkVote
 from sklearn.model_selection import cross_val_score, cross_val_predict
 from sklearn.feature_selection import mutual_info_classif
 from sklearn_relief import ReliefF
