@@ -138,6 +138,18 @@ After we have several candidate models, we must perform statistical analysis. Am
 
 Should be 108 models total.
 
+We will probably use 90% or 95% confidence intervals 
+
+We should choose from RNN, FCNN, GCNN
+
+We should choose from RENN, RNGE, ENNTh
+
+We should choose from Drop1, Drop2, Drop3
+
+No need for IB methods
+
+Mandatory reading: Statistical Comparisons of Classifiers over Multiple Data Sets.
+
 ## Project Organization
 
 ```
