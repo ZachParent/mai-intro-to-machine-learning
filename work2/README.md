@@ -112,6 +112,32 @@ After these next 2 weeks (until 2024-10-22) we should have chosen the ideal conf
   - we can choose
   - let's keep them separate and justify our choice, prevents bleeding
 
+# 2024-10-22 S4 Practical
+Be careful when choosing the kernal for SVM.
+
+We must use 1 of each family of reduction techniques.
+- Condensation
+- Edition
+- Hybrid
+
+They can be further divided into:
+- Incremental
+- Decremental
+- Batch
+- Mixed
+
+Evaluation of search:
+- Filter
+- Wrapper
+
+The result of the reduction algorithm is a smaller dataset. It is important to show what the percentage of the original dataset is, and to evaluate the difference in performance (time) of the model with the reduced dataset.
+
+It's possible that the performance (accuracy) of the model is improved, because noisy instances are removed.
+
+After we have several candidate models, we must perform statistical analysis. Among the best models we have, we will treat each fold as a different dataset. (10 datasets per input dataset)
+
+Should be 108 models total.
+
 ## Project Organization
 
 ```
