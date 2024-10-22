@@ -13,8 +13,7 @@ from work2.tools.weighting import InformationGainWeighting, ReliefFWeighting, Eq
 import numpy as np
 from sklearn.svm import SVC as SVMClassifier
 
-if __name__ == '__main__':
-
+def run():
     # Configurations
     dataset_names = ["hepatitis", "mushroom"]
     processing_funcs_per_ds = {"hepatitis": preprocess_hepatitis_datasets, "mushroom": preprocess_mushroom_datasets}
@@ -106,11 +105,13 @@ if __name__ == '__main__':
         # ========== KNN ==========
 
         # Define CM for MahalanobisDistance
-        covariance_matrix = np.cov(train_dfs[0].drop(columns=["Class"]).apply(pd.to_numeric, errors='coerce'), rowvar=False)
+        covariance_matrix = np.cov(train_dfs[0].drop(columns=["Class"]).apply(pd.to_numeric, errors='coerce'),
+                                   rowvar=False)
 
         # KNN Parameters
         k_values = [1, 3, 5, 7]
-        distance_funcs = [ManhattanDistance(), EuclideanDistance(), ChebyshevDistance(), MahalanobisDistance(covariance_matrix)]
+        distance_funcs = [ManhattanDistance(), EuclideanDistance(), ChebyshevDistance(),
+                          MahalanobisDistance(covariance_matrix)]
         voting_funcs = [MajorityClassVote(), InverseDistanceWeightedVote(), ShepardsWorkVote()]
         weighting_funcs = [EqualWeighting(), InformationGainWeighting(), ReliefFWeighting()]
 
@@ -130,7 +131,6 @@ if __name__ == '__main__':
                 "test_time"
             ]
         )
-
 
         # Run all parameter configurations
         best_config_instance = None
@@ -280,7 +280,8 @@ if __name__ == '__main__':
                 knn.set_weights(weights)
 
                 # Train and evaluate the KNN model
-                y_true, y_pred, train_time, test_time = train_and_evaluate_model(knn, X_train_reduced, y_train_reduced, X_test,
+                y_true, y_pred, train_time, test_time = train_and_evaluate_model(knn, X_train_reduced, y_train_reduced,
+                                                                                 X_test,
                                                                                  y_test)
                 # Update totals
                 total_train_time += train_time
@@ -313,3 +314,7 @@ if __name__ == '__main__':
             # Save the results for reduced KNN
             file_path_reduction = os.path.join("../data/results", f'knn_reduction_{dataset_name}.csv')
             reduction_results.to_csv(file_path_reduction, index=False)
+
+if __name__ == '__main__':
+    run()
+
