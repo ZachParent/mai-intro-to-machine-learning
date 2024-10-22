@@ -233,7 +233,8 @@ def run():
                 "FP",
                 "FN",
                 "train_time",
-                "test_time"
+                "test_time",
+                "storage"
             ]
         )
 
@@ -272,6 +273,8 @@ def run():
                 else:
                     X_train_reduced, y_train_reduced = X_train, y_train
 
+                storage = len(X_train_reduced)
+
                 # Fit weighting function
                 weighting_func.fit(X_train_reduced, y_train_reduced)
                 weights = weighting_func.get_weights()
@@ -308,7 +311,8 @@ def run():
                 fp,
                 fn,
                 total_train_time,
-                total_test_time
+                total_test_time,
+                storage
             ]
 
             # Save the results for reduced KNN
