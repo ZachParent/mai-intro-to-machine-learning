@@ -10,6 +10,7 @@ from tools.distance import ManhattanDistance, EuclideanDistance, ChebyshevDistan
 from tools.voting import MajorityClassVote, InverseDistanceWeightedVote, ShepardsWorkVote
 from tools.preprocess import preprocess_hepatitis_datasets, load_datasets, preprocess_mushroom_datasets
 from tools.weighting import InformationGainWeighting, ReliefFWeighting, EqualWeighting
+from tools.reduction import condensed_nearest_neighbor, edited_nearest_neighbor, drop2
 import numpy as np
 from sklearn.svm import SVC as SVMClassifier
 
@@ -157,7 +158,7 @@ def run():
             "test_time"
         ]
     )
-    
+
     weights = {}
     for weighting_func in weighting_funcs:
         weighting_func.fit(full_data_X, full_data_y)
@@ -224,14 +225,12 @@ def run():
     best_voting_func = best_config_instance["voting_func"]
     best_weighting_func = best_config_instance["weighting_func"]
 
-    print(
+    logging.info(
         f"Best configuration: k={best_k}, distance_func={best_distance_func.__class__.__name__}, voting_func={best_voting_func.__class__.__name__}, weighting_func={best_weighting_func.__class__.__name__}")
-
-    print(type(best_distance_func))
 
     # ========== Reduced KNN ==========
 
-    reduction_funcs = ["regular", "cnn", "enn", "drop2"]
+    reduction_funcs = {"control": lambda x, y, z: (x, y), "cnn": condensed_nearest_neighbor, "enn": edited_nearest_neighbor, "drop2": drop2}
     reduction_results = pd.DataFrame(
         columns=[
             "k",
@@ -254,19 +253,13 @@ def run():
             k=best_k,
             distance_func=best_distance_func,  # Use instance, not string
             voting_func=best_voting_func,
-            weights=None,  # We will apply weights later
+            weights=weights[best_weighting_func.__class__.__name__],  # We will apply weights later
         )
 
-        print(f"Running KNN with reduction: {reduction_func}")
+        logging.info(f"Running KNN with reduction: {reduction_func}")
 
         y_trues_all, y_preds_all = [], []
         total_train_time, total_test_time = 0.0, 0.0
-
-        train_dfs = load_datasets(train_path)
-        test_dfs = load_datasets(test_path)
-
-        train_dfs = [processing_funcs_per_ds[dataset_name](df) for df in train_dfs]
-        test_dfs = [processing_funcs_per_ds[dataset_name](df) for df in test_dfs]
 
         for train_df, test_df in zip(train_dfs, test_dfs):
             X_train = train_df.drop(columns=[class_columns_per_ds[dataset_name]])
@@ -274,24 +267,11 @@ def run():
             X_test = test_df.drop(columns=[class_columns_per_ds[dataset_name]])
             y_test = test_df[class_columns_per_ds[dataset_name]]
 
-            # Apply the appropriate reduction technique
-            if reduction_func == "cnn":
-                X_train_reduced, y_train_reduced = knn.condensed_nearest_neighbor(X_train, y_train)
-            elif reduction_func == "enn":
-                X_train_reduced, y_train_reduced = knn.edited_nearest_neighbor(X_train, y_train)
-            elif reduction_func == "drop2":
-                X_train_reduced, y_train_reduced = knn.drop2(X_train, y_train)
-            else:
-                X_train_reduced, y_train_reduced = X_train, y_train
+            logging.info(f"Reducing training data with {reduction_func}")
+            X_train_reduced, y_train_reduced = reduction_funcs[reduction_func](X_train, y_train, best_k)
+            logging.info(f"Reduced training data storage: {len(X_train_reduced)}")
 
             storage = len(X_train_reduced)
-
-            # Fit weighting function
-            weighting_func.fit(X_train_reduced, y_train_reduced)
-            weights = weighting_func.get_weights()
-
-            # Pass the weights to the KNN classifier
-            knn.set_weights(weights)
 
             # Train and evaluate the KNN model
             y_true, y_pred, train_time, test_time = train_and_evaluate_model(knn, X_train_reduced, y_train_reduced,
