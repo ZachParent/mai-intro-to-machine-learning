@@ -160,8 +160,6 @@ def run_knn(train_dfs: List[pd.DataFrame],
         logging.debug(
             f"Running KNN: [weighting_func={weighting_func.__class__.__name__}, distance_func={distance_func.__class__.__name__}, voting_func={voting_func.__class__.__name__}, k={k}]")
 
-        y_trues_all, y_preds_all = [], []
-        # Cross-validate
         y_trues_all, y_preds_all, train_time, test_time = cross_validate(knn, train_dfs, test_dfs, class_columns_per_ds[dataset_name])
 
         # Compute confusion matrix and accuracy
