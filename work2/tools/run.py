@@ -1,5 +1,6 @@
 import os
 import itertools
+import time
 from typing import List, Tuple, Dict
 import pandas as pd
 from sklearn.metrics import confusion_matrix, accuracy_score
@@ -160,8 +161,6 @@ def run_knn(train_dfs: List[pd.DataFrame],
             f"Running KNN: [weighting_func={weighting_func.__class__.__name__}, distance_func={distance_func.__class__.__name__}, voting_func={voting_func.__class__.__name__}, k={k}]")
 
         y_trues_all, y_preds_all = [], []
-        total_train_time, total_test_time = 0.0, 0.0
-
         # Cross-validate
         y_trues_all, y_preds_all, train_time, test_time = cross_validate(knn, train_dfs, test_dfs, class_columns_per_ds[dataset_name])
 
@@ -181,8 +180,8 @@ def run_knn(train_dfs: List[pd.DataFrame],
             tn,
             fp,
             fn,
-            total_train_time,
-            total_test_time
+            train_time,
+            test_time
         ]
 
         # Store best configuration instance
@@ -240,7 +239,7 @@ def run_reduced_knn(train_dfs: List[pd.DataFrame],
             weights=weights[best_weighting_func.__class__.__name__],  # We will apply weights later
         )
 
-        logging.info(f"Running KNN with reduction: {reduction_func}")
+        logging.debug(f"Running KNN with reduction: {reduction_func}")
 
         y_trues_all, y_preds_all = [], []
         total_train_time, total_test_time, total_storage = 0.0, 0.0, 0
@@ -329,17 +328,24 @@ def run():
     full_data_X = full_data.drop(columns=[class_columns_per_ds[dataset_name]])
     full_data_y = full_data[class_columns_per_ds[dataset_name]]
 
+    start_time = time.time()
+
     # ========== SVM ==========
 
+    logging.info("Running SVM...")
     run_svm(train_dfs, test_dfs, dataset_name, class_columns_per_ds)
 
     # ========== KNN ==========
 
+    logging.info("Running KNN...")
     best_config_instance, weights = run_knn(train_dfs, test_dfs, dataset_name, class_columns_per_ds, full_data_X, full_data_y)
 
     # ========== Reduced KNN ==========
 
+    logging.info("Running reduced KNN...")
     run_reduced_knn(train_dfs, test_dfs, dataset_name, class_columns_per_ds, best_config_instance, weights)
+
+    logging.info(f"Finished in {time.time() - start_time} seconds")
 
 if __name__ == '__main__':
     run()

@@ -24,7 +24,7 @@ def load_datasets(file_pattern: str) -> list[pd.DataFrame]:
         raw_data, meta = arff.loadarff(file)
 
         # Log the file being loaded
-        logger.info(f"Loading {file}")
+        logger.debug(f"Loading {file}")
 
         # Convert the ARFF data to a pandas DataFrame
         df = pd.DataFrame(raw_data, columns=meta.names())
