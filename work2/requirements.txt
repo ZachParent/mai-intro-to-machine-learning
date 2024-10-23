@@ -25,6 +25,7 @@ jupyter_client==8.6.3
 jupyter_core==5.7.2
 jupyterlab_widgets==3.0.13
 kiwisolver==1.4.7
+-e git+https://github.com/ZachParent/mai-intro-to-machine-learning.git@125c5b913cf37a3a45b11e40e75095b71c6398da#egg=mai_iml_work2&subdirectory=work2
 matplotlib==3.9.2
 matplotlib-inline==0.1.7
 mccabe==0.7.0
@@ -54,6 +55,7 @@ scikit-learn==1.5.2
 scipy==1.13.1
 seaborn==0.13.2
 six==1.16.0
+sklearn-relief==1.0.0b2
 stack-data==0.6.3
 threadpoolctl==3.5.0
 tomli==2.0.2
