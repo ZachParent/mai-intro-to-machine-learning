@@ -4,7 +4,7 @@ import itertools
 import pandas as pd
 from sklearn.metrics import confusion_matrix, accuracy_score
 
-from tools.metrics import train_and_evaluate_model
+from tools.metrics import train_and_evaluate_model, cross_validate
 from tools.knn import KNNClassifier
 from tools.distance import ManhattanDistance, EuclideanDistance, ChebyshevDistance, MahalanobisDistance
 from tools.voting import MajorityClassVote, InverseDistanceWeightedVote, ShepardsWorkVote
@@ -49,6 +49,11 @@ def run():
     test_dfs = [processing_funcs_per_ds[dataset_name](df) for df in test_dfs]
     logging.debug(f"Train datasets count: {len(train_dfs)}")
     logging.debug(f"Test datasets count: {len(test_dfs)}")
+
+    # Fit weighting function
+    full_data = pd.concat([train_dfs[0], test_dfs[0]])
+    full_data_X = full_data.drop(columns=[class_columns_per_ds[dataset_name]])
+    full_data_y = full_data[class_columns_per_ds[dataset_name]]
 
     # ========== SVM ==========
 
@@ -152,17 +157,23 @@ def run():
             "test_time"
         ]
     )
+    
+    weights = {}
+    for weighting_func in weighting_funcs:
+        weighting_func.fit(full_data_X, full_data_y)
+        weights[weighting_func.__class__.__name__] = weighting_func.get_weights()
 
     # Run all parameter configurations
     best_config_instance = None
     for k, distance_func, voting_func, weighting_func in itertools.product(
             k_values, distance_funcs, voting_funcs, weighting_funcs
     ):
+
         knn = KNNClassifier(
             k=k,
             distance_func=distance_func,
             voting_func=voting_func,
-            weights=None,
+            weights=weights[weighting_func.__class__.__name__],
         )
 
         logging.info(
@@ -172,28 +183,7 @@ def run():
         total_train_time, total_test_time = 0.0, 0.0
 
         # Cross-validate
-        for train_df, test_df in zip(train_dfs, test_dfs):
-            X_train = train_df.drop(columns=[class_columns_per_ds[dataset_name]])
-            y_train = train_df[class_columns_per_ds[dataset_name]]
-            X_test = test_df.drop(columns=[class_columns_per_ds[dataset_name]])
-            y_test = test_df[class_columns_per_ds[dataset_name]]
-
-            # Fit weighting function
-            weighting_func.fit(X_train, y_train)
-            weights = weighting_func.get_weights()
-
-            # Pass the weights to the KNN classifier
-            knn.set_weights(weights)
-
-            # Train and evaluate the KNN model
-            y_true, y_pred, train_time, test_time = train_and_evaluate_model(knn, X_train, y_train, X_test, y_test)
-            # Update totals
-            total_train_time += train_time
-            total_test_time += test_time
-
-            # Collect true labels and predictions
-            y_trues_all.extend(y_true)
-            y_preds_all.extend(y_pred)
+        y_trues_all, y_preds_all, train_time, test_time = cross_validate(knn, train_dfs, test_dfs, class_columns_per_ds[dataset_name])
 
         # Compute confusion matrix and accuracy
         cm = confusion_matrix(y_trues_all, y_preds_all)
