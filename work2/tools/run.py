@@ -111,13 +111,13 @@ def run_knn(train_dfs: List[pd.DataFrame],
     Run KNN classification with various parameter configurations.
     """
     # Define CM for MahalanobisDistance
-    covariance_matrix = np.cov(train_dfs[0].drop(columns=["Class"]).apply(pd.to_numeric, errors='coerce'),
-                                rowvar=False)
+    # TODO: fix this for MahalanobisDistance
+    # covariance_matrix = np.cov(train_dfs[0].drop(columns=[class_columns_per_ds[dataset_name]]).apply(pd.to_numeric, errors='coerce'),
+    #                         rowvar=False)
 
     # KNN Parameters
     k_values = [1, 3, 5, 7]
-    distance_funcs = [ManhattanDistance(), EuclideanDistance(), ChebyshevDistance(),
-                        MahalanobisDistance(covariance_matrix)]
+    distance_funcs = [ManhattanDistance(), EuclideanDistance(), ChebyshevDistance()]
     voting_funcs = [MajorityClassVote(), InverseDistanceWeightedVote(), ShepardsWorkVote()]
     weighting_funcs = [EqualWeighting(), InformationGainWeighting(), ReliefFWeighting()]
 
@@ -301,6 +301,8 @@ def run():
                         help='The name of the dataset to use (hepatitis or mushroom)')
     parser.add_argument('--verbose', '-v', action='store_true',
                         help='Whether to print verbose output')
+    parser.add_argument('--sample', '-s', type=int, default=None,
+                        help='How many samples to use from the dataset')
     args = parser.parse_args()
     if args.verbose:
         logging.basicConfig(level=logging.DEBUG)
@@ -317,6 +319,10 @@ def run():
     test_path = f'{DATA_DIR}/raw/{dataset_name}/*test.arff'
     train_dfs = load_datasets(train_path)
     test_dfs = load_datasets(test_path)
+
+    if args.sample:
+        train_dfs = [df.head(args.sample) for df in train_dfs]
+        test_dfs = [df.head(args.sample) for df in test_dfs]
 
     logging.debug(f"train_path: {train_path}")
     train_dfs = [processing_funcs_per_ds[dataset_name](df) for df in train_dfs]
