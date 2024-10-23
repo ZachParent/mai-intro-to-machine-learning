@@ -1,11 +1,51 @@
 \section{Introduction}
 \label{sec:introduction}
 
-This is the introduction section. It should provide background information and context for the study, state the research question or hypothesis, and briefly outline the approach taken.
+This is the introduction section of the report. It provides background information and context for the study, states the research question or hypothesis, and briefly outlines the approach taken.
+A report structure overview is also provided to guide the reader through the document.
 
-% TODO: Add background information on the topic
-% TODO: Clearly state the research question or hypothesis
-% TODO: Briefly describe the approach and methodology
-% TODO: Provide an overview of the report structure
+\subsection{Background Information}
 
-% Add more content here as needed
+Classification in the context of machine learning is the process of predicting the class or category of a given data point based on its features.
+For example: given a set of emails, classify each email as spam or not spam. 
+It is a supervised learning technique that is used to assign labels to data points based on their characteristics.
+Classification is an ideal technique for the required analysis as outlined in this report.\par
+
+K-Nearest Neighbour (k-NN) is a supervised machine learning algorithm.
+It is a relatively simple algorithm that stores all available cases and classifies new cases based on a similarity metric.
+The k-NN algorithm is based on feature similarity: how closely the new data point resembles points in the training set.
+K-NN may be used for both classification and regression problems, but as outlined above, our focus is on classification due to the nature of the datasets used.\par
+
+% POTENTIALLY MOVE THIS PARAGRAPH TO K-NN DISCUSSON!!
+One key feature of k-NN is neighbor-based classification. 
+This means that the classification of a new data point is determined by the majority class among its k-nearest neighbors in the training set. 
+The value of k is a crucial hyperparameter that can significantly affect the performance of the algorithm.
+A small value of k makes the algorithm sensitive to noise, while a large value of k makes it computationally expensive and may lead to over-smoothing.
+
+This report details the analysis of two datasets: `hepatitis' and `mushroom'. These are two of many datasets provided to us as part of this assignment.
+We decided upon these two datasets due to the stark contrast between them in terms of complexity and size.
+
+\subsection{Research Question or Hypothesis}
+The primary research question addressed in this report is: `Can the k-Nearest Neighbour algorithm effectively classify
+data points in the hepatitis and mushroom datasets with high accuracy'?.
+We hypothesize that k-NN will perform excellently on the mushroom dataset due to the simplicity of the data,
+but may struggle with the hepatitis dataset due to the complexity of the data in that dataset.
+
+% TODO: Discuss adding additional steps for SVM and reduction techniques
+\subsection{Approach and Methodology}
+The approach taken in this report involves the following steps:
+\begin{enumerate}
+    \item Data Preprocessing: Both datasets are preprocessed, ensuring the data is clean and ready for analysis.
+    \item Model Training: Different combinations of hyperparameters are used to train the k-NN algorithm on the training dataset.
+    \item Model Evaluation: The performance of the best k-NN algorithm from the previous step is evaluated using the test dataset.
+\end{enumerate}
+
+\subsection{Report Structure}
+The report is structured as follows:
+\begin{enumerate}
+    \item Introduction: Provides background information, states the research question, and outlines the approach.
+    \item Data: Describes the data used in the study, along with the source, characteristics, relevance, and the preprocessing techniques that were applied.
+    \item Methods: Describes the methodology used in the study, including the algorithms, techniques, and tools used.
+    \item Results and Analysis: Findings of the study are presented, including relevant data, statistics, and figures to help visualise the data.
+    \item Conclusion: Summarizes main findings of the study and their significance.
+\end{enumerate}
