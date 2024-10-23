@@ -4,7 +4,7 @@ import itertools
 import pandas as pd
 from sklearn.metrics import confusion_matrix, accuracy_score
 
-from tools.helper import train_and_evaluate_model
+from tools.metrics import train_and_evaluate_model
 from tools.knn import KNNClassifier
 from tools.distance import ManhattanDistance, EuclideanDistance, ChebyshevDistance, MahalanobisDistance
 from tools.voting import MajorityClassVote, InverseDistanceWeightedVote, ShepardsWorkVote
@@ -78,7 +78,7 @@ def run():
             kernel=kernel_type,
         )
 
-        print(f"Running SVM with kernel={kernel_type}, C={C}")
+        logging.info(f"Running SVM: [kernel={kernel_type}, C={C}]")
 
         y_trues_all, y_preds_all = [], []
         total_train_time, total_test_time = 0.0, 0.0
@@ -165,8 +165,8 @@ def run():
             weights=None,
         )
 
-        print(
-            f"Running KNN with {weighting_func.__class__.__name__}, {distance_func.__class__.__name__}, {voting_func.__class__.__name__}, k={k}")
+        logging.info(
+            f"Running KNN: [weighting_func={weighting_func.__class__.__name__}, distance_func={distance_func.__class__.__name__}, voting_func={voting_func.__class__.__name__}, k={k}]")
 
         y_trues_all, y_preds_all = [], []
         total_train_time, total_test_time = 0.0, 0.0
