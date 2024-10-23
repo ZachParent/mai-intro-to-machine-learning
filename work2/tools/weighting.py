@@ -30,7 +30,7 @@ class InformationGainWeighting(WeightingMethod):
         # Calculate Information Gain (mutual information)
         info_gain_weights = mutual_info_classif(X_train, y_train)
         # Normalize weights to sum to 1
-        self.weights_ = info_gain_weights / np.sum(info_gain_weights)
+        self.weights_ = info_gain_weights
 
     def get_weights(self):
         return self.weights_
@@ -48,7 +48,7 @@ class EqualWeighting(WeightingMethod):
         n_features = X_train.shape[1]
         equal_weights = np.ones(n_features)
         # Normalize weights to sum to 1
-        self.weights_ = equal_weights / np.sum(equal_weights)
+        self.weights_ = equal_weights
 
     def get_weights(self):
         return self.weights_
@@ -80,7 +80,7 @@ class ReliefFWeighting(WeightingMethod):
         # Normalize weights to sum to 1
         if np.sum(relief_weights) == 0:
             raise ValueError("Sum of ReliefF weights is zero, cannot normalize!")
-        self.weights_ = relief_weights / np.sum(relief_weights)
+        self.weights_ = relief_weights
 
     def get_weights(self):
         return self.weights_
