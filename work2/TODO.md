@@ -28,4 +28,4 @@
     - [ ] (@CaJiFan) `reduction`
     - [ ] (@ZachParent) `svm`
 - [ ] () write `conclusion`
-- [ ] (@KacperPon) write `introduction`
+- [x] (@KacperPon) write `introduction`
