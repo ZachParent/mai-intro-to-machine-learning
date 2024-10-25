@@ -3,18 +3,116 @@
 
 This section describes the k-Nearest Neighbors (kNN) algorithm and its implementation in our study.
 
-% TODO: Provide a brief overview of the kNN algorithm
 % TODO: Explain the choice of k value and any cross-validation used
-% TODO: Describe the distance metric used (e.g., Euclidean, Manhattan)
+% TODO: Describe the distance metric used (e.g., Euclidean, Manhattan, etc...)
 % TODO: Discuss any feature scaling or normalization applied specifically for kNN
 
 \subsubsection{Algorithm Overview}
-% TODO: Explain how kNN works and its advantages/disadvantages
+
+The k-NN algorithm operates on a simple yet effective principle: when classifying new data points, 
+it examines the k closest training examples and assigns the most common class among these neighbors (where k is a user-defined hyperparameter). 
+The algorithm's effectiveness relies on two fundamental assumptions:
+\begin{itemize}
+    \item Locality: Points that are close to each other are likely to have the same class.
+    \item Smoothness: The classification boundary between classes is relatively smooth.
+\end{itemize}
+
+One key feature of k-NN is it employs neighbor-based classification, where the classification of a new data point 
+is determined by majority voting among its k-nearest neighbors. 
+The value of k is one of the most important tunable hyperparameters, as it significantly influences the algorithm's behaviour:
+\begin{itemize}
+    \item Small k values (e.g., k=1 or k=3): More sensitive to local patterns but susceptible to noise.
+    \item Large k values: More robust to noise but may overlook important local patterns.
+    \item Even vs. Odd k values: Even k values result in ties, which may require additional rules to break.
+\end{itemize}
+
+The dependent variable in our datasets we aim to predict is categorical, so while k-NN can be used for both classification and regression problems 
+our focus is on classification.
+
+While the k-NN algorithm has it's merits in terms of simplicity and interpretability, it also has several disadvantages:
+\begin{itemize}
+    \item Computationally expensive: As the number of training examples grows, the algorithm's complexity increases[1]. 
+    \item Sensitive to irrelevant features: The algorithm treats all features equally, so irrelevant features can negatively impact performance.
+    \item Curse of dimensionality: As the number of features increases, the algorithm requires more data to maintain performance.
+\end{itemize}
+
+All three of the above mentioned disadvantages all relate to the features of the dataset, and how they can impact the performance of the algorithm.
+They create a compounding effect: more features lead to higher computational cost, while making the algorithm more susceptible to noise and irrelevant features,
+and also requiring more data to maintain performance. This is why the use of feature selection and reduction techniques are imperative 
+when working with the k-NN algorithm to increase performance.
+
 
 \subsubsection{Implementation Details}
-% TODO: Describe the specific implementation, including any libraries or tools used
+The K-Nearest Neighbors (k-NN) algorithm is implemented using Python with various libraries and tools.
+Below are the specific implementation details:
+
+\subsubsection*{Distance calculations}
+The Euclidean distance is used to measure the distance between data points. 
+This distance metric is the most commonly used distance metric in k-NN algorithms
+due to its simplicity and effectiveness in measuring the similarity between data points[2].
+It operates on the principle of calculating the straight-line distance between two points in a Euclidean space, hence it's simplicity.
+
+The formula for Euclidean distance between two vectors \(x\) and \(y\) is:
+\[ d = \sqrt{\sum_{i=1}^{n} (x_i - y_i)^2} \]
+where \(x_i\) and \(y_i\) are the \(i\)th elements of vectors \(x\) and \(y\), respectively.\\
+
+The Manhattan distance is another distance metric that can be used in k-NN algorithms. It is also frequently used with the k-NN algorithm,
+albeit not as common as the Euclidean distance.
+The Manhattan distance is calculated by summing the absolute differences between the coordinates of two points.
+
+The formula for Manhattan distance between two vectors \(x\) and \(y\) is:
+\[ d = \sum_{i=1}^{n} |x_i - y_i| \]
+where \(x_i\) and \(y_i\) are the \(i\)th elements of vectors \(x\) and \(y\), respectively.\\
+
+The Chebychev distance less commonly used than the Euclidean and Manhattan distances
+in relation to the k-NN algorithm, but it is still a valid distance metric and operates effectively in measuring the similarity between data points.
+The Chebychev distance is calculated by taking the maximum absolute difference between the coordinates of two points. This differs from Manhattan distance
+in that it takes the maximum absolute difference, rather than the sum.
+
+The formula for Chebychev distance between two vectors \(x\) and \(y\) is:
+\[ d = \max_{i=1}^{n} |x_i - y_i| \]
+where \(x_i\) and \(y_i\) are the \(i\)th elements of vectors \(x\) and \(y\), respectively.\\
+
+Along with the Chebychev distance, the Malahanobis distance is another distance metric used in k-NN algorithms.
+It is also less commonly used than the Euclidean and Manhattan distance metrics.
+The Mahalanobis distance is calculated by taking the square root of the sum of the squared differences between the coordinates of two points,
+where the squared differences are divided by the covariance matrix of the data.
+
+The formula for Mahalanobis distance between two vectors \(x\) and \(y\) is:
+\[ d = \sqrt{(x - y)^T \cdot S^{-1} \cdot (x - y)} \]
+where \(x\) and \(y\) are the vectors, and \(S\) is the covariance matrix of the data.\\
+
+\subsubsection*{Weighting Schemes}
+In the k-NN algorithm, the choice of weighting scheme can significantly impact the classification results.
+The following weighting schemes were implemented in this study:\\
+
+In uniform weighting, all neighbours have equal weight in the voting process.
+This is the default weighting scheme in k-NN.
+An advantage of uniform weighting is that it is simple and computationally efficient, but it may not be optimal for imbalanced datasets.\\
+
+
+With ReliefF weighting, neighbours are weighted based on their relevance to the target class.
+This provides a more nuanced approach to weighting as it considers the importance of each neighbour in the classification process, potentially
+improving performance of the algorithm.\\
+
+Information gain weighting, Neighbours are weighted based on gain in information in the context of the target variable [3].
+
+% Implementation Details:
+% - Neighbor selection
+% - Weighting schemes
+% - Voting schemes
+% - Basic algorithm steps
+% - Libraries and tools used
+
 
 \subsubsection{Parameter Tuning}
 % TODO: Explain how parameters were chosen and optimized
 
-% Add more content here as needed
+
+
+
+% References
+% [1] LaViale, T. (2023). Deep Dive on KNN: Understanding and Implementing the K-Nearest Neighbors Algorithm. [online] Arize AI. Available at: https://arize.com/blog-course/knn-algorithm-k-nearest-neighbor/.
+% [2] IBM (2023). What Is the k-nearest Neighbors algorithm? | IBM. [online] www.ibm.com. Available at: https://www.ibm.com/topics/knn.
+% [3] Brownlee, J. (2019). Information Gain and Mutual Information for Machine Learning. [online] Machine Learning Mastery. Available at: https://machinelearningmastery.com/information-gain-and-mutual-information/.
+
