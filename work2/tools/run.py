@@ -3,7 +3,7 @@ import itertools
 import time
 from typing import List, Tuple, Dict
 import pandas as pd
-from sklearn.metrics import confusion_matrix, accuracy_score
+from sklearn.metrics import confusion_matrix, accuracy_score, f1_score
 
 from tools.metrics import train_and_evaluate_model, cross_validate
 from tools.knn import KNNClassifier
@@ -40,6 +40,7 @@ def run_svm(train_dfs: List[pd.DataFrame],
             "C",
             "kernel_type",
             "accuracy",
+            "f1",
             "TP",
             "TN",
             "FP",
@@ -83,12 +84,14 @@ def run_svm(train_dfs: List[pd.DataFrame],
         cm = confusion_matrix(y_trues_all, y_preds_all)
         tn, fp, fn, tp = cm.ravel()
         accuracy = accuracy_score(y_trues_all, y_preds_all)
+        f1 = f1_score(y_trues_all, y_preds_all)
 
         # Append the results
         results_svm.loc[len(results_svm)] = [
             C,
             kernel_type,
             accuracy,
+            f1,
             tp,
             tn,
             fp,
@@ -129,6 +132,7 @@ def run_knn(train_dfs: List[pd.DataFrame],
             "voting_func",
             "weighting_func",
             "accuracy",
+            "f1",
             "TP",
             "TN",
             "FP",
@@ -166,7 +170,7 @@ def run_knn(train_dfs: List[pd.DataFrame],
         cm = confusion_matrix(y_trues_all, y_preds_all)
         tn, fp, fn, tp = cm.ravel()
         accuracy = accuracy_score(y_trues_all, y_preds_all)
-
+        f1 = f1_score(y_trues_all, y_preds_all)
         # Append the results
         results.loc[len(results)] = [
             k,
@@ -174,6 +178,7 @@ def run_knn(train_dfs: List[pd.DataFrame],
             voting_func.__class__.__name__,
             weighting_func.__class__.__name__,
             accuracy,
+            f1,
             tp,
             tn,
             fp,
@@ -219,6 +224,8 @@ def run_reduced_knn(train_dfs: List[pd.DataFrame],
             "voting_func",
             "weighting_func",
             "reduction_func",
+            "accuracy",
+            "f1",
             "TP",
             "TN",
             "FP",
@@ -269,7 +276,8 @@ def run_reduced_knn(train_dfs: List[pd.DataFrame],
         # Compute confusion matrix and accuracy
         cm = confusion_matrix(y_trues_all, y_preds_all)
         tn, fp, fn, tp = cm.ravel()
-        
+        accuracy = accuracy_score(y_trues_all, y_preds_all)
+        f1 = f1_score(y_trues_all, y_preds_all)
 
         # Append the results
         reduction_results.loc[len(reduction_results)] = [
@@ -278,6 +286,8 @@ def run_reduced_knn(train_dfs: List[pd.DataFrame],
             best_voting_func.__class__.__name__,
             best_weighting_func.__class__.__name__,
             reduction_func,
+            accuracy,
+            f1,
             tp,
             tn,
             fp,
@@ -295,7 +305,7 @@ def run_reduced_knn(train_dfs: List[pd.DataFrame],
 def run():
     # Parse command line arguments
     parser = argparse.ArgumentParser(description='Run the model with a specific dataset.')
-    parser.add_argument('--dataset_name', type=str, choices=['hepatitis', 'mushroom'],
+    parser.add_argument('--dataset_name', type=str, choices=['hepatitis', 'mushroom'], required=True,
                         help='The name of the dataset to use (hepatitis or mushroom)')
     parser.add_argument('--verbose', '-v', action='store_true',
                         help='Whether to print verbose output')

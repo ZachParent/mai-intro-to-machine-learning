@@ -1,5 +1,5 @@
-k,distance_func,voting_func,weighting_func,reduction_func,TP,TN,FP,FN,train_time,test_time,storage
-1,ManhattanDistance,MajorityClassVote,EqualWeighting,control,119,28,4,4,0.0008449554443359375,0.07050299644470215,1395
-1,ManhattanDistance,MajorityClassVote,EqualWeighting,cnn,111,25,7,12,0.0003533363342285156,0.021038055419921875,409
-1,ManhattanDistance,MajorityClassVote,EqualWeighting,enn,119,28,4,4,0.0004420280456542969,0.07215046882629395,1395
-1,ManhattanDistance,MajorityClassVote,EqualWeighting,drop2,119,28,4,4,0.0004820823669433594,0.07282733917236328,1395
+k,distance_func,voting_func,weighting_func,reduction_func,accuracy,f1,TP,TN,FP,FN,train_time,test_time,storage
+1,ManhattanDistance,MajorityClassVote,EqualWeighting,control,0.9483870967741935,0.967479674796748,119,28,4,4,0.0008373260498046875,0.07041263580322266,1395
+1,ManhattanDistance,MajorityClassVote,EqualWeighting,cnn,0.8774193548387097,0.921161825726141,111,25,7,12,0.00035190582275390625,0.020856142044067383,409
+1,ManhattanDistance,MajorityClassVote,EqualWeighting,enn,0.9483870967741935,0.967479674796748,119,28,4,4,0.0004436969757080078,0.07219338417053223,1395
+1,ManhattanDistance,MajorityClassVote,EqualWeighting,drop2,0.9483870967741935,0.967479674796748,119,28,4,4,0.0004596710205078125,0.07299208641052246,1395
