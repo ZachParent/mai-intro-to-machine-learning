@@ -1,10 +1,16 @@
 \subsubsection{Support Vector Machines (SVM) Analysis}
 \label{subsubsec:discussion-svm}
 
-As seen in \autoref{tab:svm_results_hepatitis}, SVMs performed well on the hepatitis dataset, achieving high accuracy and F1 scores.
-% TODO: Summarize the performance metrics of SVM (e.g., accuracy, precision, recall)
-% TODO: Compare SVM results with other methods used in the study
+As seen in \autoref{tab:svm_results_mushroom} and \autoref{tab:svm_results_hepatitis},
+SVMs performed well on both the hepatitis and the mushroom datasets,
+achieving peak accuracy and F1 scores which match the best results from KNN.
+
+A key advantage of the SVM over KNN is that SVMs are much faster during consultation time
+% TODO: Add a table comparing the training and consultation times of SVM and KNN
+
 % TODO: Discuss the impact of different kernel functions and hyperparameters
+For both the hepatitis and mushroom datasets, the configuration using RBF kernel and $C=7$
+achieved outstanding accuracy and F1 scores. However, because of the simple predictability
+of the mushroom data, the simple Polynomial kernel performed just as well when used with $C=1$.
 % TODO: Address any unexpected findings or limitations specific to SVM
 
-% Add more content here as needed
