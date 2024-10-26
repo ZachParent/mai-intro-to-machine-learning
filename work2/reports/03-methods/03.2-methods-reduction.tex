@@ -1,10 +1,41 @@
 \subsection{Dimensionality Reduction Algorithms}
 \label{subsec:methods-reduction}
 
-This section outlines the dimensionality reduction techniques applied in our study.
+A significant challenge in applying kNN to large datasets is the computational cost 
+associated with searching the entire training set. Additionally, noisy or irrelevant 
+data can negatively impact the model's performance. 
+To overcome these issues, we employ instance reduction techniques. 
+These techniques aim to identify and select a smaller, more representative subset of
+the training data, leading to faster prediction times and improved accuracy \cite{Wilson2000}.\\
 
-% TODO: List and briefly describe each reduction algorithm used (e.g., PCA, t-SNE, UMAP)
-% TODO: Explain the rationale for using dimensionality reduction
-% TODO: Discuss how the number of dimensions was chosen for each method
+A variety of rule-based techniques have been proposed in the literature to 
+address the challenges associated with large and noisy datasets. 
+These techniques aim to identify patterns and relationships within the data to select 
+a subset of informative instances.
 
-% Add more content here as needed
+\subsubsection{Condensed Nearest Neighbour Rule}
+Condensed nearest neighbor rules are a family of algorithms that aim to identify 
+a minimal subset of the training data that can represent the entire dataset without 
+significant loss of information. One prominent example is the \textbf{Generalized Condensed 
+Nearest Neighbor} (GCNN) algorithm.
+GCNN iteratively selects instances that are misclassified by the current reduced set, 
+adding them to the reduced set until no further improvement is possible. 
+This technique effectively reduces the dataset size while preserving essential 
+information for accurate classification.
+
+
+\subsubsection{Edited Nearest Neighbour Rule}
+Edited nearest neighbor rules, on the other hand, focus on removing noisy or outlier 
+instances from the training data. The \textbf{Reduced Nearest Neighbor Rule with Generalized
+Editing} (RNGE) is a well-known example of this category. RNGE removes instances 
+that are misclassified by their nearest neighbors. This process iteratively eliminates
+ noisy points, leading to a cleaner and more informative dataset.
+
+
+\subsubsection{Hybrid Reduction Techniques}
+Hybrid reduction techniques combine the strengths of both condensed and edited approaches
+to achieve more robust and efficient reduction. The \textbf{Drop2} algorithm is a notable example
+of a hybrid technique. It first applies a condensed nearest neighbor rule to identify a
+core set of instances. Then, it uses an edited nearest neighbor rule to further refine
+the reduced set by removing noisy or redundant instances.
+This two-step process results in a compact and informative dataset.

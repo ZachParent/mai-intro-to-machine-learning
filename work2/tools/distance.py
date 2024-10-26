@@ -41,4 +41,6 @@ class MahalanobisDistance(DistanceFunc):
 
         delta = row1 - row2
         return np.sqrt(delta.T @ self.cov_inv @ delta)
+    
+
 
