@@ -1,0 +1,19 @@
+\begin{table}
+\caption{Results from KNN models for the hepatitis dataset}
+\begin{tabular}{rrlllrr}
+\toprule
+rank & k & distance & voting & weighting & accuracy & f1 \\
+\midrule
+1 & 1 & ChebyshevDistance & MajorityClassVote & ReliefFWeighting & 0.8082 & 0.5207 \\
+2 & 1 & ChebyshevDistance & ShepardsWorkVote & EqualWeighting & 0.8082 & 0.5207 \\
+3 & 1 & ChebyshevDistance & InverseDistanceWeightedVote & ReliefFWeighting & 0.8082 & 0.5207 \\
+4 & 1 & ChebyshevDistance & InverseDistanceWeightedVote & EqualWeighting & 0.8082 & 0.5207 \\
+5 & 1 & ChebyshevDistance & ShepardsWorkVote & ReliefFWeighting & 0.8082 & 0.5207 \\
+6 & 1 & ChebyshevDistance & MajorityClassVote & EqualWeighting & 0.8082 & 0.5207 \\
+7 & 5 & ChebyshevDistance & MajorityClassVote & InformationGainWeighting & 0.7993 & 0.4768 \\
+8 & 1 & ManhattanDistance & ShepardsWorkVote & InformationGainWeighting & 0.7997 & 0.4689 \\
+9 & 1 & ManhattanDistance & ShepardsWorkVote & ReliefFWeighting & 0.7997 & 0.4689 \\
+10 & 1 & ManhattanDistance & ShepardsWorkVote & EqualWeighting & 0.7997 & 0.4689 \\
+\bottomrule
+\end{tabular}
+\end{table}
