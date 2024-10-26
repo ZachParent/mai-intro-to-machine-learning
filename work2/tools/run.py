@@ -288,7 +288,7 @@ def run_reduced_knn(train_dfs: List[pd.DataFrame],
         ]
 
     # Save the results for reduced KNN
-    file_path_reduction = os.path.join(DATA_DIR, "results", f'knn_reduction_results_{dataset_name}.csv')
+    file_path_reduction = os.path.join(DATA_DIR, "results", f'knn_reduction_{dataset_name}.csv')
     reduction_results.to_csv(file_path_reduction, index=False)
 
 
