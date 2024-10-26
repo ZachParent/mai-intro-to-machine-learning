@@ -22,7 +22,7 @@
 - [ ] () write `methods`
     - [ ] (@KacperPon) `knn`
     - [ ] (@CaJiFan) `reduction`
-    - [ ] (@ZachParent) `svm`
+    - [x] (@ZachParent) `svm`
 - [ ] () write `results and analysis`
     - [ ] (@KacperPon) `knn`
     - [ ] (@CaJiFan) `reduction`

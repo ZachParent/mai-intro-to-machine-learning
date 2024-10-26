@@ -1,0 +1,21 @@
+\begin{table}
+\centering
+\caption{Results from KNN models for the mushroom dataset}
+\label{tab:knn_results_mushroom}
+\begin{tabular}{rrlllrr}
+\toprule
+ & k & distance func & voting func & weighting func & accuracy & f1 \\
+\midrule
+1 & 7 & ManhattanDistance & ShepardsWorkVote & EqualWeighting & 0.951 & 0.952 \\
+2 & 5 & ManhattanDistance & ShepardsWorkVote & EqualWeighting & 0.951 & 0.952 \\
+3 & 3 & ManhattanDistance & ShepardsWorkVote & EqualWeighting & 0.951 & 0.952 \\
+4 & 1 & ManhattanDistance & MajorityClassVote & EqualWeighting & 0.950 & 0.951 \\
+5 & 1 & ManhattanDistance & InverseDistanceWeightedVote & EqualWeighting & 0.950 & 0.951 \\
+6 & 1 & ManhattanDistance & ShepardsWorkVote & EqualWeighting & 0.950 & 0.951 \\
+7 & 5 & ManhattanDistance & InverseDistanceWeightedVote & EqualWeighting & 0.933 & 0.933 \\
+8 & 7 & ManhattanDistance & InverseDistanceWeightedVote & EqualWeighting & 0.930 & 0.929 \\
+9 & 3 & ManhattanDistance & InverseDistanceWeightedVote & EqualWeighting & 0.928 & 0.929 \\
+10 & 3 & ManhattanDistance & MajorityClassVote & EqualWeighting & 0.926 & 0.927 \\
+\bottomrule
+\end{tabular}
+\end{table}
