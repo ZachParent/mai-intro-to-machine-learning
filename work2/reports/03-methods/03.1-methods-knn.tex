@@ -3,8 +3,6 @@
 
 This section describes the k-Nearest Neighbors (kNN) algorithm and its implementation in our study.
 
-% TODO: Explain the choice of k value and any cross-validation used
-% TODO: Describe the distance metric used (e.g., Euclidean, Manhattan, etc...)
 % TODO: Discuss any feature scaling or normalization applied specifically for kNN
 
 \subsubsection{Algorithm Overview}
@@ -131,31 +129,187 @@ the class label \(y_c\) of the \(i\)th neighbour, and 0 otherwise.\\
 
 \subsubsection*{Neighbor Selection}
 The choice of the number of neighbors (k) is a critical hyperparameter in the k-NN algorithm, as previously discussed in this report.
-In this study, the following values of k where examined:
+Different values of k can significantly impact the algorithm's performance,
+with smaller values being more sensitive to noise and larger values potentially overlooking important local patterns.
+It's imperative to choose an optimal value of k that balances these trade-offs and maximizes the algorithm's performance.
+In this study, the following values of k where examined: [1, 3, 5, 7] \\
 
-[1, 3, 5, 7]
+\subsubsection*{Basic Algorithm Steps}
+The k-NN algorithm can be summarized in the following steps:
+\begin{enumerate}
+    \item Preprocess the data:
+        \begin{itemize}
+            \item Scale/normalize features to ensure equal contribution
+            \item Handle missing values
+            \item Encode categorical variables if necessary
+        \end{itemize}
+    \item Optimize the model:
+        \begin{itemize}
+            \item Tune hyperparameters (k, distance metric, weighting scheme, voting scheme)
+            \item Consider dimensionality reduction techniques
+            \item Implement feature selection if necessary
+            \item Balance dataset if required
+        \end{itemize}
+    \item For each query point \(\mathbf{q}\):
+        \begin{itemize}
+            \item Calculate distances \(d(\mathbf{q,x}_i)\) to all training examples
+            \item Sort distances to identify the k-nearest neighbors
+            \item Apply selected weighting scheme to neighbour votes
+            \item Determine class label using chosen voting method
+        \end{itemize}
+    \item Validate the model:
+        \begin{itemize}
+            \item Split data into training and validation sets
+            \item Evaluate using appropriate metrics (accuracy, precision, recall, F1)
+            \item Perform cross-validation to assess generalization
+        \end{itemize}
+\end{enumerate}
 
-% FINISH THIS SECTION
-
-% Implementation Details:
-% - Neighbor selection
-% - Basic algorithm steps
-
-
+% Check if more are to be added
+\subsubsection*{Libraries and Tools}
 The following libraries and tools were used for the implementation of our study:
-- Python: The primary programming language used for the implementation of the k-NN algorithm.
-- NumPy: A useful package for scientific computing with Python, used for numerical operations.
-- Scikit-learn: A machine learning library in Python, used for implementing the k-NN algorithm.
-- Pandas: A data manipulation library in Python, used for data preprocessing and analysis.
-- Matplotlib: A plotting library in Python, used for data visualization.
-- CHECK FOR MORE
-
+\begin{itemize}
+    \item \textbf{Python}: The primary programming language used for the implementation of the k-NN algorithm.
+    \item \textbf{NumPy}: A useful package for scientific computing with Python, used for numerical operations.
+    \item \textbf{Scikit-learn}: A machine learning library in Python, used for implementing the k-NN algorithm.
+    \item \textbf{Pandas}: A data manipulation library in Python, used for data preprocessing and analysis.
+    \item \textbf{Matplotlib}: A plotting library in Python, used for data visualization.
+    \item \textbf{Seaborn}: A data visualization library in Python, used for creating informative and attractive statistical graphics.
+    \item \textbf{Jupyter Notebook}: An interactive development environment used for running Python code and visualizing results.
+    \item \textbf{SciPy}: A scientific computing library in Python, used for scientific and technical computing.
+    \item \textbf{TensorFlow / PyTorch}: An open-source machine learning library in Python, used for building and training machine learning models.
+\end{itemize}
 
 \subsubsection{Parameter Tuning}
-% TODO: Explain how parameters were chosen and optimized
+The k-NN algorithm's performance depends significantly on the careful tuning of several key parameters.
+In this study, we employed a systematic approach to parameter optimization using manual grid search with
+cross-validation. The following parameters were tuned:
 
+\subsubsection*{Data Preprocessing}
+Before parameter tuning, comprehensive preprocessing pipelines were implemented for both the hepatitis
+and mushroom datasets using scikit-learn's ColumnTransformer and Pipeline classes.
+The preprocessing steps were customized for each dataset's specific characteristics:
 
+\paragraph{Hepatitis Dataset Preprocessing}
+The hepatitis dataset required handling of both numeric and categorical features:
+\begin{itemize}
+    \item \textbf{Numeric Features}: The following features were processed using mean imputation and Min-Max scaling:
+    \begin{itemize}
+        \item AGE
+        \item ALK\_PHOSPHATE
+        \item SGOT
+        \item BILIRUBIN
+        \item ALBUMIN
+        \item PROTIME
+    \end{itemize}
+    \item \textbf{Categorical Features}: The following features were processed using mode imputation and label encoding:
+    \begin{itemize}
+        \item SEX
+        \item STEROID
+        \item ANTIVIRALS
+        \item FATIGUE
+        \item MALAISE
+        \item ANOREXIA
+        \item Other binary indicators (LIVER\_BIG, LIVER\_FIRM, etc.)
+    \end{itemize}
+\end{itemize}
 
+\paragraph{Mushroom Dataset Preprocessing}
+The mushroom dataset consisted entirely of categorical features:
+\begin{itemize}
+\item \textbf{22 Categorical Features}: Including:
+    \begin{itemize}
+    \item cap-shape
+    \item cap-surface
+    \item cap-color
+    \item bruises?
+    \item odor
+    \item gill-related features
+    \item stalk-related features
+    \item Other morphological characteristics
+    \end{itemize}
+\end{itemize}
+
+\begin{verbatim}
+    preprocessor = ColumnTransformer(
+    transformers=[
+    ('num', Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='mean')),
+    ('scaler', MinMaxScaler())
+    ]), numeric_cols),
+    ('cat', Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='most_frequent')),
+    ('passthrough', 'passthrough')
+    ]), categorical_cols)
+    ]
+    )
+\end{verbatim}
+
+\paragraph{Missing Value Handling}
+    \begin{itemize}
+    \item Question marks (`?') were replaced with \texttt{np.nan}
+    \item Numeric features: Missing values imputed using mean strategy
+    \item Categorical features: Missing values imputed using mode strategy
+    \end{itemize}
+
+\paragraph{Feature Encoding}
+Label encoding was applied to all categorical features:
+\begin{verbatim}
+    for col in categorical_cols:
+    le = LabelEncoder()
+    processed_df[col] = le.fit_transform(processed_df[col])
+\end{verbatim}
+
+%TODO: Verify this
+\subsubsection*{K Value Selection}
+The optimal value of k was determined through k-fold cross-validation (k=10) across the candidate k values [1, 3, 5, 7].
+For each dataset, we evaluated the performance metrics (accuracy, precision, recall, and F1-score) across these k values.
+To avoid ties in classification, we primarily focused on odd values of k.
+The final k value was selected based on the best average performance across all folds, also taking into account
+the different hyperparameters and their impact on the model's performance.
+
+\subsubsection*{Distance Metric Optimization}
+We evaluated four distance metrics:
+\begin{itemize}
+\item Euclidean distance
+\item Manhattan distance
+\item Chebyshev distance
+\item Mahalanobis distance
+\end{itemize}
+
+Each distance metric was tested in combination with different k values to identify the optimal pairing.
+The Mahalanobis distance required additional computation of the covariance matrix
+
+\subsubsection*{Weighting Scheme Selection}
+Three weighting schemes were evaluated through cross-validation:
+\begin{itemize}
+\item Uniform weighting (baseline)
+\item ReliefF weighting
+\item Information gain weighting
+\end{itemize}
+
+The optimal weighting scheme was selected based on both performance metrics and computational efficiency considerations.
+
+\subsubsection*{Voting Scheme Optimization}
+We compared three voting schemes:
+\begin{itemize}
+\item Majority voting
+\item Inverse distance weighting
+\item Shepard's method
+\end{itemize}
+
+Each voting scheme was evaluated across different combinations of k values and distance metrics
+
+\subsubsection*{Parameter Search Implementation}
+The optimal combination of parameters was determined using a custom grid search function that evaluated all possible combinations of:
+\begin{itemize}
+    \item k values
+    \item Distance functions
+    \item Voting schemes
+    \item Weighting schemes
+\end{itemize}
+
+The final model was selected based on the best average performance across all folds in the cross-validation process.
 
 % References
 % [1] LaViale, T. (2023). Deep Dive on KNN: Understanding and Implementing the K-Nearest Neighbors Algorithm. [online] Arize AI. Available at: https://arize.com/blog-course/knn-algorithm-k-nearest-neighbor/.
