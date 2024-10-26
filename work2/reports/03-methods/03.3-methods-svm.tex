@@ -31,7 +31,7 @@ Disadvantages of SVM include:
 \end{itemize}
 \subsubsection{Implementation Details}
 
-Unlike for KNN (see Section \ref{subsec:methods-knn} on K-Nearest Neighbors), we did not implement the SVM algorithm ourselves.
+Unlike for KNN (see \autoref{subsec:methods-knn} on K-Nearest Neighbors), we did not implement the SVM algorithm ourselves.
 Instead, we used the prebuilt implementations from the \texttt{sklearn} library
 \footnote{Scikit-learn's \texttt{svm} module documentation can be found at \url{https://scikit-learn.org/1.5/modules/svm.html}}.
 Scikit-learn's \texttt{svm} module includes several different implementations of SVM:
@@ -73,7 +73,7 @@ The following hyperparameters were tuned in our SVM implementation:
 The SVM classification process in our study followed these steps:
 
 \begin{enumerate}
-    \item Data Preparation (see Section \ref{sec:data} on Data).
+    \item Data Preparation (see \autoref{sec:data} on Data).
     \item Model Configuration: SVM models were created with different combinations of C values and kernel types.
     \item Cross-validation: For each configuration, the model was trained and evaluated using cross-validation across 10 predefined folds.
     \item Performance Evaluation: Various metrics including accuracy, F1 score, and confusion matrix elements (TP, TN, FP, FN) were computed.
