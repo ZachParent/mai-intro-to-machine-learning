@@ -5,7 +5,7 @@ from typing import List, Tuple, Dict
 import pandas as pd
 from sklearn.metrics import confusion_matrix, accuracy_score, f1_score
 
-from tools.metrics import train_and_evaluate_model, cross_validate
+from metrics import train_and_evaluate_model, cross_validate
 from tools.knn import KNNClassifier
 from tools.distance import ManhattanDistance, EuclideanDistance, ChebyshevDistance, MahalanobisDistance
 from tools.voting import MajorityClassVote, InverseDistanceWeightedVote, ShepardsWorkVote
@@ -216,7 +216,8 @@ def run_reduced_knn(train_dfs: List[pd.DataFrame],
     best_voting_func = best_config_instance["voting_func"]
     best_weighting_func = best_config_instance["weighting_func"]
 
-    reduction_funcs = {"control": lambda x, y, z: (x, y), "cnn": condensed_nearest_neighbor, "enn": edited_nearest_neighbor, "drop2": drop2}
+    reduction_funcs = {"control": lambda x, y, z: (x, y), "GCNN":GCNN}
+    #reduction_funcs = {"control": lambda x, y, z: (x, y), "cnn": condensed_nearest_neighbor, "enn": edited_nearest_neighbor, "drop2": drop2}
     reduction_results = pd.DataFrame(
         columns=[
             "k",
@@ -256,7 +257,7 @@ def run_reduced_knn(train_dfs: List[pd.DataFrame],
             y_test = test_df[class_columns_per_ds[dataset_name]]
 
             logging.debug(f"Reducing training data with {reduction_func}")
-            X_train_reduced, y_train_reduced = reduction_funcs[reduction_func](X_train, y_train, best_k)
+            X_train_reduced, y_train_reduced = reduction_funcs[reduction_func](X_train, y_train, best_k, knn)
 
             storage = len(X_train_reduced)
 
