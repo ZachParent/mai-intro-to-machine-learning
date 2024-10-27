@@ -49,6 +49,13 @@ def run_svm(train_dfs: List[pd.DataFrame],
             "test_time"
         ]
     )
+    per_fold_results = pd.DataFrame(
+        columns=[
+            "C",
+            "kernel_type",
+            "fold1", "fold2", "fold3", "fold4", "fold5", "fold6", "fold7", "fold8", "fold9", "fold10"
+        ]
+    )   
 
     # Run all parameter configurations
     for C, kernel_type in itertools.product(c_values, kernel_types):
@@ -61,6 +68,7 @@ def run_svm(train_dfs: List[pd.DataFrame],
 
         y_trues_all, y_preds_all = [], []
         total_train_time, total_test_time = 0.0, 0.0
+        f1_scores = []
 
         # Cross-validate
         for train_df, test_df in zip(train_dfs, test_dfs):
@@ -79,6 +87,7 @@ def run_svm(train_dfs: List[pd.DataFrame],
             # Collect true labels and predictions
             y_trues_all.extend(y_true)
             y_preds_all.extend(y_pred)
+            f1_scores.append(f1_score(y_true, y_pred))
 
         # Compute confusion matrix and metrics
         cm = confusion_matrix(y_trues_all, y_preds_all)
@@ -99,10 +108,18 @@ def run_svm(train_dfs: List[pd.DataFrame],
             total_train_time,
             total_test_time
         ]
+        per_fold_results.loc[len(per_fold_results)] = [
+            C,
+            kernel_type,
+            *f1_scores
+        ]
 
     # Save the results for SVM
-    file_path_svm = os.path.join(DATA_DIR, "cross_validated_results", f'svm_{dataset_name}.csv')
-    cross_validated_results.to_csv(file_path_svm, index=False)
+    file_name = f'svm_{dataset_name}'
+    cross_validated_results_file_path = os.path.join(DATA_DIR, "cross_validated_results", f'{file_name}.csv')
+    cross_validated_results.to_csv(cross_validated_results_file_path, index=False)
+    per_fold_results_file_path = os.path.join(DATA_DIR, "per_fold_results", f'{file_name}.csv')
+    per_fold_results.to_csv(per_fold_results_file_path, index=False)
 
 def run_knn(train_dfs: List[pd.DataFrame], 
             test_dfs: List[pd.DataFrame], 
