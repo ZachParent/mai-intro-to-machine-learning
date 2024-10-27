@@ -25,6 +25,7 @@ def train_and_evaluate_model(
         y_train (array-like): The target values for training.
         X_test (array-like): The test input samples.
         y_test (array-like): The target values for testing.
+        use_proba (bool): Whether to use the probability of the predicted class.
 
     Returns:
         tuple: A tuple containing:
@@ -54,7 +55,6 @@ def cross_validate(
     test_dfs: list[pd.DataFrame],
     target_col: str,
     use_proba: bool = False,
-    return_times: bool = False,
     score_func: Optional[Callable[[np.ndarray, np.ndarray], float]] = None,
 ) -> np.ndarray:
     """
@@ -65,10 +65,18 @@ def cross_validate(
         train_dfs (list[pd.DataFrame]): List of training datasets.
         test_dfs (list[pd.DataFrame]): List of testing datasets.
         target_col (str): The name of the target column.
+        use_proba (bool): Whether to use the probability of the predicted class.
         score_func (Callable[[np.ndarray, np.ndarray], float]): The scoring function to use.
 
     Returns:
-        np.ndarray: An array of scores from cross-validation.
+        tuple[list, list, float, float]: A tuple containing:
+            - actuals_list (list): List of true labels.
+            - preds_list (list): List of predicted labels.
+            - train_time (float): Total time taken for training.
+            - test_time (float): Total time taken for testing.
+        
+        if score_func is not None:
+            return np.array([score_func(preds, actuals) for preds, actuals in zip(preds_list, actuals_list)])
     """
     actuals_list = []
     preds_list = []
@@ -90,4 +98,4 @@ def cross_validate(
 
     if score_func:
         return np.array([score_func(preds, actuals) for preds, actuals in zip(preds_list, actuals_list)])
-    return np.concatenate(actuals_list), np.concatenate(preds_list), train_time, test_time
+    return actuals_list, preds_list, train_time, test_time
