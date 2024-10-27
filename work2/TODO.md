@@ -19,7 +19,7 @@
 - [x] (@CaJiFan) create structure with subheadings
 - [x] (@SheenaLang) `data`
     - [x] (@SheenaLang) dataset
-    - [x] (@SheenaLang) preprocessing
+    - [x] (@SheenaLang) preprocessing 
 - [ ] () write `methods`
     - [ ] (@KacperPon) `knn`
     - [ ] (@CaJiFan) `reduction`
