@@ -17,9 +17,9 @@
 
 ### Write report
 - [x] (@CaJiFan) create structure with subheadings
-- [ ] (@SheenaLang) `data`
-    - [ ] (@SheenaLang) dataset
-    - [ ] (@SheenaLang) preprocessing
+- [x] (@SheenaLang) `data`
+    - [x] (@SheenaLang) dataset
+    - [x] (@SheenaLang) preprocessing
 - [ ] () write `methods`
     - [ ] (@KacperPon) `knn`
     - [ ] (@CaJiFan) `reduction`
