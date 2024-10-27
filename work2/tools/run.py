@@ -5,7 +5,7 @@ from typing import List, Tuple, Dict
 import pandas as pd
 from sklearn.metrics import confusion_matrix, accuracy_score, f1_score
 
-from metrics import train_and_evaluate_model, cross_validate
+from tools.metrics import train_and_evaluate_model, cross_validate
 from tools.knn import KNNClassifier
 from tools.distance import ManhattanDistance, EuclideanDistance, ChebyshevDistance, MahalanobisDistance
 from tools.voting import MajorityClassVote, InverseDistanceWeightedVote, ShepardsWorkVote
