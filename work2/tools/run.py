@@ -274,6 +274,16 @@ def run_reduced_knn(train_dfs: List[pd.DataFrame],
             "storage"
         ]
     )
+    per_fold_results = pd.DataFrame(
+        columns=[
+            "k",
+            "distance_func",
+            "voting_func",
+            "weighting_func",
+            "reduction_func",
+            "fold1", "fold2", "fold3", "fold4", "fold5", "fold6", "fold7", "fold8", "fold9", "fold10"
+        ]
+    )
 
     best_k = 7
     for reduction_func in reduction_funcs:
@@ -288,7 +298,7 @@ def run_reduced_knn(train_dfs: List[pd.DataFrame],
 
         y_trues_all, y_preds_all = [], []
         total_train_time, total_test_time, total_storage = 0.0, 0.0, 0
-
+        f1_scores = []
         for train_df, test_df in zip(train_dfs, test_dfs):
             X_train = train_df.drop(columns=[class_columns_per_ds[dataset_name]])
             y_train = train_df[class_columns_per_ds[dataset_name]]
@@ -304,6 +314,7 @@ def run_reduced_knn(train_dfs: List[pd.DataFrame],
             y_true, y_pred, train_time, test_time = train_and_evaluate_model(knn, X_train_reduced, y_train_reduced,
                                                                                 X_test,
                                                                                 y_test)
+            f1_scores.append(f1_score(y_true, y_pred))
             # Update totals
             total_train_time += train_time
             total_test_time += test_time
@@ -336,10 +347,21 @@ def run_reduced_knn(train_dfs: List[pd.DataFrame],
             total_test_time,
             total_storage/10 #average storage over folds
         ]
+        per_fold_results.loc[len(per_fold_results)] = [
+            best_k,
+            best_distance_func.__class__.__name__,
+            best_voting_func.__class__.__name__,
+            best_weighting_func.__class__.__name__,
+            reduction_func,
+            *f1_scores
+        ]
 
     # Save the results for reduced KNN
-    file_path_reduction = os.path.join(DATA_DIR, "cross_validated_results", f'knn_reduction_{dataset_name}.csv')
-    cross_validated_results.to_csv(file_path_reduction, index=False)
+    file_name = f'knn_reduction_{dataset_name}'
+    cross_validated_results_file_path = os.path.join(DATA_DIR, "cross_validated_results", f'{file_name}.csv')
+    cross_validated_results.to_csv(cross_validated_results_file_path, index=False)
+    per_fold_results_file_path = os.path.join(DATA_DIR, "per_fold_results", f'{file_name}.csv')
+    per_fold_results.to_csv(per_fold_results_file_path, index=False)
 
 
 def run():
