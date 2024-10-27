@@ -295,7 +295,7 @@ def run_reduced_knn(train_dfs: List[pd.DataFrame],
             fn,
             total_train_time,
             total_test_time,
-            total_storage/10 #average over folds
+            total_storage/10 #average storage over folds
         ]
 
     # Save the results for reduced KNN
