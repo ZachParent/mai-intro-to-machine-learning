@@ -101,7 +101,7 @@ def run_svm(train_dfs: List[pd.DataFrame],
         ]
 
     # Save the results for SVM
-    file_path_svm = os.path.join(DATA_DIR, "results", f'svm_{dataset_name}.csv')
+    file_path_svm = os.path.join(DATA_DIR, "cross_validated_results", f'svm_{dataset_name}.csv')
     results_svm.to_csv(file_path_svm, index=False)
 
 def run_knn(train_dfs: List[pd.DataFrame], 
@@ -197,7 +197,7 @@ def run_knn(train_dfs: List[pd.DataFrame],
             }
 
     # Save the results for KNN
-    file_path = os.path.join(DATA_DIR, "results", f'knn_{dataset_name}.csv')
+    file_path = os.path.join(DATA_DIR, "cross_validated_results", f'knn_{dataset_name}.csv')
     results.to_csv(file_path, index=False)
 
     return best_config_instance, weights
@@ -299,7 +299,7 @@ def run_reduced_knn(train_dfs: List[pd.DataFrame],
         ]
 
     # Save the results for reduced KNN
-    file_path_reduction = os.path.join(DATA_DIR, "results", f'knn_reduction_{dataset_name}.csv')
+    file_path_reduction = os.path.join(DATA_DIR, "cross_validated_results", f'knn_reduction_{dataset_name}.csv')
     reduction_results.to_csv(file_path_reduction, index=False)
 
 
