@@ -3,9 +3,86 @@
 
 This section interprets the results of the kNN algorithm, discussing its performance and implications.
 
-% TODO: Summarize the performance metrics of kNN (e.g., accuracy, precision, recall)
-% TODO: Compare kNN results with other methods used in the study
-% TODO: Discuss the impact of different k values on the results
-% TODO: Address any unexpected findings or limitations specific to kNN
+The kNN algorithm was evaluated using several performance metrics, including accuracy, precision, and recall.
 
-% Add more content here as needed
+\subsubsection*{Mushroom Dataset Performance}
+
+\begin{description}
+    \item[\textbf{Best Configuration:}]\leavevmode
+        \begin{itemize}
+            \item $k = 3, 5,$ or $7$ with Manhattan Distance (all performed equally well)
+            \item Shepard's Work Vote
+            \item Equal Weighting
+            \item \textbf{Results:} 95.1\% accuracy and 95.2\% F1 score
+        \end{itemize}
+    
+    \item[\textbf{Performance Range:}]\leavevmode
+        \begin{itemize}
+            \item Accuracy: 92.6\% $--$ 95.1\%
+            \item F1 Score: 92.7\% $--$ 95.2\%
+        \end{itemize}
+    
+    \item[\textbf{Key Observations:}]\leavevmode
+        \begin{itemize}
+            \item Manhattan Distance consistently performed well across all configurations.
+            \item Shepard's Work Voting scheme demonstrated superior results compared to alternative voting schemes.
+            \item The voting scheme had a significant impact on performance, particularly with higher k values.
+        \end{itemize}
+\end{description}
+
+\subsubsection*{Hepatitis Dataset Performance}
+
+\begin{description}
+    \item[\textbf{Best Configuration:}]\leavevmode
+        \begin{itemize}
+            \item $k = 1$ with Euclidean Distance
+            \item Shepard's Work Vote
+            \item ReliefF Weighting
+            \item \textbf{Results:} 95.5\% accuracy and 97.2\% F1 score
+        \end{itemize}
+    
+    \item[\textbf{Performance Range:}]\leavevmode
+        \begin{itemize}
+            \item Accuracy: 94.8\% $--$ 95.5\%
+            \item F1 Score: 96.7\% $--$ 97.2\%
+        \end{itemize}
+    
+    \item[\textbf{Key Observations:}]\leavevmode
+        \begin{itemize}
+            \item Euclidean Distance performed best, particularly with ReliefF weighting.
+            \item k = 1 configurations dominated the top results.
+            \item All voting schemes performed similarly when other parameters were optimized.
+        \end{itemize}
+\end{description}
+
+The F1 scores achieved across all configurations were consistently high, indicating a good balance between precision and recall.
+
+\paragraph{Impact of Different k Values}
+Analysis of the k parameter's influence on performance revealed distinct patterns across both datasets.
+For the mushroom dataset, k values of 3, 5, and 7 using Manhattan Distance with Shepard's Work Vote achieved identical top performance
+(95.1\% accuracy, 95.2\% F1), slightly outperforming k = 1 configurations (95.0\% accuracy, 95.1\% F1), and other configurations.
+However, the performance was notably sensitive to the voting scheme, as demonstrated by the decrease to approximately 93\% accuracy
+when using Inverse Distance Weighted voting with higher k values.
+
+For the hepatitis dataset, k = 1 consistently
+outperformed larger values, achieving the highest accuracy of 95.5\% with Euclidean distance and ReliefF weighting.
+This contrast between datasets suggests that the optimal k value is highly dependent
+on both the underlying data characteristics and the chosen voting scheme.
+The hepatitis dataset benefited from more localized decisions (k = 1), while the mushroom
+dataset showed slightly improved performance with ensemble decisions from multiple neighbors when using appropriate voting schemes.
+
+\paragraph{Unexpected Findings and Limitations}
+Some unexpected patterns emerged from our k-NN analysis. First, while feature weighing schemes
+often improved the performance, the mushroom dataset achieved its best results with equal weighting. This suggests that the
+dataset's features are inherently balanced and do not require additional weighting to improve classification accuracy.
+Secondly, the high performance consistently across all voting schemes we tested was surprising, indicating that the 
+choice of voting schemes may be less critical for performance than previously assumed when other hyperparameters are optimized.
+
+However, our study revealed several important limitations. As shown in Tables 5 and 6, the standard
+kNN implementation faced significant computational and storage challenges, requiring 0.255 seconds
+per test instance for the mushroom dataset and storage of all 1000 training instances. 
+While dimensionality reduction techniques like CNN reduced storage requirements by
+81.1\% and improved testing speed by 74.5\%, this came at the cost of decreased accuracy (from 95.0\% to 92.5\%).
+
+This trade-off between computational efficiency and classification performance highlights
+a fundamental limitation of the k-NN algorithm in handling larger datasets.

@@ -21,11 +21,11 @@
     - [x] (@SheenaLang) dataset
     - [x] (@SheenaLang) preprocessing 
 - [ ] () write `methods`
-    - [ ] (@KacperPon) `knn`
+    - [x] (@KacperPon) `knn`
     - [ ] (@CaJiFan) `reduction`
     - [x] (@ZachParent) `svm`
 - [ ] () write `results and analysis`
-    - [ ] (@KacperPon) `knn`
+    - [x] (@KacperPon) `knn`
     - [ ] (@CaJiFan) `reduction`
     - [ ] (@ZachParent) `svm`
 - [ ] () write `conclusion`
