@@ -181,7 +181,7 @@ The following libraries and tools were used for the implementation of our study:
 \subsubsection{Parameter Tuning}
 The k-NN algorithm's performance depends significantly on the careful tuning of several key parameters.
 In this study, we employed a systematic approach to parameter optimization using manual grid search with
-cross-validation. The following parameters were tuned:
+cross-validation.
 
 \subsubsection*{Data Preprocessing}
 Before parameter tuning, comprehensive preprocessing pipelines were implemented for both the hepatitis
@@ -228,18 +228,21 @@ The mushroom dataset consisted entirely of categorical features:
     \end{itemize}
 \end{itemize}
 
+The code defines a \texttt{preprocessor} object using the \texttt{ColumnTransformer} function,
+which allows for applying different preprocessing steps to different types of columns.
+This is particularly useful when working with datasets that contain both \textit{numerical} and \textit{categorical} features, like in our case.
 \begin{verbatim}
     preprocessor = ColumnTransformer(
-    transformers=[
-    ('num', Pipeline(steps=[
-    ('imputer', SimpleImputer(strategy='mean')),
-    ('scaler', MinMaxScaler())
-    ]), numeric_cols),
-    ('cat', Pipeline(steps=[
-    ('imputer', SimpleImputer(strategy='most_frequent')),
-    ('passthrough', 'passthrough')
-    ]), categorical_cols)
-    ]
+        transformers=[
+            ('num', Pipeline(steps=[
+                ('imputer', SimpleImputer(strategy='mean')),
+                ('scaler', MinMaxScaler())
+            ]), numeric_cols),
+            ('cat', Pipeline(steps=[
+                ('imputer', SimpleImputer(strategy='most_frequent')),
+                ('passthrough', 'passthrough')
+            ]), categorical_cols)
+        ]
     )
 \end{verbatim}
 
@@ -254,8 +257,8 @@ The mushroom dataset consisted entirely of categorical features:
 Label encoding was applied to all categorical features:
 \begin{verbatim}
     for col in categorical_cols:
-    le = LabelEncoder()
-    processed_df[col] = le.fit_transform(processed_df[col])
+        le = LabelEncoder()
+        processed_df[col] = le.fit_transform(processed_df[col])
 \end{verbatim}
 
 %TODO: Verify this
