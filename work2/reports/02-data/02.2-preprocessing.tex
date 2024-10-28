@@ -1,21 +1,32 @@
 \subsection{Data Preprocessing}
 \label{subsec:preprocessing}
 
-This section outlines the steps taken to prepare the dataset for analysis, including cleaning, transformation, and feature engineering.
+This section outlines the preprocessing steps applied to the Hepatitis and Mushroom datasets.
 
-% TODO: Describe data cleaning procedures
-% TODO: Explain any data transformations applied
-% TODO: Discuss feature selection or engineering processes
-% TODO: Address handling of missing data or outliers
+\subsubsection{Dealing with Different Ranges and different types}
+To manage the varying types and ranges of attributes in our datasets, we implemented specific preprocessing techniques.
+For the nominal attributes in both the Mushroom and Hepatitis datasets, we used label encoding.
+This technique converts categorical values into numerical labels, enabling the algorithms to interpret the data correctly.
+While we also considered one-hot encoding, which avoids implying any ordinal relationship among categories, we preferred label encoding for its simplicity and reduced dimensionality, especially given the Mushroom dataset's numerous nominal features.
 
-\subsubsection{Data Cleaning}
-% TODO: Detail the steps taken to clean the data
+For the numerical attributes in the Hepatitis dataset, we applied min-max scaling to rescale the data to a fixed range of [0, 1]. This normalization is crucial for distance-based algorithms like KNN and SVM, ensuring all features contribute equally to model performance.
+We evaluated other scaling methods, such as standardization, but chose min-max scaling for its effectiveness in maintaining the original data distribution.
 
-\subsubsection{Data Transformation}
-% TODO: Explain any transformations applied to the data
+\subsubsection{Dealing with Missing Values}
+Addressing missing values is a critical step in preparing our datasets for analysis, as they can significantly impact model performance.
+In the case of the nominal attributes in both the Mushroom and Hepatitis datasets, we opted to impute missing values with the majority class.
+This method is straightforward and effective for maintaining dataset integrity.
+However, it can also introduce bias, particularly in the Hepatitis dataset, where the majority class represents 79.35\% of instances.
+Relying on this method may lead to a situation where the imputed values disproportionately favor the majority class, thereby affecting the overall distribution and potentially skewing the results.
 
-\subsubsection{Feature Engineering}
-% TODO: Describe any new features created or derived from the original dataset
+For the numerical attributes in the Hepatitis dataset, we used the mean of the available data to fill in missing values.
+This approach preserves the overall data distribution and is easy to implement, but it is not without its drawbacks.
+The mean can be heavily influenced by outliers, which might distort the data and lead to less accurate predictions.
+This is especially important in medical datasets, where extreme values may carry significant meaning.
 
-% Add more content here as needed
+We also considered employing K-Nearest Neighbors (KNN) for imputing missing values, as it could provide a more nuanced approach by considering the nearest data points for each instance.
+However, we ultimately decided against this option to avoid introducing bias into our evaluation.
+Since KNN is one of the algorithms we are testing, using it for imputation could influence its performance and lead to skewed results.
+Therefore, we chose the more straightforward methods of majority class imputation for nominal values and mean imputation for numerical values, allowing for a clearer assessment of the models’ effectiveness without confounding factors.
+
 

@@ -11,7 +11,7 @@ from tools.distance import ManhattanDistance, EuclideanDistance, ChebyshevDistan
 from tools.voting import MajorityClassVote, InverseDistanceWeightedVote, ShepardsWorkVote
 from tools.preprocess import preprocess_hepatitis_datasets, load_datasets, preprocess_mushroom_datasets
 from tools.weighting import InformationGainWeighting, ReliefFWeighting, EqualWeighting
-from tools.reduction import condensed_nearest_neighbor, edited_nearest_neighbor, drop2
+from tools.reduction import GCNN, ENNTH, drop3, edited_nearest_neighbor
 import numpy as np
 from sklearn.svm import SVC as SVMClassifier
 
@@ -35,7 +35,7 @@ def run_svm(train_dfs: List[pd.DataFrame],
     kernel_types = ["linear", "poly", "rbf", "sigmoid"]
 
     # Results DF
-    results_svm = pd.DataFrame(
+    cross_validated_results = pd.DataFrame(
         columns=[
             "C",
             "kernel_type",
@@ -49,6 +49,13 @@ def run_svm(train_dfs: List[pd.DataFrame],
             "test_time"
         ]
     )
+    per_fold_results = pd.DataFrame(
+        columns=[
+            "C",
+            "kernel_type",
+            "fold1", "fold2", "fold3", "fold4", "fold5", "fold6", "fold7", "fold8", "fold9", "fold10"
+        ]
+    )   
 
     # Run all parameter configurations
     for C, kernel_type in itertools.product(c_values, kernel_types):
@@ -61,6 +68,7 @@ def run_svm(train_dfs: List[pd.DataFrame],
 
         y_trues_all, y_preds_all = [], []
         total_train_time, total_test_time = 0.0, 0.0
+        f1_scores = []
 
         # Cross-validate
         for train_df, test_df in zip(train_dfs, test_dfs):
@@ -79,6 +87,7 @@ def run_svm(train_dfs: List[pd.DataFrame],
             # Collect true labels and predictions
             y_trues_all.extend(y_true)
             y_preds_all.extend(y_pred)
+            f1_scores.append(f1_score(y_true, y_pred))
 
         # Compute confusion matrix and metrics
         cm = confusion_matrix(y_trues_all, y_preds_all)
@@ -87,7 +96,7 @@ def run_svm(train_dfs: List[pd.DataFrame],
         f1 = f1_score(y_trues_all, y_preds_all)
 
         # Append the results
-        results_svm.loc[len(results_svm)] = [
+        cross_validated_results.loc[len(cross_validated_results)] = [
             C,
             kernel_type,
             accuracy,
@@ -99,10 +108,18 @@ def run_svm(train_dfs: List[pd.DataFrame],
             total_train_time,
             total_test_time
         ]
+        per_fold_results.loc[len(per_fold_results)] = [
+            C,
+            kernel_type,
+            *f1_scores
+        ]
 
     # Save the results for SVM
-    file_path_svm = os.path.join(DATA_DIR, "results", f'svm_{dataset_name}.csv')
-    results_svm.to_csv(file_path_svm, index=False)
+    file_name = f'svm_{dataset_name}'
+    cross_validated_results_file_path = os.path.join(DATA_DIR, "cross_validated_results", f'{file_name}.csv')
+    cross_validated_results.to_csv(cross_validated_results_file_path, index=False)
+    per_fold_results_file_path = os.path.join(DATA_DIR, "per_fold_results", f'{file_name}.csv')
+    per_fold_results.to_csv(per_fold_results_file_path, index=False)
 
 def run_knn(train_dfs: List[pd.DataFrame], 
             test_dfs: List[pd.DataFrame], 
@@ -124,8 +141,7 @@ def run_knn(train_dfs: List[pd.DataFrame],
     voting_funcs = [MajorityClassVote(), InverseDistanceWeightedVote(), ShepardsWorkVote()]
     weighting_funcs = [EqualWeighting(), InformationGainWeighting(), ReliefFWeighting()]
 
-    # Results DF
-    results = pd.DataFrame(
+    cross_validated_results = pd.DataFrame(
         columns=[
             "k",
             "distance_func",
@@ -139,6 +155,15 @@ def run_knn(train_dfs: List[pd.DataFrame],
             "FN",
             "train_time",
             "test_time"
+        ]
+    )
+    per_fold_results = pd.DataFrame(
+        columns=[
+            "k",
+            "distance_func",
+            "voting_func",
+            "weighting_func",
+            "fold1", "fold2", "fold3", "fold4", "fold5", "fold6", "fold7", "fold8", "fold9", "fold10"
         ]
     )
 
@@ -164,15 +189,19 @@ def run_knn(train_dfs: List[pd.DataFrame],
         logging.debug(
             f"Running KNN: [weighting_func={weighting_func.__class__.__name__}, distance_func={distance_func.__class__.__name__}, voting_func={voting_func.__class__.__name__}, k={k}]")
 
-        y_trues_all, y_preds_all, train_time, test_time = cross_validate(knn, train_dfs, test_dfs, class_columns_per_ds[dataset_name])
+        y_trues_list, y_preds_list, train_time, test_time = cross_validate(knn, train_dfs, test_dfs, class_columns_per_ds[dataset_name])
+        f1_scores = [f1_score(y_trues, y_preds) for y_trues, y_preds in zip(y_trues_list, y_preds_list)]
+        
+        y_trues = np.concatenate(y_trues_list)
+        y_preds = np.concatenate(y_preds_list)
 
         # Compute confusion matrix and accuracy
-        cm = confusion_matrix(y_trues_all, y_preds_all)
+        cm = confusion_matrix(y_trues, y_preds)
         tn, fp, fn, tp = cm.ravel()
-        accuracy = accuracy_score(y_trues_all, y_preds_all)
-        f1 = f1_score(y_trues_all, y_preds_all)
+        accuracy = accuracy_score(y_trues, y_preds)
+        f1 = f1_score(y_trues, y_preds)
         # Append the results
-        results.loc[len(results)] = [
+        cross_validated_results.loc[len(cross_validated_results)] = [
             k,
             distance_func.__class__.__name__,
             voting_func.__class__.__name__,
@@ -186,9 +215,16 @@ def run_knn(train_dfs: List[pd.DataFrame],
             train_time,
             test_time
         ]
+        per_fold_results.loc[len(per_fold_results)] = [
+            k,
+            distance_func.__class__.__name__,
+            voting_func.__class__.__name__,
+            weighting_func.__class__.__name__,
+            *f1_scores
+        ]
 
         # Store best configuration instance
-        if best_config_instance is None or accuracy > results['accuracy'].max():
+        if best_config_instance is None or accuracy > cross_validated_results['accuracy'].max():
             best_config_instance = {
                 "k": k,
                 "distance_func": distance_func,  # Save the instance
@@ -197,8 +233,11 @@ def run_knn(train_dfs: List[pd.DataFrame],
             }
 
     # Save the results for KNN
-    file_path = os.path.join(DATA_DIR, "results", f'knn_{dataset_name}.csv')
-    results.to_csv(file_path, index=False)
+    file_name = f'knn_{dataset_name}'
+    cross_validated_results_file_path = os.path.join(DATA_DIR, "cross_validated_results", f'{file_name}.csv')
+    cross_validated_results.to_csv(cross_validated_results_file_path, index=False)
+    per_fold_results_file_path = os.path.join(DATA_DIR, "per_fold_results", f'{file_name}.csv')
+    per_fold_results.to_csv(per_fold_results_file_path, index=False)
 
     return best_config_instance, weights
 
@@ -216,8 +255,8 @@ def run_reduced_knn(train_dfs: List[pd.DataFrame],
     best_voting_func = best_config_instance["voting_func"]
     best_weighting_func = best_config_instance["weighting_func"]
 
-    reduction_funcs = {"control": lambda x, y, z: (x, y), "cnn": condensed_nearest_neighbor, "enn": edited_nearest_neighbor, "drop2": drop2}
-    reduction_results = pd.DataFrame(
+    reduction_funcs = {"control": lambda x, y, z, s: (x, y), "GGCN": GCNN, "ENNTH":ENNTH, "Drop3": drop3}
+    cross_validated_results = pd.DataFrame(
         columns=[
             "k",
             "distance_func",
@@ -235,7 +274,18 @@ def run_reduced_knn(train_dfs: List[pd.DataFrame],
             "storage"
         ]
     )
+    per_fold_results = pd.DataFrame(
+        columns=[
+            "k",
+            "distance_func",
+            "voting_func",
+            "weighting_func",
+            "reduction_func",
+            "fold1", "fold2", "fold3", "fold4", "fold5", "fold6", "fold7", "fold8", "fold9", "fold10"
+        ]
+    )
 
+    best_k = 7
     for reduction_func in reduction_funcs:
         knn = KNNClassifier(
             k=best_k,
@@ -248,7 +298,7 @@ def run_reduced_knn(train_dfs: List[pd.DataFrame],
 
         y_trues_all, y_preds_all = [], []
         total_train_time, total_test_time, total_storage = 0.0, 0.0, 0
-
+        f1_scores = []
         for train_df, test_df in zip(train_dfs, test_dfs):
             X_train = train_df.drop(columns=[class_columns_per_ds[dataset_name]])
             y_train = train_df[class_columns_per_ds[dataset_name]]
@@ -256,7 +306,7 @@ def run_reduced_knn(train_dfs: List[pd.DataFrame],
             y_test = test_df[class_columns_per_ds[dataset_name]]
 
             logging.debug(f"Reducing training data with {reduction_func}")
-            X_train_reduced, y_train_reduced = reduction_funcs[reduction_func](X_train, y_train, best_k)
+            X_train_reduced, y_train_reduced = reduction_funcs[reduction_func](X_train, y_train, best_k, knn)
 
             storage = len(X_train_reduced)
 
@@ -264,6 +314,7 @@ def run_reduced_knn(train_dfs: List[pd.DataFrame],
             y_true, y_pred, train_time, test_time = train_and_evaluate_model(knn, X_train_reduced, y_train_reduced,
                                                                                 X_test,
                                                                                 y_test)
+            f1_scores.append(f1_score(y_true, y_pred))
             # Update totals
             total_train_time += train_time
             total_test_time += test_time
@@ -280,7 +331,7 @@ def run_reduced_knn(train_dfs: List[pd.DataFrame],
         f1 = f1_score(y_trues_all, y_preds_all)
 
         # Append the results
-        reduction_results.loc[len(reduction_results)] = [
+        cross_validated_results.loc[len(cross_validated_results)] = [
             best_k,
             best_distance_func.__class__.__name__,
             best_voting_func.__class__.__name__,
@@ -294,12 +345,23 @@ def run_reduced_knn(train_dfs: List[pd.DataFrame],
             fn,
             total_train_time,
             total_test_time,
-            total_storage
+            total_storage/10 #average storage over folds
+        ]
+        per_fold_results.loc[len(per_fold_results)] = [
+            best_k,
+            best_distance_func.__class__.__name__,
+            best_voting_func.__class__.__name__,
+            best_weighting_func.__class__.__name__,
+            reduction_func,
+            *f1_scores
         ]
 
     # Save the results for reduced KNN
-    file_path_reduction = os.path.join(DATA_DIR, "results", f'knn_reduction_{dataset_name}.csv')
-    reduction_results.to_csv(file_path_reduction, index=False)
+    file_name = f'knn_reduction_{dataset_name}'
+    cross_validated_results_file_path = os.path.join(DATA_DIR, "cross_validated_results", f'{file_name}.csv')
+    cross_validated_results.to_csv(cross_validated_results_file_path, index=False)
+    per_fold_results_file_path = os.path.join(DATA_DIR, "per_fold_results", f'{file_name}.csv')
+    per_fold_results.to_csv(per_fold_results_file_path, index=False)
 
 
 def run():
