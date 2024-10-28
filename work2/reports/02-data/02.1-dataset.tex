@@ -19,10 +19,25 @@ Based on these criteria, we selected the Hepatitis and Mushroom datasets, as the
 
 \subsubsection{Dataset Characteristics}
 
-The Mushroom dataset, with 8,124 instances, is much larger than the Hepatitis dataset’s 155 instances, making it ideal for examining the computational benefits of reduction techniques.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{figures/dataset-partitions.png}
+    \caption{Dataset partitions}
+    \label{fig:dataset-partitions}
+\end{figure}
+
+The Mushroom dataset, with 8,124 instances, is much larger (see \autoref{fig:dataset-partitions}) than the Hepatitis dataset's 155 instances, making it ideal for examining the computational benefits of reduction techniques.
 The Mushroom dataset focuses on predicting whether a mushroom is poisonous or edible based on 22 nominal attributes, such as cap shape and color, whereas the Hepatitis dataset aims to predict whether a hepatitis patient will live or die, using a mix of both nominal and numeric features like age and liver size.
 This allows for a comparison of model handling for fully categorical data versus mixed data types.
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.45\textwidth]{figures/hepatitis-class-distribution.png}
+    \includegraphics[width=0.45\textwidth]{figures/mushroom-class-distribution.png}
+    \caption{Class distributions}
+    \label{fig:class-distributions}
+\end{figure}
+
 Class distribution is another key distinction.
-The Mushroom dataset is nearly balanced, with only a 1.8\% class deviation, while the Hepatitis dataset has a 29.35\% class deviation, with 79.35\% of instances in the majority class, making it ideal for testing each model’s robustness to imbalanced data.
+The Mushroom dataset is nearly balanced, with only a 1.8\% class deviation, while the Hepatitis dataset has a 29.35\% class deviation, with 79.35\% of instances in the majority class (see \autoref{fig:class-distributions}), making it ideal for testing each model's robustness to imbalanced data.
 Missing data is also more prevalent in the Mushroom dataset (48.2\%) compared to Hepatitis (20.01\%), providing insights into each model’s ability to handle incomplete data.
