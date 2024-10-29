@@ -232,3 +232,28 @@ Mandatory reading: Statistical Comparisons of Classifiers over Multiple Data Set
   * Section 4 onward is the important part (Empirical comparison of tests)
     * Important to understand the tools, not the formulas
 
+### TODO:
+* Check if the weighting functions are working correctly
+* Create analysis for time and storage complexity, especially comparing across model types
+* We should cross-read each other's report parts before submitting
+* Finish statistical analysis.
+* Write up about statistical analysis
+
+* Zach to check information gain weighting functions
+* Carlos to check reduction techniques
+  * Make the reduction data use sums for each metric
+* Carlos to write theory on statistical analysis
+* Carlos to write about reduction for SVM
+* Kacper to write up about statistical analysis results
+* Sheena to implement reduction techniques for SVM
+* Sheena to write about time and storage complexity analysis
+* Zach to run statistical analysis scripts and organize repo
+
+
+### Questions:
+* Should we compare statistical analysis across all models or only between models of the same type?
+  5 -10 models at a time
+* Should we run SVM with reduced datasets?
+  * yes
+* It's difficult to find statistical significance for the top models of KNN. To get statistically significant results, should we widen the threshold for P-values or should we use a broader sample (linear sample) of our ranked models?
+  * better to use a wider alpha threshold
