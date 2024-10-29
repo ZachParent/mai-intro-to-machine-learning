@@ -18,18 +18,26 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(SCRIPT_DIR, "../../data/per_fold_results")
 FIGURES_DIR = os.path.join(SCRIPT_DIR, "../../reports/figures")
 
+parser = argparse.ArgumentParser()
+parser.add_argument("--dataset_name", type=str, default="hepatitis")
+parser.add_argument("--f", type=str, default='')
+args = parser.parse_args()
+
+dataset_name = args.dataset_name
+
 # %%
-knn_results_hepatitis = pd.read_csv(f"{DATA_DIR}/knn_hepatitis.csv")
-# knn_results_mushroom = pd.read_csv(f"{DATA_DIR}/knn_mushroom.csv")
-knn_reduction_results_hepatitis = pd.read_csv(f"{DATA_DIR}/knn_reduction_hepatitis.csv")
-# knn_reduction_results_mushroom = pd.read_csv(f"{DATA_DIR}/knn_reduction_mushroom.csv")
-svm_results_hepatitis = pd.read_csv(f"{DATA_DIR}/svm_hepatitis.csv")
-# svm_results_mushroom = pd.read_csv(f"{DATA_DIR}/svm_mushroom.csv")
+knn_results_filename = f"{DATA_DIR}/knn_{dataset_name}.csv"
+knn_reduction_results_filename = f"{DATA_DIR}/knn_reduction_{dataset_name}.csv"
+svm_results_filename = f"{DATA_DIR}/svm_{dataset_name}.csv"
+
+knn_results = pd.read_csv(knn_results_filename)
+knn_reduction_results = pd.read_csv(knn_reduction_results_filename)
+svm_results = pd.read_csv(svm_results_filename)
 
 # %%
 fold_cols = [f'fold{i}' for i in range(1, 11)]
 
-for df in [knn_results_hepatitis, knn_reduction_results_hepatitis, svm_results_hepatitis]:
+for df in [knn_results, knn_reduction_results, svm_results]:
     df['mean_f1_score'] = df.loc[:, fold_cols].mean(axis=1)
     df['std_f1_score'] = df.loc[:, fold_cols].std(axis=1)
 
@@ -39,7 +47,7 @@ for df in [knn_results_hepatitis, knn_reduction_results_hepatitis, svm_results_h
 num_sample_options = [4, 8, 16]
 sample_types = ['linear', 'top']
 models = ['KNN', 'SVM', 'KNN-Reduction']
-dataframes = [knn_results_hepatitis, svm_results_hepatitis, knn_reduction_results_hepatitis]
+dataframes = [knn_results, svm_results, knn_reduction_results]
 data = []
 
 for sample_type, num_samples, (model, df) in itertools.product(sample_types, num_sample_options, zip(models, dataframes)):
@@ -72,31 +80,31 @@ plt.show()
 
 
 # %%
-fig = plot_independent_effects(knn_results_hepatitis, ['k', 'distance_func', 'voting_func', 'weighting_func'])
+fig = plot_independent_effects(knn_results, ['k', 'distance_func', 'voting_func', 'weighting_func'])
 fig.suptitle('Independent Effects of KNN Model Parameters on F1 Score', fontsize=16, fontweight='bold')
 fig.subplots_adjust(top=0.9)
-fig.savefig(f'{FIGURES_DIR}/independent_effects_KNN.png', dpi=300)
+fig.savefig(f'{FIGURES_DIR}/independent_effects_KNN_{dataset_name}.png', dpi=300)
 plt.show()
 
 
 # %%
-fig = plot_independent_effects(svm_results_hepatitis, ['C', 'kernel_type'])
+fig = plot_independent_effects(svm_results, ['C', 'kernel_type'])
 fig.suptitle('Independent Effects of SVM Model Parameters on F1 Score', fontsize=16, fontweight='bold')
 fig.subplots_adjust(top=0.85)
-fig.savefig(f'{FIGURES_DIR}/independent_effects_SVM.png', dpi=300)
+fig.savefig(f'{FIGURES_DIR}/independent_effects_SVM_{dataset_name}.png', dpi=300)
 plt.show()
 
 # %%
-fig = plot_interactions(knn_results_hepatitis, ['k', 'distance_func', 'voting_func', 'weighting_func'])
+fig = plot_interactions(knn_results, ['k', 'distance_func', 'voting_func', 'weighting_func'])
 fig.suptitle('Interaction Effects of KNN Model Parameters on F1 Score', fontsize=20, fontweight='bold')
 fig.subplots_adjust(top=0.95)
-fig.savefig(f'{FIGURES_DIR}/interaction_effects_KNN.png', dpi=300)
+fig.savefig(f'{FIGURES_DIR}/interaction_effects_KNN_{dataset_name}.png', dpi=300)
 plt.show()
 
 knn_col_names = ['k', 'distance_func', 'voting_func', 'weighting_func']
-top_values = get_top_values(knn_results_hepatitis, knn_col_names, num_to_select=2, models_to_consider=10)
+top_values = get_top_values(knn_results, knn_col_names, num_to_select=2, models_to_consider=10)
 
-models_with_top_values = get_models_with_top_values(knn_results_hepatitis, top_values)
+models_with_top_values = get_models_with_top_values(knn_results, top_values)
 
 
 # %%
@@ -109,7 +117,7 @@ nemenyi_results
 fig, ax = plt.subplots(figsize=(12, 12))
 sns.heatmap(nemenyi_results, fmt='.2f', annot=True, cmap='coolwarm', ax=ax, cbar=False)
 fig.suptitle('Nemenyi Test Results for KNN Models with Top Values', fontsize=20, fontweight='bold')
-fig.savefig(f'{FIGURES_DIR}/nemenyi_test_results_KNN.png', dpi=300)
+fig.savefig(f'{FIGURES_DIR}/nemenyi_test_results_KNN_{dataset_name}.png', dpi=300)
 plt.tight_layout()
 plt.show()
 
