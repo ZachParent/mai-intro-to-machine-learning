@@ -35,7 +35,7 @@ knn_reduction_results = pd.read_csv(knn_reduction_results_filename)
 svm_results = pd.read_csv(svm_results_filename)
 
 # %%
-fold_cols = [f'fold{i}' for i in range(1, 11)]
+fold_cols = [f'fold{i}' for i in range(10)]
 
 for df in [knn_results, knn_reduction_results, svm_results]:
     df['mean_f1_score'] = df.loc[:, fold_cols].mean(axis=1)

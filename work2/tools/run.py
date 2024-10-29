@@ -53,7 +53,7 @@ def run_svm(train_dfs: List[pd.DataFrame],
         columns=[
             "C",
             "kernel_type",
-            "fold1", "fold2", "fold3", "fold4", "fold5", "fold6", "fold7", "fold8", "fold9", "fold10"
+            "fold0", "fold1", "fold2", "fold3", "fold4", "fold5", "fold6", "fold7", "fold8", "fold9"
         ]
     )   
 
@@ -163,7 +163,7 @@ def run_knn(train_dfs: List[pd.DataFrame],
             "distance_func",
             "voting_func",
             "weighting_func",
-            "fold1", "fold2", "fold3", "fold4", "fold5", "fold6", "fold7", "fold8", "fold9", "fold10"
+            "fold0", "fold1", "fold2", "fold3", "fold4", "fold5", "fold6", "fold7", "fold8", "fold9"
         ]
     )
 
@@ -281,7 +281,7 @@ def run_reduced_knn(train_dfs: List[pd.DataFrame],
             "voting_func",
             "weighting_func",
             "reduction_func",
-            "fold1", "fold2", "fold3", "fold4", "fold5", "fold6", "fold7", "fold8", "fold9", "fold10"
+            "fold0", "fold1", "fold2", "fold3", "fold4", "fold5", "fold6", "fold7", "fold8", "fold9"
         ]
     )
 
