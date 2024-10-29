@@ -108,7 +108,9 @@ models_with_top_values = get_models_with_top_values(knn_results, top_values)
 
 
 # %%
-nemenyi_results = nemenyi_test(models_with_top_values, fold_cols)
+# results_for_nemenyi = 
+results_for_nemenyi = models_with_top_values
+nemenyi_results = nemenyi_test(results_for_nemenyi, fold_cols)
 nemenyi_results
 
 
@@ -121,7 +123,8 @@ fig.savefig(f'{FIGURES_DIR}/nemenyi_test_results_KNN_{dataset_name}.png', dpi=30
 plt.tight_layout()
 plt.show()
 
-analyze_parameters(models_with_top_values, nemenyi_results)
+# %%
+analyze_parameters(results_for_nemenyi, nemenyi_results)
 
-significant_pairs_df = get_significant_pairs(nemenyi_results, models_with_top_values)
+# significant_pairs_df = get_significant_pairs(nemenyi_results, results_for_nemenyi)
 
