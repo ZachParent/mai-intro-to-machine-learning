@@ -202,3 +202,33 @@ Mandatory reading: Statistical Comparisons of Classifiers over Multiple Data Set
 ```
 
 --------
+
+# 2024-10-29 S5 Practical
+
+* Sheena modified the reduction methods and reran
+  * GCNN
+  * ENNTH
+  * Drop3
+* The report is very important, 5/10 points. The code is 5/10 points.
+* We need to make it clear in the README.md how to run the code.
+  * This may include multiple scripts
+* The report should explain how we made decisions during the coding and analysis.
+
+### Statistical Analysis Explanation
+
+* ANOVA is suitable at times, but not for our case.
+  * Because it's parametric
+  * Explain with an excerpt from the slides
+* Friedman is suitable for our case.
+  * Compares the mean ranks of the models (not the accuracies themselves)
+  * Explain with an excerpt from the slides
+* Then we compute the post-hoc test
+  * Nemenyi is used for pairwise comparisons.
+  * Explain with an excerpt from the slides
+  * When ranking, it's important to ensure that ties are treated as 2.5, 2.5, insteado of 2, 3, e.g.
+* The whole bar is the CD. CD/2 is the half-width.
+  * If the CD/2 doesn't overlap, the difference is statistically significant.
+  * We should plot either the way in the reading, or with whisker plots.
+  * Section 4 onward is the important part (Empirical comparison of tests)
+    * Important to understand the tools, not the formulas
+
