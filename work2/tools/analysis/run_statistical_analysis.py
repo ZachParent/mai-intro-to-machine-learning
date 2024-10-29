@@ -9,16 +9,14 @@ import itertools
 import math
 import argparse
 from tools.analysis.statistical_analysis_tools import *
+import os
 
-plt.style.use('default')
+# %%
+# Get the directory containing the current script
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
-parser = argparse.ArgumentParser()
-parser.add_argument("--data_dir", type=str, default="data/per_fold_results")
-parser.add_argument("--figures_dir", type=str, default="reports/figures")
-args = parser.parse_args()
-
-DATA_DIR = args.data_dir
-FIGURES_DIR = args.figures_dir
+DATA_DIR = os.path.join(SCRIPT_DIR, "../../data/per_fold_results")
+FIGURES_DIR = os.path.join(SCRIPT_DIR, "../../reports/figures")
 
 # %%
 knn_results_hepatitis = pd.read_csv(f"{DATA_DIR}/knn_hepatitis.csv")
@@ -118,6 +116,4 @@ plt.show()
 analyze_parameters(models_with_top_values, nemenyi_results)
 
 significant_pairs_df = get_significant_pairs(nemenyi_results, models_with_top_values)
-
-
 
