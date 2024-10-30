@@ -106,39 +106,6 @@ top_values = get_top_values(knn_results, knn_col_names, num_to_select=2, models_
 
 models_with_top_values = get_models_with_top_values(knn_results, top_values)
 
-# %%
-def get_model_label(model_row):
-    k_map = {1: 'k1', 3: 'k3', 5: 'k5', 7: 'k7'}
-    distance_map = {'EuclideanDistance': 'Euc', 'ManhattanDistance': 'Man', 'ChebyshevDistance': 'Cheb'}
-    voting_map = {'MajorityClassVote': 'Maj', 'InverseDistanceWeightedVote': 'Dis', 'ShepardsWorkVote': 'Shp'}
-    weighting_map = {'EqualWeighting': 'Eq', 'InformationGainWeighting': 'Inf', 'ReliefFWeighting': 'Rlf'}
-    print(model_row)
-
-    return f"{k_map[model_row['k']]}{distance_map[model_row['distance_func']]}{voting_map[model_row['voting_func']]}{weighting_map[model_row['weighting_func']]}"
-
-# %%
-def get_ranked_folds(results_df, fold_cols):
-    rankings = results_df.copy()
-    # Calculate rankings for each fold
-    for fold in fold_cols:
-        fold_ranks = rankings[fold].rank(ascending=False, method='average')
-        rankings[fold] = fold_ranks
-    
-    return rankings
-
-def plot_ranked_folds(ax, ranked_folds_df, fold_cols):
-    
-    # Create boxplot for each fold
-    data_to_plot = np.array([ranked_folds_df.loc[:, col] for col in fold_cols])
-    print(data_to_plot)
-    ax.boxplot(data_to_plot)
-    
-    ax.set_xlabel('Models')
-    ax.set_xticklabels(ranked_folds_df.apply(get_model_label, axis=1), rotation=90)
-    ax.set_ylabel('Rank across folds')
-    ax.grid(True)
-    
-    return fig
 
 # %%
 knn_ranked_folds = get_ranked_folds(top_samples(knn_results, 32), fold_cols)

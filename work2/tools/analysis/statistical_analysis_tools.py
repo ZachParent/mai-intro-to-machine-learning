@@ -9,6 +9,14 @@ import math
 
 plt.style.use('default')
 
+def get_model_label(model_row):
+    k_map = {1: 'k1', 3: 'k3', 5: 'k5', 7: 'k7'}
+    distance_map = {'EuclideanDistance': 'Euc', 'ManhattanDistance': 'Man', 'ChebyshevDistance': 'Cheb'}
+    voting_map = {'MajorityClassVote': 'Maj', 'InverseDistanceWeightedVote': 'Dis', 'ShepardsWorkVote': 'Shp'}
+    weighting_map = {'EqualWeighting': 'Eq', 'InformationGainWeighting': 'Inf', 'ReliefFWeighting': 'Rlf'}
+
+    return f"{k_map[model_row['k']]}{distance_map[model_row['distance_func']]}{voting_map[model_row['voting_func']]}{weighting_map[model_row['weighting_func']]}"
+
 def friedman_test(df_with_f1_per_fold, fold_cols):
     results = {
         i: df_with_f1_per_fold.loc[i, fold_cols] for i in df_with_f1_per_fold.index
@@ -144,6 +152,24 @@ def plot_interactions(df, col_names):
     plt.tight_layout()
     return fig
 
+def get_ranked_folds(results_df, fold_cols):
+    rankings = results_df.copy()
+    # Calculate rankings for each fold
+    for fold in fold_cols:
+        fold_ranks = rankings[fold].rank(ascending=False, method='average')
+        rankings[fold] = fold_ranks
+    
+    return rankings
+
+def plot_ranked_folds(ax, ranked_folds_df, fold_cols):
+    data_to_plot = np.array([ranked_folds_df.loc[:, col] for col in fold_cols])
+    ax.boxplot(data_to_plot)
+    
+    ax.set_xlabel('Models')
+    ax.set_xticklabels(ranked_folds_df.apply(get_model_label, axis=1), rotation=90)
+    ax.set_ylabel('Rank across folds')
+    ax.grid(True)
+    
 def nemenyi_test(df_with_f1_per_fold, fold_cols):
     results = {
         i: df_with_f1_per_fold.loc[i, fold_cols] for i in df_with_f1_per_fold.index
