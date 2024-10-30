@@ -297,7 +297,8 @@ def run_reduced_knn(train_dfs: List[pd.DataFrame],
             "reduction_func",
             "f1_0", "f1_1", "f1_2", "f1_3", "f1_4", "f1_5", "f1_6", "f1_7", "f1_8", "f1_9",
             "train_time_0", "train_time_1", "train_time_2", "train_time_3", "train_time_4", "train_time_5", "train_time_6", "train_time_7", "train_time_8", "train_time_9",
-            "test_time_0", "test_time_1", "test_time_2", "test_time_3", "test_time_4", "test_time_5", "test_time_6", "test_time_7", "test_time_8", "test_time_9"
+            "test_time_0", "test_time_1", "test_time_2", "test_time_3", "test_time_4", "test_time_5", "test_time_6", "test_time_7", "test_time_8", "test_time_9",
+            "storage_0", "storage_1", "storage_2", "storage_3", "storage_4", "storage_5", "storage_6", "storage_7", "storage_8", "storage_9"
         ]
     )
 
@@ -317,6 +318,7 @@ def run_reduced_knn(train_dfs: List[pd.DataFrame],
         f1_scores = []
         train_times = []
         test_times = []
+        storages = []
         for train_df, test_df in zip(train_dfs, test_dfs):
             X_train = train_df.drop(columns=[class_columns_per_ds[dataset_name]])
             y_train = train_df[class_columns_per_ds[dataset_name]]
@@ -335,6 +337,7 @@ def run_reduced_knn(train_dfs: List[pd.DataFrame],
             f1_scores.append(f1_score(y_true, y_pred))
             train_times.append(train_time)
             test_times.append(test_time)
+            storages.append(storage)
             # Update totals
             total_train_time += train_time
             total_test_time += test_time
@@ -375,7 +378,8 @@ def run_reduced_knn(train_dfs: List[pd.DataFrame],
             reduction_func,
             *f1_scores,
             *train_times,
-            *test_times
+            *test_times,
+            *storages
         ]
 
     # Save the results for reduced KNN
