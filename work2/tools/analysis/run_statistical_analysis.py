@@ -19,7 +19,7 @@ DATA_DIR = os.path.join(SCRIPT_DIR, "../../data")
 FIGURES_DIR = os.path.join(SCRIPT_DIR, "../../reports/figures")
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--dataset_name", type=str, default="mushroom")
+parser.add_argument("--dataset_name", type=str, default="hepatitis")
 parser.add_argument("--f", type=str, default='')
 parser.add_argument("--verbose", '-v', action='store_true')
 args = parser.parse_args()
@@ -40,13 +40,14 @@ svm_results = pd.read_csv(svm_results_filename)
 # %%
 fold_cols = [f'fold{i}' for i in range(10)]
 
-for df in [knn_results, knn_reduction_results]:
-    df['model_label'] = df.apply(get_knn_model_label, axis=1)
-svm_results['model_label'] = svm_results.apply(get_svm_model_label, axis=1)
-
 for df in [knn_results, knn_reduction_results, svm_results]:
     df['mean_f1_score'] = df.loc[:, fold_cols].mean(axis=1)
     df['std_f1_score'] = df.loc[:, fold_cols].std(axis=1)
+    df.sort_values(by='mean_f1_score', ascending=False, inplace=True)
+
+knn_results['model_label'] = knn_results.apply(get_knn_model_label, axis=1)
+knn_reduction_results['model_label'] = knn_reduction_results.apply(get_knn_reduction_model_label, axis=1)
+svm_results['model_label'] = svm_results.apply(get_svm_model_label, axis=1)
 
 
 # %%
@@ -128,6 +129,16 @@ fig.savefig(f'{FIGURES_DIR}/ranked_folds_KNN_{dataset_name}.png', dpi=300)
 plt.show()
 
 # %%
+logging.info("Plotting ranked folds distribution for SVM models")
+svm_ranked_folds = get_ranked_folds(linear_sample(svm_results, 8), fold_cols)
+fig, ax = plt.subplots(figsize=(12, 6))
+plot_ranked_folds(ax, svm_ranked_folds, fold_cols)
+fig.suptitle(f'Ranked Folds Distribution for SVM Models for {dataset_name} dataset', fontsize=20, fontweight='bold')
+plt.tight_layout()
+fig.savefig(f'{FIGURES_DIR}/ranked_folds_SVM_{dataset_name}.png', dpi=300)
+plt.show()
+
+# %%
 logging.info("Running Nemenyi test for KNN models")
 results_for_nemenyi = linear_sample(knn_results, 8)
 nemenyi_results = nemenyi_test(results_for_nemenyi, fold_cols)
@@ -140,7 +151,7 @@ fig, ax = plt.subplots(figsize=(12, 12))
 model_labels = results_for_nemenyi['model_label']
 sns.heatmap(nemenyi_results, fmt='.2f', annot=True, cmap='coolwarm', ax=ax, cbar=False,
             xticklabels=model_labels, yticklabels=model_labels)
-fig.suptitle(f'Nemenyi Test Results for KNN Models with Top Values for {dataset_name} dataset', fontsize=20, fontweight='bold')
+fig.suptitle(f'Nemenyi Test Results for KNN Models for {dataset_name} dataset', fontsize=20, fontweight='bold')
 fig.savefig(f'{FIGURES_DIR}/nemenyi_test_results_KNN_{dataset_name}.png', dpi=300)
 plt.tight_layout()
 plt.show()

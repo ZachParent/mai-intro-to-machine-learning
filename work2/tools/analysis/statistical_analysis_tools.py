@@ -17,6 +17,11 @@ def get_knn_model_label(model_row):
 
     return f"{k_map[model_row['k']]}{distance_map[model_row['distance_func']]}{voting_map[model_row['voting_func']]}{weighting_map[model_row['weighting_func']]}"
 
+def get_knn_reduction_model_label(model_row):
+    reduction_map = {'control': 'Ctrl', 'GGCN': 'Ggcn', 'ENNTH': 'Ennth', 'Drop3': 'Drop3'}
+
+    return f"{reduction_map[model_row['reduction_func']]}{get_knn_model_label(model_row)}"
+
 def get_svm_model_label(model_row):
     c_map = {1: 'C1', 3: 'C3', 5: 'C5', 7: 'C7'}
     kernel_map = {'linear': 'Lin', 'rbf': 'Rbf', 'poly': 'Poly', 'sigmoid': 'Sig'}
@@ -118,6 +123,13 @@ def plot_interactions(df, col_names):
         axes = np.array([[axes[0]], [axes[1]]])
 
     for i, ((col_name1, col_name2), ax) in enumerate(zip(itertools.product(col_names, repeat=2), axes.flatten())):
+        # Skip plots above diagonal
+        row = i // len(col_names)
+        col = i % len(col_names)
+        if col > row:
+            ax.set_visible(False)
+            continue
+            
         if col_name1 == col_name2:
             # Diagonal plots: show distribution for single variable
             sns.boxplot(data=df, x=col_name1, y='mean_f1_score', ax=ax)
@@ -143,16 +155,18 @@ def plot_interactions(df, col_names):
             axes[i, 0].set_ylabel(col_names[i], fontsize=20, rotation=90)
         else:
             axes[i, 0].set_ylabel(col_names[i], fontsize=20, rotation=90)
-            axes[i, 0].set_yticks(np.arange(len(df[col_names[i]].unique())) + 0.5)
-            axes[i, 0].set_yticklabels(df[col_names[i]].unique(), rotation=15)
+            unique_vals = sorted(df[col_names[i]].unique()) if pd.api.types.is_numeric_dtype(df[col_names[i]]) else df[col_names[i]].unique()
+            axes[i, 0].set_yticks(np.arange(len(unique_vals)) + 0.5)
+            axes[i, 0].set_yticklabels(unique_vals, rotation=15)
 
     # Add column labels and x-ticks only on the bottom plots
     for j in range(num_cols):
+        unique_vals = sorted(df[col_names[j]].unique()) if pd.api.types.is_numeric_dtype(df[col_names[j]]) else df[col_names[j]].unique()
         if j == num_cols - 1:
-            axes[-1, j].set_xticks(np.arange(len(df[col_names[j]].unique())))
+            axes[-1, j].set_xticks(np.arange(len(unique_vals)))
         else:
-            axes[-1, j].set_xticks(np.arange(len(df[col_names[j]].unique())) + 0.5)
-        axes[-1, j].set_xticklabels(df[col_names[j]].unique(), rotation=15)
+            axes[-1, j].set_xticks(np.arange(len(unique_vals)) + 0.5)
+        axes[-1, j].set_xticklabels(unique_vals, rotation=15)
     
     plt.tight_layout()
     return fig
