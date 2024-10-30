@@ -12,9 +12,7 @@ from tools.analysis.statistical_analysis_tools import *
 import os
 
 # %%
-# Get the directory containing the current script
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-
 DATA_DIR = os.path.join(SCRIPT_DIR, "../../data/per_fold_results")
 FIGURES_DIR = os.path.join(SCRIPT_DIR, "../../reports/figures")
 
@@ -78,7 +76,7 @@ fig.suptitle('P-values vs Number of Samples for Different Models and Sampling Me
 plot_p_values_vs_num_samples(axes, p_values_df, models, sample_types, num_sample_options)
 
 plt.tight_layout()
-fig.savefig(f'{FIGURES_DIR}/p_values_vs_num_samples.png', dpi=300)
+fig.savefig(f'{FIGURES_DIR}/p_values_vs_num_samples_{dataset_name}.png', dpi=300)
 plt.show()
 
 
@@ -128,7 +126,9 @@ nemenyi_results
 # %%
 
 fig, ax = plt.subplots(figsize=(12, 12))
-sns.heatmap(nemenyi_results, fmt='.2f', annot=True, cmap='coolwarm', ax=ax, cbar=False)
+model_labels = results_for_nemenyi['model_label']
+sns.heatmap(nemenyi_results, fmt='.2f', annot=True, cmap='coolwarm', ax=ax, cbar=False,
+            xticklabels=model_labels, yticklabels=model_labels)
 fig.suptitle('Nemenyi Test Results for KNN Models with Top Values', fontsize=20, fontweight='bold')
 fig.savefig(f'{FIGURES_DIR}/nemenyi_test_results_KNN_{dataset_name}.png', dpi=300)
 plt.tight_layout()
