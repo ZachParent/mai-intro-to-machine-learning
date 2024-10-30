@@ -130,8 +130,8 @@ def plot_ranked_folds(ax, ranked_folds_df, fold_cols):
     return fig
 
 # %%
-knn_ranked_folds = get_ranked_folds(top_samples(knn_results, 16), fold_cols)
-fig, ax = plt.subplots(figsize=(12, 12))
+knn_ranked_folds = get_ranked_folds(top_samples(knn_results, 32), fold_cols)
+fig, ax = plt.subplots(figsize=(12, 6))
 plot_ranked_folds(ax, knn_ranked_folds, fold_cols)
 fig.suptitle('Ranked Folds Distribution for KNN Models', fontsize=20, fontweight='bold')
 plt.tight_layout()
