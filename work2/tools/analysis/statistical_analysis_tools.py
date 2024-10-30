@@ -9,13 +9,19 @@ import math
 
 plt.style.use('default')
 
-def get_model_label(model_row):
+def get_knn_model_label(model_row):
     k_map = {1: 'k1', 3: 'k3', 5: 'k5', 7: 'k7'}
     distance_map = {'EuclideanDistance': 'Euc', 'ManhattanDistance': 'Man', 'ChebyshevDistance': 'Cheb'}
     voting_map = {'MajorityClassVote': 'Maj', 'InverseDistanceWeightedVote': 'Dis', 'ShepardsWorkVote': 'Shp'}
     weighting_map = {'EqualWeighting': 'Eq', 'InformationGainWeighting': 'Inf', 'ReliefFWeighting': 'Rlf'}
 
     return f"{k_map[model_row['k']]}{distance_map[model_row['distance_func']]}{voting_map[model_row['voting_func']]}{weighting_map[model_row['weighting_func']]}"
+
+def get_svm_model_label(model_row):
+    c_map = {1: 'C1', 3: 'C3', 5: 'C5', 7: 'C7'}
+    kernel_map = {'linear': 'Lin', 'rbf': 'Rbf', 'poly': 'Poly', 'sigmoid': 'Sig'}
+
+    return f"{c_map[model_row['C']]}{kernel_map[model_row['kernel_type']]}"
 
 def friedman_test(df_with_f1_per_fold, fold_cols):
     results = {
@@ -46,13 +52,12 @@ def get_p_values_df(model_results_dfs, models=['KNN', 'SVM', 'KNN-Reduction'], n
             'num_samples': num_samples,
             'sample_type': sample_type,
             'p_value': p_value,
-            'significant': p_value < 0.05
         })
 
     return pd.DataFrame(data)
 
 # TODO: only plot one point for KNN-Reduction
-def plot_p_values_vs_num_samples(axes, p_values_df, models, sample_types, num_sample_options):
+def plot_p_values_vs_num_samples(axes, p_values_df, models, sample_types, num_sample_options, alpha=0.05):
     for idx, model in enumerate(models):
         model_data = p_values_df[p_values_df['model'] == model]
         
@@ -63,12 +68,12 @@ def plot_p_values_vs_num_samples(axes, p_values_df, models, sample_types, num_sa
             axes[idx].plot(data['num_samples'], data['p_value'], marker='o', label=f"{sample_type} sampling")
             
             # Scatter significant points (green circle)
-            significant = data[data['significant']]
+            significant = data[data['p_value'] < alpha]
             axes[idx].scatter(significant['num_samples'], significant['p_value'], 
                             color='green', marker='o', s=100, zorder=3)
             
             # Scatter non-significant points (red x)
-            non_significant = data[~data['significant']]
+            non_significant = data[data['p_value'] >= alpha]
             axes[idx].scatter(non_significant['num_samples'], non_significant['p_value'], 
                             color='red', marker='x', s=100, zorder=3)
         
@@ -79,7 +84,7 @@ def plot_p_values_vs_num_samples(axes, p_values_df, models, sample_types, num_sa
         axes[idx].set_xscale('log')  # Log scale for x-axis
         axes[idx].set_xticks(num_sample_options)
         axes[idx].set_xticklabels(num_sample_options)
-        axes[idx].axhline(y=0.05, color='r', linestyle='--', alpha=0.5, label='Significance Threshold')  # Add significance threshold line
+        axes[idx].axhline(y=alpha, color='r', linestyle='--', alpha=0.5, label='Significance Threshold')  # Add significance threshold line
         axes[idx].grid(True)
         axes[idx].legend()
 
@@ -166,7 +171,7 @@ def plot_ranked_folds(ax, ranked_folds_df, fold_cols):
     ax.boxplot(data_to_plot)
     
     ax.set_xlabel('Models')
-    ax.set_xticklabels(ranked_folds_df.apply(get_model_label, axis=1), rotation=90)
+    ax.set_xticklabels(ranked_folds_df['model_label'], rotation=90)
     ax.set_ylabel('Rank across folds')
     ax.grid(True)
     

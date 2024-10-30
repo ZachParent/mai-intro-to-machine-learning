@@ -37,10 +37,13 @@ svm_results = pd.read_csv(svm_results_filename)
 # %%
 fold_cols = [f'fold{i}' for i in range(10)]
 
+for df in [knn_results, knn_reduction_results]:
+    df['model_label'] = df.apply(get_knn_model_label, axis=1)
+svm_results['model_label'] = svm_results.apply(get_svm_model_label, axis=1)
+
 for df in [knn_results, knn_reduction_results, svm_results]:
     df['mean_f1_score'] = df.loc[:, fold_cols].mean(axis=1)
     df['std_f1_score'] = df.loc[:, fold_cols].std(axis=1)
-
 
 
 # %%
@@ -108,7 +111,7 @@ models_with_top_values = get_models_with_top_values(knn_results, top_values)
 
 
 # %%
-knn_ranked_folds = get_ranked_folds(top_samples(knn_results, 32), fold_cols)
+knn_ranked_folds = get_ranked_folds(linear_sample(knn_results, 8), fold_cols)
 fig, ax = plt.subplots(figsize=(12, 6))
 plot_ranked_folds(ax, knn_ranked_folds, fold_cols)
 fig.suptitle('Ranked Folds Distribution for KNN Models', fontsize=20, fontweight='bold')
@@ -117,8 +120,7 @@ fig.savefig(f'{FIGURES_DIR}/ranked_folds_KNN_{dataset_name}.png', dpi=300)
 plt.show()
 
 # %%
-# results_for_nemenyi = 
-results_for_nemenyi = models_with_top_values
+results_for_nemenyi = linear_sample(knn_results, 8)
 nemenyi_results = nemenyi_test(results_for_nemenyi, fold_cols)
 nemenyi_results
 
