@@ -53,7 +53,9 @@ def run_svm(train_dfs: List[pd.DataFrame],
         columns=[
             "C",
             "kernel_type",
-            "fold0", "fold1", "fold2", "fold3", "fold4", "fold5", "fold6", "fold7", "fold8", "fold9"
+            "f1_0", "f1_1", "f1_2", "f1_3", "f1_4", "f1_5", "f1_6", "f1_7", "f1_8", "f1_9",
+            "train_time_0", "train_time_1", "train_time_2", "train_time_3", "train_time_4", "train_time_5", "train_time_6", "train_time_7", "train_time_8", "train_time_9",
+            "test_time_0", "test_time_1", "test_time_2", "test_time_3", "test_time_4", "test_time_5", "test_time_6", "test_time_7", "test_time_8", "test_time_9"
         ]
     )   
 
@@ -69,6 +71,8 @@ def run_svm(train_dfs: List[pd.DataFrame],
         y_trues_all, y_preds_all = [], []
         total_train_time, total_test_time = 0.0, 0.0
         f1_scores = []
+        train_times = []
+        test_times = []
 
         # Cross-validate
         for train_df, test_df in zip(train_dfs, test_dfs):
@@ -83,6 +87,8 @@ def run_svm(train_dfs: List[pd.DataFrame],
             # Update totals
             total_train_time += train_time
             total_test_time += test_time
+            train_times.append(train_time)
+            test_times.append(test_time)
 
             # Collect true labels and predictions
             y_trues_all.extend(y_true)
@@ -111,7 +117,9 @@ def run_svm(train_dfs: List[pd.DataFrame],
         per_fold_results.loc[len(per_fold_results)] = [
             C,
             kernel_type,
-            *f1_scores
+            *f1_scores,
+            *train_times,
+            *test_times
         ]
 
     # Save the results for SVM
@@ -163,7 +171,9 @@ def run_knn(train_dfs: List[pd.DataFrame],
             "distance_func",
             "voting_func",
             "weighting_func",
-            "fold0", "fold1", "fold2", "fold3", "fold4", "fold5", "fold6", "fold7", "fold8", "fold9"
+            "f1_0", "f1_1", "f1_2", "f1_3", "f1_4", "f1_5", "f1_6", "f1_7", "f1_8", "f1_9",
+            "train_time_0", "train_time_1", "train_time_2", "train_time_3", "train_time_4", "train_time_5", "train_time_6", "train_time_7", "train_time_8", "train_time_9",
+            "test_time_0", "test_time_1", "test_time_2", "test_time_3", "test_time_4", "test_time_5", "test_time_6", "test_time_7", "test_time_8", "test_time_9"
         ]
     )
 
@@ -189,11 +199,13 @@ def run_knn(train_dfs: List[pd.DataFrame],
         logging.debug(
             f"Running KNN: [weighting_func={weighting_func.__class__.__name__}, distance_func={distance_func.__class__.__name__}, voting_func={voting_func.__class__.__name__}, k={k}]")
 
-        y_trues_list, y_preds_list, train_time, test_time = cross_validate(knn, train_dfs, test_dfs, class_columns_per_ds[dataset_name])
+        y_trues_list, y_preds_list, train_times, test_times = cross_validate(knn, train_dfs, test_dfs, class_columns_per_ds[dataset_name])
         f1_scores = [f1_score(y_trues, y_preds) for y_trues, y_preds in zip(y_trues_list, y_preds_list)]
         
         y_trues = np.concatenate(y_trues_list)
         y_preds = np.concatenate(y_preds_list)
+        train_time = np.sum(train_times)
+        test_time = np.sum(test_times)
 
         # Compute confusion matrix and accuracy
         cm = confusion_matrix(y_trues, y_preds)
@@ -220,7 +232,9 @@ def run_knn(train_dfs: List[pd.DataFrame],
             distance_func.__class__.__name__,
             voting_func.__class__.__name__,
             weighting_func.__class__.__name__,
-            *f1_scores
+            *f1_scores,
+            *train_times,
+            *test_times
         ]
 
         # Store best configuration instance
@@ -281,7 +295,9 @@ def run_reduced_knn(train_dfs: List[pd.DataFrame],
             "voting_func",
             "weighting_func",
             "reduction_func",
-            "fold0", "fold1", "fold2", "fold3", "fold4", "fold5", "fold6", "fold7", "fold8", "fold9"
+            "f1_0", "f1_1", "f1_2", "f1_3", "f1_4", "f1_5", "f1_6", "f1_7", "f1_8", "f1_9",
+            "train_time_0", "train_time_1", "train_time_2", "train_time_3", "train_time_4", "train_time_5", "train_time_6", "train_time_7", "train_time_8", "train_time_9",
+            "test_time_0", "test_time_1", "test_time_2", "test_time_3", "test_time_4", "test_time_5", "test_time_6", "test_time_7", "test_time_8", "test_time_9"
         ]
     )
 
@@ -299,6 +315,8 @@ def run_reduced_knn(train_dfs: List[pd.DataFrame],
         y_trues_all, y_preds_all = [], []
         total_train_time, total_test_time, total_storage = 0.0, 0.0, 0
         f1_scores = []
+        train_times = []
+        test_times = []
         for train_df, test_df in zip(train_dfs, test_dfs):
             X_train = train_df.drop(columns=[class_columns_per_ds[dataset_name]])
             y_train = train_df[class_columns_per_ds[dataset_name]]
@@ -315,6 +333,8 @@ def run_reduced_knn(train_dfs: List[pd.DataFrame],
                                                                                 X_test,
                                                                                 y_test)
             f1_scores.append(f1_score(y_true, y_pred))
+            train_times.append(train_time)
+            test_times.append(test_time)
             # Update totals
             total_train_time += train_time
             total_test_time += test_time
@@ -322,7 +342,7 @@ def run_reduced_knn(train_dfs: List[pd.DataFrame],
             # Collect true labels and predictions
             y_trues_all.extend(y_true)
             y_preds_all.extend(y_pred)
-            logging.debug(f"Reduced training data storage: {len(X_train_reduced)} / {len(X_train)}. Took {train_time} seconds to train and {test_time} seconds to test.")
+            logging.debug(f"Reduced training data storage: {len(X_train_reduced)} / {len(X_train)}. Took {np.sum(train_times)} seconds to train and {np.sum(test_times)} seconds to test.")
 
         # Compute confusion matrix and accuracy
         cm = confusion_matrix(y_trues_all, y_preds_all)
@@ -353,7 +373,9 @@ def run_reduced_knn(train_dfs: List[pd.DataFrame],
             best_voting_func.__class__.__name__,
             best_weighting_func.__class__.__name__,
             reduction_func,
-            *f1_scores
+            *f1_scores,
+            *train_times,
+            *test_times
         ]
 
     # Save the results for reduced KNN

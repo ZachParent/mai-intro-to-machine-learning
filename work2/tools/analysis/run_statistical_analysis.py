@@ -43,11 +43,11 @@ knn_reduction_results = pd.read_csv(knn_reduction_results_filename)
 svm_results = pd.read_csv(svm_results_filename)
 
 # %%
-fold_cols = [f"fold{i}" for i in range(10)]
+f1_cols = [f"f1_{i}" for i in range(10)]
 
 for df in [knn_results, knn_reduction_results, svm_results]:
-    df["mean_f1_score"] = df.loc[:, fold_cols].mean(axis=1)
-    df["std_f1_score"] = df.loc[:, fold_cols].std(axis=1)
+    df["mean_f1_score"] = df.loc[:, f1_cols].mean(axis=1)
+    df["std_f1_score"] = df.loc[:, f1_cols].std(axis=1)
     df.sort_values(by="mean_f1_score", ascending=False, inplace=True)
 
 knn_results["model_label"] = knn_results.apply(get_knn_model_label, axis=1)
@@ -70,7 +70,7 @@ for sample_type, num_samples, (model, df) in itertools.product(
 ):
     sample_func = linear_sample if sample_type == "linear" else top_samples
 
-    p_value = friedman_test(sample_func(df, num_samples), fold_cols)[1]
+    p_value = friedman_test(sample_func(df, num_samples), f1_cols)[1]
     data.append(
         {
             "model": model,
@@ -150,9 +150,9 @@ models_with_top_values = get_models_with_top_values(knn_results, top_values)
 
 # %%
 logging.info("Plotting ranked folds distribution for KNN models")
-knn_ranked_folds = get_ranked_folds(linear_sample(knn_results, 8), fold_cols)
+knn_ranked_folds = get_ranked_folds(linear_sample(knn_results, 8), f1_cols)
 fig, ax = plt.subplots(figsize=(12, 6))
-plot_ranked_folds(ax, knn_ranked_folds, fold_cols)
+plot_ranked_folds(ax, knn_ranked_folds, f1_cols)
 fig.suptitle(
     f"Ranked Folds Distribution for KNN Models for {dataset_name} dataset",
     fontsize=20,
@@ -164,9 +164,9 @@ plt.show()
 
 # %%
 logging.info("Plotting ranked folds distribution for SVM models")
-svm_ranked_folds = get_ranked_folds(linear_sample(svm_results, 8), fold_cols)
+svm_ranked_folds = get_ranked_folds(linear_sample(svm_results, 8), f1_cols)
 fig, ax = plt.subplots(figsize=(12, 6))
-plot_ranked_folds(ax, svm_ranked_folds, fold_cols)
+plot_ranked_folds(ax, svm_ranked_folds, f1_cols)
 fig.suptitle(
     f"Ranked Folds Distribution for SVM Models for {dataset_name} dataset",
     fontsize=20,
@@ -179,7 +179,7 @@ plt.show()
 # %%
 logging.info("Running Nemenyi test for KNN models")
 results_for_nemenyi = linear_sample(knn_results, 8)
-nemenyi_results = nemenyi_test(results_for_nemenyi, fold_cols)
+nemenyi_results = nemenyi_test(results_for_nemenyi, f1_cols)
 nemenyi_results
 
 
