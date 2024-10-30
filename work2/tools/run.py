@@ -128,6 +128,15 @@ def run_svm(train_dfs: List[pd.DataFrame],
     cross_validated_results.to_csv(cross_validated_results_file_path, index=False)
     per_fold_results_file_path = os.path.join(DATA_DIR, "per_fold_results", f'{file_name}.csv')
     per_fold_results.to_csv(per_fold_results_file_path, index=False)
+    # TODO(Sheena): return the best config instance
+
+# TODO(Sheena): fill this function to run reduced SVM
+def run_reduced_svm(train_dfs: Dict[str, List[pd.DataFrame]], 
+                    test_dfs: List[pd.DataFrame], 
+                    dataset_name: str, 
+                    class_columns_per_ds: Dict[str, str],
+                    best_config_instance: Dict[str, any]) -> None:
+    pass
 
 def run_knn(train_dfs: List[pd.DataFrame], 
             test_dfs: List[pd.DataFrame], 
@@ -139,7 +148,7 @@ def run_knn(train_dfs: List[pd.DataFrame],
     Run KNN classification with various parameter configurations.
     """
     # Define CM for MahalanobisDistance
-    # TODO: fix this for MahalanobisDistance
+    # TODO(Sheena): fix this for MahalanobisDistance
     # covariance_matrix = np.cov(train_dfs[0].drop(columns=[class_columns_per_ds[dataset_name]]).apply(pd.to_numeric, errors='coerce'),
     #                         rowvar=False)
 
@@ -255,6 +264,32 @@ def run_knn(train_dfs: List[pd.DataFrame],
 
     return best_config_instance, weights
 
+def generate_reduced_knn_datasets(train_dfs: List[pd.DataFrame], 
+                                  dataset_name: str, 
+                                  class_columns_per_ds: Dict[str, str], 
+                                  best_config_instance: Dict[str, any], 
+                                  weights: Dict[str, np.ndarray]) -> List[pd.DataFrame]:
+    """
+    Generate reduced KNN datasets for each reduction technique.
+    """
+    best_k = best_config_instance["k"]
+    best_distance_func = best_config_instance["distance_func"]
+    best_voting_func = best_config_instance["voting_func"]
+    best_weighting_func = best_config_instance["weighting_func"]
+
+    reduction_funcs = {"control": lambda x, y, z, s: (x, y), "GGCN": GCNN, "ENNTH":ENNTH, "Drop3": drop3}
+    # TODO(Sheena): run the reduction func for each train_df, using the KNN params provided
+
+    # TODO(Sheena): save the reduced datasets in data dir as data/reduced/{dataset_name}_reduced_by_{reduction_func}.csv
+
+    # TODO(Sheena): return the reduced datasets (4 methods x 10 folds), should be 40 dataframes
+    # {'control': [train0, train1, train3, ...],
+    # 'GGCN': [train0, train1, train3, ...],
+    # 'ENNTH': [train0, train1, train3, ...],
+    # 'Drop3': [train0, train1, train3, ...]}
+    pass
+
+# TODO(Sheena): pass in the reduced datasets
 def run_reduced_knn(train_dfs: List[pd.DataFrame], 
                     test_dfs: List[pd.DataFrame], 
                     dataset_name: str, 
@@ -435,6 +470,7 @@ def run():
     # ========== SVM ==========
 
     logging.info("Running SVM...")
+    # TODO(Sheena): store the best config instance
     run_svm(train_dfs, test_dfs, dataset_name, class_columns_per_ds)
 
     # ========== KNN ==========
@@ -442,10 +478,18 @@ def run():
     logging.info("Running KNN...")
     best_config_instance, weights = run_knn(train_dfs, test_dfs, dataset_name, class_columns_per_ds, full_data_X, full_data_y)
 
+    # === Generate Reduced Datasets ===
+
+    # TODO(Sheena): generate reduced datasets
+
     # ========== Reduced KNN ==========
 
     logging.info("Running reduced KNN...")
+    # TODO(Sheena): pass in the reduced datasets
     run_reduced_knn(train_dfs, test_dfs, dataset_name, class_columns_per_ds, best_config_instance, weights)
+
+    # ========== Reduced SVM ==========
+    # TODO(Sheena): run reduced SVM with the best config instance
 
     logging.info(f"Finished in {time.time() - start_time} seconds")
 
