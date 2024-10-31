@@ -1,0 +1,16 @@
+\begin{table}
+\centering
+\caption{Significant Differences in KNN Models}
+\label{tab:knn_significant_pairs_hepatitis}
+\begin{tabular}{rlllr}
+\toprule
+K & Distance Func & Voting Func & Weighting Func & Mean F1 \\
+\midrule
+1 & ManhattanDistance & MajorityClassVote & EqualWeighting & 0.969 \\
+1 & EuclideanDistance & ShepardsWorkVote & EqualWeighting & 0.969 \\
+5 & ManhattanDistance & ShepardsWorkVote & InformationGainWeighting & 0.884 \\
+5 & ChebyshevDistance & InverseDistanceWeightedVote & InformationGainWeighting & 0.884 \\
+7 & EuclideanDistance & MajorityClassVote & InformationGainWeighting & 0.884 \\
+\bottomrule
+\end{tabular}
+\end{table}
