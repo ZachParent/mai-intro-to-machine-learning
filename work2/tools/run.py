@@ -285,7 +285,7 @@ def run_reduced_svm(
             y_test = test_df[class_columns_per_ds[dataset_name]]
 
             X_train_reduced = reduced_data_X[reduction_func][i]
-            y_train_reduced = reduced_data_y[reduction_func][i]
+            y_train_reduced = reduced_data_y[reduction_func][i].values.ravel()
 
             storage = len(X_train_reduced)
 
