@@ -70,22 +70,22 @@ def get_svm_model_label(model_row):
     return f"{c_map[model_row['C']]}{kernel_map[model_row['kernel_type']]}"
 
 
-def friedman_test(df_with_f1_per_fold, fold_cols):
-    results = {i: df_with_f1_per_fold.loc[i, fold_cols] for i in df_with_f1_per_fold.index}
+def friedman_test(df_with_folds, fold_cols):
+    results = {i: df_with_folds.loc[i, fold_cols] for i in df_with_folds.index}
     f1_df = pd.DataFrame(results)
     statistic, p_value = stats.friedmanchisquare(*[f1_df[k] for k in f1_df])
     return statistic, p_value
 
 
-def linear_sample(df_with_f1_per_fold, num_samples=8):
-    num_samples = min(num_samples, len(df_with_f1_per_fold))
-    samples_indices = np.linspace(0, len(df_with_f1_per_fold) - 1, num_samples, dtype=int)
-    return df_with_f1_per_fold.loc[samples_indices, :]
+def linear_sample(df_with_folds, num_samples=8):
+    num_samples = min(num_samples, len(df_with_folds))
+    samples_indices = np.linspace(0, len(df_with_folds) - 1, num_samples, dtype=int)
+    return df_with_folds.loc[samples_indices, :]
 
 
-def top_samples(df_with_f1_per_fold, num_samples=8):
-    num_samples = min(num_samples, len(df_with_f1_per_fold))
-    return df_with_f1_per_fold.sort_values(by="mean_f1_score", ascending=False).head(num_samples)
+def top_samples(df_with_folds, num_samples=8):
+    num_samples = min(num_samples, len(df_with_folds))
+    return df_with_folds.sort_values(by="mean_f1_score", ascending=False).head(num_samples)
 
 
 def get_p_values_df(
