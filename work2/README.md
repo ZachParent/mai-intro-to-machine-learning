@@ -41,6 +41,7 @@ project/
 ```
 
 ## Setup and Installation
+Note: these commands are to be ran from the root directory.
 
 ### Using Make (Recommended)
 The easiest way to get started is using our Makefile commands:
