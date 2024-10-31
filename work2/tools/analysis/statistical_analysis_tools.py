@@ -329,10 +329,10 @@ def get_models_with_top_values(df, top_values):
     return result
 
 
-def analyze_parameters(df, nemenyi_results, alpha=0.05):
+def analyze_parameters(df, nemenyi_results, x_cols, alpha=0.05):
     # 1. Main Effects Analysis
     print("=== Main Effects ===")
-    for param in ["k", "weighting_func", "voting_func", "distance_func"]:
+    for param in x_cols:
         means = df.groupby(param)["mean_f1_score"].mean()
         print(f"\n{param} effects:")
         print(means)
@@ -340,20 +340,17 @@ def analyze_parameters(df, nemenyi_results, alpha=0.05):
     # 2. Interaction Analysis
     print("\n=== Parameter Interactions ===")
     interactions = (
-        df.groupby(["k", "weighting_func", "voting_func", "distance_func"])["mean_f1_score"]
-        .mean()
-        .unstack()
+        df.groupby(x_cols)["mean_f1_score"].mean().unstack()
     )
     print(interactions)
 
     # 3. Find Best Combinations
     best_combos = df.nlargest(3, "mean_f1_score")
     print("\n=== Top 3 Parameter Combinations ===")
-    print(best_combos[["k", "weighting_func", "voting_func", "distance_func", "mean_f1_score"]])
+    print(best_combos[x_cols + ["mean_f1_score"]])
 
     # 4. Statistical Significance Summary
     print("\n=== Significant Differences ===")
-    alpha = 0.05
     significant_pairs = []
     for i in nemenyi_results.index:
         for j in nemenyi_results.columns:
@@ -364,15 +361,14 @@ def analyze_parameters(df, nemenyi_results, alpha=0.05):
         print(f"{pair[0]} vs {pair[1]}: p={pair[2]:.4f}")
 
 
-def get_significant_pairs(nemenyi_results, models_with_top_values, alpha=0.05):
+def get_significant_pairs(nemenyi_results, alpha=0.05):
 
     significant_pairs = []
-    for i in nemenyi_results.index:
-        for j in nemenyi_results.columns:
-            if i < j and nemenyi_results.loc[i, j] < alpha:
-                significant_pairs.append((i, j, nemenyi_results.loc[i, j]))
+    for i in range(len(nemenyi_results)):
+        for j in range(i+1, len(nemenyi_results)):
+            if nemenyi_results.iloc[i, j] < alpha:
+                significant_pairs.append((i, j, nemenyi_results.iloc[i, j]))
+    return significant_pairs
 
-    significant_pairs_df = models_with_top_values.iloc[
-        list(set(np.array([[pair[0], pair[1]] for pair in significant_pairs]).flatten()))
-    ]
-    return significant_pairs_df
+def get_df_pairs(df, pairs):
+    return df.iloc[list(set(np.array([[pair[0], pair[1]] for pair in pairs]).flatten()))]
