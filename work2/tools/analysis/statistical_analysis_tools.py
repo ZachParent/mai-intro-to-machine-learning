@@ -83,9 +83,9 @@ def linear_sample(df_with_folds, num_samples=8):
     return df_with_folds.loc[samples_indices, :]
 
 
-def top_samples(df_with_folds, num_samples=8):
+def top_samples(df_with_folds, num_samples=8, by='mean_f1'):
     num_samples = min(num_samples, len(df_with_folds))
-    return df_with_folds.sort_values(by="mean_f1_score", ascending=False).head(num_samples)
+    return df_with_folds.sort_values(by=by, ascending=False).head(num_samples)
 
 
 def get_p_values_df(
@@ -171,7 +171,7 @@ def plot_p_values_vs_num_samples(
     axes[len(axes) // 2].set_xlabel("Number of Samples")
 
 
-def plot_independent_effects(df, x_cols, y_cols=["mean_f1_score"]):
+def plot_independent_effects(df, x_cols, y_cols=["mean_f1"]):
     cols = len(x_cols) * len(y_cols)
     fig, axes = plt.subplots(1, cols, figsize=(5*cols, 5))
 
@@ -222,11 +222,11 @@ def plot_interactions(df, col_names):
 
         if col_name1 == col_name2:
             # Diagonal plots: show distribution for single variable
-            custom_boxplot(ax, df.groupby(col_name1)["mean_f1_score"].apply(list))
+            custom_boxplot(ax, df.groupby(col_name1)["mean_f1"].apply(list))
         else:
             # Off-diagonal plots: show interaction between variables
             pivot_table = df.pivot_table(
-                values="mean_f1_score", index=col_name1, columns=col_name2, aggfunc="mean"
+                values="mean_f1", index=col_name1, columns=col_name2, aggfunc="mean"
             )
             sns.heatmap(
                 pivot_table,
@@ -308,7 +308,7 @@ def get_top_values(df, col_names, num_to_select=2, models_to_consider=10):
     top_values = {}
 
     for col_name in col_names:
-        best_scoring_models = df.sort_values(by="mean_f1_score", ascending=False).head(
+        best_scoring_models = df.sort_values(by="mean_f1", ascending=False).head(
             models_to_consider
         )
         top_values[col_name] = (
@@ -324,30 +324,60 @@ def get_models_with_top_values(df, top_values):
         & df["distance_func"].isin(top_values["distance_func"])
         & df["voting_func"].isin(top_values["voting_func"])
         & df["weighting_func"].isin(top_values["weighting_func"])
-    ].sort_values(by="mean_f1_score", ascending=False)
+    ].sort_values(by="mean_f1", ascending=False)
     result.reset_index(drop=True, inplace=True)
     return result
 
+def expand_data_per_fold(df, x_col='model', metrics=['f1', 'train_time', 'test_time']):
+    """Reshape data to have one row per fold"""
+    expanded_data = []
+    
+    for _, row in df.iterrows():
+        model = row[x_col]
+        for i in range(10):
+            fold_data = {x_col: model, 'fold': i}
+            for metric in metrics:
+                fold_data[metric] = row[f'{metric}_{i}']
+            expanded_data.append(fold_data)
+            
+    return pd.DataFrame(expanded_data)
+
+def plot_metrics_comparison(axs, df_by_fold, x_col='model'):
+    """Create comparison plots for each metric"""
+    titles = ['F1 Score', 'Train Time', 'Test Time']
+    metrics = ['f1', 'train_time', 'test_time']
+
+    for i, (title, metric) in enumerate(zip(titles, metrics)):
+        data = [df_by_fold[df_by_fold[x_col] == x_col_op][metric].values 
+                for x_col_op in df_by_fold[x_col].unique()]
+        custom_boxplot(axs[i], data)
+        axs[i].set_xticklabels(df_by_fold[x_col].unique())
+        axs[i].set_title(title)
+        axs[i].set_xlabel('Model', fontsize=12, fontweight='bold')
+        if i == 0:
+            axs[i].set_ylabel('F1 Score', fontsize=12, fontweight='bold')
+        else:
+            axs[i].set_ylabel('Time (seconds)', fontsize=12, fontweight='bold')
 
 def analyze_parameters(df, nemenyi_results, x_cols, alpha=0.05):
     # 1. Main Effects Analysis
     print("=== Main Effects ===")
     for param in x_cols:
-        means = df.groupby(param)["mean_f1_score"].mean()
+        means = df.groupby(param)["mean_f1"].mean()
         print(f"\n{param} effects:")
         print(means)
 
     # 2. Interaction Analysis
     print("\n=== Parameter Interactions ===")
     interactions = (
-        df.groupby(x_cols)["mean_f1_score"].mean().unstack()
+        df.groupby(x_cols)["mean_f1"].mean().unstack()
     )
     print(interactions)
 
     # 3. Find Best Combinations
-    best_combos = df.nlargest(3, "mean_f1_score")
+    best_combos = df.nlargest(3, "mean_f1")
     print("\n=== Top 3 Parameter Combinations ===")
-    print(best_combos[x_cols + ["mean_f1_score"]])
+    print(best_combos[x_cols + ["mean_f1"]])
 
     # 4. Statistical Significance Summary
     print("\n=== Significant Differences ===")

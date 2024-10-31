@@ -52,9 +52,9 @@ knn_col_names = ["k", "distance_func", "voting_func", "weighting_func"]
 svm_col_names = ["C", "kernel_type"]
 
 for df in [knn_results, knn_reduction_results, svm_results]:
-    df["mean_f1_score"] = df.loc[:, f1_cols].mean(axis=1)
-    df["std_f1_score"] = df.loc[:, f1_cols].std(axis=1)
-    df.sort_values(by="mean_f1_score", ascending=False, inplace=True)
+    for metric_col in ['f1', 'train_time', 'test_time']:
+        df[f"mean_{metric_col}"] = df.loc[:, [f"{metric_col}_{i}" for i in range(10)]].mean(axis=1)
+    df.sort_values(by=f"mean_f1", ascending=False, inplace=True)
 
 knn_results["model_label"] = knn_results.apply(get_knn_model_label, axis=1)
 knn_reduction_results["model_label"] = knn_reduction_results.apply(
@@ -215,7 +215,7 @@ plt.show()
 logging.info("Analyzing Nemenyi test results for KNN models")
 analyze_parameters(knn_results_for_nemenyi, knn_nemenyi_results, knn_col_names)
 significant_pairs = get_significant_pairs(knn_nemenyi_results)
-significant_pairs_df = get_df_pairs(knn_results_for_nemenyi, significant_pairs).loc[:, knn_col_names + ["mean_f1_score"]]
+significant_pairs_df = get_df_pairs(knn_results_for_nemenyi, significant_pairs).loc[:, knn_col_names + ["mean_f1"]]
 significant_pairs_df = format_column_names(significant_pairs_df)
 write_latex_table(significant_pairs_df, f"{TABLES_DIR}/knn_significant_pairs_{dataset_name}.tex", "Significant Differences in KNN Models")
 
@@ -263,7 +263,6 @@ write_latex_table(significant_pairs_df, f"{TABLES_DIR}/svm_significant_pairs_{da
 
 best_svm_model = svm_results.iloc[0, :]
 best_knn_model = knn_results.iloc[0, :]
-# best_svm_model_f1_scores = best_svm_model[f1_cols]
 knn_svm_f1_p_value = stats.wilcoxon(best_svm_model[f1_cols].to_list(), best_knn_model[f1_cols].to_list()).pvalue
 knn_svm_train_time_p_value = stats.wilcoxon(best_svm_model[train_time_cols].to_list(), best_knn_model[train_time_cols].to_list()).pvalue
 knn_svm_test_time_p_value = stats.wilcoxon(best_svm_model[test_time_cols].to_list(), best_knn_model[test_time_cols].to_list()).pvalue
@@ -282,41 +281,24 @@ best_knn_and_svm = pd.DataFrame(
 )
 best_knn_and_svm
 # %%
-# Reshape data for plotting
-expanded_data = []
-for _, row in best_knn_and_svm.iterrows():
-    model = row['model']
-    for i in range(10):
-        expanded_data.append({
-            'model': model,
-            'fold': i,
-            'f1': row[f'f1_{i}'],
-            'train_time': row[f'train_time_{i}'],
-            'test_time': row[f'test_time_{i}']
-        })
-        
-best_knn_and_svm_by_fold = pd.DataFrame(expanded_data)
+# Expand and plot the data
+best_knn_and_svm_by_fold = expand_data_per_fold(best_knn_and_svm)
 
-# Create subplots
-fig, axs = plt.subplots(1, 3, figsize=(15, 5))
-titles = ['F1 Score', 'Train Time', 'Test Time']
-metrics = ['f1', 'train_time', 'test_time']
-
-# Plot each metric
-for i, (title, metric) in enumerate(zip(titles, metrics)):
-    data = [best_knn_and_svm_by_fold[best_knn_and_svm_by_fold['model'] == model][metric].values 
-            for model in ['KNN', 'SVM']]
-    custom_boxplot(axs[i], data)
-    axs[i].set_xticklabels(['KNN', 'SVM'])
-    axs[i].set_title(title)
-    axs[i].set_xlabel('Model')
-    if i == 0:
-        axs[i].set_ylabel('F1 Score')
-    else:
-        axs[i].set_ylabel('Time (seconds)')
-
-plt.suptitle(f'Model Comparison for {dataset_name} dataset', y=1.05)
+fig, axs = plt.subplots(1, 3, figsize=(15, 5))  
+plot_metrics_comparison(axs, best_knn_and_svm_by_fold)
+plt.suptitle(f'Model Comparison for {dataset_name} dataset', fontsize=20, fontweight='bold')
 plt.tight_layout()
 fig.savefig(f"{FIGURES_DIR}/model_comparison_{dataset_name}.png", dpi=300)
 plt.show()
+# %%
+# Calculate means for each metric across folds
+best_knn_and_svm['mean_f1'] = best_knn_and_svm[f1_cols].mean(axis=1)
+best_knn_and_svm['mean_train_time'] = best_knn_and_svm[train_time_cols].mean(axis=1)
+best_knn_and_svm['mean_test_time'] = best_knn_and_svm[test_time_cols].mean(axis=1)
+
+# Now group by model and get means
+best_knn_and_svm_summary = best_knn_and_svm.loc[:, ['model', 'mean_f1', 'mean_train_time', 'mean_test_time']]
+best_knn_and_svm_summary.rename(columns=lambda x: x.replace("_", " ").title() + (" (s)" if "time" in x else ""), inplace=True)
+best_knn_and_svm_summary
+write_latex_table(best_knn_and_svm_summary, f"{TABLES_DIR}/best_knn_and_svm_summary_{dataset_name}.tex", "Best KNN and SVM Models", precision=6)
 # %%
