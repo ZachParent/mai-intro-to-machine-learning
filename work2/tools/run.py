@@ -491,7 +491,7 @@ def run_knn(
         ]
 
         # Store best configuration instance
-        if best_config_instance is None or accuracy > cross_validated_results["accuracy"].max():
+        if best_config_instance is None or f1 > cross_validated_results["f1"].max():
             best_config_instance = {
                 "k": k,
                 "distance_func": distance_func,  # Save the instance
@@ -704,7 +704,7 @@ def run_reduced_knn(
             X_test = test_df.drop(columns=[class_columns_per_ds[dataset_name]])
             y_test = test_df[class_columns_per_ds[dataset_name]]
 
-            y_train_reduced = pd.Series(reduced_data_y[reduction_func][i].values.flatten())
+            y_train_reduced = pd.Series(reduced_data_y[reduction_func][i].values.ravel())
             X_train_reduced = reduced_data_X[reduction_func][i]
 
             storage = len(X_train_reduced)
