@@ -4,7 +4,9 @@ This markdown file outlines the requirements, project structure and how to run t
 
 ## Requirements
 
-- Virtual environment with Python version 3.9
+- Python version 3.9
+- Make utility installed
+- Git (for cloning the repository)
 
 ## Project Structure
 
@@ -38,37 +40,51 @@ project/
 └── setup.cfg
 ```
 
-## Basic Usage
-To run one dataset:
+## Setup and Installation
+
+### Using Make (Recommended)
+The easiest way to get started is using our Makefile commands:
+
+1. Set up the complete environment and run the project:
+```bash
+make run
+```
+
+This command will: 
+- Create a virtual environment
+- Install all requirements
+- Format the code
+- Prepare the project for running
+- Ensure the environment is created
+- Run both datasets (mushroom and hepatitis) through the main analysis
+- Run statistical analysis for both datasets
+- Run dataset analysis
+- Save results in the appropriate directories
+
+
+## Manual Usage
+To run one dataset manually:
 `python tools/run.py --dataset_name [mushroom|hepatitis]`
 
 To perform statistical analysis:
-`python tools/analysis/run_statistical_analysis.py`
+`python tools/analysis/run_statistical_analysis.py --dataset_name[mushroom|hepatitis]`
 
-## Command Line Options
+**Command Line Options**
 - `--dataset_name`: Choose dataset (required)
     - `mushroom`: Use mushroom dataset
     - `hepatitis`: Use hepatitis dataset
 - `--verbose`, `-v`: Enable verbose output
 - `--sample`, `-s`: Limit sample size (e.g., -s 1000)
 
-## Example Commands
-TODO: verify these commands
+### Example Commands
 *Basic run with mushroom dataset*
-python run.py --dataset_name mushroom
+python tools/run.py --dataset_name mushroom
 
 *Run hepatitis dataset with verbose output*
-python run.py --dataset_name hepatitis -v
+python tools/run.py --dataset_name hepatitis -v
 
 *Run mushroom dataset with limited samples*
-python run.py --dataset_name mushroom -s 1000
+python tools/run.py --dataset_name mushroom -s 1000
 
 *Combined options: verbose and sample size*
-python run.py --dataset_name hepatitis --verbose --sample 200
-
-# All at once
-We employ the use of a `Makefile` for the purpose of streamlining the process of running this project.
-
-Simply run this following command in the terminal window:
-
-`COMMAND TO BE DONE`
+python tools/run.py --dataset_name hepatitis --verbose --sample 200
