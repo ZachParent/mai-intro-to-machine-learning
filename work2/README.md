@@ -2,6 +2,12 @@
 
 This markdown file outlines the requirements, project structure and how to run this project.
 
+## Authors
+- Kacper Poniatowski
+- Zachary Parent
+- Sheena Lang
+- Carlos Jiménez Farfán 🐍
+
 ## Requirements
 
 - Python version 3.9
@@ -23,6 +29,7 @@ project/
 │   ├── analysis/
 |   |   ├── __init__.py
 |   |   ├── run_statistical_analysis.py
+|   |   ├── run_dataset_analysis.py
 |   |   ├── statistical_analysis_tools.py
 │   ├── __init__.py
 │   ├── distance.py
@@ -34,7 +41,6 @@ project/
 │   └── weighting.py
 ├── requirements.txt
 └── README.md
-└── HOW_TO_RUN.md (may be combined with README.md)
 └── Makefile
 └── pyproject.toml
 └── setup.cfg
