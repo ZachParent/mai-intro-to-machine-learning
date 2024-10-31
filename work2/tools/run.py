@@ -142,6 +142,12 @@ def run_svm(
         accuracy = accuracy_score(y_trues_all, y_preds_all)
         f1 = f1_score(y_trues_all, y_preds_all)
 
+        if best_config_instance is None or f1 > cross_validated_results["f1"].max():
+            best_config_instance = {
+                "C": C,
+                "kernel_type": kernel_type,  # Save the instance
+            }
+
         # Append the results
         cross_validated_results.loc[len(cross_validated_results)] = [
             C,
@@ -163,11 +169,7 @@ def run_svm(
             *test_times,
         ]
 
-        if best_config_instance is None or accuracy > cross_validated_results["accuracy"].max():
-            best_config_instance = {
-                "C": C,
-                "kernel_type": kernel_type,  # Save the instance
-            }
+
 
     # Save the results for SVM
     file_name = f"svm_{dataset_name}"
