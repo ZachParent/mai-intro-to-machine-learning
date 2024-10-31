@@ -222,7 +222,7 @@ Mandatory reading: Statistical Comparisons of Classifiers over Multiple Data Set
 * Friedman is suitable for our case.
   * Compares the mean ranks of the models (not the accuracies themselves)
   * Explain with an excerpt from the slides
-* Then we compute the post-hoc test
+* Then we compute the post-hoc test/
   * Nemenyi is used for pairwise comparisons.
   * Explain with an excerpt from the slides
   * When ranking, it's important to ensure that ties are treated as 2.5, 2.5, insteado of 2, 3, e.g.
@@ -242,7 +242,7 @@ Mandatory reading: Statistical Comparisons of Classifiers over Multiple Data Set
 * Zach to check information gain weighting functions
 * Carlos to check reduction techniques
   * Make the reduction data use sums for each metric
-* Carlos to write theory on statistical analysis
+* Carlos to write theory on statistical analysis  
 * Carlos to write about reduction for SVM
 * Kacper to write up about statistical analysis results
 * Sheena to implement reduction techniques for SVM
