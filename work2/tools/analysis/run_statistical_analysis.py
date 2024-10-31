@@ -14,6 +14,7 @@ import logging
 
 # %%
 from pypalettes import load_cmap
+
 alexandrite = load_cmap("Alexandrite")
 emrld = load_cmap("Emrld", reverse=True)
 

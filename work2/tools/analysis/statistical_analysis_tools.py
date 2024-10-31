@@ -130,7 +130,7 @@ def plot_p_values_vs_num_samples(
                 data["p_value"],
                 marker="o",
                 label=f"{sample_type} sampling",
-                color=alexandrite(0.3 if sample_type == "linear" else 0.6)
+                color=alexandrite(0.3 if sample_type == "linear" else 0.6),
             )
 
             # Scatter significant points (green circle)
@@ -173,7 +173,7 @@ def plot_p_values_vs_num_samples(
 
 def plot_independent_effects(df, x_cols, y_cols=["mean_f1_score"]):
     cols = len(x_cols) * len(y_cols)
-    fig, axes = plt.subplots(1, cols, figsize=(5*cols, 5))
+    fig, axes = plt.subplots(1, cols, figsize=(5 * cols, 5))
 
     for ax, (x_col, y_col) in zip(axes.flatten(), itertools.product(x_cols, y_cols)):
         # Sort unique values if numeric
@@ -190,8 +190,8 @@ def plot_independent_effects(df, x_cols, y_cols=["mean_f1_score"]):
         ax.set_xticks(positions)
         ax.set_xticklabels(unique_vals, rotation=15)
 
-        x_col_label = x_col.replace("_", " ").capitalize() 
-        y_col_label = y_col.replace("_", " ").capitalize() + ('(s)' if 'time' in y_col else '')
+        x_col_label = x_col.replace("_", " ").capitalize()
+        y_col_label = y_col.replace("_", " ").capitalize() + ("(s)" if "time" in y_col else "")
         ax.set_title(f"{y_col_label} vs {x_col_label}", fontsize=16, fontweight="bold")
         ax.set_ylabel(y_col_label, fontsize=14, fontweight="bold")
         ax.set_xlabel(x_col_label, fontsize=14, fontweight="bold")

@@ -4,11 +4,13 @@ from sklearn.feature_selection import mutual_info_classif
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn_relief import ReliefF  # Assuming you're using ReliefF from sklearn-relief package
 
+
 class WeightingMethod(BaseEstimator, TransformerMixin):
     """
     Abstract base class for feature weighting methods.
     All subclasses should implement the `fit` and `get_weights` methods.
     """
+
     def __init__(self):
         pass
 
@@ -18,10 +20,12 @@ class WeightingMethod(BaseEstimator, TransformerMixin):
     def get_weights(self):
         raise NotImplementedError("Subclasses should implement this method!")
 
+
 class InformationGainWeighting(WeightingMethod):
     """
     Feature weighting using Information Gain (Mutual Information).
     """
+
     def __init__(self):
         super().__init__()
         self.weights_ = None
@@ -35,10 +39,12 @@ class InformationGainWeighting(WeightingMethod):
     def get_weights(self):
         return self.weights_
 
+
 class EqualWeighting(WeightingMethod):
     """
     Feature weighting using equal weights for all features.
     """
+
     def __init__(self):
         super().__init__()
         self.weights_ = None

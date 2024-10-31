@@ -10,6 +10,7 @@ from tools.preprocess import load_datasets
 
 plt.style.use("default")
 
+
 def load_data():
     SCRIPT_DIR = os.path.dirname(__file__)
     DATA_DIR = os.path.join(SCRIPT_DIR, "../../data")
@@ -29,6 +30,7 @@ def load_data():
     full_hepatitis_df = pd.concat([hepatitis_train_dfs[0], hepatitis_test_dfs[0]])
 
     return full_mushroom_df, full_hepatitis_df, REPORTS_DIR
+
 
 def plot_dataset_partitions(full_mushroom_df, full_hepatitis_df, REPORTS_DIR):
     hepatitis_die_count = len(full_hepatitis_df[full_hepatitis_df["Class"] == "DIE"])
@@ -112,10 +114,11 @@ def plot_dataset_partitions(full_mushroom_df, full_hepatitis_df, REPORTS_DIR):
     plt.tight_layout()
     fig.savefig(f"{REPORTS_DIR}/figures/dataset-partitions.png", dpi=300)
 
+
 def plot_hepatitis_distribution(full_hepatitis_df, REPORTS_DIR):
     hepatitis_die_count = len(full_hepatitis_df[full_hepatitis_df["Class"] == "DIE"])
     hepatitis_live_count = len(full_hepatitis_df[full_hepatitis_df["Class"] == "LIVE"])
-    
+
     data = {"Live": hepatitis_live_count, "Die": hepatitis_die_count}
     repartition = [f"{k} ({round(v / sum(data.values()) * 100)}%)" for k, v in data.items()]
 
@@ -141,10 +144,11 @@ def plot_hepatitis_distribution(full_hepatitis_df, REPORTS_DIR):
     plt.tight_layout()
     fig.savefig(f"{REPORTS_DIR}/figures/hepatitis-class-distribution.png", dpi=300)
 
+
 def plot_mushroom_distribution(full_mushroom_df, REPORTS_DIR):
     mushroom_poisonous_count = len(full_mushroom_df[full_mushroom_df["class"] == "p"])
     mushroom_edible_count = len(full_mushroom_df[full_mushroom_df["class"] == "e"])
-    
+
     data = {"Edible": mushroom_edible_count, "Poisonous": mushroom_poisonous_count}
     repartition = [f"{k} ({round(v / sum(data.values()) * 100)}%)" for k, v in data.items()]
 
@@ -169,6 +173,7 @@ def plot_mushroom_distribution(full_mushroom_df, REPORTS_DIR):
     )
     plt.tight_layout()
     fig.savefig(f"{REPORTS_DIR}/figures/mushroom-class-distribution.png", dpi=300)
+
 
 # Load data and generate plots
 # %%

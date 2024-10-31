@@ -56,7 +56,7 @@ class ShepardsWorkVote(VotingFunc):
         """
         class_weights = {}
         for distance, class_label in zip(distances, classes):
-            weight = np.exp(-distance ** 2)  # Exponential decay based on squared distance
+            weight = np.exp(-(distance**2))  # Exponential decay based on squared distance
             class_weights[class_label] = class_weights.get(class_label, 0) + weight
 
         # Return the class with the highest accumulated weight
