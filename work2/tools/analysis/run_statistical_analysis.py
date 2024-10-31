@@ -297,7 +297,7 @@ best_knn_and_svm['mean_train_time'] = best_knn_and_svm[train_time_cols].mean(axi
 best_knn_and_svm['mean_test_time'] = best_knn_and_svm[test_time_cols].mean(axis=1)
 
 # Now group by model and get means
-best_knn_and_svm_summary = best_knn_and_svm.loc[:, ['model', 'mean_f1', 'mean_train_time', 'mean_test_time']]
+best_knn_and_svm_summary = best_knn_and_svm.loc[:, ['model', 'mean_f1', 'mean_train_time', 'mean_test_time']].copy()
 best_knn_and_svm_summary.rename(columns=lambda x: x.replace("_", " ").title() + (" (s)" if "time" in x else ""), inplace=True)
 best_knn_and_svm_summary
 write_latex_table(best_knn_and_svm_summary, f"{TABLES_DIR}/best_knn_and_svm_summary_{dataset_name}.tex", "Best KNN and SVM Models", precision=6)
