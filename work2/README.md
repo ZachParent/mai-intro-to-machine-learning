@@ -53,6 +53,7 @@ To perform statistical analysis:
 - `--sample`, `-s`: Limit sample size (e.g., -s 1000)
 
 ## Example Commands
+TODO: verify these commands
 *Basic run with mushroom dataset*
 python run.py --dataset_name mushroom
 
