@@ -56,6 +56,7 @@ pytz==2024.2
 pywaffle==1.1.1
 pyzmq==26.2.0
 scikit-learn==1.5.2
+scikit_posthocs==0.7.0
 scipy==1.13.1
 seaborn==0.13.2
 six==1.16.0
