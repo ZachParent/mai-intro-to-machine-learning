@@ -46,6 +46,8 @@ svm_results = pd.read_csv(svm_results_filename)
 
 # %%
 f1_cols = [f"f1_{i}" for i in range(10)]
+train_time_cols = [f"train_time_{i}" for i in range(10)]
+test_time_cols = [f"test_time_{i}" for i in range(10)]
 knn_col_names = ["k", "distance_func", "voting_func", "weighting_func"]
 svm_col_names = ["C", "kernel_type"]
 
@@ -257,4 +259,64 @@ significant_pairs = get_significant_pairs(svm_nemenyi_results)
 significant_pairs_df = get_df_pairs(svm_results_for_nemenyi, significant_pairs)
 significant_pairs_df = format_column_names(significant_pairs_df)
 write_latex_table(significant_pairs_df, f"{TABLES_DIR}/svm_significant_pairs_{dataset_name}.tex", "Significant Differences in SVM Models")
+# %%
+
+best_svm_model = svm_results.iloc[0, :]
+best_knn_model = knn_results.iloc[0, :]
+# best_svm_model_f1_scores = best_svm_model[f1_cols]
+knn_svm_f1_p_value = stats.wilcoxon(best_svm_model[f1_cols].to_list(), best_knn_model[f1_cols].to_list()).pvalue
+knn_svm_train_time_p_value = stats.wilcoxon(best_svm_model[train_time_cols].to_list(), best_knn_model[train_time_cols].to_list()).pvalue
+knn_svm_test_time_p_value = stats.wilcoxon(best_svm_model[test_time_cols].to_list(), best_knn_model[test_time_cols].to_list()).pvalue
+svm_knn_comparison_df = pd.DataFrame({
+    "metric": ["F1 Score", "Train Time", "Test Time"],
+    "p_value": [knn_svm_f1_p_value, knn_svm_train_time_p_value, knn_svm_test_time_p_value]
+})
+svm_knn_comparison_df
+# %%
+metric_cols_array = np.array([f1_cols, train_time_cols, test_time_cols])
+all_metric_cols = metric_cols_array.flatten().tolist()
+best_knn_and_svm = pd.DataFrame(
+    [['KNN'] + best_knn_model[all_metric_cols].to_list(),
+    ['SVM'] + best_svm_model[all_metric_cols].to_list()],
+    columns=['model'] + all_metric_cols
+)
+best_knn_and_svm
+# %%
+# Reshape data for plotting
+expanded_data = []
+for _, row in best_knn_and_svm.iterrows():
+    model = row['model']
+    for i in range(10):
+        expanded_data.append({
+            'model': model,
+            'fold': i,
+            'f1': row[f'f1_{i}'],
+            'train_time': row[f'train_time_{i}'],
+            'test_time': row[f'test_time_{i}']
+        })
+        
+best_knn_and_svm_by_fold = pd.DataFrame(expanded_data)
+
+# Create subplots
+fig, axs = plt.subplots(1, 3, figsize=(15, 5))
+titles = ['F1 Score', 'Train Time', 'Test Time']
+metrics = ['f1', 'train_time', 'test_time']
+
+# Plot each metric
+for i, (title, metric) in enumerate(zip(titles, metrics)):
+    data = [best_knn_and_svm_by_fold[best_knn_and_svm_by_fold['model'] == model][metric].values 
+            for model in ['KNN', 'SVM']]
+    custom_boxplot(axs[i], data)
+    axs[i].set_xticklabels(['KNN', 'SVM'])
+    axs[i].set_title(title)
+    axs[i].set_xlabel('Model')
+    if i == 0:
+        axs[i].set_ylabel('F1 Score')
+    else:
+        axs[i].set_ylabel('Time (seconds)')
+
+plt.suptitle(f'Model Comparison for {dataset_name} dataset', y=1.05)
+plt.tight_layout()
+fig.savefig(f"{FIGURES_DIR}/model_comparison_{dataset_name}.png", dpi=300)
+plt.show()
 # %%
