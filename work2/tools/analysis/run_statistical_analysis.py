@@ -301,4 +301,59 @@ best_knn_and_svm_summary = best_knn_and_svm.loc[:, ['model', 'mean_f1', 'mean_tr
 best_knn_and_svm_summary.rename(columns=lambda x: x.replace("_", " ").title() + (" (s)" if "time" in x else ""), inplace=True)
 best_knn_and_svm_summary
 write_latex_table(best_knn_and_svm_summary, f"{TABLES_DIR}/best_knn_and_svm_summary_{dataset_name}.tex", "Best KNN and SVM Models", precision=6)
+
+# %%
+logging.basicConfig(level=logging.INFO)
+dataset_name = 'hepatitis'
+
+# %%
+storage_cols = [f"storage_{i}" for i in range(10)]
+knn_reduction_results['mean_storage'] = knn_reduction_results[storage_cols].mean(axis=1)
+
+knn_results["model_label"] = knn_results.apply(get_knn_model_label, axis=1)
+knn_reduction_results["model_label"] = knn_reduction_results.apply(
+    get_knn_reduction_model_label, axis=1
+)
+svm_results["model_label"] = svm_results.apply(get_svm_model_label, axis=1)
+
+
+# %%
+metric_cols_map = {
+    "Storage": storage_cols,
+    "Training Time (s)": train_time_cols,
+    "Testing Time (s)": test_time_cols,
+    "F1 Score": f1_cols
+}
+
+fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+for (metric_a, metric_b), ax in zip([("Storage", "Training Time (s)"), ("Storage", "Testing Time (s)"), ("Training Time (s)", "F1 Score")], axes):
+
+    for idx in knn_reduction_results.index:
+        metric_a_values = knn_reduction_results.loc[idx, metric_cols_map[metric_a]].values   
+        metric_b_values = knn_reduction_results.loc[idx, metric_cols_map[metric_b]].values
+        ax.scatter(metric_a_values, metric_b_values, alpha=0.6, label=knn_reduction_results.loc[idx, "reduction_func"])
+    ax.set_title(f"{metric_b} vs {metric_a}", fontsize=16, fontweight="bold")
+    ax.set_xlabel(metric_a, fontsize=14, fontweight="bold")
+    ax.set_ylabel(metric_b, fontsize=14, fontweight="bold")
+    ax.legend()
+fig.suptitle(f'Distribution of Metrics for KNN Reduction Models', fontsize=20, fontweight="bold")
+plt.tight_layout()
+plt.show()
+
+# %%
+friedman_test(knn_reduction_results, train_time_cols)
+
+# %%
+expanded_reduction_results = expand_data_per_fold(
+    knn_reduction_results,
+    'reduction_func',
+    ['f1', 'train_time', 'test_time', 'storage']
+)
+
+fig = plot_independent_effects(expanded_reduction_results, ["reduction_func"], y_cols=["f1","train_time", "test_time", "storage"])
+fig.suptitle(f'Effects of KNN Reduction methods for {dataset_name} dataset', fontsize=20, fontweight='bold')
+plt.tight_layout()
+plt.subplots_adjust(top=0.85)
+fig.savefig(f"{FIGURES_DIR}/KNN_reduction_effects_{dataset_name}.png", dpi=300)
+plt.show()
 # %%
