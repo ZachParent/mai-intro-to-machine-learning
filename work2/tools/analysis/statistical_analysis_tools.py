@@ -83,7 +83,7 @@ def linear_sample(df_with_folds, num_samples=8):
     return df_with_folds.loc[samples_indices, :]
 
 
-def top_samples(df_with_folds, num_samples=8, by='mean_f1'):
+def top_samples(df_with_folds, num_samples=8, by="mean_f1"):
     num_samples = min(num_samples, len(df_with_folds))
     return df_with_folds.sort_values(by=by, ascending=False).head(num_samples)
 
@@ -130,7 +130,7 @@ def plot_p_values_vs_num_samples(
                 data["p_value"],
                 marker="o",
                 label=f"{sample_type} sampling",
-                color=alexandrite(0.3 if sample_type == "linear" else 0.6)
+                color=alexandrite(0.3 if sample_type == "linear" else 0.6),
             )
 
             # Scatter significant points (green circle)
@@ -173,7 +173,7 @@ def plot_p_values_vs_num_samples(
 
 def plot_independent_effects(df, x_cols, y_cols=["mean_f1"]):
     cols = len(x_cols) * len(y_cols)
-    fig, axes = plt.subplots(1, cols, figsize=(5*cols, 5))
+    fig, axes = plt.subplots(1, cols, figsize=(5 * cols, 5))
 
     for ax, (x_col, y_col) in zip(axes.flatten(), itertools.product(x_cols, y_cols)):
         # Sort unique values if numeric
@@ -190,8 +190,8 @@ def plot_independent_effects(df, x_cols, y_cols=["mean_f1"]):
         ax.set_xticks(positions)
         ax.set_xticklabels(unique_vals, rotation=15)
 
-        x_col_label = x_col.replace("_", " ").capitalize() 
-        y_col_label = y_col.replace("_", " ").capitalize() + ('(s)' if 'time' in y_col else '')
+        x_col_label = x_col.replace("_", " ").capitalize()
+        y_col_label = y_col.replace("_", " ").capitalize() + ("(s)" if "time" in y_col else "")
         ax.set_title(f"{y_col_label} vs {x_col_label}", fontsize=16, fontweight="bold")
         ax.set_ylabel(y_col_label, fontsize=14, fontweight="bold")
         ax.set_xlabel(x_col_label, fontsize=14, fontweight="bold")
@@ -328,36 +328,41 @@ def get_models_with_top_values(df, top_values):
     result.reset_index(drop=True, inplace=True)
     return result
 
-def expand_data_per_fold(df, x_col='model', metrics=['f1', 'train_time', 'test_time']):
+
+def expand_data_per_fold(df, x_col="model", metrics=["f1", "train_time", "test_time"]):
     """Reshape data to have one row per fold"""
     expanded_data = []
-    
+
     for _, row in df.iterrows():
         model = row[x_col]
         for i in range(10):
-            fold_data = {x_col: model, 'fold': i}
+            fold_data = {x_col: model, "fold": i}
             for metric in metrics:
-                fold_data[metric] = row[f'{metric}_{i}']
+                fold_data[metric] = row[f"{metric}_{i}"]
             expanded_data.append(fold_data)
-            
+
     return pd.DataFrame(expanded_data)
 
-def plot_metrics_comparison(axs, df_by_fold, x_col='model'):
+
+def plot_metrics_comparison(axs, df_by_fold, x_col="model"):
     """Create comparison plots for each metric"""
-    titles = ['F1 Score', 'Train Time', 'Test Time']
-    metrics = ['f1', 'train_time', 'test_time']
+    titles = ["F1 Score", "Train Time", "Test Time"]
+    metrics = ["f1", "train_time", "test_time"]
 
     for i, (title, metric) in enumerate(zip(titles, metrics)):
-        data = [df_by_fold[df_by_fold[x_col] == x_col_op][metric].values 
-                for x_col_op in df_by_fold[x_col].unique()]
+        data = [
+            df_by_fold[df_by_fold[x_col] == x_col_op][metric].values
+            for x_col_op in df_by_fold[x_col].unique()
+        ]
         custom_boxplot(axs[i], data)
         axs[i].set_xticklabels(df_by_fold[x_col].unique())
         axs[i].set_title(title)
-        axs[i].set_xlabel('Model', fontsize=12, fontweight='bold')
+        axs[i].set_xlabel("Model", fontsize=12, fontweight="bold")
         if i == 0:
-            axs[i].set_ylabel('F1 Score', fontsize=12, fontweight='bold')
+            axs[i].set_ylabel("F1 Score", fontsize=12, fontweight="bold")
         else:
-            axs[i].set_ylabel('Time (seconds)', fontsize=12, fontweight='bold')
+            axs[i].set_ylabel("Time (seconds)", fontsize=12, fontweight="bold")
+
 
 def analyze_parameters(df, nemenyi_results, x_cols, alpha=0.05):
     # 1. Main Effects Analysis
@@ -369,9 +374,7 @@ def analyze_parameters(df, nemenyi_results, x_cols, alpha=0.05):
 
     # 2. Interaction Analysis
     print("\n=== Parameter Interactions ===")
-    interactions = (
-        df.groupby(x_cols)["mean_f1"].mean().unstack()
-    )
+    interactions = df.groupby(x_cols)["mean_f1"].mean().unstack()
     print(interactions)
 
     # 3. Find Best Combinations
@@ -395,10 +398,11 @@ def get_significant_pairs(nemenyi_results, alpha=0.05):
 
     significant_pairs = []
     for i in range(len(nemenyi_results)):
-        for j in range(i+1, len(nemenyi_results)):
+        for j in range(i + 1, len(nemenyi_results)):
             if nemenyi_results.iloc[i, j] < alpha:
                 significant_pairs.append((i, j, nemenyi_results.iloc[i, j]))
     return significant_pairs
+
 
 def get_df_pairs(df, pairs):
     return df.iloc[list(set(np.array([[pair[0], pair[1]] for pair in pairs]).flatten()))]

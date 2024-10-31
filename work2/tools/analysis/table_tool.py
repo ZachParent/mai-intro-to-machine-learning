@@ -1,8 +1,10 @@
 import os
 
+
 def format_column_names(df):
-    df.rename(columns=lambda x: x.replace('_', ' ').title(), inplace=True)
+    df.copy().rename(columns=lambda x: x.replace("_", " ").title(), inplace=True)
     return df
+
 
 def write_latex_table(df, filename, caption, precision=3):
     label = os.path.splitext(os.path.basename(filename))[0]
@@ -13,10 +15,11 @@ def write_latex_table(df, filename, caption, precision=3):
         precision=precision,
     )
     s.hide(level=0, axis=0)
-    latex_table = s.to_latex(position_float="centering",
-                             multicol_align="|c|",
-                             hrules=True,
-                             label=f"tab:{label}",
-                             )
+    latex_table = s.to_latex(
+        position_float="centering",
+        multicol_align="|c|",
+        hrules=True,
+        label=f"tab:{label}",
+    )
     with open(filename, "w") as f:
         f.write(latex_table)
