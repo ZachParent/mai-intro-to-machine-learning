@@ -171,17 +171,30 @@ def plot_p_values_vs_num_samples(
     axes[len(axes) // 2].set_xlabel("Number of Samples")
 
 
-def plot_independent_effects(df, col_names):
-    rows = math.ceil(len(col_names) / 2)
-    fig, axes = plt.subplots(rows, 2, figsize=(10, 4 * rows))
+def plot_independent_effects(df, x_cols, y_cols=["mean_f1_score"]):
+    cols = len(x_cols) * len(y_cols)
+    fig, axes = plt.subplots(1, cols, figsize=(5*cols, 5))
 
-    for ax, col_name in zip(axes.flatten(), col_names):
-        custom_boxplot(ax, df.groupby(col_name)["mean_f1_score"].apply(list))
-        ax.set_xticks(ax.get_xticks())
-        ax.set_xticklabels(ax.get_xticklabels(), rotation=15)
-        ax.set_title(f"Effect of {col_name}")
-        ax.set_ylabel("Mean F1 Score")
-        ax.set_xlabel("")
+    for ax, (x_col, y_col) in zip(axes.flatten(), itertools.product(x_cols, y_cols)):
+        # Sort unique values if numeric
+        unique_vals = df[x_col].unique()
+        if np.issubdtype(unique_vals.dtype, np.number):
+            unique_vals.sort()
+            sorted_data = [df[df[x_col] == val][y_col].tolist() for val in unique_vals]
+            custom_boxplot(ax, sorted_data)
+        else:
+            custom_boxplot(ax, df.groupby(x_col)[y_col].apply(list))
+
+        # Convert categorical values to numeric positions for xticks
+        positions = np.arange(len(unique_vals)) + 1
+        ax.set_xticks(positions)
+        ax.set_xticklabels(unique_vals, rotation=15)
+
+        x_col_label = x_col.replace("_", " ").capitalize() 
+        y_col_label = y_col.replace("_", " ").capitalize() + ('(s)' if 'time' in y_col else '')
+        ax.set_title(f"{y_col_label} vs {x_col_label}", fontsize=16, fontweight="bold")
+        ax.set_ylabel(y_col_label, fontsize=14, fontweight="bold")
+        ax.set_xlabel(x_col_label, fontsize=14, fontweight="bold")
 
     plt.tight_layout()
     return fig

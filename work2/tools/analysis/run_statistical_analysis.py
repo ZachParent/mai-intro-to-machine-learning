@@ -150,7 +150,7 @@ models_with_top_values = get_models_with_top_values(knn_results, top_values)
 
 # %%
 logging.info("Plotting ranked folds distribution for KNN models")
-knn_ranked_folds = get_ranked_folds(linear_sample(knn_results, 8), f1_cols)
+knn_ranked_folds = get_ranked_folds(linear_sample(knn_results, 10), f1_cols)
 fig, ax = plt.subplots(figsize=(12, 6))
 plot_ranked_folds(ax, knn_ranked_folds, f1_cols)
 fig.suptitle(
@@ -164,7 +164,7 @@ plt.show()
 
 # %%
 logging.info("Plotting ranked folds distribution for SVM models")
-svm_ranked_folds = get_ranked_folds(linear_sample(svm_results, 8), f1_cols)
+svm_ranked_folds = get_ranked_folds(linear_sample(svm_results, 10), f1_cols)
 fig, ax = plt.subplots(figsize=(12, 6))
 plot_ranked_folds(ax, svm_ranked_folds, f1_cols)
 fig.suptitle(
@@ -179,8 +179,8 @@ plt.show()
 # %%
 logging.info("Running Nemenyi test for KNN models")
 results_for_nemenyi = linear_sample(knn_results, 8)
-nemenyi_results = nemenyi_test(results_for_nemenyi, f1_cols)
-nemenyi_results
+knn_nemenyi_results = nemenyi_test(results_for_nemenyi, f1_cols)
+knn_nemenyi_results
 
 
 # %%
@@ -188,7 +188,7 @@ logging.info("Plotting Nemenyi test results for KNN models")
 fig, ax = plt.subplots(figsize=(12, 12))
 model_labels = results_for_nemenyi["model_label"]
 sns.heatmap(
-    nemenyi_results,
+    knn_nemenyi_results,
     fmt=".2f",
     annot=True,
     cmap=emrld,
@@ -208,6 +208,8 @@ plt.show()
 
 # %%
 logging.info("Analyzing Nemenyi test results for KNN models")
-analyze_parameters(results_for_nemenyi, nemenyi_results)
+analyze_parameters(results_for_nemenyi, knn_nemenyi_results)
 
 # significant_pairs_df = get_significant_pairs(nemenyi_results, results_for_nemenyi)
+
+# %%
