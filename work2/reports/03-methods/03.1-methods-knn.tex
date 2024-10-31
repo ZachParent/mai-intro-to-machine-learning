@@ -188,3 +188,9 @@ The performance of the k-NN models was evaluated using the following metrics:
 
 The F1 score was used as our primary metric for evaluating the performance of the k-NN models.
 since it balances the trade-off between precision and recall, and does not report overly favorable results when the dataset is imbalanced.
+The hepatitis dataset is imbalanced, with a 79 / 31 split between the two classes, so the F1 score is a more reliable metric than accuracy \autoref{fig:class-distributions}
+
+Additionally, in medical diagnostics like hepatitis classification, the costs of different types of errors are significant $-$ 
+missing a positive diagnosis (false negative) could delay critical treatment,
+while a false positive could lead to unnecessary medical procedures.
+The F1 score's balance of precision and recall helps account for both these error types, making it particularly suitable for this dataset.

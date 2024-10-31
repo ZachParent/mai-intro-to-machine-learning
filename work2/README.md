@@ -63,7 +63,7 @@ This command will:
 - Save results in the appropriate directories
 
 
-## Manual Usage
+### Manual Usage
 To run one dataset manually:
 `python tools/run.py --dataset_name [mushroom|hepatitis]`
 
