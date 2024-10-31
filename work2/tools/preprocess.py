@@ -40,26 +40,54 @@ def load_datasets(file_pattern: str) -> list[pd.DataFrame]:
 
 def preprocess_hepatitis_datasets(df):
     # Replace ? with nan for correct imputation
-    df.replace('?', np.nan, inplace=True)
+    df.replace("?", np.nan, inplace=True)
 
     # Define the numeric and categorical columns
-    numeric_cols = ['AGE', 'ALK_PHOSPHATE', 'SGOT', 'BILIRUBIN', 'ALBUMIN', 'PROTIME']
-    categorical_cols = ['SEX', 'STEROID', 'ANTIVIRALS', 'FATIGUE', 'MALAISE',
-                        'ANOREXIA', 'LIVER_BIG', 'LIVER_FIRM', 'SPLEEN_PALPABLE',
-                        'SPIDERS', 'ASCITES', 'VARICES', 'HISTOLOGY', 'Class']
+    numeric_cols = ["AGE", "ALK_PHOSPHATE", "SGOT", "BILIRUBIN", "ALBUMIN", "PROTIME"]
+    categorical_cols = [
+        "SEX",
+        "STEROID",
+        "ANTIVIRALS",
+        "FATIGUE",
+        "MALAISE",
+        "ANOREXIA",
+        "LIVER_BIG",
+        "LIVER_FIRM",
+        "SPLEEN_PALPABLE",
+        "SPIDERS",
+        "ASCITES",
+        "VARICES",
+        "HISTOLOGY",
+        "Class",
+    ]
 
     # Create a column transformer for preprocessing
     preprocessor = ColumnTransformer(
         transformers=[
-            ('num', Pipeline(steps=[
-                ('imputer', SimpleImputer(strategy='mean')),  # Fill missing with mean
-                ('scaler', MinMaxScaler())  # Min-Max scaling
-            ]), numeric_cols),
-            ('cat', Pipeline(steps=[
-                ('imputer', SimpleImputer(strategy='most_frequent')),  # Fill missing with mode
-                # Use 'passthrough' to handle categorical data
-                ('passthrough', 'passthrough')
-            ]), categorical_cols)
+            (
+                "num",
+                Pipeline(
+                    steps=[
+                        ("imputer", SimpleImputer(strategy="mean")),  # Fill missing with mean
+                        ("scaler", MinMaxScaler()),  # Min-Max scaling
+                    ]
+                ),
+                numeric_cols,
+            ),
+            (
+                "cat",
+                Pipeline(
+                    steps=[
+                        (
+                            "imputer",
+                            SimpleImputer(strategy="most_frequent"),
+                        ),  # Fill missing with mode
+                        # Use 'passthrough' to handle categorical data
+                        ("passthrough", "passthrough"),
+                    ]
+                ),
+                categorical_cols,
+            ),
         ],
     )
 
@@ -82,45 +110,55 @@ def preprocess_hepatitis_datasets(df):
 
     return final_df
 
+
 def preprocess_mushroom_datasets(df):
     # Replace ? with nan for correct imputation
-    df.replace('?', np.nan, inplace=True)
+    df.replace("?", np.nan, inplace=True)
 
     # Define categorical columns
     categorical_cols = [
-        'cap-shape',
-        'cap-surface',
-        'cap-color',
-        'bruises?',
-        'odor',
-        'gill-attachment',
-        'gill-spacing',
-        'gill-size',
-        'gill-color',
-        'stalk-shape',
-        'stalk-root',
-        'stalk-surface-above-ring',
-        'stalk-surface-below-ring',
-        'stalk-color-above-ring',
-        'stalk-color-below-ring',
-        'veil-type',
-        'veil-color',
-        'ring-number',
-        'ring-type',
-        'spore-print-color',
-        'population',
-        'habitat',
-        'class'
+        "cap-shape",
+        "cap-surface",
+        "cap-color",
+        "bruises?",
+        "odor",
+        "gill-attachment",
+        "gill-spacing",
+        "gill-size",
+        "gill-color",
+        "stalk-shape",
+        "stalk-root",
+        "stalk-surface-above-ring",
+        "stalk-surface-below-ring",
+        "stalk-color-above-ring",
+        "stalk-color-below-ring",
+        "veil-type",
+        "veil-color",
+        "ring-number",
+        "ring-type",
+        "spore-print-color",
+        "population",
+        "habitat",
+        "class",
     ]
 
     # Create a column transformer for preprocessing
     preprocessor = ColumnTransformer(
         transformers=[
-            ('cat', Pipeline(steps=[
-                ('imputer', SimpleImputer(strategy='most_frequent')),  # Fill missing with mode
-                # Use 'passthrough' to handle categorical data
-                ('passthrough', 'passthrough')
-            ]), categorical_cols)
+            (
+                "cat",
+                Pipeline(
+                    steps=[
+                        (
+                            "imputer",
+                            SimpleImputer(strategy="most_frequent"),
+                        ),  # Fill missing with mode
+                        # Use 'passthrough' to handle categorical data
+                        ("passthrough", "passthrough"),
+                    ]
+                ),
+                categorical_cols,
+            )
         ],
     )
 

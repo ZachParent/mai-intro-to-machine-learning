@@ -2,6 +2,7 @@ import numpy as np
 
 from tools.knn import KNNClassifier
 
+
 # Condensed: GCNN
 def GCNN(X, y, k: int, knn: KNNClassifier):
     classes = np.unique(y)
@@ -44,7 +45,8 @@ def GCNN(X, y, k: int, knn: KNNClassifier):
 
     return X_reduced, y_reduced
 
-#Edited: ENNTH
+
+# Edited: ENNTH
 def ENNTH(X, y, k: int, knn: KNNClassifier):
 
     threshold = 0.6  # For threshold of 0.5, no reduction occured --> Set threshold to 0.6
@@ -66,7 +68,8 @@ def ENNTH(X, y, k: int, knn: KNNClassifier):
 
     return X_reduced, y_reduced
 
-#Hybrid: Drop3
+
+# Hybrid: Drop3
 def drop3(X, y, k: int, knn: KNNClassifier):
     # Use ENN to remove noisy instances
     X, y = edited_nearest_neighbor(X, y, k, knn)
@@ -99,6 +102,7 @@ def drop3(X, y, k: int, knn: KNNClassifier):
     y_reduced = y.iloc[list(to_keep)]
 
     return X_reduced, y_reduced
+
 
 def edited_nearest_neighbor(X, y, k: int, knn: KNNClassifier):
     to_keep = []

@@ -5,6 +5,7 @@
 PROJECT_NAME = mai-iml-work2
 PYTHON_VERSION = 3.9
 PYTHON_INTERPRETER = python
+ENV_NAME = .venv
 
 #################################################################################
 # COMMANDS                                                                      #
@@ -22,6 +23,7 @@ requirements:
 
 ## Delete all compiled Python files
 .PHONY: clean
+
 clean:
 	find . -type f -name "*.py[co]" -delete
 	find . -type d -name "__pycache__" -delete
@@ -39,20 +41,47 @@ format:
 	black --config pyproject.toml tools
 
 
-
-
-## Set up python interpreter environment
 .PHONY: create_environment
 create_environment:
-	@echo "Creating Python virtual environment..."
-	@if [ "$(OS)" = "Windows_NT" ]; then \
-		python -m venv .venv && \
-		echo ">>> New virtualenv created. Activate with:\n.venv\Scripts\activate"; \
-	else \
-		python3 -m venv .venv && \
-		echo ">>> New virtualenv created. Activate with:\nsource .venv/bin/activate"; \
-	fi
+ifeq ($(OS),Windows_NT)
+	python -m venv ${ENV_NAME} && \
+	echo ">>> New virtualenv created. Activate with:\n.venv\Scripts\activate"
+else
+	python3 -m venv ${ENV_NAME}
+	echo ">>> New virtualenv created. Activate with:\n.venv\Scripts\activate"
+endif
+
+
+## Complete project setup and run from fresh clone
+.PHONY: run create_environment
+
+# Define activation command based on OS
+ifeq ($(OS),Windows_NT)
+    VENV_DIR = .venv\Scripts
+    ACTIVATE_CMD = call $(VENV_DIR)\activate.bat &&
+else
+    VENV_DIR = .venv/bin
+    ACTIVATE_CMD = . $(VENV_DIR)/activate &&
+endif
+
+run: create_environment
+	@echo ">>> Running both datasets..."
 	
+	@echo "\n>>> Running hepatitis dataset..."
+	$(ACTIVATE_CMD) python tools/run.py --dataset_name hepatitis
+	$(ACTIVATE_CMD) python tools/analysis/run_statistical_analysis.py --dataset_name hepatitis
+	
+	@echo "\n>>> Running mushroom dataset..."
+	$(ACTIVATE_CMD) python tools/run.py --dataset_name mushroom
+	$(ACTIVATE_CMD) python tools/analysis/run_statistical_analysis.py --dataset_name mushroom
+	
+	@echo ">>> Completed running all datasets. Running dataset analysis..."
+	$(ACTIVATE_CMD) python tools/analysis/run_dataset_analysis.py
+
+# Keep your existing setup target
+setup: create_environment
+	@echo ">>> Setting up complete project environment..."
+	$(ACTIVATE_CMD) $(MAKE) requirements && $(MAKE) format && echo ">>> Setup complete. Run base project with: python run.py --dataset_name [mushroom|hepatitis]"
 
 
 

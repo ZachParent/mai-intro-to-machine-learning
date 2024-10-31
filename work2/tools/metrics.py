@@ -74,14 +74,14 @@ def cross_validate(
             - preds_list (list): List of predicted labels.
             - train_time (float): Total time taken for training.
             - test_time (float): Total time taken for testing.
-        
+
         if score_func is not None:
             return np.array([score_func(preds, actuals) for preds, actuals in zip(preds_list, actuals_list)])
     """
     actuals_list = []
     preds_list = []
-    train_time = 0.0
-    test_time = 0.0
+    train_times = []
+    test_times = []
     for train_df, test_df in zip(train_dfs, test_dfs):
         X_train = train_df.drop(target_col, axis=1)
         y_train = train_df[target_col]
@@ -93,9 +93,11 @@ def cross_validate(
         )
         actuals_list.append(y_true)
         preds_list.append(y_pred)
-        train_time += train_time
-        test_time += test_time
+        train_times.append(train_time)
+        test_times.append(test_time)
 
     if score_func:
-        return np.array([score_func(preds, actuals) for preds, actuals in zip(preds_list, actuals_list)])
-    return actuals_list, preds_list, train_time, test_time
+        return np.array(
+            [score_func(preds, actuals) for preds, actuals in zip(preds_list, actuals_list)]
+        )
+    return actuals_list, preds_list, train_times, test_times
