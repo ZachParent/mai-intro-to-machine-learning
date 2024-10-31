@@ -15,6 +15,7 @@ import logging
 
 # %%
 from pypalettes import load_cmap
+
 alexandrite = load_cmap("Alexandrite")
 emrld = load_cmap("Emrld", reverse=True)
 
@@ -46,13 +47,15 @@ svm_results = pd.read_csv(svm_results_filename)
 
 # %%
 f1_cols = [f"f1_{i}" for i in range(10)]
+train_time_cols = [f"train_time_{i}" for i in range(10)]
+test_time_cols = [f"test_time_{i}" for i in range(10)]
 knn_col_names = ["k", "distance_func", "voting_func", "weighting_func"]
 svm_col_names = ["C", "kernel_type"]
 
 for df in [knn_results, knn_reduction_results, svm_results]:
-    df["mean_f1_score"] = df.loc[:, f1_cols].mean(axis=1)
-    df["std_f1_score"] = df.loc[:, f1_cols].std(axis=1)
-    df.sort_values(by="mean_f1_score", ascending=False, inplace=True)
+    for metric_col in ["f1", "train_time", "test_time"]:
+        df[f"mean_{metric_col}"] = df.loc[:, [f"{metric_col}_{i}" for i in range(10)]].mean(axis=1)
+    df.sort_values(by=f"mean_f1", ascending=False, inplace=True)
 
 knn_results["model_label"] = knn_results.apply(get_knn_model_label, axis=1)
 knn_reduction_results["model_label"] = knn_reduction_results.apply(
@@ -213,9 +216,15 @@ plt.show()
 logging.info("Analyzing Nemenyi test results for KNN models")
 analyze_parameters(knn_results_for_nemenyi, knn_nemenyi_results, knn_col_names)
 significant_pairs = get_significant_pairs(knn_nemenyi_results)
-significant_pairs_df = get_df_pairs(knn_results_for_nemenyi, significant_pairs).loc[:, knn_col_names + ["mean_f1_score"]]
+significant_pairs_df = get_df_pairs(knn_results_for_nemenyi, significant_pairs).loc[
+    :, knn_col_names + ["mean_f1"]
+]
 significant_pairs_df = format_column_names(significant_pairs_df)
-write_latex_table(significant_pairs_df, f"{TABLES_DIR}/knn_significant_pairs_{dataset_name}.tex", "Significant Differences in KNN Models")
+write_latex_table(
+    significant_pairs_df,
+    f"{TABLES_DIR}/knn_significant_pairs_{dataset_name}.tex",
+    "Significant Differences in KNN Models",
+)
 
 # significant_pairs_df = get_significant_pairs(nemenyi_results, results_for_nemenyi)
 
@@ -256,5 +265,141 @@ analyze_parameters(svm_results_for_nemenyi, svm_nemenyi_results, svm_col_names)
 significant_pairs = get_significant_pairs(svm_nemenyi_results)
 significant_pairs_df = get_df_pairs(svm_results_for_nemenyi, significant_pairs)
 significant_pairs_df = format_column_names(significant_pairs_df)
-write_latex_table(significant_pairs_df, f"{TABLES_DIR}/svm_significant_pairs_{dataset_name}.tex", "Significant Differences in SVM Models")
+write_latex_table(
+    significant_pairs_df,
+    f"{TABLES_DIR}/svm_significant_pairs_{dataset_name}.tex",
+    "Significant Differences in SVM Models",
+)
+# %%
+
+best_svm_model = svm_results.iloc[0, :]
+best_knn_model = knn_results.iloc[0, :]
+knn_svm_f1_p_value = stats.wilcoxon(
+    best_svm_model[f1_cols].to_list(), best_knn_model[f1_cols].to_list()
+).pvalue
+knn_svm_train_time_p_value = stats.wilcoxon(
+    best_svm_model[train_time_cols].to_list(), best_knn_model[train_time_cols].to_list()
+).pvalue
+knn_svm_test_time_p_value = stats.wilcoxon(
+    best_svm_model[test_time_cols].to_list(), best_knn_model[test_time_cols].to_list()
+).pvalue
+svm_knn_comparison_df = pd.DataFrame(
+    {
+        "metric": ["F1 Score", "Train Time", "Test Time"],
+        "p_value": [knn_svm_f1_p_value, knn_svm_train_time_p_value, knn_svm_test_time_p_value],
+    }
+)
+svm_knn_comparison_df
+# %%
+metric_cols_array = np.array([f1_cols, train_time_cols, test_time_cols])
+all_metric_cols = metric_cols_array.flatten().tolist()
+best_knn_and_svm = pd.DataFrame(
+    [
+        ["KNN"] + best_knn_model[all_metric_cols].to_list(),
+        ["SVM"] + best_svm_model[all_metric_cols].to_list(),
+    ],
+    columns=["model"] + all_metric_cols,
+)
+best_knn_and_svm
+# %%
+# Expand and plot the data
+best_knn_and_svm_by_fold = expand_data_per_fold(best_knn_and_svm)
+
+fig, axs = plt.subplots(1, 3, figsize=(15, 5))
+plot_metrics_comparison(axs, best_knn_and_svm_by_fold)
+plt.suptitle(f"Model Comparison for {dataset_name} dataset", fontsize=20, fontweight="bold")
+plt.tight_layout()
+fig.savefig(f"{FIGURES_DIR}/model_comparison_{dataset_name}.png", dpi=300)
+plt.show()
+# %%
+# Calculate means for each metric across folds
+best_knn_and_svm["mean_f1"] = best_knn_and_svm[f1_cols].mean(axis=1)
+best_knn_and_svm["mean_train_time"] = best_knn_and_svm[train_time_cols].mean(axis=1)
+best_knn_and_svm["mean_test_time"] = best_knn_and_svm[test_time_cols].mean(axis=1)
+
+# Now group by model and get means
+best_knn_and_svm_summary = best_knn_and_svm.loc[
+    :, ["model", "mean_f1", "mean_train_time", "mean_test_time"]
+].copy()
+best_knn_and_svm_summary.rename(
+    columns=lambda x: x.replace("_", " ").title() + (" (s)" if "time" in x else ""), inplace=True
+)
+best_knn_and_svm_summary
+write_latex_table(
+    best_knn_and_svm_summary,
+    f"{TABLES_DIR}/best_knn_and_svm_summary_{dataset_name}.tex",
+    "Best KNN and SVM Models",
+    precision=6,
+)
+
+# %%
+logging.basicConfig(level=logging.INFO)
+dataset_name = "hepatitis"
+
+# %%
+storage_cols = [f"storage_{i}" for i in range(10)]
+knn_reduction_results["mean_storage"] = knn_reduction_results[storage_cols].mean(axis=1)
+
+knn_results["model_label"] = knn_results.apply(get_knn_model_label, axis=1)
+knn_reduction_results["model_label"] = knn_reduction_results.apply(
+    get_knn_reduction_model_label, axis=1
+)
+svm_results["model_label"] = svm_results.apply(get_svm_model_label, axis=1)
+
+
+# %%
+metric_cols_map = {
+    "Storage": storage_cols,
+    "Training Time (s)": train_time_cols,
+    "Testing Time (s)": test_time_cols,
+    "F1 Score": f1_cols,
+}
+
+fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+for (metric_a, metric_b), ax in zip(
+    [
+        ("Storage", "Training Time (s)"),
+        ("Storage", "Testing Time (s)"),
+        ("Training Time (s)", "F1 Score"),
+    ],
+    axes,
+):
+
+    for idx in knn_reduction_results.index:
+        metric_a_values = knn_reduction_results.loc[idx, metric_cols_map[metric_a]].values
+        metric_b_values = knn_reduction_results.loc[idx, metric_cols_map[metric_b]].values
+        ax.scatter(
+            metric_a_values,
+            metric_b_values,
+            alpha=0.6,
+            label=knn_reduction_results.loc[idx, "reduction_func"],
+        )
+    ax.set_title(f"{metric_b} vs {metric_a}", fontsize=16, fontweight="bold")
+    ax.set_xlabel(metric_a, fontsize=14, fontweight="bold")
+    ax.set_ylabel(metric_b, fontsize=14, fontweight="bold")
+    ax.legend()
+fig.suptitle(f"Distribution of Metrics for KNN Reduction Models", fontsize=20, fontweight="bold")
+plt.tight_layout()
+plt.show()
+
+# %%
+friedman_test(knn_reduction_results, train_time_cols)
+
+# %%
+expanded_reduction_results = expand_data_per_fold(
+    knn_reduction_results, "reduction_func", ["f1", "train_time", "test_time", "storage"]
+)
+
+fig = plot_independent_effects(
+    expanded_reduction_results,
+    ["reduction_func"],
+    y_cols=["f1", "train_time", "test_time", "storage"],
+)
+fig.suptitle(
+    f"Effects of KNN Reduction methods for {dataset_name} dataset", fontsize=20, fontweight="bold"
+)
+plt.tight_layout()
+plt.subplots_adjust(top=0.85)
+fig.savefig(f"{FIGURES_DIR}/KNN_reduction_effects_{dataset_name}.png", dpi=300)
+plt.show()
 # %%

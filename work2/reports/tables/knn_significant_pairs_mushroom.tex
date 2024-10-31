@@ -1,0 +1,19 @@
+\begin{table}
+\centering
+\caption{Significant Differences in KNN Models}
+\label{tab:knn_significant_pairs_mushroom}
+\begin{tabular}{rlllr}
+\toprule
+K & Distance Func & Voting Func & Weighting Func & Mean F1 \\
+\midrule
+1 & ManhattanDistance & MajorityClassVote & EqualWeighting & 0.951 \\
+1 & EuclideanDistance & ShepardsWorkVote & EqualWeighting & 0.901 \\
+3 & ManhattanDistance & InverseDistanceWeightedVote & EqualWeighting & 0.928 \\
+3 & ChebyshevDistance & MajorityClassVote & EqualWeighting & 0.728 \\
+5 & ManhattanDistance & ShepardsWorkVote & InformationGainWeighting & 0.670 \\
+5 & ChebyshevDistance & InverseDistanceWeightedVote & InformationGainWeighting & 0.643 \\
+7 & EuclideanDistance & MajorityClassVote & InformationGainWeighting & 0.670 \\
+7 & ChebyshevDistance & ShepardsWorkVote & ReliefFWeighting & 0.636 \\
+\bottomrule
+\end{tabular}
+\end{table}
