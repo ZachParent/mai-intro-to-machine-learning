@@ -380,6 +380,7 @@ for (metric_a, metric_b), ax in zip(
     ax.legend()
 fig.suptitle(f"Distribution of Metrics for KNN Reduction Models", fontsize=20, fontweight="bold")
 plt.tight_layout()
+fig.savefig(f"{FIGURES_DIR}/KNN_reduction_distributions_{dataset_name}.png", dpi=300)
 plt.show()
 
 # %%
