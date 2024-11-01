@@ -3,10 +3,11 @@
 This markdown file outlines the requirements, project structure and how to run this project.
 
 ## Authors
+
 - Kacper Poniatowski
 - Zachary Parent
 - Sheena Lang
-- Carlos Jiménez Farfán 🐍
+- Carlos Jiménez Farfán
 
 ## Requirements
 
@@ -23,7 +24,8 @@ project/
 |   ├── per_fold_results/
 |   ├── preprocessed/
 │   ├── raw/
-├── models/
+│   ├── reduced_X/
+│   ├── reduced_y/
 ├── notebooks/
 ├── tools/
 │   ├── analysis/
@@ -47,17 +49,21 @@ project/
 ```
 
 ## Setup and Installation
+
 Note: these commands are to be ran from the root directory.
 
 ### Using Make (Recommended)
+
 The easiest way to get started is using our Makefile commands:
 
 1. Set up the complete environment and run the project:
+
 ```bash
 make run
 ```
 
 ### Manual Usage
+
 To run one dataset manually:
 `python tools/run.py --dataset_name [mushroom|hepatitis]`
 
@@ -65,21 +71,23 @@ To perform statistical analysis:
 `python tools/analysis/run_statistical_analysis.py --dataset_name[mushroom|hepatitis]`
 
 **Command Line Options**
+
 - `--dataset_name`: Choose dataset (required)
-    - `mushroom`: Use mushroom dataset
-    - `hepatitis`: Use hepatitis dataset
+  - `mushroom`: Use mushroom dataset
+  - `hepatitis`: Use hepatitis dataset
 - `--verbose`, `-v`: Enable verbose output
 - `--sample`, `-s`: Limit sample size (e.g., -s 1000)
 
 ### Example Commands
-*Basic run with mushroom dataset*
+
+_Basic run with mushroom dataset_
 python tools/run.py --dataset_name mushroom
 
-*Run hepatitis dataset with verbose output*
+_Run hepatitis dataset with verbose output_
 python tools/run.py --dataset_name hepatitis -v
 
-*Run mushroom dataset with limited samples*
+_Run mushroom dataset with limited samples_
 python tools/run.py --dataset_name mushroom -s 1000
 
-*Combined options: verbose and sample size*
+_Combined options: verbose and sample size_
 python tools/run.py --dataset_name hepatitis --verbose --sample 200
