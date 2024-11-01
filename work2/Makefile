@@ -29,6 +29,17 @@ clean:
 	find . -type f -name "*.py[co]" -delete
 	find . -type d -name "__pycache__" -delete
 
+## Clean output directories
+.PHONY: clean-outputs
+clean-outputs:
+	rm -f data/cross_validated_results/*
+	rm -f data/per_fold_results/*
+	rm -f data/reduced_X/*
+	rm -f data/reduced_y/*
+	rm -f reports/figures/*
+	rm -f reports/tables/*
+
+
 ## Lint using flake8 and black (use `make format` to do formatting)
 .PHONY: lint
 lint:
