@@ -346,7 +346,6 @@ svm_results["model_label"] = svm_results.apply(get_svm_model_label, axis=1)
 
 
 # %%
-# Create figure and plot
 metric_cols_map = {
     "Storage": storage_cols,
     "Training Time (s)": train_time_cols,
@@ -358,23 +357,32 @@ metric_pairs = [
     ("Storage", "Testing Time (s)"),
     ("Training Time (s)", "F1 Score"),
 ]
+# %%
+logging.info("Plotting KNN Reduction results")
 fig, axes = plt.subplots(1, 3, figsize=(15, 5))
 plot_reduction_results_scatter(axes, metric_cols_map, metric_pairs, knn_reduction_results)
 fig.suptitle(f"Distribution of Metrics for KNN Reduction Models", fontsize=20, fontweight="bold")
 plt.tight_layout()
 fig.savefig(f"{FIGURES_DIR}/KNN_reduction_distributions_{dataset_name}.png", dpi=300)
 plt.show()
-
+# %%
+logging.info("Plotting SVM Reduction results")
+fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+plot_reduction_results_scatter(axes, metric_cols_map, metric_pairs, svm_reduction_results)
+fig.suptitle(f"Distribution of Metrics for SVM Reduction Models", fontsize=20, fontweight="bold")
+plt.tight_layout()
+fig.savefig(f"{FIGURES_DIR}/SVM_reduction_distributions_{dataset_name}.png", dpi=300)
+plt.show()
 # %%
 friedman_test(knn_reduction_results, train_time_cols)
 
 # %%
-expanded_reduction_results = expand_data_per_fold(
+expanded_knn_reduction_results = expand_data_per_fold(
     knn_reduction_results, "reduction_func", ["f1", "train_time", "test_time", "storage"]
 )
 
 fig = plot_independent_effects(
-    expanded_reduction_results,
+    expanded_knn_reduction_results,
     ["reduction_func"],
     y_cols=["f1", "train_time", "test_time", "storage"],
 )
@@ -384,5 +392,22 @@ fig.suptitle(
 plt.tight_layout()
 plt.subplots_adjust(top=0.85)
 fig.savefig(f"{FIGURES_DIR}/KNN_reduction_effects_{dataset_name}.png", dpi=300)
+plt.show()
+# %%
+expanded_svm_reduction_results = expand_data_per_fold(
+    svm_reduction_results, "reduction_func", ["f1", "train_time", "test_time", "storage"]
+)
+
+fig = plot_independent_effects(
+    expanded_svm_reduction_results,
+    ["reduction_func"],
+    y_cols=["f1", "train_time", "test_time", "storage"],
+)
+fig.suptitle(
+    f"Effects of SVM Reduction methods for {dataset_name} dataset", fontsize=20, fontweight="bold"
+)
+plt.tight_layout()
+plt.subplots_adjust(top=0.85)
+fig.savefig(f"{FIGURES_DIR}/SVM_reduction_effects_{dataset_name}.png", dpi=300)
 plt.show()
 # %%
