@@ -454,7 +454,7 @@ friedman_test_df = pd.DataFrame(
 write_latex_table(
     friedman_test_df,
     f"{TABLES_DIR}/friedman_test_results_{dataset_name}.tex",
-    "Friedman Test Results",
+    f"Friedman Test Results {dataset_name}",
     precision=8,
 )
 friedman_test_df
