@@ -17,9 +17,6 @@ ENV_NAME = .venv
 requirements:
 	$(PYTHON_INTERPRETER) -m pip install -U pip
 	$(PYTHON_INTERPRETER) -m pip install -r requirements.txt
-	
-
-
 
 ## Delete all compiled Python files
 .PHONY: clean
@@ -52,8 +49,8 @@ else
 endif
 
 
-## Complete project setup and run from fresh clone
-.PHONY: run create_environment
+## Complete project setup from fresh clone
+.PHONY: setup
 
 # Define activation command based on OS
 ifeq ($(OS),Windows_NT)
@@ -64,26 +61,24 @@ else
     ACTIVATE_CMD = . $(VENV_DIR)/activate &&
 endif
 
-run: create_environment
-	@echo ">>> Running both datasets..."
-	
-	@echo "\n>>> Running hepatitis dataset..."
-	$(ACTIVATE_CMD) python tools/run.py --dataset_name hepatitis
-	$(ACTIVATE_CMD) python tools/analysis/run_statistical_analysis.py --dataset_name hepatitis
-	
-	@echo "\n>>> Running mushroom dataset..."
-	$(ACTIVATE_CMD) python tools/run.py --dataset_name mushroom
-	$(ACTIVATE_CMD) python tools/analysis/run_statistical_analysis.py --dataset_name mushroom
-	
-	@echo ">>> Completed running all datasets. Running dataset analysis..."
-	$(ACTIVATE_CMD) python tools/analysis/run_dataset_analysis.py
-
-# Keep your existing setup target
 setup: create_environment
 	@echo ">>> Setting up complete project environment..."
 	$(ACTIVATE_CMD) $(MAKE) requirements && $(MAKE) format && echo ">>> Setup complete. Run base project with: python run.py --dataset_name [mushroom|hepatitis]"
 
-
+.PHONY: run
+run:
+	@echo ">>> Running both datasets..."
+	
+	@echo "\n>>> Running hepatitis dataset..."
+	python tools/run.py --dataset_name hepatitis
+	python tools/analysis/run_statistical_analysis.py --dataset_name hepatitis
+	
+	@echo "\n>>> Running mushroom dataset..."
+	python tools/run.py --dataset_name mushroom
+	python tools/analysis/run_statistical_analysis.py --dataset_name mushroom
+	
+	@echo ">>> Completed running all datasets. Running dataset analysis..."
+	python tools/analysis/run_dataset_analysis.py
 
 #################################################################################
 # PROJECT RULES                                                                 #
