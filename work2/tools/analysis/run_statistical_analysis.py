@@ -157,7 +157,7 @@ models_with_top_values = get_models_with_top_values(knn_results, top_values)
 
 # %%
 logging.info("Plotting ranked folds distribution for KNN models")
-knn_ranked_folds = get_ranked_folds(linear_sample(knn_results, 10), f1_cols)
+knn_ranked_folds = get_ranked_folds(linear_sample(knn_results, 8), f1_cols)
 fig, ax = plt.subplots(figsize=(12, 6))
 plot_ranked_folds(ax, knn_ranked_folds, f1_cols)
 fig.suptitle(
@@ -171,7 +171,7 @@ plt.show()
 
 # %%
 logging.info("Plotting ranked folds distribution for SVM models")
-svm_ranked_folds = get_ranked_folds(linear_sample(svm_results, 10), f1_cols)
+svm_ranked_folds = get_ranked_folds(linear_sample(svm_results, 8), f1_cols)
 fig, ax = plt.subplots(figsize=(12, 6))
 plot_ranked_folds(ax, svm_ranked_folds, f1_cols)
 fig.suptitle(
@@ -410,4 +410,51 @@ plt.tight_layout()
 plt.subplots_adjust(top=0.85)
 fig.savefig(f"{FIGURES_DIR}/SVM_reduction_effects_{dataset_name}.png", dpi=300)
 plt.show()
+# %%
+friedman_test_df = pd.DataFrame(
+    np.array(
+        [
+            [
+                "KNN Top Sample of 8 F1 Scores",
+                friedman_test(top_samples(knn_results, 8), f1_cols)[1],
+            ],
+            [
+                "SVM Top Sample of 8 F1 Scores",
+                friedman_test(top_samples(svm_results, 8), f1_cols)[1],
+            ],
+            [
+                "KNN Linear Sample of 8 F1 Scores",
+                friedman_test(linear_sample(knn_results, 8), f1_cols)[1],
+            ],
+            [
+                "SVM Linear Sample of 8 F1 Scores",
+                friedman_test(linear_sample(svm_results, 8), f1_cols)[1],
+            ],
+            [
+                "KNN-Reduction Linear Sample of 8 F1 Scores",
+                friedman_test(linear_sample(knn_reduction_results, 8), f1_cols)[1],
+            ],
+            [
+                "SVM-Reduction Linear Sample of 8 F1 Scores",
+                friedman_test(linear_sample(svm_reduction_results, 8), f1_cols)[1],
+            ],
+            [
+                "KNN-Reduction Linear Sample of 8 Training Times",
+                friedman_test(linear_sample(knn_reduction_results, 8), train_time_cols)[1],
+            ],
+            [
+                "SVM-Reduction Linear Sample of 8 Training Times",
+                friedman_test(linear_sample(svm_reduction_results, 8), train_time_cols)[1],
+            ],
+        ]
+    ),
+    columns=["name", "P Value"],
+)
+write_latex_table(
+    friedman_test_df,
+    f"{TABLES_DIR}/friedman_test_results_{dataset_name}.tex",
+    "Friedman Test Results",
+    precision=8,
+)
+friedman_test_df
 # %%
