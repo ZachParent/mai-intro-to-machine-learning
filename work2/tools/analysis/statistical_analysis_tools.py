@@ -204,12 +204,6 @@ def plot_interactions(df, col_names):
     num_cols = len(col_names)
     fig, axes = plt.subplots(num_cols, num_cols, figsize=(5 * num_cols, 4 * num_cols))
 
-    # Make axes 2D if it's 1D
-    if num_cols == 1:
-        axes = np.array([[axes]])
-    elif num_cols == 2:
-        axes = np.array([[axes[0]], [axes[1]]])
-
     for i, ((col_name1, col_name2), ax) in enumerate(
         zip(itertools.product(col_names, repeat=2), axes.flatten())
     ):
