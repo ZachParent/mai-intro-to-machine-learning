@@ -27,7 +27,7 @@ FIGURES_DIR = os.path.join(SCRIPT_DIR, "../../reports/figures")
 TABLES_DIR = os.path.join(SCRIPT_DIR, "../../reports/tables")
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--dataset_name", type=str, default="mushroom")
+parser.add_argument("--dataset_name", type=str, default="hepatitis")
 parser.add_argument("--f", type=str, default="")
 parser.add_argument("--verbose", "-v", action="store_true")
 args = parser.parse_args()
@@ -273,7 +273,7 @@ write_latex_table(
 )
 # %%
 
-best_svm_model = svm_results.iloc[0, :]
+best_svm_model = svm_results.iloc[0, :] 
 best_knn_model = knn_results.iloc[0, :]
 if best_svm_model["mean_f1"] != best_knn_model["mean_f1"]:
     knn_svm_f1_p_value = stats.wilcoxon(
@@ -451,6 +451,7 @@ friedman_test_df = pd.DataFrame(
     ),
     columns=["name", "P Value"],
 )
+friedman_test_df.replace('nan', '1', inplace=True)
 write_latex_table(
     friedman_test_df,
     f"{TABLES_DIR}/friedman_test_results_{dataset_name}.tex",
