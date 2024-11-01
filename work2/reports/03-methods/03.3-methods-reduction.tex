@@ -125,8 +125,22 @@ and DROP2, which uses a different order of operations that may not be as effecti
 redundancy.
 
 
-\subsubsection*{How we use these techniques}
-After the first analysis of kNN to find the best parameter configuration for each of our datasets
-(\textbf{i.e.}, mushroom \& hepatitis), we used the top ranked kNN model to run each of our selected instance reduction techniques 
-to generate reduced versions of our training data, we saved them and 
+\subsection*{Application of Instance Reduction Techniques}
+
+Following the initial analysis to determine the optimal $k$-nearest neighbor (KNN)
+parameters for each dataset (\textbf{i.e.}, mushroom and hepatitis), we applied the selected instance reduction techniques
+(\textbf{i.e.}, GCNN, ENNTh, and DROP3) as a preprocessing step. Using the top-performing KNN model configuration,
+we generated reduced versions of the training data. These reduced datasets, along with the original
+unreduced data, were then used to evaluate the performance of the optimized KNN classifier. 
+This allowed us to assess the impact of each instance reduction technique on KNN classification 
+accuracy, efficiency and storage. Furthermore, we extended our analysis to evaluate the influence of the reduced training sets
+on the performance of our optimized SVM classifier, provided insights into the effectiveness of instance reduction techniques across eager learning algorithms.
+
+% \subsubsection*{How we use these techniques}
+% After the first analysis of kNN to find the best parameter configuration for each of our datasets
+% (\textbf{i.e.}, mushroom \& hepatitis), we used the top ranked kNN model to run each of our selected 
+% instance reduction techniques as a preprocessing step to generate reduced versions of all our training data,
+% then we saved them to be able to use them to test our best kNN with no reduction (control) and using the reduced datasets.
+% Additionally, we performed an evaluation of our best SVM algorithm to compare the effect of a reduced training set in this
+% eager learning algorithm.
 
