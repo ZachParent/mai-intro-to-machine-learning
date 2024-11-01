@@ -1,4 +1,5 @@
-\subsection{Dimensionality Reduction Algorithms}
+
+\subsection{Instance Reduction Algorithms}
 \label{subsec:methods-reduction}
 
 A significant challenge in applying kNN to large datasets is the computational cost 
@@ -14,28 +15,83 @@ These techniques aim to identify patterns and relationships within the data to s
 a subset of informative instances.
 
 \subsubsection{Condensed Nearest Neighbour Rule}
-Condensed nearest neighbor rules are a family of algorithms that aim to identify 
+Condensed nearest neighbor rules (CNN) are a family of algorithms that aim to identify 
 a minimal subset of the training data that can represent the entire dataset without 
 significant loss of information. One prominent example is the \textbf{Generalized Condensed 
 Nearest Neighbor} (GCNN) algorithm.
-GCNN iteratively selects instances that are misclassified by the current reduced set, 
-adding them to the reduced set until no further improvement is possible. 
-This technique effectively reduces the dataset size while preserving essential 
-information for accurate classification.
+% GCNN iteratively selects instances that are misclassified by the current reduced set, 
+% adding them to the reduced set until no further improvement is possible. 
+% This technique effectively reduces the dataset size while preserving essential 
+% information for accurate classification.
+
+GCNN \cite{hart1968condensed} is an iterative algorithm that starts with a small subset of 
+the training data and incrementally adds instances that are misclassified by the current KNN model. 
+This process continues until no further instances are misclassified. GCNN aims to identify a minimal 
+consistent subset, a subset of the original data that correctly classifies all of the original 
+instances using the 1-NN rule.
+
+More formally, let $X = \{x_1, x_2, ..., x_n\}$ be the set of training instances and $Y = \{y_1, y_2, ..., y_n\}$ be 
+the corresponding class labels. GCNN can be described as follows:
+
+\begin{enumerate}
+    \item \textbf{Initialization:} Select a random instance $x_i$ from $X$ and add it to the condensed set $C$.
+    \item \textbf{Iteration:} For each instance $x_j \in X \setminus C$:
+    \begin{itemize}
+        \item Train a 1-NN classifier on $C$.
+        \item If $kNN(x_j) \neq y_j$, then add $x_j$ to $C$.
+    \end{itemize}
+    \item \textbf{Termination:} Repeat step 2 until no new instances are added to $C$.
+\end{enumerate}
+
+GCNN's effectiveness lies in its ability to capture the decision boundaries between classes using a reduced 
+set of instances. However, its performance can be sensitive to the initial instance selection and the order 
+in which instances are processed.
+
 
 
 \subsubsection{Edited Nearest Neighbour Rule}
 Edited nearest neighbor rules, on the other hand, focus on removing noisy or outlier 
-instances from the training data. The \textbf{Reduced Nearest Neighbor Rule with Generalized
-Editing} (RNGE) is a well-known example of this category. RNGE removes instances 
-that are misclassified by their nearest neighbors. This process iteratively eliminates
- noisy points, leading to a cleaner and more informative dataset.
+instances from the training data. 
 
+The \textbf{Edited Nearest Neighbor Estimating Class Probabilistic and Threshold (ENNTh)} is a noise-removal technique that builds upon the Edited Nearest Neighbor (ENN) algorithm \cite{wilson2000reduction}. ENN aims to improve the generalization ability of KNN by removing instances that are likely to be noise or outliers. ENNTh refines this process by incorporating a threshold, $\tau$, to control the degree of noise removal. [CITE]
+
+ENN traditionally removes an instance if its class label differs from the majority class among its $k$ nearest neighbors. ENNTh introduces a more flexible approach by estimating the class probability of an instance based on its $k$ nearest neighbors. Let $N_k(x_i)$ denote the set of $k$ nearest neighbors of $x_i$. The class probability of $x_i$ is estimated as:
+
+\begin{equation}
+P(y_i | x_i) = \frac{|\{x_j \in N_k(x_i) : y_j = y_i\}|}{k}
+\end{equation}
+
+An instance $x_i$ is removed only if $P(y_i | x_i) < \tau$. This thresholding mechanism allows for a more nuanced approach to noise removal, where instances with a higher probability of belonging to their assigned class are retained, even if they are not in the majority class among their neighbors.
+
+By adjusting the threshold $\tau$, ENNTh can control the trade-off between noise removal and the preservation of potentially useful instances. A higher threshold leads to more aggressive noise removal, while a lower threshold retains more instances. [CITE]
+
+
+% \subsubsection{Hybrid Reduction Techniques}
+% Hybrid reduction techniques combine the strengths of both condensed and edited approaches
+% to achieve more robust and efficient reduction. The \textbf{Drop2} algorithm is a notable example
+% of a hybrid technique. It first applies a condensed nearest neighbor rule to identify a
+% core set of instances. Then, it uses an edited nearest neighbor rule to further refine
+% the reduced set by removing noisy or redundant instances.
+% This two-step process results in a compact and informative dataset.
 
 \subsubsection{Hybrid Reduction Techniques}
-Hybrid reduction techniques combine the strengths of both condensed and edited approaches
-to achieve more robust and efficient reduction. The \textbf{Drop2} algorithm is a notable example
-of a hybrid technique. It first applies a condensed nearest neighbor rule to identify a
-core set of instances. Then, it uses an edited nearest neighbor rule to further refine
-the reduced set by removing noisy or redundant instances.
-This two-step process results in a compact and informative dataset.
+
+Hybrid reduction techniques combine the strengths of both condensed and edited approaches to 
+achieve more robust and efficient reduction. The \textbf{DROP3} algorithm \cite{wilson2000reduction} 
+is a notable example of a hybrid technique. Unlike DROP2, which uses CNN first and then ENN, DROP3 reverses this order. 
+It first applies an edited nearest neighbor rule (ENN) to remove noisy or borderline instances, creating a cleaner dataset.
+Then, it employs a decremental reduction procedure inspired by condensed nearest neighbor to iteratively remove redundant
+instances that do not affect the classification accuracy of their neighbors. This process results in a significantly 
+reduced dataset while aiming to preserve classification accuracy.
+
+DROP3 \cite{wilson2000reduction} is a hybrid instance reduction technique that combines the strengths of ENN and Condensed Nearest Neighbor (CNN). It aims to achieve a more substantial reduction in the dataset size while maintaining or improving classification accuracy.\\
+
+DROP3 operates in two main stages:
+
+\begin{enumerate}
+    \item \textbf{Noise Removal:} In the first stage, DROP3 applies ENN to the training set $(X, Y)$ to eliminate noisy instances. This step helps to improve the quality of the data and prepare it for further reduction. 
+    \item \textbf{Iterative Reduction:} The second stage involves an iterative process where each remaining instance is evaluated for potential removal. An instance is removed if its removal does not adversely affect the classification accuracy of its neighbors.  More specifically, for each instance $x_i$, DROP3 trains a KNN classifier on the dataset excluding $x_i$, $(X' \setminus \{x_i\}, Y' \setminus \{y_i\})$. If all instances in $N_k(x_i)$ are correctly classified by this KNN classifier, then $x_i$ is deemed redundant and removed.
+\end{enumerate}
+
+This iterative process continues until no further instances can be removed without affecting the classification accuracy of their neighbors. DROP3 effectively identifies and removes redundant instances that do not contribute significantly to the classification performance. By combining noise removal with iterative reduction, DROP3 achieves a more aggressive reduction in the dataset size compared to ENN or CNN alone.
+

@@ -16,7 +16,7 @@ def GCNN(X, y, k: int, knn: KNNClassifier):
         y_reduced.append(y[idx])
 
     X_reduced = np.array(X_reduced)
-    y_reduced = np.array(y_reduced)
+    y_reduced = np.array(y_reduced) 
 
     # Iteratively add misclassified samples to set
     while True:
