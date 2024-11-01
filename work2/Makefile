@@ -11,6 +11,10 @@ ENV_NAME = .venv
 # COMMANDS                                                                      #
 #################################################################################
 
+## Set up environment, install requirements and run
+.PHONY: all
+all: create_environment requirements run
+
 
 ## Install Python Dependencies
 .PHONY: requirements
