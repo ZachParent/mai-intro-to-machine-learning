@@ -23,3 +23,15 @@ def write_latex_table(df, filename, caption, precision=3):
     )
     with open(filename, "w") as f:
         f.write(latex_table)
+
+# %%
+def write_latex_table_summary(df, columns, filename, caption, sort_by="f1"):
+    df = (
+        df.sort_values(by=sort_by, ascending=False)
+        .reset_index(drop=True)
+        .assign(**{"": lambda x: x.index + 1})
+        .loc[:, [""] + columns]
+        .head(10)
+        .rename(columns=lambda x: x.replace("_", " "))
+    )
+    write_latex_table(df, filename, caption)

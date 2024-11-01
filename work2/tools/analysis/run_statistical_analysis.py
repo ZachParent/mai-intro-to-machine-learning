@@ -489,19 +489,6 @@ for (df, name) in zip([knn_legend, svm_legend, knn_reduction_legend, svm_reducti
         f"{name} Legend",
     )
 # %%
-def write_latex_table_summary(df, columns, filename, caption, sort_by="f1"):
-    df = (
-        df.sort_values(by=sort_by, ascending=False)
-        .reset_index(drop=True)
-        .assign(**{"": lambda x: x.index + 1})
-        .loc[:, [""] + columns]
-        .head(10)
-        .rename(columns=lambda x: x.replace("_", " "))
-    )
-    write_latex_table(df, filename, caption)
-
-# %%
-
 write_latex_table_summary(
     knn_results,
     knn_col_names + ['mean_f1', 'mean_train_time', 'mean_test_time'],
