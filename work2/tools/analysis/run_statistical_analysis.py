@@ -471,7 +471,7 @@ friedman_test_df.replace('nan', '1', inplace=True)
 write_latex_table(
     friedman_test_df,
     f"{TABLES_DIR}/friedman_test_results_{dataset_name}.tex",
-    f"Friedman Test Results {dataset_name}",
+    f"Friedman Test Results {dataset_name}".title(),
     precision=8,
 )
 friedman_test_df
