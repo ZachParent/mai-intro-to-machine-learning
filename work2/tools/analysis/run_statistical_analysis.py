@@ -63,6 +63,9 @@ knn_reduction_results["model_label"] = knn_reduction_results.apply(
     get_knn_reduction_model_label, axis=1
 )
 svm_results["model_label"] = svm_results.apply(get_svm_model_label, axis=1)
+svm_reduction_results["model_label"] = svm_reduction_results.apply(
+    get_svm_reduction_model_label, axis=1
+)
 
 
 # %%
@@ -353,8 +356,11 @@ knn_results["model_label"] = knn_results.apply(get_knn_model_label, axis=1)
 knn_reduction_results["model_label"] = knn_reduction_results.apply(
     get_knn_reduction_model_label, axis=1
 )
-svm_results["model_label"] = svm_results.apply(get_svm_model_label, axis=1)
-
+# %%
+svm_reduction_results["mean_storage"] = svm_reduction_results[storage_cols].mean(axis=1)
+svm_reduction_results["model_label"] = svm_reduction_results.apply(
+    get_svm_reduction_model_label, axis=1
+)
 
 # %%
 metric_cols_map = {
@@ -469,4 +475,17 @@ write_latex_table(
     precision=8,
 )
 friedman_test_df
+# %%
+knn_legend = knn_results.loc[:,["model_label"] + knn_col_names]
+svm_legend = svm_results.loc[:,["model_label"] + svm_col_names]
+knn_reduction_legend = knn_reduction_results.loc[:,["model_label"] + knn_col_names]
+svm_reduction_legend = svm_reduction_results.loc[:,["model_label"] + svm_col_names]
+
+for (df, name) in zip([knn_legend, svm_legend, knn_reduction_legend, svm_reduction_legend], ["KNN", "SVM", "KNN-Reduction", "SVM-Reduction"]):
+    df = format_column_names(df)
+    write_latex_table(
+        df,
+        f"{TABLES_DIR}/{name}_legend.tex",
+        f"{name} Legend",
+    )
 # %%

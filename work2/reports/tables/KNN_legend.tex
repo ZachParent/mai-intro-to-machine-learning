@@ -1,0 +1,119 @@
+\begin{table}
+\centering
+\caption{KNN Legend}
+\label{tab:KNN_legend}
+\begin{tabular}{lrlll}
+\toprule
+Model Label & K & Distance Func & Voting Func & Weighting Func \\
+\midrule
+k1ChebShpEq & 1 & ChebyshevDistance & ShepardsWorkVote & EqualWeighting \\
+k1ChebDisEq & 1 & ChebyshevDistance & InverseDistanceWeightedVote & EqualWeighting \\
+k1ChebMajEq & 1 & ChebyshevDistance & MajorityClassVote & EqualWeighting \\
+k5EucShpEq & 5 & EuclideanDistance & ShepardsWorkVote & EqualWeighting \\
+k7EucShpEq & 7 & EuclideanDistance & ShepardsWorkVote & EqualWeighting \\
+k3ManShpEq & 3 & ManhattanDistance & ShepardsWorkVote & EqualWeighting \\
+k1EucShpRlf & 1 & EuclideanDistance & ShepardsWorkVote & ReliefFWeighting \\
+k7ManShpEq & 7 & ManhattanDistance & ShepardsWorkVote & EqualWeighting \\
+k1EucShpEq & 1 & EuclideanDistance & ShepardsWorkVote & EqualWeighting \\
+k1EucDisRlf & 1 & EuclideanDistance & InverseDistanceWeightedVote & ReliefFWeighting \\
+k1EucDisEq & 1 & EuclideanDistance & InverseDistanceWeightedVote & EqualWeighting \\
+k1ManMajEq & 1 & ManhattanDistance & MajorityClassVote & EqualWeighting \\
+k5ManShpEq & 5 & ManhattanDistance & ShepardsWorkVote & EqualWeighting \\
+k1EucMajEq & 1 & EuclideanDistance & MajorityClassVote & EqualWeighting \\
+k1ManShpEq & 1 & ManhattanDistance & ShepardsWorkVote & EqualWeighting \\
+k1ManDisEq & 1 & ManhattanDistance & InverseDistanceWeightedVote & EqualWeighting \\
+k1EucMajRlf & 1 & EuclideanDistance & MajorityClassVote & ReliefFWeighting \\
+k7ManShpRlf & 7 & ManhattanDistance & ShepardsWorkVote & ReliefFWeighting \\
+k1ManShpRlf & 1 & ManhattanDistance & ShepardsWorkVote & ReliefFWeighting \\
+k1ManDisRlf & 1 & ManhattanDistance & InverseDistanceWeightedVote & ReliefFWeighting \\
+k3ManShpRlf & 3 & ManhattanDistance & ShepardsWorkVote & ReliefFWeighting \\
+k5ManShpRlf & 5 & ManhattanDistance & ShepardsWorkVote & ReliefFWeighting \\
+k1ManMajRlf & 1 & ManhattanDistance & MajorityClassVote & ReliefFWeighting \\
+k3EucShpRlf & 3 & EuclideanDistance & ShepardsWorkVote & ReliefFWeighting \\
+k3EucShpEq & 3 & EuclideanDistance & ShepardsWorkVote & EqualWeighting \\
+k3ManDisEq & 3 & ManhattanDistance & InverseDistanceWeightedVote & EqualWeighting \\
+k5ChebShpEq & 5 & ChebyshevDistance & ShepardsWorkVote & EqualWeighting \\
+k7EucShpRlf & 7 & EuclideanDistance & ShepardsWorkVote & ReliefFWeighting \\
+k5EucShpRlf & 5 & EuclideanDistance & ShepardsWorkVote & ReliefFWeighting \\
+k5ChebDisEq & 5 & ChebyshevDistance & InverseDistanceWeightedVote & EqualWeighting \\
+k3EucDisEq & 3 & EuclideanDistance & InverseDistanceWeightedVote & EqualWeighting \\
+k3ChebShpEq & 3 & ChebyshevDistance & ShepardsWorkVote & EqualWeighting \\
+k5ManDisEq & 5 & ManhattanDistance & InverseDistanceWeightedVote & EqualWeighting \\
+k3ChebDisEq & 3 & ChebyshevDistance & InverseDistanceWeightedVote & EqualWeighting \\
+k1ChebDisRlf & 1 & ChebyshevDistance & InverseDistanceWeightedVote & ReliefFWeighting \\
+k1ChebShpRlf & 1 & ChebyshevDistance & ShepardsWorkVote & ReliefFWeighting \\
+k1ChebMajRlf & 1 & ChebyshevDistance & MajorityClassVote & ReliefFWeighting \\
+k5EucDisEq & 5 & EuclideanDistance & InverseDistanceWeightedVote & EqualWeighting \\
+k7ManDisEq & 7 & ManhattanDistance & InverseDistanceWeightedVote & EqualWeighting \\
+k5ChebMajEq & 5 & ChebyshevDistance & MajorityClassVote & EqualWeighting \\
+k7EucDisEq & 7 & EuclideanDistance & InverseDistanceWeightedVote & EqualWeighting \\
+k7ChebShpRlf & 7 & ChebyshevDistance & ShepardsWorkVote & ReliefFWeighting \\
+k7ChebDisEq & 7 & ChebyshevDistance & InverseDistanceWeightedVote & EqualWeighting \\
+k7ChebShpEq & 7 & ChebyshevDistance & ShepardsWorkVote & EqualWeighting \\
+k5ChebShpRlf & 5 & ChebyshevDistance & ShepardsWorkVote & ReliefFWeighting \\
+k3ChebShpRlf & 3 & ChebyshevDistance & ShepardsWorkVote & ReliefFWeighting \\
+k3EucDisRlf & 3 & EuclideanDistance & InverseDistanceWeightedVote & ReliefFWeighting \\
+k3EucMajRlf & 3 & EuclideanDistance & MajorityClassVote & ReliefFWeighting \\
+k5EucDisRlf & 5 & EuclideanDistance & InverseDistanceWeightedVote & ReliefFWeighting \\
+k5EucMajRlf & 5 & EuclideanDistance & MajorityClassVote & ReliefFWeighting \\
+k5ChebDisRlf & 5 & ChebyshevDistance & InverseDistanceWeightedVote & ReliefFWeighting \\
+k3ChebDisRlf & 3 & ChebyshevDistance & InverseDistanceWeightedVote & ReliefFWeighting \\
+k7EucDisRlf & 7 & EuclideanDistance & InverseDistanceWeightedVote & ReliefFWeighting \\
+k7EucMajRlf & 7 & EuclideanDistance & MajorityClassVote & ReliefFWeighting \\
+k5EucMajEq & 5 & EuclideanDistance & MajorityClassVote & EqualWeighting \\
+k5ManMajEq & 5 & ManhattanDistance & MajorityClassVote & EqualWeighting \\
+k3ChebMajRlf & 3 & ChebyshevDistance & MajorityClassVote & ReliefFWeighting \\
+k7ChebDisRlf & 7 & ChebyshevDistance & InverseDistanceWeightedVote & ReliefFWeighting \\
+k7ManDisRlf & 7 & ManhattanDistance & InverseDistanceWeightedVote & ReliefFWeighting \\
+k7ManMajRlf & 7 & ManhattanDistance & MajorityClassVote & ReliefFWeighting \\
+k3ManMajRlf & 3 & ManhattanDistance & MajorityClassVote & ReliefFWeighting \\
+k3ManDisRlf & 3 & ManhattanDistance & InverseDistanceWeightedVote & ReliefFWeighting \\
+k5ChebMajRlf & 5 & ChebyshevDistance & MajorityClassVote & ReliefFWeighting \\
+k5ManMajRlf & 5 & ManhattanDistance & MajorityClassVote & ReliefFWeighting \\
+k5ManDisRlf & 5 & ManhattanDistance & InverseDistanceWeightedVote & ReliefFWeighting \\
+k3EucMajEq & 3 & EuclideanDistance & MajorityClassVote & EqualWeighting \\
+k3ManMajEq & 3 & ManhattanDistance & MajorityClassVote & EqualWeighting \\
+k7EucMajEq & 7 & EuclideanDistance & MajorityClassVote & EqualWeighting \\
+k7ManMajEq & 7 & ManhattanDistance & MajorityClassVote & EqualWeighting \\
+k7ChebMajRlf & 7 & ChebyshevDistance & MajorityClassVote & ReliefFWeighting \\
+k3ChebMajEq & 3 & ChebyshevDistance & MajorityClassVote & EqualWeighting \\
+k1EucMajInf & 1 & EuclideanDistance & MajorityClassVote & InformationGainWeighting \\
+k1EucDisInf & 1 & EuclideanDistance & InverseDistanceWeightedVote & InformationGainWeighting \\
+k7EucMajInf & 7 & EuclideanDistance & MajorityClassVote & InformationGainWeighting \\
+k7ManShpInf & 7 & ManhattanDistance & ShepardsWorkVote & InformationGainWeighting \\
+k1ManShpInf & 1 & ManhattanDistance & ShepardsWorkVote & InformationGainWeighting \\
+k7EucDisInf & 7 & EuclideanDistance & InverseDistanceWeightedVote & InformationGainWeighting \\
+k3ChebMajInf & 3 & ChebyshevDistance & MajorityClassVote & InformationGainWeighting \\
+k7EucShpInf & 7 & EuclideanDistance & ShepardsWorkVote & InformationGainWeighting \\
+k1ManDisInf & 1 & ManhattanDistance & InverseDistanceWeightedVote & InformationGainWeighting \\
+k7ChebMajEq & 7 & ChebyshevDistance & MajorityClassVote & EqualWeighting \\
+k7ChebMajInf & 7 & ChebyshevDistance & MajorityClassVote & InformationGainWeighting \\
+k7ChebDisInf & 7 & ChebyshevDistance & InverseDistanceWeightedVote & InformationGainWeighting \\
+k3EucDisInf & 3 & EuclideanDistance & InverseDistanceWeightedVote & InformationGainWeighting \\
+k7ChebShpInf & 7 & ChebyshevDistance & ShepardsWorkVote & InformationGainWeighting \\
+k1EucShpInf & 1 & EuclideanDistance & ShepardsWorkVote & InformationGainWeighting \\
+k7ManMajInf & 7 & ManhattanDistance & MajorityClassVote & InformationGainWeighting \\
+k7ManDisInf & 7 & ManhattanDistance & InverseDistanceWeightedVote & InformationGainWeighting \\
+k3ChebShpInf & 3 & ChebyshevDistance & ShepardsWorkVote & InformationGainWeighting \\
+k5ManDisInf & 5 & ManhattanDistance & InverseDistanceWeightedVote & InformationGainWeighting \\
+k3ManShpInf & 3 & ManhattanDistance & ShepardsWorkVote & InformationGainWeighting \\
+k5ManShpInf & 5 & ManhattanDistance & ShepardsWorkVote & InformationGainWeighting \\
+k5ManMajInf & 5 & ManhattanDistance & MajorityClassVote & InformationGainWeighting \\
+k5EucMajInf & 5 & EuclideanDistance & MajorityClassVote & InformationGainWeighting \\
+k1ManMajInf & 1 & ManhattanDistance & MajorityClassVote & InformationGainWeighting \\
+k3ManDisInf & 3 & ManhattanDistance & InverseDistanceWeightedVote & InformationGainWeighting \\
+k5EucDisInf & 5 & EuclideanDistance & InverseDistanceWeightedVote & InformationGainWeighting \\
+k5EucShpInf & 5 & EuclideanDistance & ShepardsWorkVote & InformationGainWeighting \\
+k3ManMajInf & 3 & ManhattanDistance & MajorityClassVote & InformationGainWeighting \\
+k5ChebMajInf & 5 & ChebyshevDistance & MajorityClassVote & InformationGainWeighting \\
+k3EucShpInf & 3 & EuclideanDistance & ShepardsWorkVote & InformationGainWeighting \\
+k5ChebDisInf & 5 & ChebyshevDistance & InverseDistanceWeightedVote & InformationGainWeighting \\
+k3EucMajInf & 3 & EuclideanDistance & MajorityClassVote & InformationGainWeighting \\
+k5ChebShpInf & 5 & ChebyshevDistance & ShepardsWorkVote & InformationGainWeighting \\
+k3ChebDisInf & 3 & ChebyshevDistance & InverseDistanceWeightedVote & InformationGainWeighting \\
+k1ChebMajInf & 1 & ChebyshevDistance & MajorityClassVote & InformationGainWeighting \\
+k1ChebDisInf & 1 & ChebyshevDistance & InverseDistanceWeightedVote & InformationGainWeighting \\
+k1ChebShpInf & 1 & ChebyshevDistance & ShepardsWorkVote & InformationGainWeighting \\
+\bottomrule
+\end{tabular}
+\end{table}

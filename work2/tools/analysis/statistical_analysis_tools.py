@@ -63,6 +63,12 @@ def get_knn_reduction_model_label(model_row):
     return f"{reduction_map[model_row['reduction_func']]}{get_knn_model_label(model_row)}"
 
 
+def get_svm_reduction_model_label(model_row):
+    reduction_map = {"control": "Ctrl", "GGCN": "Ggcn", "ENNTH": "Ennth", "Drop3": "Drop3"}
+
+    return f"{reduction_map[model_row['reduction_func']]}{get_svm_model_label(model_row)}"
+
+
 def get_svm_model_label(model_row):
     c_map = {1: "C1", 3: "C3", 5: "C5", 7: "C7"}
     kernel_map = {"linear": "Lin", "rbf": "Rbf", "poly": "Poly", "sigmoid": "Sig"}
@@ -400,8 +406,8 @@ def get_significant_pairs(nemenyi_results, alpha=0.05):
 def get_df_pairs(df, pairs):
     return df.iloc[list(set(np.array([[pair[0], pair[1]] for pair in pairs]).flatten()))]
 
-def plot_reduction_results_scatter(axs, metric_cols_map, metric_pairs, reduction_results):
 
+def plot_reduction_results_scatter(axs, metric_cols_map, metric_pairs, reduction_results):
 
     for (metric_a, metric_b), ax in zip(
         metric_pairs,
