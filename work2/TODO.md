@@ -58,8 +58,8 @@
   - [ ] (@CaJiFan) add references for statistical analysis paper
   - [ ] (@CaJiFan) tools used
 
-- [ ] (@KacperPon) explain which groups of models pass the friedman test
-  - [ ] (@KacperPon) explain why linear sampling was used
+- [x] (@KacperPon) explain which groups of models pass the friedman test
+  - [x] (@KacperPon) explain why linear sampling was used
 - [x] (@KacperPon) explain how we chose the additional distance metrics for the KNN
 - [ ] (@KacperPon) Distribute statistical analysis
 
