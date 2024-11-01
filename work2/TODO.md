@@ -51,8 +51,8 @@
 - [x] (@SheenaLang) Reorder methods reduction after SVM
 - [ ] (@SheenaLang) Add in data section that space becomes sparse if would Onehotencoding
 
-- [ ] (@CaJiFan) explain how reduction is done in report (using best KNN)
-- [ ] (@CaJiFan) explain how we chose the reduction techniques
+- [x] (@CaJiFan) explain how reduction is done in report (using best KNN)
+- [x] (@CaJiFan) explain how we chose the reduction techniques
 - [ ] (@CaJiFan) add references
 
   - [ ] (@CaJiFan) add references for statistical analysis paper

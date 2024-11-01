@@ -14,7 +14,9 @@ address the challenges associated with large and noisy datasets.
 These techniques aim to identify patterns and relationships within the data to select 
 a subset of informative instances.
 
-\subsubsection{Condensed Nearest Neighbour Rule}
+\subsubsection{Algorithms Overview}
+
+\subsubsection*{Condensed Nearest Neighbour Rule}
 Condensed nearest neighbor rules (CNN) are a family of algorithms that aim to identify 
 a minimal subset of the training data that can represent the entire dataset without 
 significant loss of information. One prominent example is the \textbf{Generalized Condensed 
@@ -49,7 +51,7 @@ in which instances are processed.
 
 
 
-\subsubsection{Edited Nearest Neighbour Rule}
+\subsubsection*{Edited Nearest Neighbour Rule}
 Edited nearest neighbor rules, on the other hand, focus on removing noisy or outlier 
 instances from the training data. 
 
@@ -74,7 +76,7 @@ By adjusting the threshold $\tau$, ENNTh can control the trade-off between noise
 % the reduced set by removing noisy or redundant instances.
 % This two-step process results in a compact and informative dataset.
 
-\subsubsection{Hybrid Reduction Techniques}
+\subsubsection*{Hybrid Reduction Techniques}
 
 Hybrid reduction techniques combine the strengths of both condensed and edited approaches to 
 achieve more robust and efficient reduction. The \textbf{DROP3} algorithm \cite{wilson2000reduction} 
@@ -94,4 +96,37 @@ DROP3 operates in two main stages:
 \end{enumerate}
 
 This iterative process continues until no further instances can be removed without affecting the classification accuracy of their neighbors. DROP3 effectively identifies and removes redundant instances that do not contribute significantly to the classification performance. By combining noise removal with iterative reduction, DROP3 achieves a more aggressive reduction in the dataset size compared to ENN or CNN alone.
+
+
+\subsubsection{Implementation details}
+
+
+\subsubsection*{Selection of Instance Reduction Techniques}
+Our project focuses on evaluating the effectiveness of various instance reduction techniques in improving
+the efficiency and accuracy of the k-nearest neighbor (KNN) algorithm.  We selected three specific algorithms
+representing different categories of instance reduction: condensed, edited, and hybrid. For the condensed approach,
+we chose \textbf{Generalized Condensed Nearest Neighbor (GCNN)} \cite{hart1968condensed} over 
+Reduced Nearest Neighbor (RNN) and Fast Condensed Nearest Neighbor (FCNN). 
+GCNN offers a more robust approach by iteratively adding instances that are misclassified by the current model,
+ensuring a consistent subset for accurate classification. While RNN and FCNN offer potential speed improvements,
+GCNN prioritizes finding a minimal consistent set, which aligns better with our goal of maintaining high accuracy.
+
+For the edited approach, we opted for \textbf{Edited Nearest Neighbor with Thresholding (ENNTh)} \cite{wilson1972asymptotic}
+instead of Repeated Edited Nearest Neighbor (RENN). ENNTh provides a more controlled noise removal mechanism by
+incorporating a threshold to determine the probability of an instance belonging to its assigned class. 
+This allows for a more flexible approach compared to RENN, which repeatedly applies ENN until no further 
+instances are removed. This repeated application can be computationally expensive and may potentially 
+remove valuable instances. Finally, for the hybrid approach, we selected 
+\textbf{Decremental Reduction Optimization Procedure 3 (DROP3)} \cite{wilson2000reduction}
+over Instance-Based 2 (IB2) and DROP2. DROP3 combines the strengths of ENN and CNN by first applying 
+ENN to remove noise and then using a decremental reduction procedure to eliminate redundant instances.
+This approach offers a more refined reduction compared to IB2, which primarily focuses on adding instances,
+and DROP2, which uses a different order of operations that may not be as effective in removing both noise and
+redundancy.
+
+
+\subsubsection*{How we use these techniques}
+After the first analysis of kNN to find the best parameter configuration for each of our datasets
+(\textbf{i.e.}, mushroom \& hepatitis), we used the top ranked kNN model to run each of our selected instance reduction techniques 
+to generate reduced versions of our training data, we saved them and 
 
