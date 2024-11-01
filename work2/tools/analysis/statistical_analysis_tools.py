@@ -248,7 +248,7 @@ def plot_interactions(df, col_names):
                 if pd.api.types.is_numeric_dtype(df[col_names[i]])
                 else df[col_names[i]].unique()
             )
-            axes[i, 0].set_yticks(np.arange(len(unique_vals)) + 1)
+            axes[i, 0].set_yticks(np.arange(len(unique_vals)) + 0.5)
             axes[i, 0].set_yticklabels(unique_vals, rotation=15)
 
     # Add column labels and x-ticks only on the bottom plots
