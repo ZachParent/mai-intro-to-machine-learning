@@ -1,10 +1,9 @@
 \subsection{Data Preprocessing}
 \label{subsec:preprocessing}
 
-This section outlines the preprocessing steps applied to the Hepatitis and Mushroom datasets.
+This section details the preprocessing steps applied to prepare both datasets for analysis.
 
-\subsubsection{Dealing with Different Ranges and different types}
-To manage the varying types and ranges of attributes in our datasets, we implemented specific preprocessing techniques.
+\subsubsection{Handling Different Data Types and Ranges}To manage the varying types and ranges of attributes in our datasets, we implemented specific preprocessing techniques.
 For the nominal attributes in both the Mushroom and Hepatitis datasets, we used label encoding.
 This technique converts categorical values into numerical labels, enabling the algorithms to interpret the data correctly.
 While we considered one-hot encoding to avoid implying any ordinal relationship among categories, we opted for label encoding due to its simplicity and reduced dimensionality, as one-hot encoding would significantly increase dimensions and lead to a sparse space, making accurate predictions more challenging, particularly for KNN with the Mushroom dataset's numerous nominal features.
@@ -12,7 +11,25 @@ While we considered one-hot encoding to avoid implying any ordinal relationship 
 For the numerical attributes in the Hepatitis dataset, we applied min-max scaling to rescale the data to a fixed range of [0, 1]. This normalization is crucial for distance-based algorithms like KNN and SVM, ensuring all features contribute equally to model performance.
 We evaluated other scaling methods, such as standardization, but chose min-max scaling for its effectiveness in maintaining the original data distribution.
 
-\subsubsection{Dealing with Missing Values}
+We implemented specific preprocessing techniques based on the characteristics of each dataset:
+
+\begin{itemize}
+    \item \textbf{Nominal Attributes}
+    \begin{itemize}
+        \item Applied label encoding to both datasets
+        \item Chose label encoding over one-hot encoding to prevent dimensionality explosion
+        \item Particularly important for the Mushroom dataset's numerous categorical features
+    \end{itemize}
+    
+    \item \textbf{Numerical Attributes}
+    \begin{itemize}
+        \item Applied min-max scaling to the Hepatitis dataset's numerical features
+        \item Normalized all values to [0, 1] range
+        \item Essential for distance-based algorithms (KNN and SVM)
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Missing Value Treatment}
 Addressing missing values is a critical step in preparing our datasets for analysis, as they can significantly impact model performance.
 In the case of the nominal attributes in both the Mushroom and Hepatitis datasets, we opted to impute missing values with the majority class.
 This method is straightforward and effective for maintaining dataset integrity.
@@ -28,5 +45,25 @@ We also considered employing K-Nearest Neighbors (KNN) for imputing missing valu
 However, we ultimately decided against this option to avoid introducing bias into our evaluation.
 Since KNN is one of the algorithms we are testing, using it for imputation could influence its performance and lead to skewed results.
 Therefore, we chose the more straightforward methods of majority class imputation for nominal values and mean imputation for numerical values, allowing for a clearer assessment of the models’ effectiveness without confounding factors.
+
+We employed different strategies for handling missing values based on attribute type:
+
+\begin{itemize}
+    \item \textbf{Nominal Attributes}
+    \begin{itemize}
+        \item Imputed with mode (majority class)
+        \item Applied to both datasets
+        \item Potential limitation: May reinforce majority class bias
+    \end{itemize}
+    
+    \item \textbf{Numerical Attributes}
+    \begin{itemize}
+        \item Imputed with mean values
+        \item Applied only to Hepatitis dataset
+        \item Preserves overall distribution while handling missing data
+    \end{itemize}
+\end{itemize}
+
+Alternative approaches such as KNN-based imputation were considered but rejected to avoid introducing bias into our evaluation of KNN as a classifier. Our chosen methods provide a balance between simplicity and effectiveness while maintaining data integrity.
 
 
