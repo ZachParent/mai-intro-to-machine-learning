@@ -9,27 +9,28 @@ The KNN algorithm operates on a simple yet effective principle: when classifying
 it examines the k closest training examples and assigns the most common class among these neighbors (where k is a user-defined hyperparameter). 
 The algorithm's effectiveness relies on two fundamental assumptions:
 \begin{itemize}
-    \item Locality: Points that are close to each other are likely to have the same class.
-    \item Smoothness: The classification boundary between classes is relatively smooth.
+    \item \textbf{Locality}: Points in close proximity are likely to share the same class
+    \item \textbf{Smoothness}: Decision boundaries between classes are relatively smooth
 \end{itemize}
 
 One key feature of KNN is it employs neighbor-based classification, where the classification of a new data point 
 is determined by majority voting among its k-nearest neighbors. 
 The value of k is one of the most important tunable hyperparameters, as it significantly influences the algorithm's behaviour:
-\begin{itemize}
-    \item Small k values (e.g., k=1 or k=3): More sensitive to local patterns but susceptible to noise.
-    \item Large k values: More robust to noise but may overlook important local patterns.
-    \item Even vs. Odd k values: Even k values result in ties, which may require additional rules to break.
-\end{itemize}
-
 The dependent variable in our datasets we aim to predict is categorical, so while KNN can be used for both classification and regression problems 
 our focus is on classification.
 
 While the KNN algorithm has it's merits in terms of simplicity and interpretability, it also has several disadvantages:
 \begin{itemize}
     \item Computationally expensive: As the number of training examples grows, the algorithm's complexity increases\cite{laviale2023}.
-    \item Sensitive to irrelevant features: The algorithm treats all features equally, so irrelevant features can negatively impact performance.
+\item Sensitive to irrelevant features: The algorithm treats all features equally, so irrelevant features can negatively impact performance.
     \item Curse of dimensionality: As the number of features increases, the algorithm requires more data to maintain performance.
+\end{itemize}
+
+The choice of k significantly influences the algorithm's behavior:
+\begin{itemize}
+    \item Small k values (1-3): Higher sensitivity to local patterns but more susceptible to noise
+    \item Large k values (5-7): Better noise resistance but may miss important local patterns
+    \item Even vs. Odd k values: Even values may require tie-breaking mechanisms
 \end{itemize}
 
 All three of the above mentioned disadvantages all relate to the features of the dataset, and how they can impact the performance of the algorithm.
@@ -69,11 +70,13 @@ The formula for Chebychev distance between two vectors \(x\) and \(y\) is:
 \[ d = \max_{i=1}^{n} |x_i - y_i| \]
 where \(x_i\) and \(y_i\) are the \(i\)th elements of vectors \(x\) and \(y\), respectively.\\
 
-The Manhattan and Euclidean distance metrics are mandatory as per the assignment requirements,
-while the Chebychev distance metric was included as an additional distance metric.
-We chose Chebyshev distance because as described above, only the maximum difference is considered,
-not the sum of the differences. This is particularly important when working with high dimensional spaces (which is the case for our datasets)
-as it can help reduce the computational cost and improve time efficiency.
+\paragraph{Weighting Schemes}
+Three weighting approaches were implemented:
+\begin{itemize}
+    \item \textbf{Uniform}: Equal weights for all neighbors
+    \item \textbf{ReliefF}: Weights based on feature relevance
+    \item \textbf{Information Gain}: Weights based on information theory
+\end{itemize}
 
 
 \subsubsection*{Weighting Schemes}
