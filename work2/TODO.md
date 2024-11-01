@@ -47,9 +47,9 @@
 - [ ] [ ] (@SheenaLang & @KacperPon) check that all plots are generated on run
 - [ ] [ ] (@SheenaLang & @KacperPon) check that code runs on clean install
 
-- [ ] (@SheenaLang) check README.md
+- [x] (@SheenaLang) check README.md
 - [x] (@SheenaLang) Reorder methods reduction after SVM
-- [ ] (@SheenaLang) Add in data section that space becomes sparse if would Onehotencoding
+- [x] (@SheenaLang) Add in data section that space becomes sparse if would Onehotencoding
 
 - [x] (@CaJiFan) explain how reduction is done in report (using best KNN)
 - [x] (@CaJiFan) explain how we chose the reduction techniques
@@ -58,9 +58,9 @@
   - [ ] (@CaJiFan) add references for statistical analysis paper
   - [ ] (@CaJiFan) tools used
 
-- [ ] (@KacperPon) explain which groups of models pass the friedman test
-  - [ ] (@KacperPon) explain why linear sampling was used
-- [ ] (@KacperPon) explain how we chose the additional distance metrics for the KNN
+- [x] (@KacperPon) explain which groups of models pass the friedman test
+  - [x] (@KacperPon) explain why linear sampling was used
+- [x] (@KacperPon) explain how we chose the additional distance metrics for the KNN
 - [ ] (@KacperPon) Distribute statistical analysis
 
 - [ ] (@ZachParent) explain how we chose the values for the SVM parameters

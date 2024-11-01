@@ -62,6 +62,24 @@ While the Friedman test theoretically has less statistical power than ANOVA when
 it is more suitable for our analysis as it makes no assumptions about normality or equal variances.
 As we demonstrated with the hepatitis dataset's class distribution and performance metrics, these assumptions do not hold in our case.
 
+\subsubsection{Linear vs. Top Sampling Justification}
+The results of the Nemenyi test must satisfy the requirements to perform post-hoc testing.
+If the Nemenyi test fails, we cannot proceed with post-hoc testing as the results would be considered unreliable.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/p_values_vs_num_samples_mushroom.png}
+    \includegraphics[width=0.8\textwidth]{figures/p_values_vs_num_samples_hepatitis.png}
+    \caption{P values vs. number of samples for different models and sampling methods for the datasets}
+\label{fig:p-values-vs-num-samples}
+\end{figure}
+
+As seen in the plots in Figure~\ref{fig:p-values-vs-num-samples}, we perform linear sampling and top sampling with a variety
+of sample sizes. With top sampling, we sample the top models based on their f1 score, while linear sampling samples models
+evenly across the performance spectrum. The results show that the Nemenyi test fails across the various sample sizes for both datasets
+when using top sampling but passes when using linear sampling. This indicates that the top sampling method is not suitable for our analysis
+as we cannot perform post-hoc testing on the models. Therefore, we must proceed with linear sampling for our analysis.
+
 % TODO: Citation needed
 \subsubsection{Post-Hoc Tests}
 The Friedman test only tells us that there is a significant difference between the models,
@@ -84,9 +102,6 @@ average of the ranks they would have occupied. For example, if two models tie fo
 rather than arbitrarily assigning ranks 2 and 3, both models receive a rank of 2.5 (the average of positions 2 and 3).
 This mid-rank approach ensures fair treatment of tied performances and prevents artificial rank differences that could bias the statistical analysis.
 
-% TODO: Talk about which groups of models pass the Nemenyi test, 
-
-
 \subsubsection{Test Results}
 In the visualization of critical difference (CD) diagrams,the entire bar represents the critical difference value.
 The half-width of the bar (CD/2) extends on either side of a model's average rank. When comparing two models,
@@ -100,7 +115,6 @@ whereas values closer to 0 indicate a significant difference.
 The diagonal values (top left to bottom right) are always 1 and report no significant difference
 as they represent the comparison of a model with itself.
 
-% Discuss: 90% or 95% confidence level?
 To determine statistical significance, we use a confidence level of 0.95 (95\% confidence interval) for the Nemenyi test.
 Therefore, any values greater than 0.05 indicate that the models are not significantly different from each other.
 
