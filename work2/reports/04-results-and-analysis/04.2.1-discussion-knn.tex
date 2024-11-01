@@ -36,6 +36,18 @@ indicating that the dataset contains relatively a uniform
 distribution of meaningful data points.
 The F1 scores achieved across all configurations were consistently high, indicating a good balance between precision and recall.
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/ranked_folds_KNN_mushroom.png}
+    \caption{KNN Ranked Folds for Mushroom Dataset}
+    \label{fig:ranked_folds_KNN_mushroom}
+\end{figure}
+
+The above figure shows the ranked folds for the k-NN algorithm on the mushroom dataset.
+The figure illustrates the variation in performance across different KNN models, with some models performing 
+better than others. It's evident a lower value of k (1 or 3) tends to perform better than higher values of k (5 or 7)
+in combination with the other parameters. 
+Interestingly, for each KNN model the performance across the 10 folds is identical.
 
 \subsubsection{Hepatitis Dataset Performance}
 
@@ -71,12 +83,20 @@ As also seen in the mushroom dataset, the F1 scores achieved across all configur
 indicating a good balance between precision and recall.
 
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/ranked_folds_KNN_hepatitis.png}
+    \caption{KNN Ranked Folds for Hepatitis Dataset}
+    \label{fig:ranked_folds_KNN_hepatitis}
+\end{figure}
+
 \subsubsection{Overall Comparison}
 While both datasets achieved high performance, the hepatitis dataset outperformed the mushroom dataset in terms of accuracy and F1 score.
 This difference may be due to the hepatitis dataset's smaller size and more distinct class separations,
 making it easier for the k-NN algorithm to make accurate predictions. These distinct class separations may also explain why the k = 1 configuration
 performed best on the hepatitis dataset, as the algorithm can make more precise decisions with fewer neighbors.
 
+\subsection*{K-Nearest Neighbour (KNN) Statistical Analysis}
 Below are the Nemenyi test results for the KNN models on the hepatitis and mushroom datasets respectively.
 
 For the below analysis of both the KNN model, values closer to 1 indicate no significant difference between models,
