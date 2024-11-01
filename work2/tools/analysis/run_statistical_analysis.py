@@ -27,7 +27,7 @@ FIGURES_DIR = os.path.join(SCRIPT_DIR, "../../reports/figures")
 TABLES_DIR = os.path.join(SCRIPT_DIR, "../../reports/tables")
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--dataset_name", type=str, default="hepatitis")
+parser.add_argument("--dataset_name", type=str, default="mushroom")
 parser.add_argument("--f", type=str, default="")
 parser.add_argument("--verbose", "-v", action="store_true")
 args = parser.parse_args()
@@ -275,22 +275,23 @@ write_latex_table(
 
 best_svm_model = svm_results.iloc[0, :]
 best_knn_model = knn_results.iloc[0, :]
-knn_svm_f1_p_value = stats.wilcoxon(
-    best_svm_model[f1_cols].to_list(), best_knn_model[f1_cols].to_list()
-).pvalue
-knn_svm_train_time_p_value = stats.wilcoxon(
-    best_svm_model[train_time_cols].to_list(), best_knn_model[train_time_cols].to_list()
-).pvalue
-knn_svm_test_time_p_value = stats.wilcoxon(
-    best_svm_model[test_time_cols].to_list(), best_knn_model[test_time_cols].to_list()
-).pvalue
-svm_knn_comparison_df = pd.DataFrame(
-    {
-        "metric": ["F1 Score", "Train Time", "Test Time"],
-        "p_value": [knn_svm_f1_p_value, knn_svm_train_time_p_value, knn_svm_test_time_p_value],
-    }
-)
-svm_knn_comparison_df
+if best_svm_model["mean_f1"] != best_knn_model["mean_f1"]:
+    knn_svm_f1_p_value = stats.wilcoxon(
+        best_svm_model[f1_cols].to_list(), best_knn_model[f1_cols].to_list()
+    ).pvalue
+    knn_svm_train_time_p_value = stats.wilcoxon(
+        best_svm_model[train_time_cols].to_list(), best_knn_model[train_time_cols].to_list()
+    ).pvalue
+    knn_svm_test_time_p_value = stats.wilcoxon(
+        best_svm_model[test_time_cols].to_list(), best_knn_model[test_time_cols].to_list()
+    ).pvalue
+    svm_knn_comparison_df = pd.DataFrame(
+        {
+            "metric": ["F1 Score", "Train Time", "Test Time"],
+            "p_value": [knn_svm_f1_p_value, knn_svm_train_time_p_value, knn_svm_test_time_p_value],
+        }
+    )
+    svm_knn_comparison_df
 # %%
 metric_cols_array = np.array([f1_cols, train_time_cols, test_time_cols])
 all_metric_cols = metric_cols_array.flatten().tolist()
