@@ -1,5 +1,5 @@
 k,distance_func,voting_func,weighting_func,reduction_func,accuracy,f1,TP,TN,FP,FN,train_time,test_time,storage
-7,ManhattanDistance,MajorityClassVote,EqualWeighting,control,1.0,1.0,3916,4208,0,0,0.0013580322265625,175.6567919254303,7311.6
-7,ManhattanDistance,MajorityClassVote,EqualWeighting,GGCN,1.0,1.0,3916,4208,0,0,0.0007245540618896484,96.38699078559875,4017.1
-7,ManhattanDistance,MajorityClassVote,EqualWeighting,ENNTH,1.0,1.0,3916,4208,0,0,0.002382516860961914,176.74316811561584,7311.6
-7,ManhattanDistance,MajorityClassVote,EqualWeighting,Drop3,1.0,1.0,3916,4208,0,0,0.0011866092681884766,177.52877044677734,7311.6
+1,ManhattanDistance,MajorityClassVote,EqualWeighting,control,1.0,1.0,3916,4208,0,0,0.0015072822570800781,151.64844942092896,7311.6
+1,ManhattanDistance,MajorityClassVote,EqualWeighting,GGCN,1.0,1.0,3916,4208,0,0,0.0010721683502197266,72.77775883674622,3519.8
+1,ManhattanDistance,MajorityClassVote,EqualWeighting,ENNTH,1.0,1.0,3916,4208,0,0,0.002409219741821289,150.90724086761475,7311.6
+1,ManhattanDistance,MajorityClassVote,EqualWeighting,Drop3,1.0,1.0,3916,4208,0,0,0.0018460750579833984,150.79619097709656,7311.6
