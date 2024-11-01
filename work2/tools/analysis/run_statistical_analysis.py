@@ -154,6 +154,16 @@ top_values = get_top_values(knn_results, knn_col_names, num_to_select=2, models_
 models_with_top_values = get_models_with_top_values(knn_results, top_values)
 
 # %%
+logging.info("Plotting interaction effects of SVM model parameters")
+fig = plot_interactions(svm_results, ["C", "kernel_type"])
+fig.suptitle(
+    f"Interaction Effects of SVM Model Parameters on F1 Score for {dataset_name} dataset",
+    fontsize=20,
+    fontweight="bold",
+)
+fig.subplots_adjust(top=0.95)
+fig.savefig(f"{FIGURES_DIR}/interaction_effects_SVM_{dataset_name}.png", dpi=300)
+plt.show()
 
 # %%
 logging.info("Plotting ranked folds distribution for KNN models")
