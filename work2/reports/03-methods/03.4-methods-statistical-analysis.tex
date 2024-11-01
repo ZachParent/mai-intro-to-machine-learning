@@ -8,7 +8,6 @@ We employ a systematic approach to compare the performance of different models a
 There are various statistical tests available to compare the performance of machine learning models.
 We considered the following tests for our analysis:
 
-% TODO: Citation needed
 \subsubsection{ANOVA}
 Analysis of Variance (ANOVA) decomposes the total variance in the data into different components such as:
 between-classifier variability, between-dataset variability, and residual variability. When between-classifier
@@ -16,7 +15,7 @@ variability is significantly larger than the residual variability, we can reject
 conclude that there is a significant difference between the classifiers.
 
 However, ANOVA assumes that the data is drawn from normal distributions and that the variances are equal across groups.
-In the case of the hepatitis dataset, the class distribution is skewed (79 $-$ 21 split) [CITE].
+In the case of the hepatitis dataset, the class distribution is skewed (79 $-$ 21 split)\cite{StatisticalComparisonsOfClassifiersOverMultipleDataSetsJML}.
 
 \begin{figure}[!ht]
     \centering
@@ -52,17 +51,15 @@ These claims hold true when analysing performance metrics distribution across fo
 
 Given these observations, we decided against using ANOVA for our analysis.
 
-% TODO: Citation needed
 \subsubsection{Friedman Test}
 The Friedman test is a non-parametric equivalent of the repeated-measures ANOVA. 
 For each dataset, it ranks the models separately with the best model receiving a rank of 1, the second-best a rank of 2, and so on.
-The average rank is used to settle any ties in the ranks [CITE].
+The average rank is used to settle any ties in the ranks\cite{StatisticalComparisonsOfClassifiersOverMultipleDataSetsJML}.
 
 While the Friedman test theoretically has less statistical power than ANOVA when ANOVA's assumptions are met,
 it is more suitable for our analysis as it makes no assumptions about normality or equal variances.
 As we demonstrated with the hepatitis dataset's class distribution and performance metrics, these assumptions do not hold in our case.
 
-% TODO: Citation needed
 \subsubsection{Post-Hoc Testing}
 The Friedman test only tells us that there is a significant difference between the models,
 but it does not tell us which models are significantly different from each other.
@@ -75,7 +72,7 @@ other by checking if their average ranks differ by at least the critical differe
     CD = q_{\alpha} \times \sqrt{\frac{k(k+1)}{6N}}
 \end{equation}
 
-where $q_{\alpha}$ is based on the Studentized range statistic, $k$ is the number of classifiers, and $N$ is the number of datasets [CITE].
+where $q_{\alpha}$ is based on the Studentized range statistic, $k$ is the number of classifiers, and $N$ is the number of datasets\cite{StatisticalComparisonsOfClassifiersOverMultipleDataSetsJML}.
 If the difference in average ranks between two models exceeds this critical difference, we can conclude that their performances are significantly different.
 
 When performing the Nemenyi test, proper handling of ties is crucial for accurate analysis.
