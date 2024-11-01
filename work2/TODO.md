@@ -48,7 +48,7 @@
 - [ ] [ ] (@SheenaLang & @KacperPon) check that code runs on clean install
 
 - [ ] (@SheenaLang) check README.md
-- [ ] (@SheenaLang) Reorder methods reduction after SVM
+- [x] (@SheenaLang) Reorder methods reduction after SVM
 - [ ] (@SheenaLang) Add in data section that space becomes sparse if would Onehotencoding
 
 - [ ] (@CaJiFan) explain how reduction is done in report (using best KNN)
