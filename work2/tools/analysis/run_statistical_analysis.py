@@ -40,11 +40,12 @@ logging.info(f"Loading results data for {dataset_name}")
 knn_results_filename = f"{DATA_DIR}/per_fold_results/knn_{dataset_name}.csv"
 knn_reduction_results_filename = f"{DATA_DIR}/per_fold_results/knn_reduction_{dataset_name}.csv"
 svm_results_filename = f"{DATA_DIR}/per_fold_results/svm_{dataset_name}.csv"
+svm_reduction_results_filename = f"{DATA_DIR}/per_fold_results/svm_reduction_{dataset_name}.csv"
 
 knn_results = pd.read_csv(knn_results_filename)
 knn_reduction_results = pd.read_csv(knn_reduction_results_filename)
 svm_results = pd.read_csv(svm_results_filename)
-
+svm_reduction_results = pd.read_csv(svm_reduction_results_filename)
 # %%
 f1_cols = [f"f1_{i}" for i in range(10)]
 train_time_cols = [f"train_time_{i}" for i in range(10)]
@@ -333,11 +334,8 @@ write_latex_table(
 )
 
 # %%
-logging.basicConfig(level=logging.INFO)
-dataset_name = "hepatitis"
-
-# %%
 storage_cols = [f"storage_{i}" for i in range(10)]
+# %%
 knn_reduction_results["mean_storage"] = knn_reduction_results[storage_cols].mean(axis=1)
 
 knn_results["model_label"] = knn_results.apply(get_knn_model_label, axis=1)
@@ -348,36 +346,20 @@ svm_results["model_label"] = svm_results.apply(get_svm_model_label, axis=1)
 
 
 # %%
+# Create figure and plot
 metric_cols_map = {
     "Storage": storage_cols,
     "Training Time (s)": train_time_cols,
     "Testing Time (s)": test_time_cols,
     "F1 Score": f1_cols,
 }
-
+metric_pairs = [
+    ("Storage", "Training Time (s)"),
+    ("Storage", "Testing Time (s)"),
+    ("Training Time (s)", "F1 Score"),
+]
 fig, axes = plt.subplots(1, 3, figsize=(15, 5))
-for (metric_a, metric_b), ax in zip(
-    [
-        ("Storage", "Training Time (s)"),
-        ("Storage", "Testing Time (s)"),
-        ("Training Time (s)", "F1 Score"),
-    ],
-    axes,
-):
-
-    for idx in knn_reduction_results.index:
-        metric_a_values = knn_reduction_results.loc[idx, metric_cols_map[metric_a]].values
-        metric_b_values = knn_reduction_results.loc[idx, metric_cols_map[metric_b]].values
-        ax.scatter(
-            metric_a_values,
-            metric_b_values,
-            alpha=0.6,
-            label=knn_reduction_results.loc[idx, "reduction_func"],
-        )
-    ax.set_title(f"{metric_b} vs {metric_a}", fontsize=16, fontweight="bold")
-    ax.set_xlabel(metric_a, fontsize=14, fontweight="bold")
-    ax.set_ylabel(metric_b, fontsize=14, fontweight="bold")
-    ax.legend()
+plot_reduction_results_scatter(axes, metric_cols_map, metric_pairs, knn_reduction_results)
 fig.suptitle(f"Distribution of Metrics for KNN Reduction Models", fontsize=20, fontweight="bold")
 plt.tight_layout()
 fig.savefig(f"{FIGURES_DIR}/KNN_reduction_distributions_{dataset_name}.png", dpi=300)

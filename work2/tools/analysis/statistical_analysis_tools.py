@@ -406,3 +406,24 @@ def get_significant_pairs(nemenyi_results, alpha=0.05):
 
 def get_df_pairs(df, pairs):
     return df.iloc[list(set(np.array([[pair[0], pair[1]] for pair in pairs]).flatten()))]
+
+def plot_reduction_results_scatter(axs, metric_cols_map, metric_pairs, reduction_results):
+
+
+    for (metric_a, metric_b), ax in zip(
+        metric_pairs,
+        axs,
+    ):
+        for idx in reduction_results.index:
+            metric_a_values = reduction_results.loc[idx, metric_cols_map[metric_a]].values
+            metric_b_values = reduction_results.loc[idx, metric_cols_map[metric_b]].values
+            ax.scatter(
+                metric_a_values,
+                metric_b_values,
+                alpha=0.6,
+                label=reduction_results.loc[idx, "reduction_func"],
+            )
+        ax.set_title(f"{metric_b} vs {metric_a}", fontsize=16, fontweight="bold")
+        ax.set_xlabel(metric_a, fontsize=14, fontweight="bold")
+        ax.set_ylabel(metric_b, fontsize=14, fontweight="bold")
+        ax.legend()
