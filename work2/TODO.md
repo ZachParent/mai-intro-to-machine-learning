@@ -62,7 +62,7 @@
   - [x] (@KacperPon) explain why linear sampling was used
 - [x] (@KacperPon) explain how we chose the additional distance metrics for the KNN
 - [x] (@KacperPon) Distribute statistical analysis
-- [ ] (@KacperPon) Add plots to KNN results
+- [x] (@KacperPon) Add plots to KNN results
 
 - [ ] (@ZachParent) explain how we chose the values for the SVM parameters
 - [ ] (@ZachParent) Statistical analysis SVM

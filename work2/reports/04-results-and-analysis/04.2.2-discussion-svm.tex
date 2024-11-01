@@ -14,17 +14,46 @@ SVMs tend to have much lower test times than KNN. This is expecially noticable f
     \label{fig:model_comparison_mushroom}
 \end{figure}
 
+\subsubsection{Mushroom Dataset Performance}
 
-\subsubsection*{Hyperparameter Comparison}
+\input{tables/svm_results_mushroom.tex}
 
-For the hepatitis dataset, the configuration using the \textbf{RBF} kernel and $C=7$
-achieved outstanding accuracy and F1 scores. However, because of the simple predictability
-of the mushroom data, the simple \textbf{Polynomial} kernel performed better when paired with $C=1$.
-(See \autoref{tab:svm_results_hepatitis} and \autoref{tab:svm_results_mushroom}).
+\begin{description}
+    \item[\textbf{Best Configuration:}]\leavevmode
+        \begin{itemize}
+            \item C = 1 with Polynomial Kernel
+        \end{itemize}
+    
+    \item[\textbf{Performance Range:}]\leavevmode
+        \begin{itemize}
+            \item Accuracy: 92.8%
+            \item F1 Score: 92.8%
+        \end{itemize}
+\end{description}
 
-To compare the performance across model configurations, we employed statistical analysis methods
-(see \autoref{sec:statistical-analysis}) to determine whether the various configurations showed
-statistically significant differences in performance.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/ranked_folds_SVM_mushroom.png}
+    \caption{SVM Ranked Folds for Mushroom Dataset}
+    \label{fig:ranked_folds_svm_mushroom}
+\end{figure}
+
+\subsubsection{Hepatitis Dataset Performance}
+
+\input{tables/svm_results_hepatitis.tex}
+
+\begin{description}
+    \item[\textbf{Best Configuration:}]\leavevmode
+        \begin{itemize}
+            \item C = 7 with RBF Kernel
+        \end{itemize}
+    
+    \item[\textbf{Performance Range:}]\leavevmode
+        \begin{itemize}
+            \item Accuracy: 95.5%
+            \item F1 Score: 97.2%
+        \end{itemize}
+\end{description}
 
 \begin{figure}
     \centering
@@ -33,12 +62,16 @@ statistically significant differences in performance.
     \label{fig:ranked_folds_svm_hepatitis}
 \end{figure}
 
-\begin{figure}
-    \centering
-    \includegraphics[width=0.9\textwidth]{figures/ranked_folds_SVM_mushroom.png}
-    \caption{SVM Ranked Folds for Mushroom Dataset}
-    \label{fig:ranked_folds_svm_mushroom}
-\end{figure}
+For the hepatitis dataset, the configuration using the \textbf{RBF} kernel and $C=7$
+achieved outstanding accuracy and F1 scores. However, because of the simple predictability
+of the mushroom data, the simple \textbf{Polynomial} kernel performed better when paired with $C=1$.
+(See \autoref{tab:svm_results_hepatitis} and \autoref{tab:svm_results_mushroom}).
+
+\subsubsection*{Overall Comparison}
+
+To compare the performance across model configurations, we employed statistical analysis methods
+(see \autoref{sec:statistical-analysis}) to determine whether the various configurations showed
+statistically significant differences in performance.
 
 As seen in \autoref{fig:ranked_folds_svm_hepatitis} and \autoref{fig:ranked_folds_svm_mushroom},
 some models achieved significantly better results than others. By comparing the ranks among each of the 10 folds,
