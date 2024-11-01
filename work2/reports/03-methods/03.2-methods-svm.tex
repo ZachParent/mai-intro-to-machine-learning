@@ -10,7 +10,6 @@ regression tasks. The primary objective of SVM is to find the optimal hyperplane
 in the feature space while maximizing the margin between the classes\cite{burges1998svmTutorial}.
 
 The key principles of SVM include:
-
 \begin{itemize}
     \item Margin Maximization: SVM aims to find the hyperplane that maximizes the margin between classes, which enhances the model's generalization capability.
     \item Support Vectors: The data points closest to the decision boundary, known as support vectors, play a crucial role in defining the optimal hyperplane.
@@ -19,16 +18,17 @@ The key principles of SVM include:
 
 Advantages of SVM include:
 \begin{itemize}
-    \item Effectiveness in high-dimensional spaces
-    \item Versatility through different kernel functions
-    \item Faster consultation times than KNN, thanks to training step
+    \item Effectiveness in high-dimensional spaces.
+    \item Versatility through different kernel functions.
+    \item Provides efficient predictions compared to instance-based methods like KNN.
 \end{itemize}
 
 Disadvantages of SVM include:
 \begin{itemize}
-    \item Sensitivity to the choice of kernel function and hyperparameters
-    \item Computational complexity for large datasets
+    \item Performance highly depends on kernel selection and parameter tuning.
+    \item Becomes computationally intensive with large-scale datasets.
 \end{itemize}
+
 \subsubsection{Implementation Details}
 
 Unlike for KNN (see \autoref{subsec:methods-knn} on K-Nearest Neighbors), we did not implement the SVM algorithm ourselves.
@@ -37,10 +37,10 @@ Instead, we used the prebuilt implementations from the \texttt{sklearn} library
 Scikit-learn's \texttt{svm} module includes several different implementations of SVM:
 
 \begin{itemize}
-    \item \texttt{SVC}: Support Vector Classification, the most commonly used implementation for classification tasks
-    \item \texttt{NuSVC}: Support Vector Classification with Nu-SVC, similar to \texttt{SVC} but with a different formulation of the optimization problem 
-    \item \texttt{LinearSVC}: Linear Support Vector Classification, a specific variant of \texttt{SVC} that uses a linear kernel
-    \item \texttt{SVR}: Support Vector Regression, a variant of SVM for regression tasks
+    \item \texttt{SVC}: Support Vector Classification, the most commonly used implementation for classification tasks.
+    \item \texttt{NuSVC}: Support Vector Classification with Nu-SVC, similar to \texttt{SVC} but with a different formulation of the optimization problem.
+    \item \texttt{LinearSVC}: Linear Support Vector Classification, a specific variant of \texttt{SVC} that uses a linear kernel.
+    \item \texttt{SVR}: Support Vector Regression, a variant of SVM for regression tasks.
 \end{itemize}
 
 For our study, we decided to use \texttt{SVC} as it is the most commonly used implementation
@@ -65,7 +65,7 @@ The following hyperparameters were tuned in our SVM implementation:
 
 \begin{itemize}
     \item C: The regularization parameter, which controls the trade-off between achieving a low training error and a low testing error. We explored values [1, 3, 5, 7].
-    \item Kernel: We tested different kernel types including "linear", "poly", "rbf", and "sigmoid".
+    \item Kernel: We tested different kernel types including `linear', `poly', `rbf', and `sigmoid.
 \end{itemize}
 
 \subsubsection{Implementation Steps}

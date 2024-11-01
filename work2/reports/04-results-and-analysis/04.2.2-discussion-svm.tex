@@ -1,16 +1,13 @@
 \subsubsection{Support Vector Machines (SVM) Analysis}
 \label{subsubsec:discussion-svm}
 
-% SVMs performed well on both the hepatitis and the mushroom datasets,
-% achieving peak accuracy and F1 scores which match the best results from KNN.
-
 A key advantage of the SVM over KNN is that SVMs are much faster during consultation time. As seen in \autoref{fig:model_comparison_mushroom},
-SVMs tend to have much lower test times than KNN. This is expecially noticable for large datasets like the mushroom dataset.
+SVMs tend to have much lower test times than KNN. This is especially noticable for large datasets like the mushroom dataset.
 
 \begin{figure}
     \centering
     \includegraphics[width=0.9\textwidth]{figures/model_comparison_mushroom.png}
-    \caption{SVM and KNN Comparison}
+    \caption{SVM and KNN model comparison on Mushroom Dataset}
     \label{fig:model_comparison_mushroom}
 \end{figure}
 
@@ -26,17 +23,30 @@ SVMs tend to have much lower test times than KNN. This is expecially noticable f
     
     \item[\textbf{Performance Range:}]\leavevmode
         \begin{itemize}
-            \item Accuracy: 92.8%
-            \item F1 Score: 92.8%
+            \item Accuracy: 92.8\%
+            \item F1 Score: 92.8\%
         \end{itemize}
 \end{description}
+
+\subsubsection*{Observations}
+The results for the mushroom dataset show that the SVM model performed consistently strong across all configurations,
+albeit some performed better than others. The best performing model used a Polynomial kernel with $C=1$.
+(See \autoref{tab:svm_results_mushroom}).
+This SVM model achieved a score of 92.8\% for both accuracy and F1 score. This result was closely
+following by the RBF kernel with higher values of C (3, 5, and 7).
 
 \begin{figure}
     \centering
     \includegraphics[width=0.9\textwidth]{figures/ranked_folds_SVM_mushroom.png}
     \caption{SVM Ranked Folds for Mushroom Dataset}
-    \label{fig:ranked_folds_svm_mushroom}
+    \label{fig:ranked_folds_SVM_mushroom}
 \end{figure}
+
+The above figure shows the ranked folds for the SVM algorithm on the mushroom dataset.
+The figure illustrates the variation in performance across different SVM models, with some models performing 
+better than others. Notably, the presence of outliers (shown as points) in several models indicates
+occasional deviations from the mean performance. The median ranks vary considerably across the different models,
+with only `C5Lin' and `C7Lin' showing consistent performance across all folds.
 
 \subsubsection{Hepatitis Dataset Performance}
 
@@ -50,30 +60,40 @@ SVMs tend to have much lower test times than KNN. This is expecially noticable f
     
     \item[\textbf{Performance Range:}]\leavevmode
         \begin{itemize}
-            \item Accuracy: 95.5%
-            \item F1 Score: 97.2%
+            \item Accuracy: 95.5\%
+            \item F1 Score: 97.2\%
         \end{itemize}
 \end{description}
+
+\subsubsection*{Observations}
+The results for the hepatitis dataset show that the SVM model also performed consistently strong across all configurations.
+(See \autoref{tab:svm_results_hepatitis}).
+The best performing model used an RBF kernel with $C=7$.
+This SVM model achieved an accuracy of 95.5\% and an F1 score of 97.2\%.
 
 \begin{figure}
     \centering
     \includegraphics[width=0.9\textwidth]{figures/ranked_folds_SVM_hepatitis.png}
     \caption{SVM Ranked Folds for Hepatitis Dataset}
-    \label{fig:ranked_folds_svm_hepatitis}
+    \label{fig:ranked_folds_SVM_hepatitis}
 \end{figure}
 
+The above figure shows the ranked folds for the SVM algorithm on the mushroom dataset.
+The figure illustrates the variation in performance across the different SVM models and folds.
+When considering the mean, SVM models `C3RBF' and `C5RBF' consistently outperformed the other models.
+
+\subsubsection*{Overall Comparison}
 For the hepatitis dataset, the configuration using the \textbf{RBF} kernel and $C=7$
 achieved outstanding accuracy and F1 scores. However, because of the simple predictability
 of the mushroom data, the simple \textbf{Polynomial} kernel performed better when paired with $C=1$.
 (See \autoref{tab:svm_results_hepatitis} and \autoref{tab:svm_results_mushroom}).
 
-\subsubsection*{Overall Comparison}
-
+\subsection*{Support Vector Machines (SVM) Statistical Analysis}
 To compare the performance across model configurations, we employed statistical analysis methods
 (see \autoref{sec:statistical-analysis}) to determine whether the various configurations showed
 statistically significant differences in performance.
 
-As seen in \autoref{fig:ranked_folds_svm_hepatitis} and \autoref{fig:ranked_folds_svm_mushroom},
+As seen in \autoref{fig:ranked_folds_SVM_hepatitis} and \autoref{fig:ranked_folds_SVM_mushroom},
 some models achieved significantly better results than others. By comparing the ranks among each of the 10 folds,
 we can check to see if there were any cases in which 1 model always outperformed another.
 
