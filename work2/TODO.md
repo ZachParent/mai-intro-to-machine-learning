@@ -60,7 +60,7 @@
 
 - [ ] (@KacperPon) explain which groups of models pass the friedman test
   - [ ] (@KacperPon) explain why linear sampling was used
-- [ ] (@KacperPon) explain how we chose the additional distance metrics for the KNN
+- [x] (@KacperPon) explain how we chose the additional distance metrics for the KNN
 - [ ] (@KacperPon) Distribute statistical analysis
 
 - [ ] (@ZachParent) explain how we chose the values for the SVM parameters

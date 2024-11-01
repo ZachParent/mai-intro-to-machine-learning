@@ -69,6 +69,13 @@ The formula for Chebychev distance between two vectors \(x\) and \(y\) is:
 \[ d = \max_{i=1}^{n} |x_i - y_i| \]
 where \(x_i\) and \(y_i\) are the \(i\)th elements of vectors \(x\) and \(y\), respectively.\\
 
+The Manhattan and Euclidean distance metrics are mandatory as per the assignment requirements,
+while the Chebychev distance metric was included as an additional distance metric.
+We chose Chebyshev distance because as described above, only the maximum difference is considered,
+not the sum of the differences. This is particularly important when working with high dimensional spaces (which is the case for our datasets)
+as it can help reduce the computational cost and improve time efficiency.
+
+
 \subsubsection*{Weighting Schemes}
 In the k-NN algorithm, the choice of weighting scheme can significantly impact the classification results.
 The following weighting schemes were implemented in this study:\\
