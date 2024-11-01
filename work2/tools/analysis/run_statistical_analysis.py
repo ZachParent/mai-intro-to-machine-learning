@@ -27,7 +27,7 @@ FIGURES_DIR = os.path.join(SCRIPT_DIR, "../../reports/figures")
 TABLES_DIR = os.path.join(SCRIPT_DIR, "../../reports/tables")
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--dataset_name", type=str, default="mushroom")
+parser.add_argument("--dataset_name", type=str, default="hepatitis")
 parser.add_argument("--f", type=str, default="")
 parser.add_argument("--verbose", "-v", action="store_true")
 args = parser.parse_args()
@@ -154,6 +154,16 @@ top_values = get_top_values(knn_results, knn_col_names, num_to_select=2, models_
 models_with_top_values = get_models_with_top_values(knn_results, top_values)
 
 # %%
+logging.info("Plotting interaction effects of SVM model parameters")
+fig = plot_interactions(svm_results, ["C", "kernel_type"])
+fig.suptitle(
+    f"Interaction Effects of SVM Model Parameters on F1 Score for {dataset_name} dataset",
+    fontsize=20,
+    fontweight="bold",
+)
+fig.subplots_adjust(top=0.95)
+fig.savefig(f"{FIGURES_DIR}/interaction_effects_SVM_{dataset_name}.png", dpi=300)
+plt.show()
 
 # %%
 logging.info("Plotting ranked folds distribution for KNN models")
@@ -264,7 +274,7 @@ logging.info("Analyzing Nemenyi test results for SVM models")
 analyze_parameters(svm_results_for_nemenyi, svm_nemenyi_results, svm_col_names)
 
 significant_pairs = get_significant_pairs(svm_nemenyi_results)
-significant_pairs_df = get_df_pairs(svm_results_for_nemenyi, significant_pairs)
+significant_pairs_df = get_df_pairs(svm_results_for_nemenyi, significant_pairs)[svm_col_names + ["mean_f1"]]
 significant_pairs_df = format_column_names(significant_pairs_df)
 write_latex_table(
     significant_pairs_df,
@@ -273,7 +283,7 @@ write_latex_table(
 )
 # %%
 
-best_svm_model = svm_results.iloc[0, :]
+best_svm_model = svm_results.iloc[0, :] 
 best_knn_model = knn_results.iloc[0, :]
 if best_svm_model["mean_f1"] != best_knn_model["mean_f1"]:
     knn_svm_f1_p_value = stats.wilcoxon(
@@ -451,10 +461,11 @@ friedman_test_df = pd.DataFrame(
     ),
     columns=["name", "P Value"],
 )
+friedman_test_df.replace('nan', '1', inplace=True)
 write_latex_table(
     friedman_test_df,
     f"{TABLES_DIR}/friedman_test_results_{dataset_name}.tex",
-    "Friedman Test Results",
+    f"Friedman Test Results {dataset_name}",
     precision=8,
 )
 friedman_test_df

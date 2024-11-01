@@ -36,6 +36,18 @@ indicating that the dataset contains relatively a uniform
 distribution of meaningful data points.
 The F1 scores achieved across all configurations were consistently high, indicating a good balance between precision and recall.
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/ranked_folds_KNN_mushroom.png}
+    \caption{KNN Ranked Folds for Mushroom Dataset}
+    \label{fig:ranked_folds_KNN_mushroom}
+\end{figure}
+
+The above figure shows the ranked folds for the k-NN algorithm on the mushroom dataset.
+The figure illustrates the variation in performance across different KNN models, with some models performing 
+better than others. It's evident a lower value of k (1 or 3) tends to perform better than higher values of k (5 or 7)
+in combination with the other parameters. 
+Interestingly, for each KNN model the performance across the 10 folds is identical.
 
 \subsubsection{Hepatitis Dataset Performance}
 
@@ -71,11 +83,61 @@ As also seen in the mushroom dataset, the F1 scores achieved across all configur
 indicating a good balance between precision and recall.
 
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/ranked_folds_KNN_hepatitis.png}
+    \caption{KNN Ranked Folds for Hepatitis Dataset}
+    \label{fig:ranked_folds_KNN_hepatitis}
+\end{figure}
+
 \subsubsection{Overall Comparison}
 While both datasets achieved high performance, the hepatitis dataset outperformed the mushroom dataset in terms of accuracy and F1 score.
 This difference may be due to the hepatitis dataset's smaller size and more distinct class separations,
 making it easier for the KNN algorithm to make accurate predictions. These distinct class separations may also explain why the k = 1 configuration
 performed best on the hepatitis dataset, as the algorithm can make more precise decisions with fewer neighbors.
+
+\subsection*{K-Nearest Neighbour (KNN) Statistical Analysis}
+Below are the Nemenyi test results for the KNN models on the hepatitis and mushroom datasets respectively.
+
+For the below analysis of both the KNN model, values closer to 1 indicate no significant difference between models,
+whereas values closer to 0 indicate a significant difference.
+
+The diagonal values (top left to bottom right) are always 1 and report no significant difference
+as they represent the comparison of a model with itself.
+
+To determine statistical significance, we use a confidence level of 0.95 (95\% confidence interval) for the Nemenyi test.
+Therefore, any values greater than 0.05 indicate that the models are not significantly different from each other.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/nemenyi_test_results_KNN_hepatitis.png}
+    \caption{Nemenyi test results for KNN models on the hepatitis dataset}
+\label{fig:nemenyi_test_results_KNN_hepatitis}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/nemenyi_test_results_KNN_mushroom.png}
+    \caption{Nemenyi test results for KNN models on the mushroom dataset}
+\label{fig:nemenyi_test_results_KNN_mushroom}
+\end{figure}
+
+The Nemenyi test results for the KNN models on the hepatitis dataset reveal two statistically distinct
+groups of model configurations. The first group consists of k = 1 configurations
+(with Manhattan and Euclidean distance) and k=3 with Manhattan distance, which all perform similarly to each other (p=1.00).
+The second group includes configurations with higher k values (3,5,7) using various distance metrics,
+which also perform similarly within their group (p=1.00) but significantly differently from the first
+group (some comparisons yield p=0.04, below the 0.05 threshold). This clear separation suggests that the choice of k-value
+has a more substantial impact on model performance than the choice of distance metric, with k=1 configurations behaving distinctly from higher k-values.
+
+The Nemenyi test results for the KNN models on the mushroom dataset reveal two main groups of model configurations.
+The first group consists of k=1 configurations and k=3 with Manhattan distance, which perform similarly
+(p=0.85 $-$ 1.00), though with some variation within the group. The second group includes configurations
+from k5ManShpInf through k7ChebShpRtf, which show high similarity within their group (p=0.95 $-$ 1.00).
+Some of these groups perform significantly differently from each other, given the p-values fall below the 0.05 threshold.
+
+We can deduce that the k-value has a substantial impact on model performance on both datasets. 
+
 
 
 

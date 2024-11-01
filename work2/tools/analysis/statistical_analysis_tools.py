@@ -180,10 +180,8 @@ def plot_independent_effects(df, x_cols, y_cols=["mean_f1"]):
         unique_vals = df[x_col].unique()
         if np.issubdtype(unique_vals.dtype, np.number):
             unique_vals.sort()
-            sorted_data = [df[df[x_col] == val][y_col].tolist() for val in unique_vals]
-            custom_boxplot(ax, sorted_data)
-        else:
-            custom_boxplot(ax, df.groupby(x_col)[y_col].apply(list))
+        sorted_data = [df[df[x_col] == val][y_col].tolist() for val in unique_vals]
+        custom_boxplot(ax, sorted_data)
 
         # Convert categorical values to numeric positions for xticks
         positions = np.arange(len(unique_vals)) + 1
@@ -204,12 +202,6 @@ def plot_interactions(df, col_names):
     num_cols = len(col_names)
     fig, axes = plt.subplots(num_cols, num_cols, figsize=(5 * num_cols, 4 * num_cols))
 
-    # Make axes 2D if it's 1D
-    if num_cols == 1:
-        axes = np.array([[axes]])
-    elif num_cols == 2:
-        axes = np.array([[axes[0]], [axes[1]]])
-
     for i, ((col_name1, col_name2), ax) in enumerate(
         zip(itertools.product(col_names, repeat=2), axes.flatten())
     ):
@@ -222,7 +214,11 @@ def plot_interactions(df, col_names):
 
         if col_name1 == col_name2:
             # Diagonal plots: show distribution for single variable
-            custom_boxplot(ax, df.groupby(col_name1)["mean_f1"].apply(list))
+            unique_vals = df[col_name1].unique()
+            if np.issubdtype(unique_vals.dtype, np.number):
+                unique_vals.sort()
+            sorted_data = [df[df[col_name1] == val]["mean_f1"].tolist() for val in unique_vals]
+            custom_boxplot(ax, sorted_data)
         else:
             # Off-diagonal plots: show interaction between variables
             pivot_table = df.pivot_table(
@@ -252,7 +248,7 @@ def plot_interactions(df, col_names):
                 if pd.api.types.is_numeric_dtype(df[col_names[i]])
                 else df[col_names[i]].unique()
             )
-            axes[i, 0].set_yticks(np.arange(len(unique_vals)) + 0.5)
+            axes[i, 0].set_yticks(np.arange(len(unique_vals)) + 1)
             axes[i, 0].set_yticklabels(unique_vals, rotation=15)
 
     # Add column labels and x-ticks only on the bottom plots
@@ -262,10 +258,7 @@ def plot_interactions(df, col_names):
             if pd.api.types.is_numeric_dtype(df[col_names[j]])
             else df[col_names[j]].unique()
         )
-        if j == num_cols - 1:
-            axes[-1, j].set_xticks(np.arange(len(unique_vals)))
-        else:
-            axes[-1, j].set_xticks(np.arange(len(unique_vals)) + 0.5)
+        axes[-1, j].set_xticks(np.arange(len(unique_vals)) + 1)
         axes[-1, j].set_xticklabels(unique_vals, rotation=15)
         axes[-1, j].set_xlabel(col_names[j], fontsize=20, labelpad=20)
 
