@@ -53,7 +53,7 @@ test_time_cols = [f"test_time_{i}" for i in range(10)]
 knn_col_names = ["k", "distance_func", "voting_func", "weighting_func"]
 svm_col_names = ["C", "kernel_type"]
 
-for df in [knn_results, knn_reduction_results, svm_results]:
+for df in [knn_results, knn_reduction_results, svm_results, svm_reduction_results]:
     for metric_col in ["f1", "train_time", "test_time"]:
         df[f"mean_{metric_col}"] = df.loc[:, [f"{metric_col}_{i}" for i in range(10)]].mean(axis=1)
     df.sort_values(by=f"mean_f1", ascending=False, inplace=True)
@@ -488,4 +488,46 @@ for (df, name) in zip([knn_legend, svm_legend, knn_reduction_legend, svm_reducti
         f"{TABLES_DIR}/{name}_legend.tex",
         f"{name} Legend",
     )
+# %%
+def write_latex_table_summary(df, columns, filename, caption, sort_by="f1"):
+    df = (
+        df.sort_values(by=sort_by, ascending=False)
+        .reset_index(drop=True)
+        .assign(**{"": lambda x: x.index + 1})
+        .loc[:, [""] + columns]
+        .head(10)
+        .rename(columns=lambda x: x.replace("_", " "))
+    )
+    write_latex_table(df, filename, caption)
+
+# %%
+
+write_latex_table_summary(
+    knn_results,
+    knn_col_names + ['mean_f1', 'mean_train_time', 'mean_test_time'],
+    f"{TABLES_DIR}/knn_results_{dataset_name}.tex",
+    f"Results from KNN models for the {dataset_name} dataset".title(),
+    sort_by='mean_f1',
+)
+write_latex_table_summary(
+    svm_results,
+    svm_col_names + ['mean_f1', 'mean_train_time', 'mean_test_time'],
+    f"{TABLES_DIR}/svm_results_{dataset_name}.tex",
+    f"Results from SVM models for the {dataset_name} dataset".title(),
+    sort_by='mean_f1',
+)
+write_latex_table_summary(
+    knn_reduction_results,
+    ['reduction_func'] + knn_col_names + ['mean_f1', 'mean_train_time', 'mean_test_time', 'mean_storage'],
+    f"{TABLES_DIR}/knn_reduction_results_{dataset_name}.tex",
+    f"Results from KNN models for the {dataset_name} dataset with dimensionality reduction".title(),
+    sort_by='mean_f1',
+)
+write_latex_table_summary(
+    svm_reduction_results,
+    ['reduction_func'] + svm_col_names + ['mean_f1', 'mean_train_time', 'mean_test_time', 'mean_storage'],
+    f"{TABLES_DIR}/svm_reduction_results_{dataset_name}.tex",
+    f"Results from SVM models for the {dataset_name} dataset with dimensionality reduction".title(),
+    sort_by='mean_f1',
+)
 # %%
