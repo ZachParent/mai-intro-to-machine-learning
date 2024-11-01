@@ -1,9 +1,9 @@
 import os
 
-
 def format_column_names(df):
-    df.copy().rename(columns=lambda x: x.replace("_", " ").title(), inplace=True)
-    return df
+    result = df.copy()
+    result.rename(columns=lambda x: x.replace("_", " ").title(), inplace=True)
+    return result
 
 
 def write_latex_table(df, filename, caption, precision=3):
