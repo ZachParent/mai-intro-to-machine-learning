@@ -31,7 +31,7 @@ def GCNN(X, y, k: int, knn: KNNClassifier):
             if any(np.all(X_reduced == X.iloc[i].to_numpy(), axis=1)):
                 continue
 
-            # Check if current point is misclassified by k-NN
+            # Check if current point is misclassified by KNN
             pred = knn.predict([X.iloc[i]])
             if pred != y[i]:
                 # Add this misclassified sample to set

@@ -8,7 +8,7 @@ def RNN(X_train, y_train, model):
     Args:
       X_train: Training data features.
       y_train: Training data labels.
-      model: The classifier model to use (kNN or SVM).
+      model: The classifier model to use (KNN or SVM).
 
     Returns:
       Reduced training data features and labels.
@@ -50,7 +50,7 @@ def ENNTh(X_train, y_train, k=3, threshold=0.5):
         x_i = X_train[i]
         y_i = y_train[i]
 
-        knn = KNeighborsClassifier(n_neighbors=k)  # Using a temporary kNN for ENNTh
+        knn = KNeighborsClassifier(n_neighbors=k)  # Using a temporary KNN for ENNTh
         knn.fit(X_train, y_train)
         neighbors = knn.kneighbors([x_i], return_distance=False)[0]
 
@@ -71,7 +71,7 @@ def IB2(X_train, y_train, model):
     Args:
       X_train: Training data features.
       y_train: Training data labels.
-      model: The classifier model to use (kNN or SVM).
+      model: The classifier model to use (KNN or SVM).
 
     Returns:
       Reduced training data features and labels.
@@ -107,10 +107,10 @@ def IB2(X_train, y_train, model):
 
 def reductionKNNAlgorithm(model, train_dfs, test_dfs, target_col, reduction_method):
     """
-    kNN or SVM algorithm with instance reduction preprocessing and cross-validation.
+    KNN or SVM algorithm with instance reduction preprocessing and cross-validation.
 
     Args:
-      model: The classifier model to use (kNN or SVM).
+      model: The classifier model to use (KNN or SVM).
       train_dfs: List of training DataFrames.
       test_dfs: List of testing DataFrames.
       target_col: Name of the target column.

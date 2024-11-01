@@ -83,7 +83,7 @@ def preprocess_hepatitis_datasets(data: pd.DataFrame) -> pd.DataFrame:
     data[numerical_cols] = num_imputer.fit_transform(data[numerical_cols])
 
     # Normalise the data in the numerical columns using Min-Max scaling.
-    # (good in situations where distance-based algorithms will be used, we will be using k-NN)
+    # (good in situations where distance-based algorithms will be used, we will be using KNN)
     data[numerical_cols] = scaler.fit_transform(data[numerical_cols])
 
     return data
