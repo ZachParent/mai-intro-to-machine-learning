@@ -47,9 +47,9 @@
 - [ ] [ ] (@SheenaLang & @KacperPon) check that all plots are generated on run
 - [ ] [ ] (@SheenaLang & @KacperPon) check that code runs on clean install
 
-- [ ] (@SheenaLang) check README.md
+- [x] (@SheenaLang) check README.md
 - [x] (@SheenaLang) Reorder methods reduction after SVM
-- [ ] (@SheenaLang) Add in data section that space becomes sparse if would Onehotencoding
+- [x] (@SheenaLang) Add in data section that space becomes sparse if would Onehotencoding
 
 - [ ] (@CaJiFan) explain how reduction is done in report (using best KNN)
 - [ ] (@CaJiFan) explain how we chose the reduction techniques
