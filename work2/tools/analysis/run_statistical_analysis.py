@@ -264,7 +264,7 @@ logging.info("Analyzing Nemenyi test results for SVM models")
 analyze_parameters(svm_results_for_nemenyi, svm_nemenyi_results, svm_col_names)
 
 significant_pairs = get_significant_pairs(svm_nemenyi_results)
-significant_pairs_df = get_df_pairs(svm_results_for_nemenyi, significant_pairs)
+significant_pairs_df = get_df_pairs(svm_results_for_nemenyi, significant_pairs)[svm_col_names + ["mean_f1"]]
 significant_pairs_df = format_column_names(significant_pairs_df)
 write_latex_table(
     significant_pairs_df,
