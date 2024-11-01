@@ -78,7 +78,6 @@ run: create_environment
 	@echo ">>> Completed running all datasets. Running dataset analysis..."
 	$(ACTIVATE_CMD) python tools/analysis/run_dataset_analysis.py
 
-# Keep your existing setup target
 setup: create_environment
 	@echo ">>> Setting up complete project environment..."
 	$(ACTIVATE_CMD) $(MAKE) requirements && $(MAKE) format && echo ">>> Setup complete. Run base project with: python run.py --dataset_name [mushroom|hepatitis]"

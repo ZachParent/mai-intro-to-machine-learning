@@ -4,12 +4,12 @@
 This section presents the statistical analysis of the results of the study.
 We employ a systematic approach to compare the performance of different models and their configurations.
 
-\subsubsection{Tests Considered}
+\subsubsection*{Tests Considered}
 There are various statistical tests available to compare the performance of machine learning models.
 We considered the following tests for our analysis:
 
 % TODO: Citation needed
-\subsubsection*{ANOVA}
+\subsubsection{ANOVA}
 Analysis of Variance (ANOVA) decomposes the total variance in the data into different components such as:
 between-classifier variability, between-dataset variability, and residual variability. When between-classifier
 variability is significantly larger than the residual variability, we can reject the theorised null hypothesis and
@@ -53,7 +53,7 @@ These claims hold true when analysing performance metrics distribution across fo
 Given these observations, we decided against using ANOVA for our analysis.
 
 % TODO: Citation needed
-\subsubsection*{Friedman Test}
+\subsubsection{Friedman Test}
 The Friedman test is a non-parametric equivalent of the repeated-measures ANOVA. 
 For each dataset, it ranks the models separately with the best model receiving a rank of 1, the second-best a rank of 2, and so on.
 The average rank is used to settle any ties in the ranks [CITE].
@@ -63,7 +63,7 @@ it is more suitable for our analysis as it makes no assumptions about normality 
 As we demonstrated with the hepatitis dataset's class distribution and performance metrics, these assumptions do not hold in our case.
 
 % TODO: Citation needed
-\subsubsection*{Post-Hoc Tests}
+\subsubsection{Post-Hoc Tests}
 The Friedman test only tells us that there is a significant difference between the models,
 but it does not tell us which models are significantly different from each other.
 This is why we employ the Nemenyi test as a post-hoc procedure.
@@ -84,25 +84,62 @@ average of the ranks they would have occupied. For example, if two models tie fo
 rather than arbitrarily assigning ranks 2 and 3, both models receive a rank of 2.5 (the average of positions 2 and 3).
 This mid-rank approach ensures fair treatment of tied performances and prevents artificial rank differences that could bias the statistical analysis.
 
-\subsection*{Test Results}
+% TODO: Talk about which groups of models pass the Nemenyi test, 
+
+
+\subsubsection{Test Results}
 In the visualization of critical difference (CD) diagrams,the entire bar represents the critical difference value.
 The half-width of the bar (CD/2) extends on either side of a model's average rank. When comparing two models,
 if their CD/2 intervals do not overlap, we can conclude that there is a statistically significant difference in their performance.
 This visual representation provides an intuitive way to interpret the Nemenyi test results, as any
 non-overlapping bars clearly indicate significant differences between models.
 
-\begin{figure}[h!]
+For the below analysis of both the k-NN and SVM models, values closer to 1 indicate no significant difference between models,
+whereas values closer to 0 indicate a significant difference.
+
+The diagonal values (top left to bottom right) are always 1 and report no significant difference
+as they represent the comparison of a model with itself.
+
+% Discuss: 90% or 95% confidence level?
+To determine statistical significance, we use a confidence level of 0.95 (95\% confidence interval) for the Nemenyi test.
+Therefore, any values greater than 0.05 indicate that the models are not significantly different from each other.
+
+\subsubsection*{k-Nearest Neighbors (KNN) Analysis}
+Below are the Nemenyi test results for the KNN models on the hepatitis and mushroom datasets respectively.
+
+\begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.9\textwidth]{figures/nemenyi_test_results_KNN_hepatitis.png}
-    \caption{Pairwise comparison p-values from Nemenyi test for KNN models on the Hepatitis dataset}
-\label{fig:nemenyi-knn-hepatitis}
+    \includegraphics[width=0.8\textwidth]{figures/nemenyi_test_results_KNN_hepatitis.png}
+    \includegraphics[width=0.8\textwidth]{figures/nemenyi_test_results_KNN_mushroom.png}
+    \caption{Nemenyi test results for KNN models}
+\label{fig:nemenyi-knn}
 \end{figure}
 
-Figure~\ref{fig:nemenyi-knn-hepatitis} shows the pairwise comparison p-values from the Nemenyi test for different KNN configurations.
-The heatmap uses color intensity to represent p-values, with darker red indicating higher p-values (less significant differences) and darker blue indicating lower p-values (more significant differences). Values close to 1.0 (dark red) suggest no significant difference between the corresponding models, while lower values (blue) indicate statistically significant differences in performance. We can observe clear clusters of similar-performing models, particularly in the upper-left quadrant where p-values are consistently 1.0, suggesting these configurations perform similarly.
+The Nemenyi test results for the KNN models on the hepatitis dataset reveal two statistically distinct
+groups of model configurations. The first group consists of k = 1 configurations
+(with Manhattan and Euclidean distance) and k=3 with Manhattan distance, which all perform similarly to each other (p=1.00).
+The second group includes configurations with higher k values (3,5,7) using various distance metrics,
+which also perform similarly within their group (p=1.00) but significantly differently from the first
+group (some comparisons yield p=0.04, below the 0.05 threshold). This clear separation suggests that the choice of k-value
+has a more substantial impact on model performance than the choice of distance metric, with k=1 configurations behaving distinctly from higher k-values.
 
-% Plots from 'Figures' folder, and talk about what we can infer from them.
+The Nemenyi test results for the KNN models on the mushroom dataset reveal two main groups of model configurations.
+The first group consists of k=1 configurations and k=3 with Manhattan distance, which perform similarly
+(p=0.85 $-$ 1.00), though with some variation within the group. The second group includes configurations
+from k5ManShpInf through k7ChebShpRtf, which show high similarity within their group (p=0.95 $-$ 1.00).
+Some of these groups perform significantly differently from each other, given the p-values fall below the 0.05 threshold.
 
-% Also need to perform empirical comparison of tests (read section 4 from the paper about this)
+We can deduce that the k-value has a substantial impact on model performance on both datasets. 
 
+\subsubsection*{k-Nearest Neighbors (SVM) Analysis}
+Below are the Nemenyi test results for the SVM models on the hepatitis and mushroom datasets respectively.
 
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/nemenyi_test_results_SVM_hepatitis.png}
+    \includegraphics[width=0.8\textwidth]{figures/nemenyi_test_results_SVM_mushroom.png}
+    \caption{Nemenyi test results for SVM models}
+\label{fig:nemenyi-svm}
+\end{figure}
+
+% TODO: Discuss the results for both datasets

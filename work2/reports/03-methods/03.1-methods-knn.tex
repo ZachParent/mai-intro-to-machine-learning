@@ -69,15 +69,6 @@ The formula for Chebychev distance between two vectors \(x\) and \(y\) is:
 \[ d = \max_{i=1}^{n} |x_i - y_i| \]
 where \(x_i\) and \(y_i\) are the \(i\)th elements of vectors \(x\) and \(y\), respectively.\\
 
-Along with the Chebychev distance, the Malahanobis distance is another distance metric used in k-NN algorithms.
-It is also less commonly used than the Euclidean and Manhattan distance metrics.
-The Mahalanobis distance is calculated by taking the square root of the sum of the squared differences between the coordinates of two points,
-where the squared differences are divided by the covariance matrix of the data.
-
-The formula for Mahalanobis distance between two vectors \(x\) and \(y\) is:
-\[ d = \sqrt{(x - y)^T \cdot S^{-1} \cdot (x - y)} \]
-where \(x\) and \(y\) are the vectors, and \(S\) is the covariance matrix of the data.\\
-
 \subsubsection*{Weighting Schemes}
 In the k-NN algorithm, the choice of weighting scheme can significantly impact the classification results.
 The following weighting schemes were implemented in this study:\\
@@ -190,6 +181,7 @@ The F1 score was used as our primary metric for evaluating the performance of th
 since it balances the trade-off between precision and recall, and does not report overly favorable results when the dataset is imbalanced.
 The hepatitis dataset is imbalanced, with a 79 / 31 split between the two classes, so the F1 score is a more reliable metric than accuracy \autoref{fig:class-distributions}
 
+% TODO: Tie in precision + recall words here
 Additionally, in medical diagnostics like hepatitis classification, the costs of different types of errors are significant $-$ 
 missing a positive diagnosis (false negative) could delay critical treatment,
 while a false positive could lead to unnecessary medical procedures.
