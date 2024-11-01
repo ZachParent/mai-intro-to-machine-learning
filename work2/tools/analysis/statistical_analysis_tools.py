@@ -180,10 +180,8 @@ def plot_independent_effects(df, x_cols, y_cols=["mean_f1"]):
         unique_vals = df[x_col].unique()
         if np.issubdtype(unique_vals.dtype, np.number):
             unique_vals.sort()
-            sorted_data = [df[df[x_col] == val][y_col].tolist() for val in unique_vals]
-            custom_boxplot(ax, sorted_data)
-        else:
-            custom_boxplot(ax, df.groupby(x_col)[y_col].apply(list))
+        sorted_data = [df[df[x_col] == val][y_col].tolist() for val in unique_vals]
+        custom_boxplot(ax, sorted_data)
 
         # Convert categorical values to numeric positions for xticks
         positions = np.arange(len(unique_vals)) + 1
