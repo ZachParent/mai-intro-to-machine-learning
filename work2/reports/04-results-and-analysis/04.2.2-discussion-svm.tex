@@ -1,8 +1,8 @@
 \subsubsection{Support Vector Machines (SVM) Analysis}
 \label{subsubsec:discussion-svm}
 
-SVMs performed well on both the hepatitis and the mushroom datasets,
-achieving peak accuracy and F1 scores which match the best results from KNN.
+% SVMs performed well on both the hepatitis and the mushroom datasets,
+% achieving peak accuracy and F1 scores which match the best results from KNN.
 
 A key advantage of the SVM over KNN is that SVMs are much faster during consultation time. As seen in \autoref{fig:model_comparison_mushroom},
 SVMs tend to have much lower test times than KNN. This is expecially noticable for large datasets like the mushroom dataset.
@@ -17,9 +17,9 @@ SVMs tend to have much lower test times than KNN. This is expecially noticable f
 
 \subsubsection*{Hyperparameter Comparison}
 
-For both the hepatitis and mushroom datasets, the configuration using the \textbf{RBF} kernel and $C=7$
+For the hepatitis dataset, the configuration using the \textbf{RBF} kernel and $C=7$
 achieved outstanding accuracy and F1 scores. However, because of the simple predictability
-of the mushroom data, the simple \textbf{Polynomial} kernel performed just as well when used with $C=1$.
+of the mushroom data, the simple \textbf{Polynomial} kernel performed better when paired with $C=1$.
 (See \autoref{tab:svm_results_hepatitis} and \autoref{tab:svm_results_mushroom}).
 
 To compare the performance across model configurations, we employed statistical analysis methods
@@ -28,17 +28,46 @@ statistically significant differences in performance.
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\textwidth]{figures/ranked_folds_SVM_mushroom.png}
-    \caption{SVM Ranked Folds for Mushroom Dataset}
-    \label{fig:ranked_folds_svm_mushroom}
-\end{figure}
-
-\begin{figure}
-    \centering
     \includegraphics[width=0.9\textwidth]{figures/ranked_folds_SVM_hepatitis.png}
     \caption{SVM Ranked Folds for Hepatitis Dataset}
     \label{fig:ranked_folds_svm_hepatitis}
 \end{figure}
 
-As seen in \autoref{fig:ranked_folds_svm_hepatitis}, some models achieved 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/ranked_folds_SVM_mushroom.png}
+    \caption{SVM Ranked Folds for Mushroom Dataset}
+    \label{fig:ranked_folds_svm_mushroom}
+\end{figure}
 
+As seen in \autoref{fig:ranked_folds_svm_hepatitis} and \autoref{fig:ranked_folds_svm_mushroom},
+some models achieved significantly better results than others. By comparing the ranks among each of the 10 folds,
+we can check to see if there were any cases in which 1 model always outperformed another.
+
+The mushroom dataset has some especially obvious cases, in which the $C=3$ and $C=5$ RBF models
+outperformed all other models across every fold. The $C=5$ RBF model was the best performing model overall.
+
+The hepatitis dataset does not have as extreme of a case, but there are still some models that stand out.
+The $C=7$ Sigmoid model was consistently worse than the $C=3$ and $C=5$ RBF models.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.4\textwidth]{figures/nemenyi_test_results_SVM_hepatitis.png}
+    \caption{Nemenyi Test Results for SVM on Hepatitis Dataset}
+    \label{fig:nemenyi_test_results_SVM_hepatitis}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.4\textwidth]{figures/nemenyi_test_results_SVM_mushroom.png}
+    \caption{Nemenyi Test Results for SVM on Mushroom Dataset}
+    \label{fig:nemenyi_test_results_SVM_mushroom}
+\end{figure}
+
+To identify significant pairs at a glance, we performed the Nemenyi test on all model pairs,
+and present them in heatmaps (see \autoref{fig:nemenyi_test_results_SVM_hepatitis} and \autoref{fig:nemenyi_test_results_SVM_mushroom}).
+The cells represent the p-values for each pair of models. A value of 0.05 or lower indicates that the models are statistically different
+at the 95\% confidence level. The full tables containing the p-values for each pair of significant models are provided in \autoref{tab:svm_significant_pairs_hepatitis} and \autoref{tab:svm_significant_pairs_mushroom}.
+
+\include{tables/svm_significant_pairs_hepatitis}
+\include{tables/svm_significant_pairs_mushroom}
