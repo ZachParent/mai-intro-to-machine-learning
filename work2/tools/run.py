@@ -169,8 +169,6 @@ def run_svm(
             *test_times,
         ]
 
-
-
     # Save the results for SVM
     file_name = f"svm_{dataset_name}"
     cross_validated_results_file_path = os.path.join(
@@ -198,7 +196,7 @@ def run_reduced_svm(
 
     reduction_funcs = {
         "control": lambda x, y, z, s: (x, y),
-        "GGCN": GCNN,
+        "GCNN": GCNN,
         "ENNTH": ENNTH,
         "Drop3": drop3,
     }
@@ -528,7 +526,7 @@ def generate_reduced_knn_datasets(
 
     reduction_funcs = {
         "control": lambda x, y, z, s: (x, y),
-        "GGCN": GCNN,
+        "GCNN": GCNN,
         "ENNTH": ENNTH,
         "Drop3": drop3,
     }
@@ -610,7 +608,7 @@ def run_reduced_knn(
 
     reduction_funcs = {
         "control": lambda x, y, z, s: (x, y),
-        "GGCN": GCNN,
+        "GCNN": GCNN,
         "ENNTH": ENNTH,
         "Drop3": drop3,
     }
@@ -845,7 +843,7 @@ def run():
     )
 
     logging.info("Loading reduced data...")
-    reduction_methods = ["control", "GGCN", "ENNTH", "Drop3"]
+    reduction_methods = ["control", "GCNN", "ENNTH", "Drop3"]
     reduced_data_X, reduced_data_y = load_reduced_datasets(dataset_name, reduction_methods)
 
     # ========== Reduced KNN ==========

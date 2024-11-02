@@ -27,7 +27,7 @@ FIGURES_DIR = os.path.join(SCRIPT_DIR, "../../reports/figures")
 TABLES_DIR = os.path.join(SCRIPT_DIR, "../../reports/tables")
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--dataset_name", type=str, default="mushroom")
+parser.add_argument("--dataset_name", type=str, default="hepatitis")
 parser.add_argument("--f", type=str, default="")
 parser.add_argument("--verbose", "-v", action="store_true")
 args = parser.parse_args()
@@ -46,18 +46,15 @@ knn_results = pd.read_csv(knn_results_filename)
 knn_reduction_results = pd.read_csv(knn_reduction_results_filename)
 svm_results = pd.read_csv(svm_results_filename)
 svm_reduction_results = pd.read_csv(svm_reduction_results_filename)
-# %%
+
 f1_cols = [f"f1_{i}" for i in range(10)]
 train_time_cols = [f"train_time_{i}" for i in range(10)]
 test_time_cols = [f"test_time_{i}" for i in range(10)]
+storage_cols = [f"storage_{i}" for i in range(10)]
 knn_col_names = ["k", "distance_func", "voting_func", "weighting_func"]
 svm_col_names = ["C", "kernel_type"]
 
-for df in [knn_results, knn_reduction_results, svm_results, svm_reduction_results]:
-    for metric_col in ["f1", "train_time", "test_time"]:
-        df[f"mean_{metric_col}"] = df.loc[:, [f"{metric_col}_{i}" for i in range(10)]].mean(axis=1)
-    df.sort_values(by=f"mean_f1", ascending=False, inplace=True)
-
+# %%
 knn_results["model_label"] = knn_results.apply(get_knn_model_label, axis=1)
 knn_reduction_results["model_label"] = knn_reduction_results.apply(
     get_knn_reduction_model_label, axis=1
@@ -67,6 +64,45 @@ svm_reduction_results["model_label"] = svm_reduction_results.apply(
     get_svm_reduction_model_label, axis=1
 )
 
+knn_legend = knn_results.loc[:, ["model_label"] + knn_col_names]
+svm_legend = svm_results.loc[:, ["model_label"] + svm_col_names]
+knn_reduction_legend = knn_reduction_results.loc[:, ["model_label"] + knn_col_names]
+svm_reduction_legend = svm_reduction_results.loc[:, ["model_label"] + svm_col_names]
+
+for df, name in zip(
+    [knn_legend, svm_legend, knn_reduction_legend, svm_reduction_legend],
+    ["KNN", "SVM", "KNN-Reduction", "SVM-Reduction"],
+):
+    df = format_column_names(df)
+    write_latex_table(
+        df,
+        f"{TABLES_DIR}/{name}_legend.tex",
+        f"{name} Legend",
+        longtable=df.shape[0] > 20,
+    )
+# %%
+for df in [knn_results, knn_reduction_results, svm_results, svm_reduction_results]:
+    for metric_col in ["f1", "train_time", "test_time"]:
+        df[f"mean_{metric_col}"] = df.loc[:, [f"{metric_col}_{i}" for i in range(10)]].mean(axis=1)
+    df.sort_values(by=f"mean_f1", ascending=False, inplace=True)
+knn_reduction_results["mean_storage"] = knn_reduction_results[storage_cols].mean(axis=1)
+svm_reduction_results["mean_storage"] = svm_reduction_results[storage_cols].mean(axis=1)
+
+# %%
+for df, name, filename in zip(
+    [knn_results, svm_results, knn_reduction_results, svm_reduction_results],
+    ["KNN", "SVM", "KNN-Reduction", "SVM-Reduction"],
+    ["knn_results", "svm_results", "knn_reduction_results", "svm_reduction_results"],
+):
+    print(f"{df} has mean_f1: {df['mean_f1']}")
+    write_latex_table_summary(
+        df,
+        ["model_label", "mean_f1", "mean_train_time", "mean_test_time"]
+        + (["mean_storage"] if "reduction" in filename else []),
+        f"{TABLES_DIR}/{filename}_{dataset_name}.tex",
+        f"Results from {name} models for the {dataset_name} dataset".title(),
+        sort_by="mean_f1",
+    )
 
 # %%
 logging.info("Running Friedman test across all models and sampling methods")
@@ -87,7 +123,7 @@ for sample_type, num_samples, (model, df) in itertools.product(
             "model": model,
             "num_samples": num_samples,
             "sample_type": sample_type,
-            "p_value": p_value,
+            "p_value": 1 if math.isnan(p_value) else p_value,
             "significant": p_value < 0.05,
         }
     )
@@ -350,21 +386,6 @@ write_latex_table(
 )
 
 # %%
-storage_cols = [f"storage_{i}" for i in range(10)]
-# %%
-knn_reduction_results["mean_storage"] = knn_reduction_results[storage_cols].mean(axis=1)
-
-knn_results["model_label"] = knn_results.apply(get_knn_model_label, axis=1)
-knn_reduction_results["model_label"] = knn_reduction_results.apply(
-    get_knn_reduction_model_label, axis=1
-)
-# %%
-svm_reduction_results["mean_storage"] = svm_reduction_results[storage_cols].mean(axis=1)
-svm_reduction_results["model_label"] = svm_reduction_results.apply(
-    get_svm_reduction_model_label, axis=1
-)
-
-# %%
 metric_cols_map = {
     "Storage": storage_cols,
     "Training Time (s)": train_time_cols,
@@ -478,36 +499,3 @@ write_latex_table(
 )
 friedman_test_df
 # %%
-knn_legend = knn_results.loc[:, ["model_label"] + knn_col_names]
-svm_legend = svm_results.loc[:, ["model_label"] + svm_col_names]
-knn_reduction_legend = knn_reduction_results.loc[:, ["model_label"] + knn_col_names]
-svm_reduction_legend = svm_reduction_results.loc[:, ["model_label"] + svm_col_names]
-
-for df, name in zip(
-    [knn_legend, svm_legend, knn_reduction_legend, svm_reduction_legend],
-    ["KNN", "SVM", "KNN-Reduction", "SVM-Reduction"],
-):
-    df = format_column_names(df)
-    write_latex_table(
-        df,
-        f"{TABLES_DIR}/{name}_legend.tex",
-        f"{name} Legend",
-        longtable=df.shape[0] > 20,
-    )
-# %%
-
-for df, name, filename in zip(
-    [knn_results, svm_results, knn_reduction_results, svm_reduction_results],
-    ["KNN", "SVM", "KNN-Reduction", "SVM-Reduction"],
-    ["knn_results", "svm_results", "knn_reduction_results", "svm_reduction_results"],
-):
-    print(f"{df} has mean_f1: {df['mean_f1']}")
-    write_latex_table_summary(
-        df,
-        ["model_label", "mean_f1", "mean_train_time", "mean_test_time"],
-        f"{TABLES_DIR}/{filename}_{dataset_name}.tex",
-        f"Results from {name} models for the {dataset_name} dataset".title(),
-        sort_by="mean_f1",
-    )
-# %%
-

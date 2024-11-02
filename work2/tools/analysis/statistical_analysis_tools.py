@@ -58,13 +58,13 @@ def get_knn_model_label(model_row):
 
 
 def get_knn_reduction_model_label(model_row):
-    reduction_map = {"control": "Ctrl", "GGCN": "Ggcn", "ENNTH": "Ennth", "Drop3": "Drop3"}
+    reduction_map = {"control": "Ctrl", "GCNN": "Gcnn", "ENNTH": "Ennth", "Drop3": "Drop3"}
 
     return f"{reduction_map[model_row['reduction_func']]}{get_knn_model_label(model_row)}"
 
 
 def get_svm_reduction_model_label(model_row):
-    reduction_map = {"control": "Ctrl", "GGCN": "Ggcn", "ENNTH": "Ennth", "Drop3": "Drop3"}
+    reduction_map = {"control": "Ctrl", "GCNN": "Gcnn", "ENNTH": "Ennth", "Drop3": "Drop3"}
 
     return f"{reduction_map[model_row['reduction_func']]}{get_svm_model_label(model_row)}"
 
@@ -184,8 +184,7 @@ def plot_independent_effects(df, x_cols, y_cols=["mean_f1"]):
     for ax, (x_col, y_col) in zip(axes.flatten(), itertools.product(x_cols, y_cols)):
         # Sort unique values if numeric
         unique_vals = df[x_col].unique()
-        if np.issubdtype(unique_vals.dtype, np.number):
-            unique_vals.sort()
+        unique_vals.sort()
         sorted_data = [df[df[x_col] == val][y_col].tolist() for val in unique_vals]
         custom_boxplot(ax, sorted_data)
 
