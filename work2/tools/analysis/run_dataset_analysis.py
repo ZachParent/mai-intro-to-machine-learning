@@ -7,8 +7,23 @@ import circlify
 from pywaffle import Waffle
 import os
 from tools.preprocess import load_datasets
+from pypalettes import load_cmap
 
+alexandrite = load_cmap("Alexandrite")
+alexandrite_colors = alexandrite.colors
 plt.style.use("default")
+
+live_color = "#69b3a2"
+die_color = "#404040"
+poisonous_color = "#8B4513"
+edible_color = "#FF9999"
+
+color_map = {
+    "Live": live_color,
+    "Die": die_color,
+    "Poisonous": poisonous_color,
+    "Edible": edible_color,
+}
 
 
 def load_data():
@@ -71,7 +86,6 @@ def plot_dataset_partitions(full_mushroom_df, full_hepatitis_df, REPORTS_DIR):
     )
 
     fig, ax = plt.subplots(figsize=(12, 12))
-    ax.set_title("Partitions of the datasets by Class", fontsize=24, fontweight="bold")
     ax.axis("off")
 
     lim = max(
@@ -88,15 +102,26 @@ def plot_dataset_partitions(full_mushroom_df, full_hepatitis_df, REPORTS_DIR):
         if circle.level != 2:
             continue
         x, y, r = circle
-        ax.add_patch(plt.Circle((x, y), r, alpha=0.5, linewidth=2, color="lightblue"))
+        ax.add_patch(plt.Circle((x, y), r, alpha=0.4, linewidth=2, color=alexandrite_colors[0]))
 
     for circle in circles:
         if circle.level != 3:
             continue
         x, y, r = circle
         label = f"{circle.ex['id']}:\n{circle.ex['datum']}"
-        ax.add_patch(plt.Circle((x, y), r, alpha=0.5, linewidth=2, color="#69b3a2"))
-        plt.annotate(label, (x, y), ha="center", va="center", color="white")
+        color = color_map[circle.ex["id"]]
+        ax.add_patch(
+            plt.Circle((x, y), r, alpha=0.8, linewidth=2, color=color, edgecolor="black")
+        )
+        plt.annotate(
+            label,
+            (x, y - 0.025),
+            fontsize=16,
+            ha="center",
+            va="center",
+            color="white",
+            bbox=dict(facecolor="black", alpha=0.2, edgecolor="black", boxstyle="round", pad=0.2),
+        )
 
     for circle in circles:
         if circle.level != 2:
@@ -106,6 +131,7 @@ def plot_dataset_partitions(full_mushroom_df, full_hepatitis_df, REPORTS_DIR):
         plt.annotate(
             label,
             (x, y + 3 * r / 4),
+            fontsize=16,
             va="center",
             ha="center",
             bbox=dict(facecolor="white", edgecolor="black", boxstyle="round", pad=0.5),
@@ -128,17 +154,17 @@ def plot_hepatitis_distribution(full_hepatitis_df, REPORTS_DIR):
         rows=5,
         columns=31,
         values=data,
-        colors=("#69b3a2", "#404040"),
+        colors=(live_color, die_color),
         title={
             "label": "Class distribution in the hepatitis dataset",
-            "fontdict": {"fontsize": 16, "fontweight": "bold"},
+            "fontdict": {"fontsize": 20, "fontweight": "bold"},
         },
         labels=repartition,
         legend={
             "loc": "lower left",
-            "bbox_to_anchor": (0, -0.25),
+            "bbox_to_anchor": (0, -0.3),
             "ncol": len(data),
-            "fontsize": 12,
+            "fontsize": 16,
         },
     )
     plt.tight_layout()
@@ -158,17 +184,17 @@ def plot_mushroom_distribution(full_mushroom_df, REPORTS_DIR):
         rows=5,
         columns=34,
         values=data,
-        colors=("#8B4513", "#FF9999"),
+        colors=(poisonous_color, edible_color),
         title={
             "label": "Class distribution in the mushroom dataset",
-            "fontdict": {"fontsize": 16, "fontweight": "bold"},
+            "fontdict": {"fontsize": 20, "fontweight": "bold"},
         },
         labels=repartition,
         legend={
             "loc": "lower left",
-            "bbox_to_anchor": (0, -0.25),
+            "bbox_to_anchor": (0, -0.3),
             "ncol": len(data),
-            "fontsize": 12,
+            "fontsize": 16,
         },
     )
     plt.tight_layout()
