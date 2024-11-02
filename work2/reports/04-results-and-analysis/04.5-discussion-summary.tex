@@ -36,6 +36,28 @@ The application of instance reduction techniques, particularly GCNN, demonstrate
 
 \textbf{Recommendation:} Consider applying GCNN reduction when working with larger datasets where prediction speed is crucial and minor accuracy trade-offs are acceptable. For smaller datasets like hepatitis, the benefits may not justify the potential accuracy loss.
 
+\input{tables/svm_knn_wilcoxon_comparison_hepatitis.tex}
+\input{tables/svm_knn_wilcoxon_comparison_mushroom.tex}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures/model_comparison_mushroom.png}
+    \caption{Comparison of the top SVM and KNN models for the Mushroom dataset}
+    \label{fig:model-comparison-mushroom}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures/model_comparison_hepatitis.png}
+    \caption{Comparison of the top SVM and KNN models for the Hepatitis dataset}
+    \label{fig:model-comparison-hepatitis}
+\end{figure}
+
+
+\paragraph{Statistical Analysis among Top Models}
+We used the Wilcoxon signed-rank test (see \autoref{sec:statistical-analysis}: Statistical Analysis) to determine the P-values indicating significant differences among the metrics F1, Train Time and Test Time for the top-performing SVM and KNN models.
+We see that while the F1 does not vary much at all between the models, the training and testing times do vary. This was true among both models, and the data is summarized in \autoref{tab:svm_knn_wilcoxon_comparison_hepatitis} and \autoref{tab:svm_knn_wilcoxon_comparison_mushroom}.
+The comparison among these key features is shown in \autoref{fig:model-comparison-mushroom} and \autoref{fig:model-comparison-hepatitis}.
 
 \paragraph{General Tradeoffs}
 Our analysis revealed several important tradeoffs between SVM and KNN:

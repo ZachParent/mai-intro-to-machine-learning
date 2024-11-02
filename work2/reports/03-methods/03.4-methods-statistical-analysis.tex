@@ -72,6 +72,29 @@ This is why we employ the Nemenyi test as a post-hoc procedure.
 The Nemenyi test compares the performance of all classifiers to each
 other by checking if their average ranks differ by at least the critical difference:
 
+\subsubsection{Wilcoxon Signed-Rank Test}
+To directly compare the performance between SVM and KNN models, we employ the Wilcoxon signed-rank test.
+This non-parametric test is particularly suitable for paired comparisons between two related samples,
+making it ideal for comparing two different classifiers on the same datasets.
+
+The Wilcoxon signed-rank test works by:
+\begin{enumerate}
+    \item Taking the difference between paired observations (in our case, the performance metrics of SVM and KNN on the same fold)
+    \item Ranking these differences by their absolute values
+    \item Summing the ranks of positive and negative differences separately
+\end{enumerate}
+
+Like the Friedman test, the Wilcoxon test makes no assumptions about the normality of the data,
+which aligns with our earlier observations about the non-normal distribution of performance metrics.
+The test provides a more focused comparison between our two classifier types than the Friedman test,
+which compares all configurations simultaneously.
+
+The null hypothesis for the Wilcoxon test is that the median difference between pairs of observations is zero.
+In our context, this means testing whether there is a significant difference in performance between SVM and KNN models.
+A p-value below our significance level ($\alpha = 0.05$) would indicate a statistically significant difference
+between the two classifiers' performances.
+
+
 \begin{equation}
     CD = q_{\alpha} \times \sqrt{\frac{k(k+1)}{6N}}
 \end{equation}

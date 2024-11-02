@@ -3,8 +3,7 @@
 
 This section examines the impact of three reduction techniques—GCNN, ENNTH, and Drop3—on the performance, training time, testing time, and storage requirements of both the KNN and SVM algorithms.
 
-\subsection*{Hepatitis Dataset Results}
-\subsubsection*{KNN Results}
+\subsubsection{KNN Results}
 In our analysis of the Hepatitis dataset, we observed that applying reduction techniques
 for K-Nearest Neighbors (KNN) resulted in F1 scores similar to those obtained without any reduction.
 However, the Drop3 method saw a slight decrease in mean F1 score from 0.948 to 0.864. 
@@ -30,21 +29,20 @@ In contrast, GCNN demonstrated a substantial 50\% reduction in storage, with a o
     \label{fig:KNN-reduction-effects}
 \end{figure}
 
-\subsubsection*{SVM Results}
+\subsubsection{SVM Results}
 
-Similarly, applying the SVM model to the reduced Hepatitis dataset yielded comparable results in terms of F1 scores,
+\paragraph{Hepatitis Dataset} Similarly, applying the SVM model to the reduced Hepatitis dataset yielded comparable results in terms of F1 scores,
 with all accuracies remaining similar; however, the Drop3 method did result in a slight decline in accuracy.
 
 Additionally, the training and testing times were largely consistent with those observed when no reduction was applied,
 which can be attributed to the relatively small size of the dataset.
 
-\subsection*{Mushroom Dataset}
-In contrast, the larger Mushroom dataset demonstrated different outcomes.
+\paragraph{Mushroom Dataset} In contrast, the larger Mushroom dataset demonstrated different outcomes.
 Here, GCNN significantly reduced both training and testing times. 
 Specifically, while using KNN with GCNN reduction achieved a one-third reduction in training time,\\
 SVM with GCNN reduction realized an impressive approximate 70\% decrease. 
 
-For testing times, KNN with GCNN reductio saw a 50\% reduction, whereas in the case of SVM with GCNN reduction, the reduction was closer to one-third.
+For testing times, KNN with GCNN reduction saw a 50\% reduction, whereas in the case of SVM with GCNN reduction, the reduction was closer to one-third.
 
 \begin{figure}
     \centering
@@ -54,5 +52,17 @@ For testing times, KNN with GCNN reductio saw a 50\% reduction, whereas in the c
     \label{fig:SVM-reduction-effects}
 \end{figure}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{figures/nemenyi_test_results_SVM_Reduction_mushroom.png}
+    \caption{Nemenyi test results for SVM-Reduction models for the Mushroom dataset}
+    \label{fig:nemenyi-svm-reduction-mushroom}
+\end{figure}
 
+\input{tables/svm_reduction_significant_pairs_mushroom.tex}
+
+
+\paragraph{Friedman and Nemenyi Tests} Given that the Friedman test showed statistical significance for the hepatitis dataset \autoref{tab:friedman_test_results_hepatitis}, we conducted the Nemenyi post-hoc test to identify specific significant differences between reduction methods. 
+For the SVM models on the Hepatitis dataset, the test revealed significant differences between GCNN (p < 0.05) and the other methods, with GCNN performing worse in terms of F1 score (see \autoref{fig:nemenyi-svm-reduction-mushroom}).
+This is loss in performance may be worth the gains in training time in certain cases.
 
