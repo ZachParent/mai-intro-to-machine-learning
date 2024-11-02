@@ -130,7 +130,20 @@ at the 95\% confidence level. The full tables containing the p-values for each p
     \label{fig:interaction_effects_SVM_hepatitis}
 \end{figure}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.4\textwidth]{figures/interaction_effects_SVM_mushroom.png}
+    \caption{Interaction Effects for SVM on Mushroom Dataset}
+    \label{fig:interaction_effects_SVM_mushroom}
+\end{figure}
+
 To further analyze the hyperparameters we plotted the effects of each hyperparameter on the F1 score.
 
-Here we see that the Kernel Type is a stronger predictor of performance than the $C$ parameter, and that
+In \autoref{fig:interaction_effects_SVM_hepatitis} and \autoref{fig:interaction_effects_SVM_mushroom} we see that the Kernel Type is a stronger predictor of performance than the $C$ parameter, and that
 the best performing models tend to use the rbf or poly kernels, and that higher values of $C$ tend to perform worse.
+
+\paragraph{Hepatitis Dataset}
+The best performing model was an RBF kernel with $C=7$, as seen in \autoref{tab:svm_results_hepatitis}.
+
+\paragraph{Mushroom Dataset}
+The best performing model was a poly kernel with $C=3$, as seen in \autoref{tab:svm_results_mushroom}.
