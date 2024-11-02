@@ -26,9 +26,9 @@
   - [x] (@ZachParent) `svm`
 - [ ] () write `results and analysis`
   - [x] (@KacperPon) `knn`
-  - [ ] (@CaJiFan) `reduction`
+  - [x] (@CaJiFan) `reduction`
   - [x] (@ZachParent) `svm`
-  - [ ] (@CaJiFan) `intro to statistical analysis`
+  - [x] (@CaJiFan) `intro to statistical analysis`
   - [x] (@KacperPon) `statistical analysis`
   - [x] (@ZachParent) plots
 - [x] () write `conclusion`
@@ -39,13 +39,13 @@
 - [x] (@ZachParent) Show different size of mushroom and hepatitis with class 0 and class 1 in them —> Bubble
 - [x] (@ZachParent) For hepatitis show imbalance (and maybe missing values) —> Waffle
 - [x] (@ZachParent) For each reduction show how accuracy, size and time are affected in a scatter plot --> Three scatter plots
-- [ ] (@ZachParent) Boxplots comparing f1 models intra-model type (need to use linear sampling, must justify in report)
-- [ ] (@ZachParent) Boxplots comparing f1 models inter-model type (3 of each)
+- [x] (@ZachParent) Boxplots comparing f1 models intra-model type (need to use linear sampling, must justify in report)
+- [x] (@ZachParent) Boxplots comparing f1 models inter-model type (3 of each)
 
 ## Report don't-forgets
 
 - [ ] [ ] (@SheenaLang & @KacperPon) check that all plots are generated on run
-- [ ] [ ] (@SheenaLang & @KacperPon) check that code runs on clean install
+- [x] [x] (@SheenaLang & @KacperPon) check that code runs on clean install
 
 - [x] (@SheenaLang) check README.md
 - [x] (@SheenaLang) Reorder methods reduction after SVM
@@ -64,16 +64,21 @@
 - [x] (@KacperPon) Distribute statistical analysis
 - [x] (@KacperPon) Add plots to KNN results
 
-- [ ] (@ZachParent) explain how we chose the values for the SVM parameters
-- [ ] (@ZachParent) Statistical analysis SVM
-- [ ] (@ZachParent) Add table in appendix for short names in plots
+- [x] (@ZachParent) explain how we chose the values for the SVM parameters
+- [x] (@ZachParent) Statistical analysis SVM
+- [x] (@ZachParent) Add table in appendix for short names in plots
 - [x] (@ZachParent) Add plots for SVM reduction
 - [x] (@ZachParent) Fix latex errors
 
-- [ ] (Everyone) include tables of key results
-- [ ] (Everyone) Write conclusion
-- [ ] (Everyone) Model comparison for mushroom & hepatitis draw conclusions (e.g. if we have a lot of training data --> select model that has a lower training time)
+- [x] (Everyone) include tables of key results
+- [x] (Everyone) Write conclusion
+- [x] (Everyone) Model comparison for mushroom & hepatitis draw conclusions (e.g. if we have a lot of training data --> select model that has a lower training time)
 
 - [x] explain why f1 was chosen over accuracy
 - [x] explain why ANOVA doesn't work for our use case
 - [x] discussion precision and recall
+
+
+- [ ] remove tools_old
+- [ ] fix significant svm reductions table (shows all poly 5)
+- [ ] make tables prefer "here"
