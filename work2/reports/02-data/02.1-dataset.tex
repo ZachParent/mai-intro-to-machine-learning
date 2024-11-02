@@ -6,14 +6,14 @@ This section outlines our dataset selection criteria and analyzes the characteri
 \subsubsection{Dataset Selection}
 In this project, we aimed to select two datasets that offer substantial variability across different aspects to evaluate the performance of Support Vector Machine (SVM) and k-Nearest Neighbors (KNN) algorithms.
 The criteria for dataset selection were centered around having one dataset that is small and another that is large, allowing us to analyze both the efficiency and effectiveness of these models across differing dataset sizes.
-A smaller dataset, enables rapid experimentation and comparison of SVM and KNN performance.
-Meanwhile, a larger dataset, provides an excellent opportunity to evaluate the benefits of reduction methods in KNN, especially regarding storage efficiency and reduced running time \cite{distance_func_knn}.
+\paragraph{Smaller datasets} A smaller dataset enables rapid experimentation and comparison of SVM and KNN performance.
+\paragraph{Larger datasets} A larger dataset provides an excellent opportunity to evaluate the benefits of reduction methods in KNN, especially regarding storage efficiency and reduced running time \cite{distance_func_knn}.
 
-Moreover, we wanted to assess the models' ability to handle datasets with different types of attributes.
+\paragraph{Attribute types} We wanted to assess the models' ability to handle datasets with different types of attributes.
 For this purpose, we wanted to select one dataset with primarily nominal attributes and another with numerical features.
 This allows us to evaluate how well each algorithm handles the representation and processing of different data types.
-Additionally, class distribution was a critical factor in our selection. By choosing one dataset with a balanced distribution and another with a notable class imbalance, we aim to observe how SVM and KNN, particularly with reduction, perform in scenarios where the data is skewed.
-Lastly, we prioritized finding datasets with varying levels of missing data to examine how effectively the algorithms manage incomplete information.
+\paragraph{Class distribution} By choosing one dataset with a balanced distribution and another with a notable class imbalance, we aim to observe how SVM and KNN, particularly with reduction, perform in scenarios where the data is skewed.
+\paragraph{Missing data} Lastly, we prioritized finding datasets with varying levels of missing data to examine how effectively the algorithms manage incomplete information.
 
 Based on these criteria, we selected the Hepatitis and Mushroom datasets, as they provide the most distinct and complementary combination for our evaluation.
 \subsubsection{Selection Criteria}
