@@ -27,7 +27,7 @@ FIGURES_DIR = os.path.join(SCRIPT_DIR, "../../reports/figures")
 TABLES_DIR = os.path.join(SCRIPT_DIR, "../../reports/tables")
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--dataset_name", type=str, default="mushroom")
+parser.add_argument("--dataset_name", type=str, default="hepatitis")
 parser.add_argument("--f", type=str, default="")
 parser.add_argument("--verbose", "-v", action="store_true")
 args = parser.parse_args()
@@ -329,7 +329,7 @@ svm_knn_comparison_df = pd.DataFrame(
     }
 )
 write_latex_table(
-    svm_knn_comparison_df,
+    format_column_names(svm_knn_comparison_df),
     f"{TABLES_DIR}/svm_knn_wilcoxon_comparison_{dataset_name}.tex",
     f"Wilcoxon Signed-Rank Test Results for SVM and KNN Models for {dataset_name.title()}",
 )
