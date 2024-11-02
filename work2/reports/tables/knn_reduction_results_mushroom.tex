@@ -1,15 +1,15 @@
 \begin{table}
 \centering
-\caption{Results From Knn Models For The Mushroom Dataset With Dimensionality Reduction}
+\caption{Results From Knn-Reduction Models For The Mushroom Dataset}
 \label{tab:knn_reduction_results_mushroom}
-\begin{tabular}{rlrlllrrrr}
+\begin{tabular}{rlrrr}
 \toprule
- & reduction func & k & distance func & voting func & weighting func & mean f1 & mean train time & mean test time & mean storage \\
+ & Model Label & Mean F1 & Mean Train Time (s) & Mean Test Time (s) \\
 \midrule
-1 & control & 1 & ManhattanDistance & MajorityClassVote & EqualWeighting & 1.000 & 0.000 & 15.165 & 7311.600 \\
-2 & GGCN & 1 & ManhattanDistance & MajorityClassVote & EqualWeighting & 1.000 & 0.000 & 7.278 & 3519.800 \\
-3 & ENNTH & 1 & ManhattanDistance & MajorityClassVote & EqualWeighting & 1.000 & 0.000 & 15.091 & 7311.600 \\
-4 & Drop3 & 1 & ManhattanDistance & MajorityClassVote & EqualWeighting & 1.000 & 0.000 & 15.080 & 7311.600 \\
+1 & Ctrlk1ManMajEq & 1.000000 & 0.000151 & 15.164845 \\
+2 & Ggcnk1ManMajEq & 1.000000 & 0.000107 & 7.277776 \\
+3 & Ennthk1ManMajEq & 1.000000 & 0.000241 & 15.090724 \\
+4 & Drop3k1ManMajEq & 1.000000 & 0.000185 & 15.079619 \\
 \bottomrule
 \end{tabular}
 \end{table}

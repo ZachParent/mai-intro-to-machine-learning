@@ -1,15 +1,15 @@
 \begin{table}
 \centering
-\caption{Results From Svm Models For The Mushroom Dataset With Dimensionality Reduction}
+\caption{Results From Svm-Reduction Models For The Mushroom Dataset}
 \label{tab:svm_reduction_results_mushroom}
-\begin{tabular}{rlrlrrrr}
+\begin{tabular}{rlrrr}
 \toprule
- & reduction func & C & kernel type & mean f1 & mean train time & mean test time & mean storage \\
+ & Model Label & Mean F1 & Mean Train Time (s) & Mean Test Time (s) \\
 \midrule
-1 & control & 3 & poly & 1.000 & 0.118 & 0.004 & 7311.600 \\
-2 & ENNTH & 3 & poly & 1.000 & 0.116 & 0.004 & 7311.600 \\
-3 & Drop3 & 3 & poly & 1.000 & 0.116 & 0.004 & 7311.600 \\
-4 & GGCN & 3 & poly & 0.967 & 0.038 & 0.003 & 3519.800 \\
+1 & CtrlC3Poly & 1.000000 & 0.117731 & 0.004207 \\
+2 & EnnthC3Poly & 1.000000 & 0.116208 & 0.004144 \\
+3 & Drop3C3Poly & 1.000000 & 0.116228 & 0.004156 \\
+4 & GgcnC3Poly & 0.967235 & 0.038349 & 0.003370 \\
 \bottomrule
 \end{tabular}
 \end{table}

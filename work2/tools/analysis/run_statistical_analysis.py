@@ -27,7 +27,7 @@ FIGURES_DIR = os.path.join(SCRIPT_DIR, "../../reports/figures")
 TABLES_DIR = os.path.join(SCRIPT_DIR, "../../reports/tables")
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--dataset_name", type=str, default="hepatitis")
+parser.add_argument("--dataset_name", type=str, default="mushroom")
 parser.add_argument("--f", type=str, default="")
 parser.add_argument("--verbose", "-v", action="store_true")
 args = parser.parse_args()
@@ -277,7 +277,9 @@ logging.info("Analyzing Nemenyi test results for SVM models")
 analyze_parameters(svm_results_for_nemenyi, svm_nemenyi_results, svm_col_names)
 
 significant_pairs = get_significant_pairs(svm_nemenyi_results)
-significant_pairs_df = get_df_pairs(svm_results_for_nemenyi, significant_pairs)[svm_col_names + ["mean_f1"]]
+significant_pairs_df = get_df_pairs(svm_results_for_nemenyi, significant_pairs)[
+    svm_col_names + ["mean_f1"]
+]
 significant_pairs_df = format_column_names(significant_pairs_df)
 write_latex_table(
     significant_pairs_df,
@@ -286,7 +288,7 @@ write_latex_table(
 )
 # %%
 
-best_svm_model = svm_results.iloc[0, :] 
+best_svm_model = svm_results.iloc[0, :]
 best_knn_model = knn_results.iloc[0, :]
 if best_svm_model["mean_f1"] != best_knn_model["mean_f1"]:
     knn_svm_f1_p_value = stats.wilcoxon(
@@ -467,7 +469,7 @@ friedman_test_df = pd.DataFrame(
     ),
     columns=["name", "P Value"],
 )
-friedman_test_df.replace('nan', '1', inplace=True)
+friedman_test_df.replace("nan", "1", inplace=True)
 write_latex_table(
     friedman_test_df,
     f"{TABLES_DIR}/friedman_test_results_{dataset_name}.tex",
@@ -476,12 +478,15 @@ write_latex_table(
 )
 friedman_test_df
 # %%
-knn_legend = knn_results.loc[:,["model_label"] + knn_col_names]
-svm_legend = svm_results.loc[:,["model_label"] + svm_col_names]
-knn_reduction_legend = knn_reduction_results.loc[:,["model_label"] + knn_col_names]
-svm_reduction_legend = svm_reduction_results.loc[:,["model_label"] + svm_col_names]
+knn_legend = knn_results.loc[:, ["model_label"] + knn_col_names]
+svm_legend = svm_results.loc[:, ["model_label"] + svm_col_names]
+knn_reduction_legend = knn_reduction_results.loc[:, ["model_label"] + knn_col_names]
+svm_reduction_legend = svm_reduction_results.loc[:, ["model_label"] + svm_col_names]
 
-for (df, name) in zip([knn_legend, svm_legend, knn_reduction_legend, svm_reduction_legend], ["KNN", "SVM", "KNN-Reduction", "SVM-Reduction"]):
+for df, name in zip(
+    [knn_legend, svm_legend, knn_reduction_legend, svm_reduction_legend],
+    ["KNN", "SVM", "KNN-Reduction", "SVM-Reduction"],
+):
     df = format_column_names(df)
     write_latex_table(
         df,
@@ -490,32 +495,19 @@ for (df, name) in zip([knn_legend, svm_legend, knn_reduction_legend, svm_reducti
         longtable=df.shape[0] > 20,
     )
 # %%
-write_latex_table_summary(
-    knn_results,
-    knn_col_names + ['mean_f1', 'mean_train_time', 'mean_test_time'],
-    f"{TABLES_DIR}/knn_results_{dataset_name}.tex",
-    f"Results from KNN models for the {dataset_name} dataset".title(),
-    sort_by='mean_f1',
-)
-write_latex_table_summary(
-    svm_results,
-    svm_col_names + ['mean_f1', 'mean_train_time', 'mean_test_time'],
-    f"{TABLES_DIR}/svm_results_{dataset_name}.tex",
-    f"Results from SVM models for the {dataset_name} dataset".title(),
-    sort_by='mean_f1',
-)
-write_latex_table_summary(
-    knn_reduction_results,
-    ['reduction_func'] + knn_col_names + ['mean_f1', 'mean_train_time', 'mean_test_time', 'mean_storage'],
-    f"{TABLES_DIR}/knn_reduction_results_{dataset_name}.tex",
-    f"Results from KNN models for the {dataset_name} dataset with dimensionality reduction".title(),
-    sort_by='mean_f1',
-)
-write_latex_table_summary(
-    svm_reduction_results,
-    ['reduction_func'] + svm_col_names + ['mean_f1', 'mean_train_time', 'mean_test_time', 'mean_storage'],
-    f"{TABLES_DIR}/svm_reduction_results_{dataset_name}.tex",
-    f"Results from SVM models for the {dataset_name} dataset with dimensionality reduction".title(),
-    sort_by='mean_f1',
-)
+
+for df, name, filename in zip(
+    [knn_results, svm_results, knn_reduction_results, svm_reduction_results],
+    ["KNN", "SVM", "KNN-Reduction", "SVM-Reduction"],
+    ["knn_results", "svm_results", "knn_reduction_results", "svm_reduction_results"],
+):
+    print(f"{df} has mean_f1: {df['mean_f1']}")
+    write_latex_table_summary(
+        df,
+        ["model_label", "mean_f1", "mean_train_time", "mean_test_time"],
+        f"{TABLES_DIR}/{filename}_{dataset_name}.tex",
+        f"Results from {name} models for the {dataset_name} dataset".title(),
+        sort_by="mean_f1",
+    )
 # %%
+

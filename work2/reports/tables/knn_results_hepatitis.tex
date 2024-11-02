@@ -2,20 +2,20 @@
 \centering
 \caption{Results From Knn Models For The Hepatitis Dataset}
 \label{tab:knn_results_hepatitis}
-\begin{tabular}{rrlllrrr}
+\begin{tabular}{rlrrr}
 \toprule
- & k & distance func & voting func & weighting func & mean f1 & mean train time & mean test time \\
+ & Model Label & Mean F1 & Mean Train Time (s) & Mean Test Time (s) \\
 \midrule
-1 & 1 & ChebyshevDistance & ShepardsWorkVote & EqualWeighting & 0.973 & 0.000 & 0.007 \\
-2 & 1 & ChebyshevDistance & MajorityClassVote & EqualWeighting & 0.973 & 0.000 & 0.007 \\
-3 & 1 & ChebyshevDistance & InverseDistanceWeightedVote & EqualWeighting & 0.973 & 0.000 & 0.007 \\
-4 & 5 & EuclideanDistance & ShepardsWorkVote & EqualWeighting & 0.969 & 0.000 & 0.009 \\
-5 & 7 & EuclideanDistance & ShepardsWorkVote & EqualWeighting & 0.969 & 0.000 & 0.009 \\
-6 & 3 & ManhattanDistance & ShepardsWorkVote & EqualWeighting & 0.969 & 0.000 & 0.007 \\
-7 & 1 & ManhattanDistance & MajorityClassVote & EqualWeighting & 0.969 & 0.000 & 0.007 \\
-8 & 1 & EuclideanDistance & ShepardsWorkVote & ReliefFWeighting & 0.969 & 0.000 & 0.009 \\
-9 & 1 & ManhattanDistance & ShepardsWorkVote & EqualWeighting & 0.969 & 0.000 & 0.007 \\
-10 & 1 & EuclideanDistance & MajorityClassVote & EqualWeighting & 0.969 & 0.000 & 0.009 \\
+1 & k1ChebShpEq & 0.972618 & 0.000084 & 0.006925 \\
+2 & k1ChebMajEq & 0.972618 & 0.000085 & 0.006949 \\
+3 & k1ChebDisEq & 0.972618 & 0.000084 & 0.006896 \\
+4 & k5EucShpEq & 0.969271 & 0.000084 & 0.009300 \\
+5 & k7EucShpEq & 0.969271 & 0.000083 & 0.009293 \\
+6 & k3ManShpEq & 0.969231 & 0.000083 & 0.007033 \\
+7 & k1ManMajEq & 0.969231 & 0.000120 & 0.007153 \\
+8 & k1EucShpRlf & 0.969231 & 0.000084 & 0.009349 \\
+9 & k1ManShpEq & 0.969231 & 0.000083 & 0.006982 \\
+10 & k1EucMajEq & 0.969231 & 0.000086 & 0.009228 \\
 \bottomrule
 \end{tabular}
 \end{table}

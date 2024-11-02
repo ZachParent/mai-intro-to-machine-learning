@@ -2,7 +2,7 @@ import os
 
 def format_column_names(df):
     result = df.copy()
-    result.rename(columns=lambda x: x.replace("_", " ").title(), inplace=True)
+    result.rename(columns=lambda x: x.replace("_", " ").title() + (' (s)' if 'time' in x else ''), inplace=True)
     return result
 
 
@@ -64,4 +64,5 @@ def write_latex_table_summary(df, columns, filename, caption, sort_by="f1"):
         .head(10)
         .rename(columns=lambda x: x.replace("_", " "))
     )
-    write_latex_table(df, filename, caption)
+    df = format_column_names(df)
+    write_latex_table(df, filename, caption, precision=6)

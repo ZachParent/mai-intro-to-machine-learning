@@ -1,15 +1,15 @@
 \begin{table}
 \centering
-\caption{Results From Knn Models For The Hepatitis Dataset With Dimensionality Reduction}
+\caption{Results From Knn-Reduction Models For The Hepatitis Dataset}
 \label{tab:knn_reduction_results_hepatitis}
-\begin{tabular}{rlrlllrrrr}
+\begin{tabular}{rlrrr}
 \toprule
- & reduction func & k & distance func & voting func & weighting func & mean f1 & mean train time & mean test time & mean storage \\
+ & Model Label & Mean F1 & Mean Train Time (s) & Mean Test Time (s) \\
 \midrule
-1 & control & 1 & ManhattanDistance & MajorityClassVote & EqualWeighting & 0.969 & 0.000 & 0.007 & 139.500 \\
-2 & ENNTH & 1 & ManhattanDistance & MajorityClassVote & EqualWeighting & 0.969 & 0.000 & 0.007 & 139.500 \\
-3 & GGCN & 1 & ManhattanDistance & MajorityClassVote & EqualWeighting & 0.961 & 0.000 & 0.005 & 103.200 \\
-4 & Drop3 & 1 & ManhattanDistance & MajorityClassVote & EqualWeighting & 0.916 & 0.000 & 0.006 & 110.900 \\
+1 & Ctrlk1ManMajEq & 0.969231 & 0.000056 & 0.007470 \\
+2 & Ennthk1ManMajEq & 0.969231 & 0.000042 & 0.007297 \\
+3 & Ggcnk1ManMajEq & 0.960765 & 0.000042 & 0.005446 \\
+4 & Drop3k1ManMajEq & 0.915608 & 0.000052 & 0.006057 \\
 \bottomrule
 \end{tabular}
 \end{table}
