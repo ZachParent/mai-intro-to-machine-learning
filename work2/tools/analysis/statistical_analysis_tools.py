@@ -58,13 +58,13 @@ def get_knn_model_label(model_row):
 
 
 def get_knn_reduction_model_label(model_row):
-    reduction_map = {"control": "Ctrl", "GGCN": "Ggcn", "ENNTH": "Ennth", "Drop3": "Drop3"}
+    reduction_map = {"control": "Ctrl", "GCNN": "Gcnn", "ENNTH": "Ennth", "Drop3": "Drop3"}
 
     return f"{reduction_map[model_row['reduction_func']]}{get_knn_model_label(model_row)}"
 
 
 def get_svm_reduction_model_label(model_row):
-    reduction_map = {"control": "Ctrl", "GGCN": "Ggcn", "ENNTH": "Ennth", "Drop3": "Drop3"}
+    reduction_map = {"control": "Ctrl", "GCNN": "Gcnn", "ENNTH": "Ennth", "Drop3": "Drop3"}
 
     return f"{reduction_map[model_row['reduction_func']]}{get_svm_model_label(model_row)}"
 
