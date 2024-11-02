@@ -230,7 +230,7 @@ significant_pairs_df = format_column_names(significant_pairs_df)
 write_latex_table(
     significant_pairs_df,
     f"{TABLES_DIR}/knn_significant_pairs_{dataset_name}.tex",
-    "Significant Differences in KNN Models",
+    f"Significant Differences in KNN Models for {dataset_name.title()}",
 )
 # %%
 logging.info("Running Nemenyi test for SVM models")
@@ -269,7 +269,7 @@ significant_pairs_df = format_column_names(significant_pairs_df)
 write_latex_table(
     significant_pairs_df,
     f"{TABLES_DIR}/svm_significant_pairs_{dataset_name}.tex",
-    "Significant Differences in SVM Models",
+    f"Significant Differences in SVM Models for {dataset_name.title()}",
 )
 # %%
 
