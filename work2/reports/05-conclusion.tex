@@ -6,20 +6,21 @@ This study has provided a comprehensive evaluation of KNN and SVM classification
 \subsection{Key Findings}
 
 \begin{itemize}
-    \item Both KNN and SVM achieved high classification accuracy (>92\%) across both datasets, demonstrating their robustness as classification algorithms
+    \item Both KNN and SVM achieved high classification accuracy (\textgreater 92\%) across both datasets, demonstrating their robustness as classification algorithms
     \item The optimal configuration for KNN varied significantly between datasets, with k=1 performing best for Hepatitis and k=3,5,7 for Mushroom
     \item Instance reduction techniques, particularly GCNN, successfully reduced storage requirements while maintaining classification accuracy
     \item Statistical analysis revealed significant differences between model configurations, highlighting the importance of parameter tuning
+    \item The top-performing models tended to have very similar F1 scores, suggesting there isn't a single perfect model for all datasets
 \end{itemize}
 
 \subsection{Practical Implications}
 
 Our results suggest several practical guidelines for practitioners:
 \begin{itemize}
-    \item For smaller datasets with mixed data types (like Hepatitis), KNN with k=1 and Euclidean distance provides excellent performance
-    \item For larger categorical datasets (like Mushroom), higher k-values with Manhattan distance offer better generalization
+    \item For smaller datasets with mixed data types (like Hepatitis), KNN with k=1 and the simple Chebyshev distance provides excellent performance
+    \item For larger categorical datasets (like Mushroom), many configurations may perform similarly, but equal weight should be given to all features
     \item GCNN reduction can significantly improve efficiency without substantial accuracy loss, especially for larger datasets
-    \item SVM with RBF kernel provides consistent performance across different dataset characteristics
+    \item SVM with RBF kernel provides consistent performance across different dataset characteristics, although the polynomial kernel may be better for some datasets, like Hepatitis
 \end{itemize}
 
 \subsection{Limitations and Future Work}
