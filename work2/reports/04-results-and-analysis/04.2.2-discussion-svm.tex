@@ -18,22 +18,21 @@ SVMs tend to have much lower test times than KNN. This is especially noticable f
 \begin{description}
     \item[\textbf{Best Configuration:}]\leavevmode
         \begin{itemize}
-            \item C = 3, 5, and 7 with Polynomial Kernel
-            \item C = 5, 7 with RBF Kernel
+            \item C = 5 and 50 with Polynomial Kernel
+            \item C = 50 with RBF Kernel
         \end{itemize}
     
     \item[\textbf{Performance Range:}]\leavevmode
         \begin{itemize}
-            \item Mean F1 Score: 98.3\% $-$ 100\%
+            \item Mean F1 Score: 95.5\% $-$ 100\%
         \end{itemize}
 \end{description}
 
 \subsubsection*{Observations}
 The results for the mushroom dataset show that the SVM model performed consistently strong across all configurations,
-albeit some performed better than others. The best performing model used a Polynomial kernel with $C=3, 5 or 7$
-or an RBF kernel with $C=5 or 7$, with all achieving a perfect mean F1 score of 100\%.
-(See \autoref{tab:svm_results_mushroom}).
-This result was closely followed by the RBF kernel with $C=3$ and the Polynomial kernel with $C=1$, both achieving a mean F1 score of 99.9\%.
+albeit some performed better than others. The best performing model used a Polynomial kernel with $C=5$ or $C=50$
+or an RBF kernel with $C=50$, with all achieving a perfect mean F1 score of 100\%.
+This result was closely followed by the RBF kernel with $C=5$ achieving a mean F1 score of 99.96\%.
 
 \begin{figure}
     \centering
@@ -55,20 +54,20 @@ with only `C5Lin' and `C7Lin' showing consistent performance across all folds.
 \begin{description}
     \item[\textbf{Best Configuration:}]\leavevmode
         \begin{itemize}
-            \item C = 7 with RBF Kernel
+            \item C = 50 with RBF Kernel
         \end{itemize}
     
     \item[\textbf{Performance Range:}]\leavevmode
         \begin{itemize}
-            \item Mean F1 Score: 97.5\%
+            \item Mean F1 Score: 97.3\%
         \end{itemize}
 \end{description}
 
 \subsubsection*{Observations}
 The results for the hepatitis dataset show that the SVM model also performed consistently strong across all configurations.
 (See \autoref{tab:svm_results_hepatitis}).
-The best performing model used an RBF kernel with $C=7$.
-This SVM model achieved a mean F1 score of 97.5\%.
+The best performing model used an RBF kernel with $C=50$.
+This SVM model achieved a mean F1 score of 97.3\%.
 
 \begin{figure}
     \centering

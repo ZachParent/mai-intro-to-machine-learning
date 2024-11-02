@@ -17,10 +17,10 @@ This study has provided a comprehensive evaluation of KNN and SVM classification
 
 Our results suggest several practical guidelines for practitioners:
 \begin{itemize}
-    \item For smaller datasets with mixed data types (like Hepatitis), KNN with k=1 and the simple Chebyshev distance provides excellent performance
-    \item For larger categorical datasets (like Mushroom), many configurations may perform similarly, but equal weight should be given to all features
+    \item For smaller datasets with mixed data types (like Hepatitis), both RBF and polynomial kernels in SVM provide excellent performance
+    \item For larger categorical datasets (like Mushroom), SVM with either polynomial or RBF kernels and higher C values (C=5 or C=50) achieves optimal results
     \item GCNN reduction can significantly improve efficiency without substantial accuracy loss, especially for larger datasets
-    \item SVM with RBF kernel provides consistent performance across different dataset characteristics, although the polynomial kernel may be better for some datasets, like Hepatitis
+    \item SVM with RBF kernel provides consistent performance across different dataset characteristics
 \end{itemize}
 
 \subsection{Limitations and Future Work}

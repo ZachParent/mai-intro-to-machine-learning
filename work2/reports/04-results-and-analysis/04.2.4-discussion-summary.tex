@@ -6,12 +6,12 @@ Based on our comprehensive analysis of both KNN and SVM classifiers across the m
 For the mushroom classification task, both KNN and SVM demonstrated strong performance, with SVM showing a slight edge in overall accuracy. The key findings include:
 
 \begin{itemize}
-    \item SVM achieved marginally better classification accuracy with reduced computational complexity
+    \item SVM achieved perfect classification accuracy (100\% F1 score) with polynomial and RBF kernels
     \item KNN performed well but required more careful tuning of the k parameter
-    \item The linear kernel in SVM proved sufficient, suggesting the data is linearly separable
+    \item Both polynomial and RBF kernels in SVM proved highly effective
 \end{itemize}
 
-\textbf{Recommendation:} For the mushroom dataset, we recommend using SVM with a linear kernel as the primary classifier. The decision is based on its combination of high accuracy, faster prediction times, and lower memory requirements compared to KNN.
+\textbf{Recommendation:} For the mushroom dataset, we recommend using SVM with either a polynomial kernel ($C=5$ or $C=50$) or RBF kernel ($C=50$) as the primary classifier.
 
 \paragraph{Hepatitis Dataset}
 The hepatitis classification task revealed different characteristics:
