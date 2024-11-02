@@ -14,18 +14,18 @@ emrld = load_cmap("Emrld", reverse=True)
 colors = alexandrite.colors
 plt.style.use("default")
 
-
 def custom_boxplot(ax, data):
     ax.boxplot(
         data,
         patch_artist=True,  # Fill boxes with color
-        medianprops={"color": colors[3], "linewidth": 2},  # Style median lines
+        medianprops={"color": alexandrite(0.2), "linewidth": 4},  # Style median lines
         flierprops={
             "marker": "o",
-            "markerfacecolor": colors[4],
+            "markerfacecolor": alexandrite(0.4),
+            "markeredgewidth": 1,
             "markersize": 4,
         },  # Style outlier points
-        boxprops={"facecolor": colors[2], "alpha": 0.7},  # Style boxes
+        boxprops={"facecolor": alexandrite(0.3), "alpha": 0.7},  # Style boxes
         whiskerprops={"linestyle": "--"},  # Style whiskers
         capprops={"linewidth": 2},  # Style caps
     )
@@ -161,9 +161,9 @@ def plot_p_values_vs_num_samples(
                 zorder=3,
             )
 
-        axes[idx].set_title(f"{model}")
+        axes[idx].set_title(f"{model}", fontsize=16, fontweight="bold")
         if idx == 0:  # Only show y-label for first subplot
-            axes[idx].set_ylabel("P-value")
+            axes[idx].set_ylabel("P-value", fontsize=14, fontweight="bold")
         axes[idx].set_yscale("log")  # Log scale for y-axis
         axes[idx].set_xscale("log")  # Log scale for x-axis
         axes[idx].set_xticks(num_sample_options)
@@ -174,12 +174,12 @@ def plot_p_values_vs_num_samples(
         axes[idx].grid(True)
         axes[idx].legend()
 
-    axes[len(axes) // 2].set_xlabel("Number of Samples")
+    axes[len(axes) // 2].set_xlabel("Number of Samples", fontsize=14, fontweight="bold")
 
 
 def plot_independent_effects(df, x_cols, y_cols=["mean_f1"]):
     cols = len(x_cols) * len(y_cols)
-    fig, axes = plt.subplots(1, cols, figsize=(5 * cols, 5))
+    fig, axes = plt.subplots(1, cols, figsize=(7 * cols, 5))
 
     for ax, (x_col, y_col) in zip(axes.flatten(), itertools.product(x_cols, y_cols)):
         # Sort unique values if numeric
@@ -418,6 +418,7 @@ def plot_reduction_results_scatter(axs, metric_cols_map, metric_pairs, reduction
             ax.scatter(
                 metric_a_values,
                 metric_b_values,
+                color=colors[idx],
                 alpha=0.6,
                 label=reduction_results.loc[idx, "reduction_func"],
             )

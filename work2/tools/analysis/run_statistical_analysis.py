@@ -135,12 +135,7 @@ p_values_df
 # %%
 # TODO: only plot one point for KNN-Reduction
 logging.info("Plotting p-values vs number of samples")
-fig, axes = plt.subplots(1, 3, figsize=(15, 5), sharex=True, sharey=True)
-fig.suptitle(
-    f"P-values vs Number of Samples for Different Models and Sampling Methods for {dataset_name} dataset",
-    fontsize=20,
-    fontweight="bold",
-)
+fig, axes = plt.subplots(1, 3, figsize=(18, 5), sharex=True, sharey=True)
 
 plot_p_values_vs_num_samples(axes, p_values_df, models, sample_types, num_sample_options)
 
@@ -154,12 +149,7 @@ logging.info("Plotting independent effects of KNN model parameters")
 fig = plot_independent_effects(
     knn_results, ["k", "distance_func", "voting_func", "weighting_func"]
 )
-fig.suptitle(
-    f"Independent Effects of KNN Model Parameters on F1 Score for {dataset_name} dataset",
-    fontsize=16,
-    fontweight="bold",
-)
-fig.subplots_adjust(top=0.9)
+
 fig.savefig(f"{FIGURES_DIR}/independent_effects_KNN_{dataset_name}.png", dpi=300)
 plt.show()
 
@@ -167,24 +157,12 @@ plt.show()
 # %%
 logging.info("Plotting independent effects of SVM model parameters")
 fig = plot_independent_effects(svm_results, ["C", "kernel_type"])
-fig.suptitle(
-    f"Independent Effects of SVM Model Parameters on F1 Score for {dataset_name} dataset",
-    fontsize=16,
-    fontweight="bold",
-)
-fig.subplots_adjust(top=0.85)
 fig.savefig(f"{FIGURES_DIR}/independent_effects_SVM_{dataset_name}.png", dpi=300)
 plt.show()
 
 # %%
 logging.info("Plotting interaction effects of KNN model parameters")
 fig = plot_interactions(knn_results, ["k", "distance_func", "voting_func", "weighting_func"])
-fig.suptitle(
-    f"Interaction Effects of KNN Model Parameters on F1 Score for {dataset_name} dataset",
-    fontsize=20,
-    fontweight="bold",
-)
-fig.subplots_adjust(top=0.95)
 fig.savefig(f"{FIGURES_DIR}/interaction_effects_KNN_{dataset_name}.png", dpi=300)
 plt.show()
 
@@ -195,12 +173,6 @@ models_with_top_values = get_models_with_top_values(knn_results, top_values)
 # %%
 logging.info("Plotting interaction effects of SVM model parameters")
 fig = plot_interactions(svm_results, ["C", "kernel_type"])
-fig.suptitle(
-    f"Interaction Effects of SVM Model Parameters on F1 Score for {dataset_name} dataset",
-    fontsize=20,
-    fontweight="bold",
-)
-fig.subplots_adjust(top=0.95)
 fig.savefig(f"{FIGURES_DIR}/interaction_effects_SVM_{dataset_name}.png", dpi=300)
 plt.show()
 
@@ -209,11 +181,6 @@ logging.info("Plotting ranked folds distribution for KNN models")
 knn_ranked_folds = get_ranked_folds(linear_sample(knn_results, 8), f1_cols)
 fig, ax = plt.subplots(figsize=(12, 6))
 plot_ranked_folds(ax, knn_ranked_folds, f1_cols)
-fig.suptitle(
-    f"Ranked Folds Distribution for KNN Models for {dataset_name} dataset",
-    fontsize=20,
-    fontweight="bold",
-)
 plt.tight_layout()
 fig.savefig(f"{FIGURES_DIR}/ranked_folds_KNN_{dataset_name}.png", dpi=300)
 plt.show()
@@ -223,11 +190,6 @@ logging.info("Plotting ranked folds distribution for SVM models")
 svm_ranked_folds = get_ranked_folds(linear_sample(svm_results, 8), f1_cols)
 fig, ax = plt.subplots(figsize=(12, 6))
 plot_ranked_folds(ax, svm_ranked_folds, f1_cols)
-fig.suptitle(
-    f"Ranked Folds Distribution for SVM Models for {dataset_name} dataset",
-    fontsize=20,
-    fontweight="bold",
-)
 plt.tight_layout()
 fig.savefig(f"{FIGURES_DIR}/ranked_folds_SVM_{dataset_name}.png", dpi=300)
 plt.show()
@@ -253,13 +215,8 @@ sns.heatmap(
     xticklabels=model_labels,
     yticklabels=model_labels,
 )
-fig.suptitle(
-    f"Nemenyi Test Results for KNN Models for {dataset_name} dataset",
-    fontsize=20,
-    fontweight="bold",
-)
-fig.savefig(f"{FIGURES_DIR}/nemenyi_test_results_KNN_{dataset_name}.png", dpi=300)
 plt.tight_layout()
+fig.savefig(f"{FIGURES_DIR}/nemenyi_test_results_KNN_{dataset_name}.png", dpi=300)
 plt.show()
 
 # %%
@@ -275,9 +232,6 @@ write_latex_table(
     f"{TABLES_DIR}/knn_significant_pairs_{dataset_name}.tex",
     "Significant Differences in KNN Models",
 )
-
-# significant_pairs_df = get_significant_pairs(nemenyi_results, results_for_nemenyi)
-
 # %%
 logging.info("Running Nemenyi test for SVM models")
 svm_results_for_nemenyi = linear_sample(svm_results, 8)
@@ -299,13 +253,8 @@ sns.heatmap(
     xticklabels=model_labels,
     yticklabels=model_labels,
 )
-fig.suptitle(
-    f"Nemenyi Test Results for KNN Models for {dataset_name} dataset",
-    fontsize=20,
-    fontweight="bold",
-)
-fig.savefig(f"{FIGURES_DIR}/nemenyi_test_results_SVM_{dataset_name}.png", dpi=300)
 plt.tight_layout()
+fig.savefig(f"{FIGURES_DIR}/nemenyi_test_results_SVM_{dataset_name}.png", dpi=300)
 plt.show()
 
 # %%
@@ -360,7 +309,6 @@ best_knn_and_svm_by_fold = expand_data_per_fold(best_knn_and_svm)
 
 fig, axs = plt.subplots(1, 3, figsize=(15, 5))
 plot_metrics_comparison(axs, best_knn_and_svm_by_fold)
-plt.suptitle(f"Model Comparison for {dataset_name} dataset", fontsize=20, fontweight="bold")
 plt.tight_layout()
 fig.savefig(f"{FIGURES_DIR}/model_comparison_{dataset_name}.png", dpi=300)
 plt.show()
@@ -401,7 +349,6 @@ metric_pairs = [
 logging.info("Plotting KNN Reduction results")
 fig, axes = plt.subplots(1, 3, figsize=(15, 5))
 plot_reduction_results_scatter(axes, metric_cols_map, metric_pairs, knn_reduction_results)
-fig.suptitle(f"Distribution of Metrics for KNN Reduction Models", fontsize=20, fontweight="bold")
 plt.tight_layout()
 fig.savefig(f"{FIGURES_DIR}/KNN_reduction_distributions_{dataset_name}.png", dpi=300)
 plt.show()
@@ -409,7 +356,6 @@ plt.show()
 logging.info("Plotting SVM Reduction results")
 fig, axes = plt.subplots(1, 3, figsize=(15, 5))
 plot_reduction_results_scatter(axes, metric_cols_map, metric_pairs, svm_reduction_results)
-fig.suptitle(f"Distribution of Metrics for SVM Reduction Models", fontsize=20, fontweight="bold")
 plt.tight_layout()
 fig.savefig(f"{FIGURES_DIR}/SVM_reduction_distributions_{dataset_name}.png", dpi=300)
 plt.show()
@@ -426,11 +372,7 @@ fig = plot_independent_effects(
     ["reduction_func"],
     y_cols=["f1", "train_time", "test_time", "storage"],
 )
-fig.suptitle(
-    f"Effects of KNN Reduction methods for {dataset_name} dataset", fontsize=20, fontweight="bold"
-)
 plt.tight_layout()
-plt.subplots_adjust(top=0.85)
 fig.savefig(f"{FIGURES_DIR}/KNN_reduction_effects_{dataset_name}.png", dpi=300)
 plt.show()
 # %%
@@ -443,11 +385,7 @@ fig = plot_independent_effects(
     ["reduction_func"],
     y_cols=["f1", "train_time", "test_time", "storage"],
 )
-fig.suptitle(
-    f"Effects of SVM Reduction methods for {dataset_name} dataset", fontsize=20, fontweight="bold"
-)
 plt.tight_layout()
-plt.subplots_adjust(top=0.85)
 fig.savefig(f"{FIGURES_DIR}/SVM_reduction_effects_{dataset_name}.png", dpi=300)
 plt.show()
 # %%
