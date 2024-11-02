@@ -6,7 +6,10 @@ This section details the preprocessing steps applied to prepare both datasets fo
 \subsubsection{Handling Different Data Types and Ranges}To manage the varying types and ranges of attributes in our datasets, we implemented specific preprocessing techniques.
 For the nominal attributes in both the Mushroom and Hepatitis datasets, we used label encoding.
 This technique converts categorical values into numerical labels, enabling the algorithms to interpret the data correctly.
-While we considered one-hot encoding to avoid implying any ordinal relationship among categories, we opted for label encoding due to its simplicity and reduced dimensionality, as one-hot encoding would significantly increase dimensions and lead to a sparse space, making accurate predictions more challenging, particularly for KNN with the Mushroom dataset's numerous nominal features.
+While we considered one-hot encoding to avoid implying any ordinal relationship among categories, we opted for label
+encoding due to its simplicity and reduced dimensionality, as one-hot encoding would significantly increase
+dimensions and lead to a sparse space, making accurate predictions more challenging, particularly for KNN with 
+the Mushroom dataset's numerous nominal features \cite{data_preprocess}.
 
 For the numerical attributes in the Hepatitis dataset, we applied min-max scaling to rescale the data to a fixed range of [0, 1]. This normalization is crucial for distance-based algorithms like KNN and SVM, ensuring all features contribute equally to model performance.
 We evaluated other scaling methods, such as standardization, but chose min-max scaling for its effectiveness in maintaining the original data distribution \cite{data_cleaning}.
