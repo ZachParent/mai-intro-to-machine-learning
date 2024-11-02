@@ -110,9 +110,7 @@ def plot_dataset_partitions(full_mushroom_df, full_hepatitis_df, REPORTS_DIR):
         x, y, r = circle
         label = f"{circle.ex['id']}:\n{circle.ex['datum']}"
         color = color_map[circle.ex["id"]]
-        ax.add_patch(
-            plt.Circle((x, y), r, alpha=0.8, linewidth=2, color=color, edgecolor="black")
-        )
+        ax.add_patch(plt.Circle((x, y), r, alpha=0.8, linewidth=2, color=color, edgecolor="black"))
         plt.annotate(
             label,
             (x, y - 0.025),

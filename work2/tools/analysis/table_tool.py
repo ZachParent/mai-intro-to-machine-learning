@@ -1,8 +1,12 @@
 import os
 
+
 def format_column_names(df):
     result = df.copy()
-    result.rename(columns=lambda x: x.replace("_", " ").title() + (' (s)' if 'time' in x else ''), inplace=True)
+    result.rename(
+        columns=lambda x: x.replace("_", " ").title() + (" (s)" if "time" in x else ""),
+        inplace=True,
+    )
     return result
 
 
@@ -31,11 +35,16 @@ def write_latex_table(df, filename, caption, precision=3, longtable=False):
             "\\hline\n"
             "\\endlastfoot\n"
         )
-        
+
         # Add table content
         for _, row in df.iterrows():
-            latex_table += " & ".join([str(round(x, precision)) if isinstance(x, float) else str(x) for x in row]) + " \\\\\n"
-        
+            latex_table += (
+                " & ".join(
+                    [str(round(x, precision)) if isinstance(x, float) else str(x) for x in row]
+                )
+                + " \\\\\n"
+            )
+
         latex_table += "\\end{longtable}"
     else:
         # Use pandas styling for regular tables
@@ -45,14 +54,12 @@ def write_latex_table(df, filename, caption, precision=3, longtable=False):
         s.format(precision=precision)
         s.hide(level=0, axis=0)
         latex_table = s.to_latex(
-            position_float="centering",
-            multicol_align="|c|",
-            hrules=True,
-            label=f"tab:{label}"
+            position_float="centering", multicol_align="|c|", hrules=True, label=f"tab:{label}"
         )
 
     with open(filename, "w") as f:
         f.write(latex_table)
+
 
 # %%
 def write_latex_table_summary(df, columns, filename, caption, sort_by="f1"):

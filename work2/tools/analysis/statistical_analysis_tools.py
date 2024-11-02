@@ -14,6 +14,7 @@ emrld = load_cmap("Emrld", reverse=True)
 colors = alexandrite.colors
 plt.style.use("default")
 
+
 def custom_boxplot(ax, data):
     ax.boxplot(
         data,
