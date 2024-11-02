@@ -43,7 +43,7 @@ def run_svm(
     Run SVM classification with various parameter configurations.
     """
     # SVM Parameters
-    c_values = [1, 3, 5, 7]
+    c_values = [0.05, 0.5, 5, 50]
     kernel_types = ["linear", "poly", "rbf", "sigmoid"]
 
     # Results D
