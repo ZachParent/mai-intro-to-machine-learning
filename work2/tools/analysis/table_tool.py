@@ -54,6 +54,7 @@ def write_latex_table(df, filename, caption, precision=3, longtable=False):
         s.format(precision=precision)
         s.hide(level=0, axis=0)
         latex_table = s.to_latex(
+            position="!htbp",
             position_float="centering", multicol_align="|c|", hrules=True, label=f"tab:{label}"
         )
 
