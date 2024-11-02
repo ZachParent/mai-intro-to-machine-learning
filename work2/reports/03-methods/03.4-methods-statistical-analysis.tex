@@ -45,7 +45,7 @@ These claims hold true when analysing performance metrics distribution across fo
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.9\textwidth]{figures/ranked_folds_SVM_hepatitis.png}
-    \caption{Rank distributions across folds for different KNN configurations on the Hepatitis dataset}
+    \caption{Rank distributions across folds for different SVM configurations on the Hepatitis dataset}
 \label{fig:ranked-folds-svm-hepatitis}
 \end{figure}
 
@@ -113,13 +113,13 @@ If the Nemenyi test fails, we cannot proceed with post-hoc testing as the result
 \label{fig:p_values_vs_num_samples_hepatitis}
 \end{figure}
 
-As seen in the plots in the above figures, we perform linear sampling and top sampling with a variety
+As seen in \autoref{fig:p_values_vs_num_samples_mushroom} and \autoref{fig:p_values_vs_num_samples_hepatitis}, we perform linear sampling and top sampling with a variety
 of sample sizes. With top sampling, we sample the top models based on their f1 score, while linear sampling samples models
 evenly across the performance spectrum. The results show that the Nemenyi test fails across the various sample sizes for both datasets
 when using top sampling but passes when using linear sampling.This indicates that the top sampling method is not suitable for our analysis
 as we cannot perform post-hoc testing on the models.
 
-To further back up our decision, below are tables of the Friedman test results for both datasets.
+To further justify our decision, see \autoref{tab:friedman_test_results_mushroom} and \autoref{tab:friedman_test_results_hepatitis} for the Friedman test results for both datasets.
 
 \input{tables/friedman_test_results_mushroom}
 \input{tables/friedman_test_results_hepatitis}
@@ -128,7 +128,7 @@ These tables display the p-values for the Friedman test across various combinati
 of sampling methods, model types, and scoring metric. The same information from the figures 
 above is presented in tabular form, along with additional results.
 
-From the tables above the same conclusion can be drawn from the Friedman test results.
+From the data, the same conclusion can be drawn from the Friedman test results.
 From the tabular form, we can infer which group of models passed the Friedman test, and which did not.
 
 Employing linear sampling, we can see that the Friedman test passes on the majority
