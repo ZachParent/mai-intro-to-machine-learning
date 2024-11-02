@@ -276,6 +276,7 @@ write_latex_table(
 best_svm_model = svm_results.iloc[0, :]
 best_knn_model = knn_results.iloc[0, :]
 if best_svm_model["mean_f1"] != best_knn_model["mean_f1"]:
+    logging.info(f'wilcoxon tests')
     knn_svm_f1_p_value = stats.wilcoxon(
         best_svm_model[f1_cols].to_list(), best_knn_model[f1_cols].to_list()
     ).pvalue
@@ -285,13 +286,15 @@ if best_svm_model["mean_f1"] != best_knn_model["mean_f1"]:
     knn_svm_test_time_p_value = stats.wilcoxon(
         best_svm_model[test_time_cols].to_list(), best_knn_model[test_time_cols].to_list()
     ).pvalue
-    svm_knn_comparison_df = pd.DataFrame(
+    svm_knn_comparison_df = pd.DataFrame(d
         {
             "metric": ["F1 Score", "Train Time", "Test Time"],
             "p_value": [knn_svm_f1_p_value, knn_svm_train_time_p_value, knn_svm_test_time_p_value],
         }
     )
+    # logging.info(svm_knn_comparison_df)
     svm_knn_comparison_df
+
 # %%
 metric_cols_array = np.array([f1_cols, train_time_cols, test_time_cols])
 all_metric_cols = metric_cols_array.flatten().tolist()
