@@ -71,7 +71,7 @@ def get_svm_reduction_model_label(model_row):
 
 
 def get_svm_model_label(model_row):
-    c_map = {1: "C1", 3: "C3", 5: "C5", 7: "C7"}
+    c_map = {0.05: "C0.05", 0.5: "C0.5", 5: "C5", 50: "C50"}
     kernel_map = {"linear": "Lin", "rbf": "Rbf", "poly": "Poly", "sigmoid": "Sig"}
 
     return f"{c_map[model_row['C']]}{kernel_map[model_row['kernel_type']]}"
