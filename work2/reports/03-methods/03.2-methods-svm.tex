@@ -57,7 +57,16 @@ In our study, we explored multiple kernel functions to capture different types o
 \end{itemize}
 
 \paragraph{Regularization Parameter}
-The regularization parameter C controls the trade-off between achieving a low training error and a low testing error. We explored values [1, 3, 5, 7].
+The regularization parameter C controls the trade-off between achieving a low training error and a low testing error. 
+We explored values [0.05, 0.5, 5, 50] to cover a wide range of regularization strengths:
+\begin{itemize}
+    \item Low values (0.05, 0.5): Stronger regularization, simpler decision boundaries
+    \item Medium values (5): Balanced regularization
+    \item High values (50): Weaker regularization, more complex decision boundaries
+\end{itemize}
+This logarithmic spacing allows us to explore both strong and weak regularization while keeping the number of experiments manageable.
+
+Extremely high C values (much higher than our maximum of 50) can lead to overfitting, as the model attempts to perfectly classify all training points at the expense of generalization. Conversely, extremely low C values (much lower than our minimum of 0.05) can lead to underfitting, as the model becomes too simple to capture the underlying patterns in the data. Our chosen range aims to find a balance between these extremes.
 
 \subsubsection{Performance Evaluation}
 Consistent with our KNN evaluation (see \autoref{subsec:methods-knn}), we assessed SVM performance using:
