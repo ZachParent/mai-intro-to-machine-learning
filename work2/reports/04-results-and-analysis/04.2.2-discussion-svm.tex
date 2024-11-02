@@ -18,22 +18,22 @@ SVMs tend to have much lower test times than KNN. This is especially noticable f
 \begin{description}
     \item[\textbf{Best Configuration:}]\leavevmode
         \begin{itemize}
-            \item C = 1 with Polynomial Kernel
+            \item C = 3, 5, and 7 with Polynomial Kernel
+            \item C = 5, 7 with RBF Kernel
         \end{itemize}
     
     \item[\textbf{Performance Range:}]\leavevmode
         \begin{itemize}
-            \item Accuracy: 92.8\%
-            \item F1 Score: 92.8\%
+            \item Mean F1 Score: 98.3\% $-$ 100\%
         \end{itemize}
 \end{description}
 
 \subsubsection*{Observations}
 The results for the mushroom dataset show that the SVM model performed consistently strong across all configurations,
-albeit some performed better than others. The best performing model used a Polynomial kernel with $C=1$.
+albeit some performed better than others. The best performing model used a Polynomial kernel with $C=3, 5 or 7$
+or an RBF kernel with $C=5 or 7$, with all achieving a perfect mean F1 score of 100\%.
 (See \autoref{tab:svm_results_mushroom}).
-This SVM model achieved a score of 92.8\% for both accuracy and F1 score. This result was closely
-following by the RBF kernel with higher values of C (3, 5, and 7).
+This result was closely followed by the RBF kernel with $C=3$ and the Polynomial kernel with $C=1$, both achieving a mean F1 score of 99.9\%.
 
 \begin{figure}
     \centering
@@ -60,8 +60,7 @@ with only `C5Lin' and `C7Lin' showing consistent performance across all folds.
     
     \item[\textbf{Performance Range:}]\leavevmode
         \begin{itemize}
-            \item Accuracy: 95.5\%
-            \item F1 Score: 97.2\%
+            \item Mean F1 Score: 97.5\%
         \end{itemize}
 \end{description}
 
@@ -69,7 +68,7 @@ with only `C5Lin' and `C7Lin' showing consistent performance across all folds.
 The results for the hepatitis dataset show that the SVM model also performed consistently strong across all configurations.
 (See \autoref{tab:svm_results_hepatitis}).
 The best performing model used an RBF kernel with $C=7$.
-This SVM model achieved an accuracy of 95.5\% and an F1 score of 97.2\%.
+This SVM model achieved a mean F1 score of 97.5\%.
 
 \begin{figure}
     \centering
@@ -80,13 +79,12 @@ This SVM model achieved an accuracy of 95.5\% and an F1 score of 97.2\%.
 
 The above figure shows the ranked folds for the SVM algorithm on the mushroom dataset.
 The figure illustrates the variation in performance across the different SVM models and folds.
-When considering the mean, SVM models `C3RBF' and `C5RBF' consistently outperformed the other models.
+When considering the mean, SVM models `C3RBF' and `C5RBF' performed the best across all folds.
 
 \subsubsection*{Overall Comparison}
-For the hepatitis dataset, the configuration using the \textbf{RBF} kernel and $C=7$
-achieved outstanding accuracy and F1 scores. However, because of the simple predictability
-of the mushroom data, the simple \textbf{Polynomial} kernel performed better when paired with $C=1$.
-(See \autoref{tab:svm_results_hepatitis} and \autoref{tab:svm_results_mushroom}).
+A higher C value tends to perform better for both datasets, 
+but the best performing models for each dataset used different kernels paired with these C values
+(poly for mushroom and rbf for hepatitis). See \autoref{tab:svm_results_mushroom} and \autoref{tab:svm_results_hepatitis}.
 
 \subsection*{Support Vector Machines (SVM) Statistical Analysis}
 To compare the performance across model configurations, we employed statistical analysis methods
@@ -94,7 +92,7 @@ To compare the performance across model configurations, we employed statistical 
 statistically significant differences in performance.
 
 As seen in \autoref{fig:ranked_folds_SVM_hepatitis} and \autoref{fig:ranked_folds_SVM_mushroom},
-some models achieved significantly better results than others. By comparing the ranks among each of the 10 folds,
+some models achieved better results than others. By comparing the ranks among each of the 10 folds,
 we can check to see if there were any cases in which 1 model always outperformed another.
 
 The mushroom dataset has some especially obvious cases, in which the $C=3$ and $C=5$ RBF models
@@ -135,4 +133,4 @@ at the 95\% confidence level. The full tables containing the p-values for each p
 To further analyze the hyperparameters we plotted the effects of each hyperparameter on the F1 score.
 
 Here we see that the Kernel Type is a stronger predictor of performance than the $C$ parameter, and that
-the best performing models tend to use the poly or linear kernals, and that higher values of $C$ tend to perform worse.
+the best performing models tend to use the rbf or poly kernels, and that higher values of $C$ tend to perform worse.

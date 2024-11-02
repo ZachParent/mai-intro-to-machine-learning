@@ -1,7 +1,7 @@
-\subsection{Dataset}
+\subsection{Dataset Selection and Characteristics}
 \label{subsec:dataset}
 
-In this section, we describe the selection criteria that guided our choice of the Mushroom and Hepatitis datasets and analyze their respective characteristics.
+This section outlines our dataset selection criteria and analyzes the characteristics of the chosen datasets.
 
 \subsubsection{Dataset Selection}
 In this project, we aimed to select two datasets that offer substantial variability across different aspects to evaluate the performance of Support Vector Machine (SVM) and k-Nearest Neighbors (KNN) algorithms.
@@ -16,28 +16,54 @@ Additionally, class distribution was a critical factor in our selection. By choo
 Lastly, we prioritized finding datasets with varying levels of missing data to examine how effectively the algorithms manage incomplete information.
 
 Based on these criteria, we selected the Hepatitis and Mushroom datasets, as they provide the most distinct and complementary combination for our evaluation.
+\subsubsection{Selection Criteria}
+We selected two datasets with contrasting characteristics to evaluate the performance of Support Vector Machine (SVM) and k-Nearest Neighbors (KNN) algorithms across different scenarios. Our selection criteria focused on:
+
+\begin{itemize}
+    \item Dataset size variation (small vs. large)
+    \item Attribute type diversity (nominal vs. numerical)
+    \item Class distribution (balanced vs. imbalanced)
+    \item Missing data patterns
+\end{itemize}
+
+A smaller dataset enables rapid experimentation and initial algorithm validation, while a larger dataset allows evaluation of reduction methods' effectiveness, particularly for KNN's storage and computational requirements.
 
 \subsubsection{Dataset Characteristics}
 
 \begin{figure}
     \centering
     \includegraphics[width=0.5\textwidth]{figures/dataset-partitions.png}
-    \caption{Dataset partitions}
+    \caption{Size comparison of datasets used in the study}
     \label{fig:dataset-partitions}
 \end{figure}
 
-The Mushroom dataset, with 8,124 instances, is much larger (see \autoref{fig:dataset-partitions}) than the Hepatitis dataset's 155 instances, making it ideal for examining the computational benefits of reduction techniques.
-The Mushroom dataset focuses on predicting whether a mushroom is poisonous or edible based on 22 nominal attributes, such as cap shape and color, whereas the Hepatitis dataset aims to predict whether a hepatitis patient will live or die, using a mix of both nominal and numeric features like age and liver size.
-This allows for a comparison of model handling for fully categorical data versus mixed data types.
+The selected datasets exhibit the following characteristics:
+
+\begin{itemize}
+    \item \textbf{Mushroom Dataset}
+    \begin{itemize}
+        \item 8,124 instances
+        \item 22 nominal attributes
+        \item Binary classification (edible vs. poisonous)
+        \item Nearly balanced classes
+    \end{itemize}
+    
+    \item \textbf{Hepatitis Dataset}
+    \begin{itemize}
+        \item 155 instances
+        \item Mixed attribute types (both nominal and numerical)
+        \item Binary classification (survive vs. die)
+        \item Imbalanced classes (79.35\% majority class)
+        \item 6.01\% missing values
+    \end{itemize}
+\end{itemize}
 
 \begin{figure}
     \centering
     \includegraphics[width=0.45\textwidth]{figures/hepatitis-class-distribution.png}
     \includegraphics[width=0.45\textwidth]{figures/mushroom-class-distribution.png}
-    \caption{Class distributions}
+    \caption{Class distribution comparison between datasets}
     \label{fig:class-distributions}
 \end{figure}
 
-Class distribution is another key distinction.
-The Mushroom dataset is nearly balanced, with only a 1.8\% class deviation, while the Hepatitis dataset has a 29.35\% class deviation, with 79.35\% of instances in the majority class (see \autoref{fig:class-distributions}), making it ideal for testing each model's robustness to imbalanced data.
-Missing data is also more prevalent in the Mushroom dataset (48.2\%) compared to Hepatitis (20.01\%), providing insights into each model’s ability to handle incomplete data.
+These datasets provide complementary characteristics for evaluating our algorithms' performance across different scenarios. The Mushroom dataset challenges the algorithms with its size and categorical nature, while the Hepatitis dataset tests their ability to handle mixed data types and class imbalance.

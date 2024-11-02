@@ -14,27 +14,23 @@ achieving accuracy scores above 92\% and F1 scores above 92.5\% on all top ten c
 \begin{description}
     \item[\textbf{Best Configuration:}]\leavevmode
         \begin{itemize}
-            \item $k = 3, 5,$ or $7$ with Manhattan Distance (all performed equally well)
-            \item Shepard's Work Voting scheme
+            \item $k = 1 and 3$ (both performed equally well)
+            \item Shepard's, Majority Class, or Inverse Distance Weighted Voting scheme (all performed equally well)
             \item Equal Weighting
-            \item \textbf{Results:} 95.1\% accuracy and 95.2\% F1 score
+            \item \textbf{Results:} 100\% mean F1 score
         \end{itemize}
     
     \item[\textbf{Performance Range:}]\leavevmode
         \begin{itemize}
-            \item Accuracy: 92.6\% $--$ 95.1\%
-            \item F1 Score: 92.7\% $--$ 95.2\%
+            \item Mean F1 Scores: 100\% (no range)
         \end{itemize}
 \end{description}
 
 \subsubsection*{Observations}
-Manhattan Distance consistently performed well across all configurations, with all top ten configurations using this distance metric.
-The combination of Manhattan Distance and Shepard's Work Vote with a higher value of k was particularly effective. 
-The higher performance of a larger k value suggests that the algorithm benefits from considering multiple neighbors when making predictions, perhaps
-due to the dataset's inherent complexity and noise present in the data. The equal weighting scheme also performed excellently,
-indicating that the dataset contains relatively a uniform
-distribution of meaningful data points.
-The F1 scores achieved across all configurations were consistently high, indicating a good balance between precision and recall.
+The mushroom dataset achieved a perfect mean F1 score of 100\% across all top ten configurations,
+indicating that the KNN algorithm performed exceptionally well on this dataset.
+Given only the top ten configurations were considered, it is reasonable to assume there are additional
+configurations that could also achieve a perfect F1 score on this dataset.
 
 \begin{figure}
     \centering
@@ -54,16 +50,15 @@ Interestingly, for each KNN model the performance across the 10 folds is identic
 \begin{description}
     \item[\textbf{Best Configuration:}]\leavevmode
         \begin{itemize}
-            \item $k = 1$ with Euclidean Distance
-            \item Shepard's Work Vote
-            \item ReliefF Weighting
-            \item \textbf{Results:} 95.5\% accuracy and 97.2\% F1 score
+            \item $k = 1$ with Chebyshev Distance
+            \item Shepard's, Majority Class, or Inverse Distance Weighted Voting scheme (all performed equally well)
+            \item Equal Weighting
+            \item \textbf{Results:} 97.3\% mean F1 score
         \end{itemize}
     
     \item[\textbf{Performance Range:}]\leavevmode
         \begin{itemize}
-            \item Accuracy: 94.8\% $--$ 95.5\%
-            \item F1 Score: 96.7\% $--$ 97.2\%
+            \item Mean F1 Scores: 96.9\% $--$ 97.3\%
         \end{itemize}
     
     \item[\textbf{Key Observations:}]\leavevmode
@@ -77,11 +72,9 @@ Interestingly, for each KNN model the performance across the 10 folds is identic
 \subsubsection*{Observations}
 The hepatitis dataset achieved its best performance with a k value of 1, indicating that the algorithm benefits from
 more localized decisions when making predictions when using this dataset.
-The Euclidean Distance metric performed best, particularly when combined with ReliefF weighting. This suggests that the dataset's features
-have varying degrees of importance, and ReliefF weighting helps capture these distinctions effectively.
-As also seen in the mushroom dataset, the F1 scores achieved across all configurations were consistently high,
-indicating a good balance between precision and recall.
-
+The Chebyshev Distance metric led to the best performance, particularly when combined with a k value of 1.
+The choice of weighting scheme had a minimal impact on performance, with all three schemes performing similarly when combined with k = 1 and Chebyshev Distance.
+As also seen in the mushroom dataset, the F1 scores achieved across all configurations were consistently high, indicating a good balance between precision and recall.
 
 \begin{figure}
     \centering
@@ -134,14 +127,16 @@ groups of model configurations. The first group consists of k = 1 configurations
 (with Manhattan and Euclidean distance) and k=3 with Manhattan distance, which all perform similarly to each other (p=1.00).
 The second group includes configurations with higher k values (3,5,7) using various distance metrics,
 which also perform similarly within their group (p=1.00) but significantly differently from the first
-group (some comparisons yield p=0.04, below the 0.05 threshold). This clear separation suggests that the choice of k-value
+group (some comparisons yield p=0.05). This clear separation suggests that the choice of k-value
 has a more substantial impact on model performance than the choice of distance metric, with k=1 configurations behaving distinctly from higher k-values.
 
-The Nemenyi test results for the KNN models on the mushroom dataset reveal two main groups of model configurations.
-The first group consists of k=1 configurations and k=3 with Manhattan distance, which perform similarly
-(p=0.85 $-$ 1.00), though with some variation within the group. The second group includes configurations
-from k5ManShpInf through k7ChebShpRtf, which show high similarity within their group (p=0.95 $-$ 1.00).
-Some of these groups perform significantly differently from each other, given the p-values fall below the 0.05 threshold.
+The Nemenyi test results for the KNN models on the mushroom dataset reveal distinct clustering patterns across models.
+The first group consists of `k1ManMajEq', `k1EucShpEq', and `k3ManDisEq', and `k3ChebMajEq' configurations, which show
+high similarity within their group (p=0.6 $-$ 1.00). A second distinct group includes `k5ManShpInf', `k5ChevDisInf',
+`k7EucMajInf', and `k7ChebShpRtf' which also show high similarity within their group (p=0.87 $-$ 1.00), except 
+one outlier (p=0.11). Despite this outlier, none of the configurations in the second group are significantly different from each other.
+There are clear statistical differences between most configurations across these groups,
+as indicated by the very low p-values (p=0.00 $-$ 0.11) in the darker regions of the heatmap.
 
 We can deduce that the k-value has a substantial impact on model performance on both datasets. 
 
@@ -159,4 +154,4 @@ we analyzed the impact of the hyperparameters on the performance of the KNN algo
 
 We can see from \autoref{fig:interaction_effects_KNN_hepatitis} that each parameter plays a significant role in the performance of the KNN algorithm.
 We also see some notable interactions between parameters, such as majority class voting performing better when combined with low k values and the Manhattan distance metric.
-We also see that Inverse Distance Weighting performs poorly in all cases except with k=1, where it there is difference at all (since voting scheme has no impact when k=1).
+We also see that Inverse Distance Weighting performs poorly in all cases except with k=1.

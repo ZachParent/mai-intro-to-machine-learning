@@ -1,53 +1,57 @@
 \section{Introduction}
 \label{sec:introduction}
 
-This is the introduction section of the report. It provides background information and context for the study, states the research question or hypothesis, and briefly outlines the approach taken.
-A report structure overview is also provided to guide the reader through the document.
+Machine learning classification algorithms play a crucial role in modern data analysis, enabling automated decision-making across diverse domains from medical diagnostics to pattern recognition. This study focuses on evaluating and comparing two fundamental classification algorithms: k-Nearest Neighbors (KNN) and Support Vector Machines (SVM), along with instance reduction techniques to improve their efficiency.
 
-\subsection{Background Information}
+\subsection{Background}
 
-Classification in the context of machine learning is the process of predicting the class or category of a given data point based on its features.
-For example: given a set of emails, classify each email as spam or not spam. 
-It is a supervised learning technique that is used to assign labels to data points based on their characteristics.
-Classification is an ideal technique for the required analysis as outlined in this report.\par
+Classification algorithms assign predefined categories to data points based on their features. While many sophisticated classification methods exist, KNN and SVM remain widely used due to their interpretability and strong theoretical foundations. KNN operates by examining the closest training examples to make predictions, while SVM finds optimal hyperplanes to separate classes in feature space.
 
+<<<<<<< HEAD
 K-Nearest Neighbour (KNN) is a supervised machine learning algorithm that has been chosen as the primary method for this study.
 It is a simple yet powerful algorithm that classifies new cases based on similarity to existing data points.
 While KNN can be used for both classification and regression problems, our focus is on classification due to 
 the nature of the datasets used \cite{knn}.\par
+=======
+A key challenge with instance-based methods like KNN is their computational and storage requirements, particularly for large datasets. Instance reduction techniques address this limitation by identifying and preserving only the most informative training examples, potentially improving both efficiency and generalization.
+>>>>>>> 44b6abc19b24bcd22d2fd018bbbbae03100de9f4
 
-This report details the analysis of two datasets: `hepatitis' and `mushroom'. These are two of many datasets provided to us as part of this assignment.
-We decided upon these two datasets due to the stark contrast between them in terms of complexity and size.
+\subsection{Research Objectives}
 
-\subsection{Research Question or Hypothesis}
-The primary research question addressed in this report is: `Can the k-Nearest Neighbour algorithm effectively classify
-data points in the hepatitis and mushroom datasets with high accuracy'?.\par
+This study addresses three primary research questions:
 
-The specific objectives of this study are:
 \begin{enumerate}
-    \item To evaluate KNN's classification performance on datasets of varying sizes and complexities
-    \item To determine optimal KNN hyperparameter settings for each dataset
-    \item To assess the algorithm's robustness and limitations in different scenarios
+    \item How do KNN and SVM compare in terms of classification accuracy and computational efficiency across datasets with different characteristics?
+    \item What impact do various distance metrics, weighting schemes, and kernel functions have on model performance?
+    \item Can instance reduction techniques maintain classification accuracy while significantly reducing storage and computational requirements?
 \end{enumerate}
 
-We hypothesize that KNN will perform excellently on the mushroom dataset due to the simplicity of the data,
-but may struggle with the hepatitis dataset due to the complexity of the data in that dataset.
+\subsection{Methodology Overview}
 
-% TODO: Discuss adding additional steps for SVM and reduction techniques
-\subsection{Approach and Methodology}
-The approach taken in this report involves the following steps:
-\begin{enumerate}
-    \item Data Preprocessing: Both datasets are preprocessed, ensuring the data is clean and ready for analysis.
-    \item Model Training: Different combinations of hyperparameters are used to train the KNN algorithm on the training dataset.
-    \item Model Evaluation: The performance of the best KNN algorithm from the previous step is evaluated using the test dataset.
-\end{enumerate}
+We evaluate these questions using two carefully selected datasets:
+\begin{itemize}
+    \item The Mushroom dataset (8,124 instances) - featuring categorical attributes and balanced classes
+    \item The Hepatitis dataset (155 instances) - containing mixed data types and imbalanced classes
+\end{itemize}
+
+Our analysis employs rigorous statistical testing to compare model configurations and reduction techniques. We use cross-validation and multiple performance metrics to ensure robust conclusions.
+
+\subsection{Contributions}
+
+The key contributions of this work include:
+\begin{itemize}
+    \item A comprehensive comparison of KNN and SVM performance across diverse dataset characteristics
+    \item Empirical evaluation of three instance reduction techniques (GCNN, ENNTh, and DROP3)
+    \item Statistical analysis framework for comparing classification algorithms and reduction methods
+    \item Practical guidelines for choosing between KNN and SVM based on dataset properties
+\end{itemize}
 
 \subsection{Report Structure}
-The report is structured as follows:
-\begin{enumerate}
-    \item Introduction (Section 1): Provides background information, states the research question, and outlines the approach.
-    \item Data (Section 2): Describes the data used in the study, along with the source, characteristics, relevance, and the preprocessing techniques that were applied.
-    \item Methods (Section 3): Describes the methodology used in the study, including the algorithms, techniques, and tools used.
-    \item Results and Analysis (Section 4): Findings of the study are presented, including relevant data, statistics, and figures to help visualise the data.
-    \item Conclusion (Section 5): Summarizes main findings of the study and their significance.
-\end{enumerate}
+
+The remainder of this report is organized as follows:
+\begin{itemize}
+    \item Section 2 describes the datasets and preprocessing methodology
+    \item Section 3 details the implementation of KNN, SVM, and reduction techniques
+    \item Section 4 presents experimental results and statistical analysis
+    \item Section 5 concludes with key findings and future research directions
+\end{itemize}
