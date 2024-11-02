@@ -11,16 +11,9 @@ ENV_NAME = .venv
 # COMMANDS                                                                      #
 #################################################################################
 
-## Set up environment, install requirements and run
+## run all models and analyses
 .PHONY: all
-all: create_environment requirements run
-
-
-## Install Python Dependencies
-.PHONY: requirements
-requirements:
-	$(PYTHON_INTERPRETER) -m pip install -U pip
-	$(PYTHON_INTERPRETER) -m pip install -r requirements.txt
+all: run_models run_analysis
 
 ## Delete all compiled Python files
 .PHONY: clean
@@ -56,44 +49,47 @@ format:
 .PHONY: create_environment
 create_environment:
 ifeq ($(OS),Windows_NT)
-	python -m venv ${ENV_NAME} && \
-	echo ">>> New virtualenv created. Activate with:\n.venv\Scripts\activate"
+	${PYTHON_INTERPRETER} -m venv ${ENV_NAME}
+	@echo ">>> New virtualenv created. Activate it manually with:"
+	@echo "    .\.venv\Scripts\activate"
 else
-	python3 -m venv ${ENV_NAME}
-	echo ">>> New virtualenv created. Activate with:\n.venv\Scripts\activate"
+	${PYTHON_INTERPRETER} -m venv ${ENV_NAME}
+	@echo ">>> New virtualenv created. Activate it manually with:"
+	@echo "    source .venv/bin/activate"
 endif
+	@echo ">>> Remember to install the requirements with 'make install_requirements'"
 
+## Install Python Dependencies
+.PHONY: install_requirements
+install_requirements:
+	$(PYTHON_INTERPRETER) -m pip install -U pip
+	$(PYTHON_INTERPRETER) -m pip install -r requirements.txt
 
-## Complete project setup from fresh clone
-.PHONY: setup
-
-# Define activation command based on OS
-ifeq ($(OS),Windows_NT)
-    VENV_DIR = .venv\Scripts
-    ACTIVATE_CMD = call $(VENV_DIR)\activate.bat &&
-else
-    VENV_DIR = .venv/bin
-    ACTIVATE_CMD = . $(VENV_DIR)/activate &&
-endif
-
-setup: create_environment
-	@echo ">>> Setting up complete project environment..."
-	$(ACTIVATE_CMD) $(MAKE) requirements && $(MAKE) format && echo ">>> Setup complete. Run base project with: python run.py --dataset_name [mushroom|hepatitis]"
-
-.PHONY: run
-run:
+.PHONY: run_models
+run_models:
 	@echo ">>> Running both datasets..."
 	
 	@echo "\n>>> Running hepatitis dataset..."
-	python tools/run.py --dataset_name hepatitis
-	python tools/analysis/run_statistical_analysis.py --dataset_name hepatitis
+	${PYTHON_INTERPRETER} tools/run.py --dataset_name hepatitis
 	
 	@echo "\n>>> Running mushroom dataset..."
-	python tools/run.py --dataset_name mushroom
-	python tools/analysis/run_statistical_analysis.py --dataset_name mushroom
+	${PYTHON_INTERPRETER} tools/run.py --dataset_name mushroom
+
+	@echo ">>> Completed running all datasets."
+
+
+.PHONY: run_analysis
+run_analysis:
+	@echo ">>> Running hepatitis statistical analysis..."
+	${PYTHON_INTERPRETER} tools/analysis/run_statistical_analysis.py --dataset_name hepatitis
 	
-	@echo ">>> Completed running all datasets. Running dataset analysis..."
-	python tools/analysis/run_dataset_analysis.py
+	@echo "\n>>> Running mushroom statistical analysis..."
+	${PYTHON_INTERPRETER} tools/analysis/run_statistical_analysis.py --dataset_name mushroom
+	
+	@echo "\n>>> Running dataset analysis..."
+	${PYTHON_INTERPRETER} tools/analysis/run_dataset_analysis.py
+
+	@echo ">>> Completed running all analyses."
 
 #################################################################################
 # PROJECT RULES                                                                 #
