@@ -487,6 +487,7 @@ for (df, name) in zip([knn_legend, svm_legend, knn_reduction_legend, svm_reducti
         df,
         f"{TABLES_DIR}/{name}_legend.tex",
         f"{name} Legend",
+        longtable=df.shape[0] > 20,
     )
 # %%
 write_latex_table_summary(

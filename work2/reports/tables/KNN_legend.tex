@@ -1,11 +1,22 @@
-\begin{table}
-\centering
-\caption{KNN Legend}
-\label{tab:KNN_legend}
-\begin{tabular}{lrlll}
-\toprule
+\begin{longtable}{c|c|c|c|c}
+\caption{KNN Legend} \label{tab:KNN_legend} \\
+\hline
 Model Label & K & Distance Func & Voting Func & Weighting Func \\
-\midrule
+\hline
+\endfirsthead
+
+\multicolumn{5}{c}{\	ablename\ \thetable\ -- Continued} \\
+\hline
+Model Label & K & Distance Func & Voting Func & Weighting Func \\
+\hline
+\endhead
+
+\hline
+\multicolumn{5}{r}{Continued on next page}
+\endfoot
+
+\hline
+\endlastfoot
 k1ChebShpEq & 1 & ChebyshevDistance & ShepardsWorkVote & EqualWeighting \\
 k1ChebDisEq & 1 & ChebyshevDistance & InverseDistanceWeightedVote & EqualWeighting \\
 k1ChebMajEq & 1 & ChebyshevDistance & MajorityClassVote & EqualWeighting \\
@@ -114,6 +125,4 @@ k3ChebDisInf & 3 & ChebyshevDistance & InverseDistanceWeightedVote & Information
 k1ChebMajInf & 1 & ChebyshevDistance & MajorityClassVote & InformationGainWeighting \\
 k1ChebDisInf & 1 & ChebyshevDistance & InverseDistanceWeightedVote & InformationGainWeighting \\
 k1ChebShpInf & 1 & ChebyshevDistance & ShepardsWorkVote & InformationGainWeighting \\
-\bottomrule
-\end{tabular}
-\end{table}
+\end{longtable}
