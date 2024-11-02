@@ -19,7 +19,7 @@ def write_latex_table(df, filename, caption, precision=3, longtable=False):
             "\\hline\n"
             "\\endfirsthead\n\n"
             # Continuation header
-            f"\\multicolumn{{{len(df.columns)}}}{{c}}{{\\\tablename\\ \\thetable\\ -- Continued}} \\\\\n"
+            f"\\multicolumn{{{len(df.columns)}}}{{c}}{{ {caption} -- Continued}} \\\\\n"
             "\\hline\n"
             f"{' & '.join(df.columns)} \\\\\n"
             "\\hline\n"
