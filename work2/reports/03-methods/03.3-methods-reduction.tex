@@ -26,11 +26,11 @@ Nearest Neighbor} (GCNN) algorithm.
 % This technique effectively reduces the dataset size while preserving essential 
 % information for accurate classification.
 
-GCNN \cite{hart1968condensed} is an iterative algorithm that starts with a small subset of 
+GCNN is an iterative algorithm that starts with a small subset of 
 the training data and incrementally adds instances that are misclassified by the current KNN model. 
-This process continues until no further instances are misclassified. GCNN aims to identify a minimal 
+This process continues until no further instances are misclassified \cite{GCNN-JMLR}. GCNN aims to identify a minimal 
 consistent subset, a subset of the original data that correctly classifies all of the original 
-instances using the 1-NN rule.
+instances using the 1-NN rule \cite{GCNN-JMLR}.
 
 More formally, let $X = \{x_1, x_2, ..., x_n\}$ be the set of training instances and $Y = \{y_1, y_2, ..., y_n\}$ be 
 the corresponding class labels. GCNN can be described as follows:
@@ -84,14 +84,14 @@ retains more instances \cite{ENNTH}.
 \subsubsection*{Hybrid Reduction Techniques}
 
 Hybrid reduction techniques combine the strengths of both condensed and edited approaches to 
-achieve more robust and efficient reduction. The \textbf{DROP3} algorithm \cite{wilson2000reduction} 
+achieve more robust and efficient reduction. The \textbf{DROP3} algorithm \cite{Wilson2000} 
 is a notable example of a hybrid technique. Unlike DROP2, which uses CNN first and then ENN, DROP3 reverses this order. 
 It first applies an edited nearest neighbor rule (ENN) to remove noisy or borderline instances, creating a cleaner dataset.
 Then, it employs a decremental reduction procedure inspired by condensed nearest neighbor to iteratively remove redundant
 instances that do not affect the classification accuracy of their neighbors. This process results in a significantly 
 reduced dataset while aiming to preserve classification accuracy.
 
-DROP3 \cite{wilson2000reduction} is a hybrid instance reduction technique that combines the strengths of ENN and 
+DROP3 \cite{Wilson2000} is a hybrid instance reduction technique that combines the strengths of ENN and 
 Condensed Nearest Neighbor (CNN). It aims to achieve a more substantial reduction in the dataset size while 
 maintaining or improving classification accuracy.\\
 
@@ -112,19 +112,18 @@ This iterative process continues until no further instances can be removed witho
 Our project focuses on evaluating the effectiveness of various instance reduction techniques in improving
 the efficiency and accuracy of the k-nearest neighbor (KNN) algorithm.  We selected three specific algorithms
 representing different categories of instance reduction: condensed, edited, and hybrid. For the condensed approach,
-we chose \textbf{Generalized Condensed Nearest Neighbor (GCNN)} \cite{hart1968condensed} over 
-Reduced Nearest Neighbor (RNN) and Fast Condensed Nearest Neighbor (FCNN). 
+we chose \textbf{Generalized Condensed Nearest Neighbor (GCNN)} over Reduced Nearest Neighbor (RNN) and Fast Condensed Nearest Neighbor (FCNN). 
 GCNN offers a more robust approach by iteratively adding instances that are misclassified by the current model,
 ensuring a consistent subset for accurate classification. While RNN and FCNN offer potential speed improvements,
 GCNN prioritizes finding a minimal consistent set, which aligns better with our goal of maintaining high accuracy.
 
-For the edited approach, we opted for \textbf{Edited Nearest Neighbor with Thresholding (ENNTh)} \cite{wilson1972asymptotic}
+For the edited approach, we opted for \textbf{Edited Nearest Neighbor with Thresholding (ENNTh)} \cite{Wilson2000,ENNTH}
 instead of Repeated Edited Nearest Neighbor (RENN). ENNTh provides a more controlled noise removal mechanism by
 incorporating a threshold to determine the probability of an instance belonging to its assigned class. 
 This allows for a more flexible approach compared to RENN, which repeatedly applies ENN until no further 
 instances are removed. This repeated application can be computationally expensive and may potentially 
 remove valuable instances. Finally, for the hybrid approach, we selected 
-\textbf{Decremental Reduction Optimization Procedure 3 (DROP3)} \cite{wilson2000reduction}
+\textbf{Decremental Reduction Optimization Procedure 3 (DROP3)} \cite{Wilson2000}
 over Instance-Based 2 (IB2) and DROP2. DROP3 combines the strengths of ENN and CNN by first applying 
 ENN to remove noise and then using a decremental reduction procedure to eliminate redundant instances.
 This approach offers a more refined reduction compared to IB2, which primarily focuses on adding instances,
