@@ -301,7 +301,7 @@ analyze_parameters(svm_reduction_results_for_nemenyi, svm_reduction_nemenyi_resu
 
 significant_pairs = get_significant_pairs(svm_reduction_nemenyi_results)
 significant_pairs_df = get_df_pairs(svm_reduction_results_for_nemenyi, significant_pairs)[
-    svm_col_names + ["mean_f1"]
+    ["reduction_func"] + svm_col_names + ["mean_f1"]
 ]
 significant_pairs_df = format_column_names(significant_pairs_df)
 write_latex_table(

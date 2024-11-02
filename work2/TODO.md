@@ -80,5 +80,5 @@
 
 
 - [ ] remove tools_old
-- [ ] fix significant svm reductions table (shows all poly 5)
+- [x] fix significant svm reductions table (shows all poly 5)
 - [ ] make tables prefer "here"
