@@ -75,7 +75,7 @@ other by checking if their average ranks differ by at least the critical differe
 \subsubsection{Wilcoxon Signed-Rank Test}
 To directly compare the performance between SVM and KNN models, we employ the Wilcoxon signed-rank test.
 This non-parametric test is particularly suitable for paired comparisons between two related samples,
-making it ideal for comparing two different classifiers on the same datasets.
+making it ideal for comparing two different classifiers on the same datasets \cite{de2018wilcoxon}.
 
 The Wilcoxon signed-rank test works by:
 \begin{enumerate}
@@ -87,7 +87,7 @@ The Wilcoxon signed-rank test works by:
 Like the Friedman test, the Wilcoxon test makes no assumptions about the normality of the data,
 which aligns with our earlier observations about the non-normal distribution of performance metrics.
 The test provides a more focused comparison between our two classifier types than the Friedman test,
-which compares all configurations simultaneously.
+which compares all configurations simultaneously \cite{Friedman_posthoc,de2018wilcoxon}.
 
 The null hypothesis for the Wilcoxon test is that the median difference between pairs of observations is zero.
 In our context, this means testing whether there is a significant difference in performance between SVM and KNN models.

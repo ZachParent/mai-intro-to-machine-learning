@@ -153,26 +153,3 @@ The best performing model was an RBF kernel with $C=50$, achieving a mean F1 sco
 \paragraph{Mushroom Dataset}
 The best performing models were the polynomial kernel with $C=5$ and $C=50$, and RBF kernel with $C=50$, all achieving a perfect mean F1 score of 100\%, as seen in \autoref{tab:svm_results_mushroom}.
 
-\subsubsection{Wilcoxon Signed-Rank Test}
-
-To further investigate the differences between the best performing kNN and SVM configurations, a Wilcoxon signed-rank test was conducted. This non-parametric test was chosen to compare the two models across multiple performance metrics without making assumptions about the underlying data distribution. The test was applied to the F1 score, training time, and testing time, yielding the following p-values:
-
-\begin{table}[h!]
-\centering
-\begin{tabular}{l|r}
-Metric & p-value \\
-\hline
-F1 Score & 1.000000 \\
-Train Time & 0.001953 \\
-Test Time & 0.001953 \\
-\end{tabular}
-\caption{Wilcoxon signed-rank test results for best kNN and SVM configurations.}
-\label{tab:wilcoxon_results}
-\end{table}
-
-The results indicate no statistically significant difference in F1 score ($p = 1.000$). 
-However, statistically significant differences were observed for both training time ($p = 0.001953$) and 
-testing time ($p = 0.001953$). These findings suggest that while both models achieve comparable predictive
-performance, they exhibit distinct computational profiles. Further analysis may be necessary to investigate
-the factors contributing to these observed differences in training and testing times, such as algorithm 
-complexity and data dimensionality.
