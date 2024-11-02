@@ -18,7 +18,7 @@ This markdown file outlines the requirements, project structure and how to run t
 ## Project Structure
 
 ```
-project/
+work2/
 ├── data/
 |   ├── cross_validated_results/
 |   ├── per_fold_results/
@@ -27,24 +27,38 @@ project/
 │   ├── reduced_X/
 │   ├── reduced_y/
 ├── notebooks/
+├── references/
+├── reports/
+|   ├── 0.2-data/
+|   ├── 0.3-methods
+|   ├── 0.4-results-and-analysis/
+│   ├── figures/
+│   ├── tables/
+│   ├── 01-introduction.tex
+│   ├── 05-conclusion.tex
+│   ├── 06-appendix.tex
+│   ├── report.pdf
+│   ├── report.tex
 ├── tools/
 │   ├── analysis/
 |   |   ├── __init__.py
-|   |   ├── run_statistical_analysis.py
 |   |   ├── run_dataset_analysis.py
+|   |   ├── run_statistical_analysis.py
 |   |   ├── statistical_analysis_tools.py
+|   |   ├── table_tool.py
 │   ├── __init__.py
 │   ├── distance.py
+│   ├── knn.py
 │   ├── metrics.py
 │   ├── preprocess.py
 │   ├── reduction.py
 │   ├── run.py
 │   └── voting.py
 │   └── weighting.py
-├── requirements.txt
-└── README.md
 └── Makefile
 └── pyproject.toml
+└── README.md
+├── requirements.txt
 └── setup.cfg
 ```
 
@@ -56,10 +70,25 @@ Note: these commands are to be ran from the root directory.
 
 The easiest way to get started is using our Makefile commands:
 
-1. Set up the complete environment and run the project:
+1. Create a virtual environment:
 
 ```bash
-make run
+make create_environment
+```
+
+2. Activate the virtual environment:
+```bash
+.venv\Scripts\activate
+```
+
+3. Install the necessary requirements:
+```bash
+make install_requirements
+```
+
+4. Run all models and corresponding analysis:
+```bash
+make all
 ```
 
 ### Manual Usage
