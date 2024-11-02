@@ -108,8 +108,8 @@ for df, name, filename in zip(
 logging.info("Running Friedman test across all models and sampling methods")
 num_sample_options = [4, 8, 16]
 sample_types = ["linear", "top"]
-models = ["KNN", "SVM", "KNN-Reduction"]
-dataframes = [knn_results, svm_results, knn_reduction_results]
+models = ["KNN", "SVM", "KNN-Reduction", "SVM-Reduction"]
+dataframes = [knn_results, svm_results, knn_reduction_results, svm_reduction_results]
 data = []
 
 for sample_type, num_samples, (model, df) in itertools.product(
@@ -133,9 +133,8 @@ p_values_df = pd.DataFrame(data)
 p_values_df
 
 # %%
-# TODO: only plot one point for KNN-Reduction
 logging.info("Plotting p-values vs number of samples")
-fig, axes = plt.subplots(1, 3, figsize=(18, 5), sharex=True, sharey=True)
+fig, axes = plt.subplots(1, 4, figsize=(22, 6), sharex=True, sharey=True)
 
 plot_p_values_vs_num_samples(axes, p_values_df, models, sample_types, num_sample_options)
 
@@ -272,6 +271,45 @@ write_latex_table(
     f"Significant Differences in SVM Models for {dataset_name.title()}",
 )
 # %%
+logging.info("Running Nemenyi test for SVM-Reduction models")
+svm_reduction_results_for_nemenyi = svm_reduction_results
+svm_reduction_nemenyi_results = nemenyi_test(svm_reduction_results_for_nemenyi, f1_cols)
+svm_reduction_nemenyi_results
+
+
+# %%
+logging.info("Plotting Nemenyi test results for SVM-Reduction models")
+fig, ax = plt.subplots(figsize=(12, 12))
+model_labels = svm_reduction_results_for_nemenyi["model_label"]
+sns.heatmap(
+    svm_reduction_nemenyi_results,
+    fmt=".2f",
+    annot=True,
+    cmap=emrld,
+    ax=ax,
+    cbar=False,
+    xticklabels=model_labels,
+    yticklabels=model_labels,
+)
+plt.tight_layout()
+fig.savefig(f"{FIGURES_DIR}/nemenyi_test_results_SVM_Reduction_{dataset_name}.png", dpi=300)
+plt.show()
+
+# %%
+logging.info("Analyzing Nemenyi test results for SVM-Reduction models")
+analyze_parameters(svm_reduction_results_for_nemenyi, svm_reduction_nemenyi_results, svm_col_names)
+
+significant_pairs = get_significant_pairs(svm_reduction_nemenyi_results)
+significant_pairs_df = get_df_pairs(svm_reduction_results_for_nemenyi, significant_pairs)[
+    svm_col_names + ["mean_f1"]
+]
+significant_pairs_df = format_column_names(significant_pairs_df)
+write_latex_table(
+    significant_pairs_df,
+    f"{TABLES_DIR}/svm_reduction_significant_pairs_{dataset_name}.tex",
+    f"Significant Differences in SVM-Reduction Models for {dataset_name.title()}",
+)
+# %%
 
 best_svm_model = svm_results.iloc[0, :]
 best_knn_model = knn_results.iloc[0, :]
@@ -291,7 +329,11 @@ if best_svm_model["mean_f1"] != best_knn_model["mean_f1"]:
             "p_value": [knn_svm_f1_p_value, knn_svm_train_time_p_value, knn_svm_test_time_p_value],
         }
     )
-    svm_knn_comparison_df
+    write_latex_table(
+        svm_knn_comparison_df,
+        f"{TABLES_DIR}/svm_knn_wilcoxon_comparison_{dataset_name}.tex",
+        f"Wilcoxon Signed-Rank Test Results for SVM and KNN Models for {dataset_name.title()}",
+    )
 # %%
 metric_cols_array = np.array([f1_cols, train_time_cols, test_time_cols])
 all_metric_cols = metric_cols_array.flatten().tolist()
