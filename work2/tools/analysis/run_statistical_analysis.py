@@ -27,7 +27,7 @@ FIGURES_DIR = os.path.join(SCRIPT_DIR, "../../reports/figures")
 TABLES_DIR = os.path.join(SCRIPT_DIR, "../../reports/tables")
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--dataset_name", type=str, default="mushroom")
+parser.add_argument("--dataset_name", type=str, default="hepatitis")
 parser.add_argument("--f", type=str, default="")
 parser.add_argument("--verbose", "-v", action="store_true")
 args = parser.parse_args()
@@ -87,7 +87,7 @@ for sample_type, num_samples, (model, df) in itertools.product(
             "model": model,
             "num_samples": num_samples,
             "sample_type": sample_type,
-            "p_value": p_value,
+            "p_value": 1 if math.isnan(p_value) else p_value,
             "significant": p_value < 0.05,
         }
     )
@@ -504,7 +504,8 @@ for df, name, filename in zip(
     print(f"{df} has mean_f1: {df['mean_f1']}")
     write_latex_table_summary(
         df,
-        ["model_label", "mean_f1", "mean_train_time", "mean_test_time"],
+        ["model_label", "mean_f1", "mean_train_time", "mean_test_time"]
+        + (["mean_storage"] if "reduction" in filename else []),
         f"{TABLES_DIR}/{filename}_{dataset_name}.tex",
         f"Results from {name} models for the {dataset_name} dataset".title(),
         sort_by="mean_f1",
