@@ -6,7 +6,8 @@ This section describes the k-Nearest Neighbors (KNN) algorithm and its implement
 \subsubsection{Algorithm Overview}
 
 The KNN algorithm operates on a simple yet effective principle: when classifying new data points, 
-it examines the k closest training examples and assigns the most common class among these neighbors (where k is a user-defined hyperparameter). 
+it examines the k closest training examples and assigns the most common class among these neighbors
+(where k is a user-defined hyperparameter) \cite{knn}. 
 The algorithm's effectiveness relies on two fundamental assumptions:
 \begin{itemize}
     \item Locality: Points that are close to each other are likely to have the same class.
@@ -25,17 +26,17 @@ The value of k is one of the most important tunable hyperparameters, as it signi
 The dependent variable in our datasets we aim to predict is categorical, so while KNN can be used for both classification and regression problems 
 our focus is on classification.
 
-While the KNN algorithm has it's merits in terms of simplicity and interpretability, it also has several disadvantages:
+While the KNN algorithm has it's merits in terms of simplicity and interpretability, it also has several disadvantages \cite{distance_func_knn}:
 \begin{itemize}
     \item Computationally expensive: As the number of training examples grows, the algorithm's complexity increases\cite{laviale2023}.
     \item Sensitive to irrelevant features: The algorithm treats all features equally, so irrelevant features can negatively impact performance.
-    \item Curse of dimensionality: As the number of features increases, the algorithm requires more data to maintain performance.
+    \item Curse of dimensionality: As the number of features increases, the algorithm requires more data to maintain performance \cite{dimensionality}.
 \end{itemize}
 
 All three of the above mentioned disadvantages all relate to the features of the dataset, and how they can impact the performance of the algorithm.
 They create a compounding effect: more features lead to higher computational cost, while making the algorithm more susceptible to noise and irrelevant features,
 and also requiring more data to maintain performance. This is why the use of feature selection and reduction techniques are imperative 
-when working with the KNN algorithm to increase performance.
+when working with the KNN algorithm to increase performance \cite{distance_func_knn,knn}.
 
 
 \subsubsection{Implementation Details}
@@ -146,11 +147,11 @@ The following libraries and tools were used for the implementation of the KNN al
 
 \begin{itemize}
     \item \textbf{Python}: The primary programming language used for the implementation of the KNN algorithm.
-    \item \textbf{NumPy}: A useful package for scientific computing with Python, used for numerical operations.
-    \item \textbf{Pandas}: A data manipulation library in Python, used for data preprocessing and analysis.
-    \item \textbf{Matplotlib}: A plotting library in Python, used for data visualization.
-    \item \textbf{Seaborn}: A data visualization library in Python, used for creating informative and attractive statistical graphics.
-    \item \textbf{SciPy}: A scientific computing library in Python, used for scientific and technical computing.
+    \item \textbf{NumPy}: A useful package for scientific computing with Python, used for numerical operations \cite{numpy}.
+    \item \textbf{Pandas}: A data manipulation library in Python, used for data preprocessing and analysis \cite{pandas}.
+    \item \textbf{Matplotlib}: A plotting library in Python, used for data visualization \cite{matplotlib}.
+    \item \textbf{Seaborn}: A data visualization library in Python, used for creating informative and attractive statistical graphics \cite{seaborn}.
+    \item \textbf{SciPy}: A scientific computing library in Python, used for scientific and technical computing \cite{scipy}.
 \end{itemize}
 
 \subsubsection*{Data Preprocessing}

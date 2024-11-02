@@ -10,14 +10,15 @@ This technique converts categorical values into numerical labels, enabling the a
 While we considered one-hot encoding to avoid implying any ordinal relationship among categories, we opted for label encoding due to its simplicity and reduced dimensionality, as one-hot encoding would significantly increase dimensions and lead to a sparse space, making accurate predictions more challenging, particularly for KNN with the Mushroom dataset's numerous nominal features.
 
 For the numerical attributes in the Hepatitis dataset, we applied min-max scaling to rescale the data to a fixed range of [0, 1]. This normalization is crucial for distance-based algorithms like KNN and SVM, ensuring all features contribute equally to model performance.
-We evaluated other scaling methods, such as standardization, but chose min-max scaling for its effectiveness in maintaining the original data distribution.
+We evaluated other scaling methods, such as standardization, but chose min-max scaling for its effectiveness in maintaining the original data distribution \cite{data_cleaning}.
 
 \subsubsection{Dealing with Missing Values}
 Addressing missing values is a critical step in preparing our datasets for analysis, as they can significantly impact model performance.
 In the case of the nominal attributes in both the Mushroom and Hepatitis datasets, we opted to impute missing values with the majority class.
 This method is straightforward and effective for maintaining dataset integrity.
 However, it can also introduce bias, particularly in the Hepatitis dataset, where the majority class represents 79.35\% of instances.
-Relying on this method may lead to a situation where the imputed values disproportionately favor the majority class, thereby affecting the overall distribution and potentially skewing the results.
+Relying on this method may lead to a situation where the imputed values disproportionately favor the majority class, thereby affecting the overall distribution
+and potentially skewing the results \cite{data_cleaning}.
 
 For the numerical attributes in the Hepatitis dataset, we used the mean of the available data to fill in missing values.
 This approach preserves the overall data distribution and is easy to implement, but it is not without its drawbacks.
