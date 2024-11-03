@@ -6,6 +6,8 @@ PROJECT_NAME = mai-iml-work2
 PYTHON_VERSION = 3.9
 PYTHON_INTERPRETER = python
 ENV_NAME = .venv
+SUBMISSION_NAME = ${PROJECT_NAME}-KacperPoniatowski-ZacharyParent-SheenaLang-CarlosJimenezFarfan
+ZIP_FILE_NAME = $(SUBMISSION_NAME).zip
 
 #################################################################################
 # COMMANDS                                                                      #
@@ -94,17 +96,17 @@ run_analysis:
 ## Create a zip archive of the project (excluding .venv and other unnecessary files)
 .PHONY: zip
 zip: clean
-	rm -f $(PROJECT_NAME).zip
+	rm -f $(ZIP_FILE_NAME)
 	(cd .. && \
-	mkdir -p $(PROJECT_NAME) && \
-	cp -r work2/* $(PROJECT_NAME)/ && \
-	cp $(PROJECT_NAME)/reports/report.pdf $(PROJECT_NAME)/$(PROJECT_NAME)-report.pdf && \
-	zip -r $(PROJECT_NAME).zip $(PROJECT_NAME) -x "*.pyc" -x "*.pyo" -x "*.pyd" -x "*.so" -x "*.dll" -x "*.dylib" \
+	mkdir -p $(SUBMISSION_NAME) && \
+	cp -r work2/* $(SUBMISSION_NAME)/ && \
+	cp $(SUBMISSION_NAME)/reports/report.pdf $(SUBMISSION_NAME)/$(ZIP_FILE_NAME) && \
+	zip -r $(ZIP_FILE_NAME) $(SUBMISSION_NAME) -x "*.pyc" -x "*.pyo" -x "*.pyd" -x "*.so" -x "*.dll" -x "*.dylib" \
 	-x "*/__pycache__/*" -x "*/$(ENV_NAME)/*" -x "*/.git/*" -x "*.zip" \
 	-x "*.aux" -x "*.log" -x "*.toc" -x "*.out" -x "*.synctex.gz" -x "*.fls" -x "*.fdb_latexmk" -x "*.bbl" -x "*.blg" && \
-	mv $(PROJECT_NAME).zip work2/ && \
-	rm -rf $(PROJECT_NAME))
-	@echo ">>> Created $(PROJECT_NAME).zip"
+	mv $(ZIP_FILE_NAME) work2/ && \
+	rm -rf $(SUBMISSION_NAME))
+	@echo ">>> Created $(ZIP_FILE_NAME)"
 
 #################################################################################
 # PROJECT RULES                                                                 #

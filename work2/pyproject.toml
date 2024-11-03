@@ -8,6 +8,9 @@ version = "0.1.0"
 description = "Demonstrating KNN and SVM models with mushroom and hepatitis datasets, as part of the IML Autumn 2024 course."
 authors = [
   { name = "Zachary Parent" },
+  { name = "Kacper Poniatowski" },
+  { name = "Sheena Lang" },
+  { name = "Carlos Jiménez Farfán" },
 ]
 
 readme = "README.md"
