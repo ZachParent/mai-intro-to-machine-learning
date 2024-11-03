@@ -91,6 +91,18 @@ run_analysis:
 
 	@echo ">>> Completed running all analyses."
 
+## Create a zip archive of the project (excluding .venv and other unnecessary files)
+.PHONY: zip
+zip: clean
+	rm -f $(PROJECT_NAME).zip
+	(cd .. && \
+	mkdir -p $(PROJECT_NAME) && \
+	cp -r work2/* $(PROJECT_NAME)/ && \
+	zip -r $(PROJECT_NAME).zip $(PROJECT_NAME) -x "*.pyc" -x "*.pyo" -x "*.pyd" -x "*.so" -x "*.dll" -x "*.dylib" -x "*/__pycache__/*" -x "*/$(ENV_NAME)/*" -x "*/.git/*" -x "*.zip" && \
+	mv $(PROJECT_NAME).zip work2/ && \
+	rm -rf $(PROJECT_NAME))
+	@echo ">>> Created $(PROJECT_NAME).zip"
+
 #################################################################################
 # PROJECT RULES                                                                 #
 #################################################################################
