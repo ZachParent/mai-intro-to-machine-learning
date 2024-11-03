@@ -22,7 +22,6 @@ work2/
 ├── data/
 |   ├── cross_validated_results/
 |   ├── per_fold_results/
-|   ├── preprocessed/
 │   ├── raw/
 │   ├── reduced_X/
 │   ├── reduced_y/
@@ -81,6 +80,12 @@ make create_environment
 .venv\Scripts\activate
 ```
 
+or
+
+```bash
+source .venv/bin/activate
+```
+
 3. Install the necessary requirements:
 ```bash
 make install_requirements
@@ -94,7 +99,7 @@ make all
 ### Manual Usage
 
 To run one dataset manually:
-`python tools/run.py --dataset_name [mushroom|hepatitis]`
+`python tools/run.py --dataset_name [mushroom|hepatitis`
 
 To perform statistical analysis:
 `python tools/analysis/run_statistical_analysis.py --dataset_name[mushroom|hepatitis]`
