@@ -100,11 +100,8 @@ make all
 
 ### Manual Usage
 
-To run one dataset manually:
+To run models for one dataset manually:
 `python tools/run.py --dataset_name [mushroom|hepatitis`
-
-To perform statistical analysis:
-`python tools/analysis/run_statistical_analysis.py --dataset_name [mushroom|hepatitis]`
 
 **Command Line Options**
 
@@ -113,6 +110,9 @@ To perform statistical analysis:
   - `hepatitis`: Use hepatitis dataset
 - `--verbose`, `-v`: Enable verbose output
 - `--sample`, `-s`: Limit sample size (e.g., -s 1000)
+
+To perform statistical analysis (generate tables and plots):
+`python tools/analysis/run_statistical_analysis.py --dataset_name [mushroom|hepatitis]`
 
 ### Example Commands
 
