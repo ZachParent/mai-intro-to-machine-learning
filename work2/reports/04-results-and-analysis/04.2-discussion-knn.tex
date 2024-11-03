@@ -139,6 +139,13 @@ We can deduce that the k-value has a substantial impact on model performance on 
 
 \begin{figure}[!ht]
     \centering
+    \includegraphics[width=0.8\textwidth]{figures/interaction_effects_KNN_mushroom.png}
+    \caption{Interaction effects for KNN models on the mushroom dataset}
+    \label{fig:interaction_effects_KNN_mushroom}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
     \includegraphics[width=0.8\textwidth]{figures/interaction_effects_KNN_hepatitis.png}
     \caption{Interaction effects for KNN models on the hepatitis dataset}
     \label{fig:interaction_effects_KNN_hepatitis}
@@ -147,6 +154,6 @@ We can deduce that the k-value has a substantial impact on model performance on 
 To further understand the impact of the parameters on the performance of the KNN algorithm,
 we analyzed the impact of the hyperparameters on the performance of the KNN algorithm, both independently and in combination.
 
-We can see from \autoref{fig:interaction_effects_KNN_hepatitis} that each parameter plays a significant role in the performance of the KNN algorithm.
+We can see from \autoref{fig:interaction_effects_KNN_mushroom} and \autoref{fig:interaction_effects_KNN_hepatitis} that each parameter plays a significant role in the performance of the KNN algorithm.
 We also see some notable interactions between parameters, such as majority class voting performing better when combined with low k values and the Manhattan distance metric.
 We also see that Inverse Distance Weighting performs poorly in all cases except with k=1.
