@@ -8,7 +8,7 @@ In our analysis of the Hepatitis dataset, we observed that applying reduction te
 for K-Nearest Neighbors (KNN) resulted in F1 scores similar to those obtained without any reduction.
 However, the Drop3 method saw a slight decrease in mean F1 score from 0.948 to 0.864. 
 
-In terms of training time, all reduction approaches exhibited a consistent similar duration compared to not applying reduction.
+In terms of training time, all reduction approaches exhibited a similar duration compared to not applying reduction.
 
 Regarding storage efficiency, the ENNTH method did not yield any reductions, while both GCNN and Drop3 achieved approximately
 27\% and 20\% reductions in storage, respectively. We hypothesize that ENNTH, which focuses on removing noisy instances, did not
@@ -39,7 +39,7 @@ which can be attributed to the relatively small size of the dataset.
 
 \paragraph{Mushroom Dataset} In contrast, the larger Mushroom dataset demonstrated different outcomes.
 Here, GCNN significantly reduced both training and testing times. 
-Specifically, while using KNN with GCNN reduction achieved a one-third reduction in training time,\\
+Specifically, using KNN with GCNN reduction achieved a one-third reduction in training time,\\
 SVM with GCNN reduction realized an impressive approximate 70\% decrease. 
 
 For testing times, KNN with GCNN reduction saw a 50\% reduction, whereas in the case of SVM with GCNN reduction, the reduction was closer to one-third.
@@ -64,5 +64,5 @@ For testing times, KNN with GCNN reduction saw a 50\% reduction, whereas in the 
 
 \paragraph{Friedman and Nemenyi Tests} Given that the Friedman test showed statistical significance for the hepatitis dataset \autoref{tab:friedman_test_results_hepatitis}, we conducted the Nemenyi post-hoc test to identify specific significant differences between reduction methods. 
 For the SVM models on the Hepatitis dataset, the test revealed significant differences between GCNN (p < 0.05) and the other methods, with GCNN performing worse in terms of F1 score (see \autoref{fig:nemenyi-svm-reduction-mushroom}).
-This is loss in performance may be worth the gains in training time in certain cases.
+This loss in performance may be worth the gains in training time in certain cases.
 

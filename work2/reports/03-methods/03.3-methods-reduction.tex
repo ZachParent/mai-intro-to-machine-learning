@@ -55,12 +55,12 @@ in which instances are processed.
 Edited nearest neighbor rules, on the other hand, focus on removing noisy or outlier 
 instances from the training data. 
 
-The \textbf{Edited Nearest Neighbor Estimating Class Probabilistic and Threshold (ENNTh)} is a noise-removal
+The \textbf{Edited Nearest Neighbor Estimating Class Probabilistic and Threshold (ENNTH)} is a noise-removal
 technique that builds upon the Edited Nearest Neighbor (ENN) algorithm \cite{Wilson2000,ENNTH}.
 ENN aims to improve the generalization ability of KNN by removing instances that are likely to be noise or outliers.
-ENNTh refines this process by incorporating a threshold, $\tau$, to control the degree of noise removal \cite{ENNTH}.
+ENNTH refines this process by incorporating a threshold, $\tau$, to control the degree of noise removal \cite{ENNTH}.
 
-ENN traditionally removes an instance if its class label differs from the majority class among its $k$ nearest neighbors. ENNTh introduces a more flexible approach by estimating the class probability of an instance based on its $k$ nearest neighbors. Let $N_k(x_i)$ denote the set of $k$ nearest neighbors of $x_i$. The class probability of $x_i$ is estimated as:
+ENN traditionally removes an instance if its class label differs from the majority class among its $k$ nearest neighbors. ENNTH introduces a more flexible approach by estimating the class probability of an instance based on its $k$ nearest neighbors. Let $N_k(x_i)$ denote the set of $k$ nearest neighbors of $x_i$. The class probability of $x_i$ is estimated as:
 
 \begin{equation}
 P(y_i | x_i) = \frac{|\{x_j \in N_k(x_i) : y_j = y_i\}|}{k}
@@ -68,7 +68,7 @@ P(y_i | x_i) = \frac{|\{x_j \in N_k(x_i) : y_j = y_i\}|}{k}
 
 An instance $x_i$ is removed only if $P(y_i | x_i) < \tau$. This thresholding mechanism allows for a more nuanced approach to noise removal, where instances with a higher probability of belonging to their assigned class are retained, even if they are not in the majority class among their neighbors.
 
-By adjusting the threshold $\tau$, ENNTh can control the trade-off between noise removal and the preservation 
+By adjusting the threshold $\tau$, ENNTH can control the trade-off between noise removal and the preservation 
 of potentially useful instances. A higher threshold leads to more aggressive noise removal, while a lower threshold 
 retains more instances \cite{ENNTH}.
 
@@ -117,8 +117,8 @@ GCNN offers a more robust approach by iteratively adding instances that are misc
 ensuring a consistent subset for accurate classification. While RNN and FCNN offer potential speed improvements,
 GCNN prioritizes finding a minimal consistent set, which aligns better with our goal of maintaining high accuracy.
 
-For the edited approach, we opted for \textbf{Edited Nearest Neighbor with Thresholding (ENNTh)} \cite{Wilson2000,ENNTH}
-instead of Repeated Edited Nearest Neighbor (RENN). ENNTh provides a more controlled noise removal mechanism by
+For the edited approach, we opted for \textbf{Edited Nearest Neighbor with Thresholding (ENNTH)} \cite{Wilson2000,ENNTH}
+instead of Repeated Edited Nearest Neighbor (RENN). ENNTH provides a more controlled noise removal mechanism by
 incorporating a threshold to determine the probability of an instance belonging to its assigned class. 
 This allows for a more flexible approach compared to RENN, which repeatedly applies ENN until no further 
 instances are removed. This repeated application can be computationally expensive and may potentially 
@@ -135,7 +135,7 @@ redundancy.
 
 Following the initial analysis to determine the optimal $k$-nearest neighbor (KNN)
 parameters for each dataset (\textbf{i.e.}, mushroom and hepatitis), we applied the selected instance reduction techniques
-(\textbf{i.e.}, GCNN, ENNTh, and DROP3) as a preprocessing step. Using the top-performing KNN model configuration,
+(\textbf{i.e.}, GCNN, ENNTH, and DROP3) as a preprocessing step. Using the top-performing KNN model configuration,
 we generated reduced versions of the training data. These reduced datasets, along with the original
 unreduced data, were then used to evaluate the performance of the optimized KNN classifier. 
 This allowed us to assess the impact of each instance reduction technique on KNN classification 
