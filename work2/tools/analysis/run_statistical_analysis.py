@@ -313,9 +313,11 @@ write_latex_table(
 
 best_svm_model = svm_results.iloc[0, :]
 best_knn_model = knn_results.iloc[0, :]
-knn_svm_f1_p_value = stats.wilcoxon(
-    best_svm_model[f1_cols].to_list(), best_knn_model[f1_cols].to_list()
-).pvalue if not all(best_svm_model[f1_cols] == best_knn_model[f1_cols]) else 1
+knn_svm_f1_p_value = (
+    stats.wilcoxon(best_svm_model[f1_cols].to_list(), best_knn_model[f1_cols].to_list()).pvalue
+    if not all(best_svm_model[f1_cols] == best_knn_model[f1_cols])
+    else 1
+)
 knn_svm_train_time_p_value = stats.wilcoxon(
     best_svm_model[train_time_cols].to_list(), best_knn_model[train_time_cols].to_list()
 ).pvalue
