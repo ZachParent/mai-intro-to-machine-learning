@@ -98,7 +98,10 @@ zip: clean
 	(cd .. && \
 	mkdir -p $(PROJECT_NAME) && \
 	cp -r work2/* $(PROJECT_NAME)/ && \
-	zip -r $(PROJECT_NAME).zip $(PROJECT_NAME) -x "*.pyc" -x "*.pyo" -x "*.pyd" -x "*.so" -x "*.dll" -x "*.dylib" -x "*/__pycache__/*" -x "*/$(ENV_NAME)/*" -x "*/.git/*" -x "*.zip" && \
+	cp $(PROJECT_NAME)/reports/report.pdf $(PROJECT_NAME)/$(PROJECT_NAME)-report.pdf && \
+	zip -r $(PROJECT_NAME).zip $(PROJECT_NAME) -x "*.pyc" -x "*.pyo" -x "*.pyd" -x "*.so" -x "*.dll" -x "*.dylib" \
+	-x "*/__pycache__/*" -x "*/$(ENV_NAME)/*" -x "*/.git/*" -x "*.zip" \
+	-x "*.aux" -x "*.log" -x "*.toc" -x "*.out" -x "*.synctex.gz" -x "*.fls" -x "*.fdb_latexmk" -x "*.bbl" -x "*.blg" && \
 	mv $(PROJECT_NAME).zip work2/ && \
 	rm -rf $(PROJECT_NAME))
 	@echo ">>> Created $(PROJECT_NAME).zip"

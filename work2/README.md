@@ -18,7 +18,7 @@ This markdown file outlines the requirements, project structure and how to run t
 ## Project Structure
 
 ```
-work2/
+mai-iml-work2/
 ├── data/
 |   ├── cross_validated_results/
 |   ├── per_fold_results/
@@ -54,6 +54,7 @@ work2/
 │   ├── run.py
 │   └── voting.py
 │   └── weighting.py
+├── mai-iml-work2-report.pdf
 └── Makefile
 └── pyproject.toml
 └── README.md
