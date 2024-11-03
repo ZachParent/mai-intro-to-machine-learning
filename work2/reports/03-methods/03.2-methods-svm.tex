@@ -45,7 +45,7 @@ We specifically used \texttt{SVC} (Support Vector Classification) as it allows f
 For our study, we decided to use \texttt{SVC} as it is the most commonly used implementation
 for classification tasks, allowed for the kernel trick (unlike \texttt{LinearSVC}), and met our needs.
 
-\subsubsection{Kernel Selection}
+\paragraph{Kernel Selection}
 
 In our study, we explored multiple kernel functions to capture different types of relationships in the data. The kernels used include:
 
@@ -68,7 +68,7 @@ This logarithmic spacing allows us to explore both strong and weak regularizatio
 
 Extremely high C values (much higher than our maximum of 50) can lead to overfitting, as the model attempts to perfectly classify all training points at the expense of generalization. Conversely, extremely low C values (much lower than our minimum of 0.05) can lead to underfitting, as the model becomes too simple to capture the underlying patterns in the data. Our chosen range aims to find a balance between these extremes.
 
-\subsubsection{Performance Evaluation}
+\paragraph{Performance Evaluation}
 Consistent with our KNN evaluation (see \autoref{subsec:methods-knn}), we assessed SVM performance using:
 \begin{itemize}
     \item Accuracy and F1 Score
@@ -77,7 +77,7 @@ Consistent with our KNN evaluation (see \autoref{subsec:methods-knn}), we assess
     \item 10-fold cross-validation
 \end{itemize}
 
-\subsubsection{Implementation Steps}
+\paragraph{Implementation Steps}
 
 The SVM classification process in our study followed these steps:
 
@@ -90,13 +90,11 @@ The SVM classification process in our study followed these steps:
     \item Results Compilation: The results for each configuration were saved in CSV files for further analysis.
 \end{enumerate}
 
-\subsubsection{Multi-class Classification}
-
+\paragraph{Multi-class Classification} 
 While simple SVMs are binary classifiers, they can be extended to multi-class classification through various strategies.
 In our case, however, both the datasets included only two classes, so we did not need to use these strategies.
 
-\subsubsection{Performance Metrics}
-
+\paragraph{Performance Metrics}
 The performance of the SVM models was evaluated using the following metrics:
 
 \begin{itemize}
