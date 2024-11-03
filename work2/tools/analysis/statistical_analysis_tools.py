@@ -264,7 +264,7 @@ def plot_interactions(df, col_names):
             if pd.api.types.is_numeric_dtype(df[col_names[j]])
             else df[col_names[j]].unique()
         )
-        axes[-1, j].set_xticks(np.arange(len(unique_vals)) + 1)
+        axes[-1, j].set_xticks(np.arange(len(unique_vals)) + 0.5)
         axes[-1, j].set_xticklabels(unique_vals, rotation=15)
         axes[-1, j].set_xlabel(col_names[j], fontsize=20, labelpad=20)
 
