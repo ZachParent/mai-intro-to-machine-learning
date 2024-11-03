@@ -2,7 +2,7 @@
 
 This markdown file outlines the requirements, project structure and how to run this project.
 
-## Authors
+## Team
 
 - Kacper Poniatowski
 - Zachary Parent
@@ -61,11 +61,11 @@ work2/
 └── setup.cfg
 ```
 
-## Setup and Installation
+## Running script for the first time
 
 Note: these commands are to be ran from the root directory.
 
-### Using Make (Recommended)
+### Use Make (Recommended)
 
 The easiest way to get started is using our Makefile commands:
 
@@ -79,9 +79,7 @@ make create_environment
 ```bash
 .venv\Scripts\activate
 ```
-
 or
-
 ```bash
 source .venv/bin/activate
 ```
@@ -91,10 +89,14 @@ source .venv/bin/activate
 make install_requirements
 ```
 
+## Execute scripts
+
 4. Run all models and corresponding analysis:
 ```bash
 make all
 ```
+
+## Details
 
 ### Manual Usage
 
@@ -102,7 +104,7 @@ To run one dataset manually:
 `python tools/run.py --dataset_name [mushroom|hepatitis`
 
 To perform statistical analysis:
-`python tools/analysis/run_statistical_analysis.py --dataset_name[mushroom|hepatitis]`
+`python tools/analysis/run_statistical_analysis.py --dataset_name [mushroom|hepatitis]`
 
 **Command Line Options**
 
