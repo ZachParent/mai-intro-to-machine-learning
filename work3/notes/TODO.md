@@ -2,6 +2,7 @@
 
 ## TODO by 2024-11-19
 * [ ] Project setup
+* [ ] Select a third dataset
 * [ ] Optics
 * [ ] Spectral clustering
 * [ ]
