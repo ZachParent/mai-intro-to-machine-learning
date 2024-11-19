@@ -1,4 +1,4 @@
-- [ ] Copy files (.gitignore, Makefile, README.md, requirements.txt, setup.cfg)
+- [x] Copy files (.gitignore, Makefile, README.md, requirements.txt, setup.cfg)
 - [x] setup data directories
   - [x] 0_raw
   - [x] 1_preprocessed
@@ -10,7 +10,7 @@
     - <dataset_name>
       - [ ] <model_name>
         - [ ] <config_name>.csv
-- [ ] start a python module
+- [x] start a python module
   - [ ] scripts
     - [ ] 1_run_preprocessing.py
         - runs for all datasets at once
