@@ -10,7 +10,7 @@
 * [ ] (Kacper) README.md
 * [ ] (Sheena) k-means
 * [ ] (Sheena) Evaluation methods   
-* [ ] (Zach) Initial project setup
+* [x] (Zach) Initial project setup
 * [ ] (Zach) Optics
 * [ ] (Zach) Spectral clustering
 
