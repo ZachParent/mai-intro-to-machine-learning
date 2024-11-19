@@ -6,6 +6,23 @@
 * [ ] Optics
 * [ ] Spectral clustering
 
+## Assignments
+- Carlos
+    - fuzzy c-means
+    - preprocessing
+    - plots
+- Kacper
+    - improved k-means
+    - setup (Makefile)
+    - README.md
+- Sheena
+    - k-means
+    - evaluation methods
+        - 4 different methods
+- Zach
+    - setup (requirements, module, data models)
+    - sklearn (OPTICS and spectral clustering)
+
 ## Calendar
 
 ### Week 1 (Nov 11-17)
@@ -24,12 +41,12 @@
 | Date | Tasks |
 |------|--------|
 | Mon 11/18 | - |
-| Tue 11/19 | - Team meeting <br> - Distribute tasks |
+| Tue 11/19 | - Team meeting <br> - Distribute tasks <br> - Zach to finish initial setup and data models |
 | Wed 11/20 | - |
 | Thu 11/21 | - |
 | Fri 11/22 | - |
-| Sat 11/23 | - |
-| Sun 11/24 | - |
+| Sat 11/23 | - code is written and ready to run |
+| Sun 11/24 | - all results are prepared |
 
 ### Week 3 (Nov 25-Dec 1)
 #### Focus: analysis and report
