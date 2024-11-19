@@ -3,12 +3,12 @@ import pandas as pd
 import os
 from itertools import product
 import logging
-from tools.clustering import KMeans, FuzzyCMeans, KMeansParamsGrid, FuzzyCMeansParamsGrid
+from tools.clustering import KMeans, FuzzyCMeans, ImprovedKMeansA, ImprovedKMeansB, Optics, SpectralClustering, KMeansParamsGrid, FuzzyCMeansParamsGrid, ImprovedKMeansAParamsGrid, ImprovedKMeansBParamsGrid, OpticsParamsGrid, SpectralClusteringParamsGrid
 from tools.config import PREPROCESSED_DATA_DIR, CLUSTERED_DATA_DIR
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--dataset", type=str, help="The name of the dataset to run the model on", choices=["hepatitis", "mushroom", "synthetic"], required=True)
-parser.add_argument("--model", type=str, help="The name of the model to run", choices=["kmeans", "fuzzy_cmeans"], required=True)
+parser.add_argument("--model", type=str, help="The name of the model to run", choices=["kmeans", "fuzzy_cmeans", "improved_kmeans_A", "improved_kmeans_B", "optics", "spectral_clustering"], required=True)
 parser.add_argument("--verbose", '-v', action='store_true', help="Whether to print verbose output")
 
 logger = logging.getLogger(__name__)
@@ -16,10 +16,18 @@ logger = logging.getLogger(__name__)
 model_map = {
     "kmeans": KMeans,
     "fuzzy_cmeans": FuzzyCMeans,
+    "improved_kmeans_A": ImprovedKMeansA,
+    "improved_kmeans_B": ImprovedKMeansB,
+    "optics": Optics,
+    "spectral_clustering": SpectralClustering,
 }
 params_grid_map = {
     "kmeans": KMeansParamsGrid,
     "fuzzy_cmeans": FuzzyCMeansParamsGrid,
+    "improved_kmeans_A": ImprovedKMeansAParamsGrid,
+    "improved_kmeans_B": ImprovedKMeansBParamsGrid,
+    "optics": OpticsParamsGrid,
+    "spectral_clustering": SpectralClusteringParamsGrid,
 }
 
 def main():
