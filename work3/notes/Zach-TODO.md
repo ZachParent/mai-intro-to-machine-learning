@@ -21,7 +21,7 @@
     - [ ] run_analysis.py
         - runs for all results at once
   - [ ] tools dir
-    - [ ] preprocessing.py
+    - [ ] config.py
     - [ ] clustering_methods
         - [ ] optics.py
         - [ ] spectral_clustering.py
