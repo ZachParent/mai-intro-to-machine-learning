@@ -3,21 +3,23 @@ import pandas as pd
 import os
 from itertools import product
 import logging
-from tools.clustering import KMeans, KMeansParamsGrid
+from tools.clustering import KMeans, FuzzyCMeans, KMeansParamsGrid, FuzzyCMeansParamsGrid
 from tools.config import PREPROCESSED_DATA_DIR, CLUSTERED_DATA_DIR
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--dataset", type=str, help="The name of the dataset to run the model on", choices=["hepatitis", "mushroom", "synthetic"], required=True)
-parser.add_argument("--model", type=str, help="The name of the model to run", choices=["kmeans"], required=True)
+parser.add_argument("--model", type=str, help="The name of the model to run", choices=["kmeans", "fuzzy_cmeans"], required=True)
 parser.add_argument("--verbose", '-v', action='store_true', help="Whether to print verbose output")
 
 logger = logging.getLogger(__name__)
 
 model_map = {
     "kmeans": KMeans,
+    "fuzzy_cmeans": FuzzyCMeans,
 }
 params_grid_map = {
     "kmeans": KMeansParamsGrid,
+    "fuzzy_cmeans": FuzzyCMeansParamsGrid,
 }
 
 def main():
