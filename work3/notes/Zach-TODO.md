@@ -11,18 +11,18 @@
       - [ ] <model_name>
         - [ ] <config_name>.csv
 - [ ] start a python module
-  - [ ] scripts dir
-    - [ ] run_preprocessing.py
+  - [ ] scripts
+    - [ ] 1_run_preprocessing.py
         - runs for all datasets at once
-    - [ ] run_model.py
+    - [ ] 2_run_model.py
         - takes in a dataset and a model, run all configs
-    - [ ] run_metrics.py
+    - [ ] 3_run_metrics.py
         - runs for all results at once
-    - [ ] run_analysis.py
+    - [] 4_run_analysis.py
         - runs for all results at once
-  - [ ] tools dir
+  - [ ] tools
     - [ ] config.py
-    - [ ] clustering_methods
+    - [ ] clustering
         - [ ] optics.py
         - [ ] spectral_clustering.py
         - [ ] kmeans.py
@@ -32,7 +32,7 @@
     - [ ] analysis
         - [ ] tables.py
         - [ ] plots.py
-        - [ ] metrics.py
+    - [ ] metrics.py
 - [ ] create synthetic data
 - [ ] fill KMeans with sklearn kmeans
 - [ ] generate some results
