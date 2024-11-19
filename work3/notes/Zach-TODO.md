@@ -12,13 +12,13 @@
         - [ ] <config_name>.csv
 - [x] start a python module
   - [ ] scripts
-    - [ ] 1_run_preprocessing.py
+    - [x] 1_run_preprocessing.py
         - runs for all datasets at once
     - [x] 2_run_model.py
         - takes in a dataset and a model, run all configs
     - [ ] 3_run_metrics.py
         - runs for all results at once
-    - [x] 4_run_analysis.py
+    - [ ] 4_run_analysis.py
         - runs for all results at once
   - [ ] tools
     - [x] config.py
