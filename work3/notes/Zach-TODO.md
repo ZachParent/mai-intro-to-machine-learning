@@ -1,12 +1,12 @@
 - [ ] Copy files (.gitignore, Makefile, README.md, requirements.txt, setup.cfg)
-- [ ] setup data directories
-  - [ ] 0-raw
-  - [ ] 1-preprocessed
-  - [ ] 2-clustered
+- [x] setup data directories
+  - [x] 0_raw
+  - [x] 1_preprocessed
+  - [x] 2_clustered
     - <dataset_name>
       - [ ] <model_name>
         - [ ] <config_name>.csv
-  - [ ] 3-metrics
+  - [x] 3_metrics
     - <dataset_name>
       - [ ] <model_name>
         - [ ] <config_name>.csv
