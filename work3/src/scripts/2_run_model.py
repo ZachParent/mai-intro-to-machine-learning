@@ -30,7 +30,7 @@ def main():
     preprocessed_data_path = PREPROCESSED_DATA_DIR / args.dataset / f"{args.dataset}.csv"
     preprocessed_data = pd.read_csv(preprocessed_data_path)
 
-    clustered_data_dir = CLUSTERED_DATA_DIR / args.dataset
+    clustered_data_dir = CLUSTERED_DATA_DIR / args.dataset / args.model
     os.makedirs(clustered_data_dir, exist_ok=True)
 
     params_grid = params_grid_map[args.model]
@@ -41,7 +41,7 @@ def main():
         model.fit(preprocessed_data)
         clusters = model.predict(preprocessed_data)
         clustered_data = pd.concat([preprocessed_data, pd.Series(clusters, name="cluster")], axis=1)
-        clustered_data_path = clustered_data_dir / f"{args.dataset}_{args.model}_{'_'.join(f'{k}={v}' for k, v in param_dict.items())}.csv"
+        clustered_data_path = clustered_data_dir / f"{'_'.join(f'{k}={v}' for k, v in param_dict.items())}.csv"
         clustered_data.to_csv(clustered_data_path, index=False)
 
 
