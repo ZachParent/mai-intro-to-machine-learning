@@ -14,18 +14,18 @@
   - [ ] scripts
     - [ ] 1_run_preprocessing.py
         - runs for all datasets at once
-    - [ ] 2_run_model.py
+    - [x] 2_run_model.py
         - takes in a dataset and a model, run all configs
     - [ ] 3_run_metrics.py
         - runs for all results at once
-    - [] 4_run_analysis.py
+    - [x] 4_run_analysis.py
         - runs for all results at once
   - [ ] tools
-    - [ ] config.py
+    - [x] config.py
     - [ ] clustering
         - [ ] optics.py
         - [ ] spectral_clustering.py
-        - [ ] kmeans.py
+        - [x] kmeans.py
         - [ ] improved_kmeans_A.py
         - [ ] improved_kmeans_B.py
         - [ ] fuzzy_cmeans.py
@@ -33,9 +33,9 @@
         - [ ] tables.py
         - [ ] plots.py
     - [ ] metrics.py
-- [ ] create synthetic data
-- [ ] fill KMeans with sklearn kmeans
-- [ ] generate some results
+- [x] create synthetic data
+- [x] fill KMeans with sklearn kmeans
+- [x] generate some results
 
 
 
