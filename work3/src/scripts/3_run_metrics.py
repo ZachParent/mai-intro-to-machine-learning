@@ -12,7 +12,9 @@ parser.add_argument("--verbose", "-v", action="store_true", help="Whether to pri
 logger = logging.getLogger(__name__)
 
 
-def compute_metrics(df: pd.DataFrame, dataset_name: str, model_name: str, params: dict) -> pd.DataFrame:
+def compute_metrics(
+    df: pd.DataFrame, dataset_name: str, model_name: str, params: dict
+) -> pd.DataFrame:
     return pd.DataFrame(np.ones(df.shape[1]))
 
 
