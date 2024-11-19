@@ -4,12 +4,12 @@
   - [x] 1_preprocessed
   - [x] 2_clustered
     - <dataset_name>
-      - [ ] <model_name>
-        - [ ] <config_name>.csv
+      - [x] <model_name>
+        - [x] <config_name>.csv
   - [x] 3_metrics
     - <dataset_name>
-      - [ ] <model_name>
-        - [ ] <config_name>.csv
+      - [x] <model_name>
+        - [x] <config_name>.csv
 - [x] start a python module
   - [ ] scripts
     - [x] 1_run_preprocessing.py
@@ -18,7 +18,7 @@
         - takes in a dataset and a model, run all configs
     - [x] 3_run_metrics.py
         - runs for all results at once
-    - [ ] 4_run_analysis.py
+    - [x] 4_run_analysis.py
         - runs for all results at once
   - [x] tools
     - [x] config.py
