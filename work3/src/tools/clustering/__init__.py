@@ -5,9 +5,17 @@ from .fuzzy_cmeans import FuzzyCMeans, FuzzyCMeansParamsGrid
 from .optics import Optics, OpticsParamsGrid
 from .spectral_clustering import SpectralClustering, SpectralClusteringParamsGrid
 
-__all__ = ['KMeans', 'KMeansParamsGrid',
-           'ImprovedKMeansA', 'ImprovedKMeansAParamsGrid',
-           'ImprovedKMeansB', 'ImprovedKMeansBParamsGrid',
-           'FuzzyCMeans', 'FuzzyCMeansParamsGrid',
-           'Optics', 'OpticsParamsGrid',
-           'SpectralClustering', 'SpectralClusteringParamsGrid']
+__all__ = [
+    "KMeans",
+    "KMeansParamsGrid",
+    "ImprovedKMeansA",
+    "ImprovedKMeansAParamsGrid",
+    "ImprovedKMeansB",
+    "ImprovedKMeansBParamsGrid",
+    "FuzzyCMeans",
+    "FuzzyCMeansParamsGrid",
+    "Optics",
+    "OpticsParamsGrid",
+    "SpectralClustering",
+    "SpectralClusteringParamsGrid",
+]

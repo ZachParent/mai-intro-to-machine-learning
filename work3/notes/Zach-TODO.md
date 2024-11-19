@@ -20,19 +20,19 @@
         - runs for all results at once
     - [ ] 4_run_analysis.py
         - runs for all results at once
-  - [ ] tools
+  - [x] tools
     - [x] config.py
-    - [ ] clustering
-        - [ ] optics.py
-        - [ ] spectral_clustering.py
+    - [x] clustering
+        - [x] optics.py
+        - [x] spectral_clustering.py
         - [x] kmeans.py
-        - [ ] improved_kmeans_A.py
-        - [ ] improved_kmeans_B.py
-        - [ ] fuzzy_cmeans.py
-    - [ ] analysis
-        - [ ] tables.py
-        - [ ] plots.py
-    - [ ] metrics.py
+        - [x] improved_kmeans_A.py
+        - [x] improved_kmeans_B.py
+        - [x] fuzzy_cmeans.py
+    - [x] analysis
+        - [x] tables.py
+        - [x] plots.py
+    - [x] metrics.py
 - [x] create synthetic data
 - [x] fill KMeans with sklearn kmeans
 - [x] generate some results

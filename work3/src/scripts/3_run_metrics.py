@@ -1,4 +1,5 @@
 import argparse
+import numpy as np
 import pandas as pd
 import os
 import logging
@@ -6,12 +7,14 @@ from pathlib import Path
 from tools.config import CLUSTERED_DATA_DIR, METRICS_DATA_DIR
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--verbose", '-v', action='store_true', help="Whether to print verbose output")
+parser.add_argument("--verbose", "-v", action="store_true", help="Whether to print verbose output")
 
 logger = logging.getLogger(__name__)
 
-def compute_metrics(df: pd.DataFrame, dataset_name: str, model_name: str, params: dict):
-    return pd.DataFrame()
+
+def compute_metrics(df: pd.DataFrame, dataset_name: str, model_name: str, params: dict) -> pd.DataFrame:
+    return pd.DataFrame(np.ones(df.shape[1]))
+
 
 def get_config_from_filepath(filepath: Path) -> dict:
     dataset_name = filepath.parent.parent.name
@@ -25,6 +28,7 @@ def get_config_from_filepath(filepath: Path) -> dict:
         "params": params,
     }
 
+
 def main():
     args = parser.parse_args()
     if args.verbose:
@@ -32,22 +36,25 @@ def main():
     else:
         logging.basicConfig(level=logging.WARNING)
 
-    os.makedirs(METRICS_DATA_DIR , exist_ok=True)
+    os.makedirs(METRICS_DATA_DIR, exist_ok=True)
 
-    filepaths = list(CLUSTERED_DATA_DIR.glob("**/*.csv"))
+    filepaths = sorted(list(CLUSTERED_DATA_DIR.glob("**/*.csv")))
     for filepath in filepaths:
         clustered_data_config = get_config_from_filepath(filepath)
         logger.info(f"Computing metrics for {filepath} with config {clustered_data_config}")
 
         clustered_data = pd.read_csv(filepath)
-        
+
         metrics_data = compute_metrics(clustered_data, **clustered_data_config)
 
-        metrics_data_dir = METRICS_DATA_DIR / clustered_data_config["dataset_name"] / clustered_data_config["model_name"]
+        metrics_data_dir = (
+            METRICS_DATA_DIR
+            / clustered_data_config["dataset_name"]
+            / clustered_data_config["model_name"]
+        )
         os.makedirs(metrics_data_dir, exist_ok=True)
         metrics_data_path = metrics_data_dir / f"{filepath.stem}.csv"
         metrics_data.to_csv(metrics_data_path, index=False)
-
 
 
 if __name__ == "__main__":
