@@ -20,7 +20,7 @@
     - evaluation methods
         - 4 different methods
 - Zach
-    - setup (requirements, module, data models)
+    - setup (requirements, module, data models, report structure)
     - sklearn (OPTICS and spectral clustering)
 
 ## Calendar
