@@ -11,6 +11,7 @@ class ImprovedKMeansB(ClusterMixin, BaseEstimator):
         self.cluster_centers_ = None
 
     def fit(self, X, y=None):
+        self.labels_ = np.ones(shape=(len(X),), dtype=np.int64)
         self.is_fitted_ = True
         return self
 

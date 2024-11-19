@@ -48,8 +48,7 @@ def main():
         param_dict = dict(zip(params_grid.keys(), params))
         model = model_map[args.model](**param_dict)
         logger.info(f"Running model {args.model} with params: {', '.join(f'{k}={v}' for k, v in param_dict.items())}")
-        model.fit(preprocessed_data)
-        clusters = model.predict(preprocessed_data)
+        clusters = model.fit_predict(preprocessed_data)
         clustered_data = pd.concat([preprocessed_data, pd.Series(clusters, name="cluster")], axis=1)
         clustered_data_path = clustered_data_dir / f"{','.join(f'{k}={v}' for k, v in param_dict.items())}.csv"
         clustered_data.to_csv(clustered_data_path, index=False)
