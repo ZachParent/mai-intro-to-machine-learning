@@ -16,7 +16,7 @@
         - runs for all datasets at once
     - [x] 2_run_model.py
         - takes in a dataset and a model, run all configs
-    - [ ] 3_run_metrics.py
+    - [x] 3_run_metrics.py
         - runs for all results at once
     - [ ] 4_run_analysis.py
         - runs for all results at once
