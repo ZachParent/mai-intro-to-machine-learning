@@ -18,17 +18,13 @@ class KMeans:
         self.tolerance = kwargs.get("tolerance", 1e-4)
         self.centroids = None
 
-class KMeans:
-    def __init__(self, **kwargs):
-        self.k = kwargs.get("k", 3)
-        self.distance_metric = kwargs.get("distance_metric", EuclideanDistance())
-        self.max_iterations = kwargs.get("max_iterations", 300)
-        self.tolerance = kwargs.get("tolerance", 1e-4)
-        self.centroids = None
-
     def fit(self, data):
-        data = data.to_numpy() if isinstance(data, pd.DataFrame) else data
+        if isinstance(data, pd.DataFrame):
+            data = data.to_numpy()
+
         n_samples, n_features = data.shape
+
+        # Randomly initialize centroids
         self.centroids = data[random.sample(range(n_samples), self.k)]
 
         for _ in range(self.max_iterations):
@@ -36,13 +32,11 @@ class KMeans:
             clusters = self._assign_clusters(data)
 
             # Update centroids
-
             new_centroids = np.array([
                 data[clusters == i].mean(axis=0) if len(data[clusters == i]) > 0 else
                 data[random.sample(range(n_samples), 1)][0]
                 for i in range(self.k)
             ])
-
 
             # Check for convergence
             if np.all(np.abs(new_centroids - self.centroids) < self.tolerance):

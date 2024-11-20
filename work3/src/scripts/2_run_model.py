@@ -77,6 +77,8 @@ def main():
     preprocessed_data_path = PREPROCESSED_DATA_DIR / args.dataset / f"{args.dataset}.csv"
     preprocessed_data = pd.read_csv(preprocessed_data_path)
 
+    features_data = preprocessed_data.iloc[:, :-1]
+
     clustered_data_dir = CLUSTERED_DATA_DIR / args.dataset / args.model
     os.makedirs(clustered_data_dir, exist_ok=True)
 
@@ -84,16 +86,18 @@ def main():
     for params in product(*params_grid.values()):
         param_dict = dict(zip(params_grid.keys(), params))
         model = model_map[args.model](**param_dict)
+
         logger.info(
             f"Running model {args.model} with params: {', '.join(f'{k}={v}' for k, v in param_dict.items())}"
         )
-        clusters = model.fit_predict(preprocessed_data)
+
+        clusters = model.fit_predict(features_data)
+
         clustered_data = pd.concat(
-            [preprocessed_data, pd.Series(clusters, name="cluster")], axis=1
+            [preprocessed_data.iloc[:, :-1], pd.Series(clusters, name="cluster")], axis=1
         )
-        clustered_data_path = (
-            clustered_data_dir / f"{','.join(f'{k}={v}' for k, v in param_dict.items())}.csv"
-        )
+
+        clustered_data_path = clustered_data_dir / f"{','.join(f'{k}={v}' for k, v in param_dict.items())}.csv"
         clustered_data.to_csv(clustered_data_path, index=False)
 
 
