@@ -23,6 +23,6 @@ def davies_bouldin_index(X, predicted_labels):
     return davies_bouldin_score(X, predicted_labels)
 
 def f_measure(true_labels, predicted_labels):
-    return f1_score(true_labels, predicted_labels, average='macro')  # You can change to 'micro' or 'weighted' if needed
+    return f1_score(true_labels, predicted_labels, average='macro')
 
 
