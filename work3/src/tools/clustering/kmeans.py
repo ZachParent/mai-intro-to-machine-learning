@@ -1,7 +1,8 @@
 import random
 import numpy as np
 import pandas as pd
-from tools.distance import ManhattanDistance, EuclideanDistance, ChebyshevDistance
+from tools.clustering.distance import ManhattanDistance, EuclideanDistance, ChebyshevDistance
+
 KMeansParamsGrid = {
     "k": [2, 3, 4, 5, 6, 7, 8, 9, 10],
     "distance-metrics": [ManhattanDistance(), EuclideanDistance(), ChebyshevDistance()]
@@ -10,6 +11,7 @@ KMeansParamsGrid = {
 
 class KMeans:
     def __init__(self, **kwargs):
+        print("constructor")
         self.k = kwargs.get("k", 3)  # Default to 3 clusters if not provided
         self.distance_metric = kwargs.get("distance_metric", EuclideanDistance())
         self.max_iterations = kwargs.get("max_iterations", 300)
@@ -42,6 +44,6 @@ class KMeans:
 
     def _assign_clusters(self, data):
         distances = np.array(
-            [[self.distance_metric.calculate(point, centroid) for centroid in self.centroids] for point in data]
+            [[self.distance_metric(point, centroid) for centroid in self.centroids] for point in data]
         )
         return np.argmin(distances, axis=1)
