@@ -11,14 +11,14 @@ KMeansParamsGrid = {
 
 class KMeans:
     def __init__(self, **kwargs):
-        self.k = kwargs.get("k", 3)  # Default to 3 clusters if not provided
+        self.k = kwargs.get("k", 3)
         self.distance_metric = kwargs.get("distance_metric", EuclideanDistance())
         self.max_iterations = kwargs.get("max_iterations", 300)
         self.tolerance = kwargs.get("tolerance", 1e-4)
         self.centroids = None
 
     def fit(self, data):
-        data = data.to_numpy() if isinstance(data, pd.DataFrame) else data  # Convert DataFrame to numpy if needed
+        data = data.to_numpy() if isinstance(data, pd.DataFrame) else data
         n_samples, n_features = data.shape
         self.centroids = data[random.sample(range(n_samples), self.k)]
 
