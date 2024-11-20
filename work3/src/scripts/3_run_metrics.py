@@ -1,8 +1,13 @@
 import argparse
+
+import numpy as np
 import pandas as pd
 import os
 import logging
 from pathlib import Path
+
+from scipy.optimize import linear_sum_assignment
+from sklearn.metrics import confusion_matrix
 from tools.config import CLUSTERED_DATA_DIR, METRICS_DATA_DIR, PREPROCESSED_DATA_DIR
 from tools.metrics import adjusted_rand_index, purity, davies_bouldin_index, f_measure
 
@@ -20,15 +25,31 @@ def load_true_labels(dataset_name):
         raise KeyError(f"'class' column not found in the dataset: {preprocessed_data_path}")
     return preprocessed_data["class"].values
 
+
+def hungarian_algorithm(true_labels, predicted_labels):
+    cm = confusion_matrix(true_labels, predicted_labels)
+
+    # This will return the optimal matching of cluster labels to true labels
+    row_ind, col_ind = linear_sum_assignment(-cm)  # Maximizing the matching
+    matched_labels = np.copy(predicted_labels)
+
+    # Reassign predicted labels based on the optimal matching
+    for i, j in zip(row_ind, col_ind):
+        matched_labels[predicted_labels == j] = i
+
+    return matched_labels
+
 def compute_metrics(df: pd.DataFrame, dataset_name: str, model_name: str, params: dict) -> pd.DataFrame:
     true_labels = load_true_labels(dataset_name)
 
     predicted_labels = df['cluster'].values
 
-    ari = adjusted_rand_index(true_labels, predicted_labels)
-    pur = purity(true_labels, predicted_labels)
-    dbi = davies_bouldin_index(df.iloc[:, :-2].values, predicted_labels)  # Assuming df includes features for DBI
-    f1 = f_measure(true_labels, predicted_labels)
+    matched_predicted_labels = hungarian_algorithm(true_labels, predicted_labels)
+
+    ari = adjusted_rand_index(true_labels, matched_predicted_labels)
+    pur = purity(true_labels, matched_predicted_labels)
+    dbi = davies_bouldin_index(df.iloc[:, :-2].values, matched_predicted_labels)
+    f1 = f_measure(true_labels, matched_predicted_labels)
 
     metrics = {
         "ARI": ari,
