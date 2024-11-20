@@ -1,4 +1,4 @@
-# from .kmeans import KMeans, KMeansParamsGrid
+from .kmeans import KMeans, KMeansParamsGrid
 from .improved_kmeans_A import ImprovedKMeansA, ImprovedKMeansAParamsGrid
 from .improved_kmeans_B import ImprovedKMeansB, ImprovedKMeansBParamsGrid
 from .fuzzy_cmeans import FuzzyCMeans, FuzzyCMeansParamsGrid
@@ -7,8 +7,8 @@ from .spectral_clustering import SpectralClustering, SpectralClusteringParamsGri
 from .distance import ManhattanDistance, EuclideanDistance, ChebyshevDistance
 
 __all__ = [
-    # "KMeans",
-    # "KMeansParamsGrid",
+    "KMeans",
+    "KMeansParamsGrid",
     "ImprovedKMeansA",
     "ImprovedKMeansAParamsGrid",
     "ImprovedKMeansB",
