@@ -28,7 +28,11 @@ class KMeans:
             clusters = self._assign_clusters(data)
 
             # Update centroids
-            new_centroids = np.array([data[clusters == i].mean(axis=0) for i in range(self.k)])
+            new_centroids = np.array([
+                data[clusters == i].mean(axis=0) if len(data[clusters == i]) > 0 else
+                data[random.sample(range(n_samples), 1)][0]
+                for i in range(self.k)
+            ])
 
             # Check for convergence
             if np.all(np.abs(new_centroids - self.centroids) < self.tolerance):
