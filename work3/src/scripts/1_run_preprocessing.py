@@ -34,6 +34,7 @@ def main():
         ("hepatitis", preprocess_hepatitis),
         ("mushroom", preprocess_mushroom),
     ]:
+        logger.info(f"Preprocessing {dataset}")
         # TODO: fix this to merge the folds
         raw_data_path = RAW_DATA_DIR / f"{dataset}.csv"
         raw_data = pd.read_csv(raw_data_path)

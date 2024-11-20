@@ -19,7 +19,6 @@ def get_config_from_filepath(filepath: Path) -> dict:
     dataset_name = filepath.parent.parent.name
     model_name = filepath.parent.name
     params_str = filepath.stem.split(",")
-    print(params_str)
     params = {param.split("=")[0]: param.split("=")[1] for param in params_str}
     return {
         "dataset_name": dataset_name,
@@ -40,7 +39,7 @@ def main():
     filepaths = sorted(list(METRICS_DATA_DIR.glob("**/*.csv")))
     for filepath in filepaths:
         metrics_data_config = get_config_from_filepath(filepath)
-        logger.info(f"Computing analysis for {filepath} with config {metrics_data_config}")
+        logger.info(f"Running analysis for config {metrics_data_config}")
 
         metrics_data = pd.read_csv(filepath)
 

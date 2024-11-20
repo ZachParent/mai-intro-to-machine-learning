@@ -4,13 +4,13 @@ import os
 from itertools import product
 import logging
 from tools.clustering import (
-    KMeans,
+    # KMeans,
     FuzzyCMeans,
     ImprovedKMeansA,
     ImprovedKMeansB,
     Optics,
     SpectralClustering,
-    KMeansParamsGrid,
+    # KMeansParamsGrid,
     FuzzyCMeansParamsGrid,
     ImprovedKMeansAParamsGrid,
     ImprovedKMeansBParamsGrid,
@@ -50,7 +50,7 @@ parser.add_argument("--verbose", "-v", action="store_true", help="Whether to pri
 logger = logging.getLogger(__name__)
 
 model_map = {
-    "kmeans": KMeans,
+    # "kmeans": KMeans,
     "fuzzy_cmeans": FuzzyCMeans,
     "improved_kmeans_A": ImprovedKMeansA,
     "improved_kmeans_B": ImprovedKMeansB,
@@ -58,7 +58,7 @@ model_map = {
     "spectral_clustering": SpectralClustering,
 }
 params_grid_map = {
-    "kmeans": KMeansParamsGrid,
+    # "kmeans": KMeansParamsGrid,
     "fuzzy_cmeans": FuzzyCMeansParamsGrid,
     "improved_kmeans_A": ImprovedKMeansAParamsGrid,
     "improved_kmeans_B": ImprovedKMeansBParamsGrid,
