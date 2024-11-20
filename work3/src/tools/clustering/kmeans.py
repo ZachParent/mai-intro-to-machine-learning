@@ -11,7 +11,6 @@ KMeansParamsGrid = {
 
 class KMeans:
     def __init__(self, **kwargs):
-        print("constructor")
         self.k = kwargs.get("k", 3)  # Default to 3 clusters if not provided
         self.distance_metric = kwargs.get("distance_metric", EuclideanDistance())
         self.max_iterations = kwargs.get("max_iterations", 300)
