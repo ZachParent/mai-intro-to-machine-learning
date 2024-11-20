@@ -2,9 +2,9 @@ import numpy as np
 from sklearn.cluster import OPTICS
 
 OpticsParamsGrid = {
-    "min_samples": [3, 5, 10],
-    "max_eps": [np.inf, 2.0],
-    "cluster_method": ["dbscan", "xi"],
+    "metric": ["euclidean", "l1", "manhattan"],
+    # TODO(Zach): choose just 2
+    "algorithm": ["auto", "ball_tree", "kd_tree", "brute"],
 }
 
 

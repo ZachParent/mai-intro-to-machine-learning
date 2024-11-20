@@ -1,9 +1,10 @@
 from sklearn.cluster import SpectralClustering
 
 SpectralClusteringParamsGrid = {
-    "n_clusters": [2, 4, 8],
-    "gamma": [0.5, 1, 2],
-    "random_state": [42, 1337],
+    "n_neighbors": [5, 10, 20],
+    "affinity": ["nearest_neighbors", "rbf"],
+    "eigen_solver": ["arpack", "lobpcg"],
+    "assign_labels": ["kmeans", "cluster_qr"],
 }
 
 
