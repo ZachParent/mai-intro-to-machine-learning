@@ -4,7 +4,6 @@ from .improved_kmeans_B import ImprovedKMeansB, ImprovedKMeansBParamsGrid
 from .fuzzy_cmeans import FuzzyCMeans, FuzzyCMeansParamsGrid
 from .optics import Optics, OpticsParamsGrid
 from .spectral_clustering import SpectralClustering, SpectralClusteringParamsGrid
-from .distance import ManhattanDistance, EuclideanDistance, ChebyshevDistance
 
 __all__ = [
     "KMeans",

@@ -1,19 +1,15 @@
 import random
 import numpy as np
 import pandas as pd
-
-from tools.clustering.distance import ManhattanDistance, EuclideanDistance, ChebyshevDistance
-
+from scipy.spatial.distance import euclidean
 
 KMeansParamsGrid = {
     "k": [2, 3, 4, 5, 6, 7, 8, 9, 10],
-    "distance-metrics": [ManhattanDistance(), EuclideanDistance(), ChebyshevDistance()]
 }
 
 class KMeans:
     def __init__(self, **kwargs):
         self.k = kwargs.get("k", 3)
-        self.distance_metric = kwargs.get("distance_metric", EuclideanDistance())
         self.max_iterations = kwargs.get("max_iterations", 300)
         self.tolerance = kwargs.get("tolerance", 1e-4)
         self.centroids = None
@@ -51,5 +47,5 @@ class KMeans:
         return clusters
 
     def _assign_clusters(self, data):
-        distances = np.array([[self.distance_metric(point, centroid) for centroid in self.centroids] for point in data])
+        distances = np.array([[euclidean(point, centroid) for centroid in self.centroids] for point in data])
         return np.argmin(distances, axis=1)

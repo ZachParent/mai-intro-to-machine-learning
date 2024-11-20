@@ -15,11 +15,7 @@ from tools.clustering import (
     ImprovedKMeansAParamsGrid,
     ImprovedKMeansBParamsGrid,
     OpticsParamsGrid,
-    SpectralClusteringParamsGrid,
-    ManhattanDistance,
-    EuclideanDistance,
-    ChebyshevDistance
-
+    SpectralClusteringParamsGrid
 )
 from tools.config import PREPROCESSED_DATA_DIR, CLUSTERED_DATA_DIR
 
