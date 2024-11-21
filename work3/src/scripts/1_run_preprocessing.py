@@ -1,5 +1,6 @@
 import argparse
 import pandas as pd
+import scipy.io.arff
 import os
 import logging
 from tools.config import RAW_DATA_DIR, PREPROCESSED_DATA_DIR
@@ -36,8 +37,8 @@ def main():
     ]:
         logger.info(f"Preprocessing {dataset}")
         # TODO: fix this to merge the folds
-        raw_data_path = RAW_DATA_DIR / f"{dataset}.csv"
-        raw_data = pd.read_csv(raw_data_path)
+        raw_data_path = RAW_DATA_DIR / f"{dataset}.arff"
+        raw_data = pd.DataFrame(scipy.io.arff.loadarff(raw_data_path)[0])
 
         preprocessed_data = preprocess_func(raw_data)
 
