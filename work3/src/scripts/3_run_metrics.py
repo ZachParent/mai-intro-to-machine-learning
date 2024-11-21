@@ -17,7 +17,7 @@ parser.add_argument("--verbose", "-v", action="store_true", help="Whether to pri
 logger = logging.getLogger(__name__)
 
 def load_true_labels(dataset_name):
-    preprocessed_data_path = Path(PREPROCESSED_DATA_DIR) / dataset_name / f"{dataset_name}.csv"
+    preprocessed_data_path = Path(PREPROCESSED_DATA_DIR) / f"{dataset_name}.csv"
     if not preprocessed_data_path.exists():
         raise FileNotFoundError(f"Dataset file not found: {preprocessed_data_path}")
     preprocessed_data = pd.read_csv(preprocessed_data_path)
