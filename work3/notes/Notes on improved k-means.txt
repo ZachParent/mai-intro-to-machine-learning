@@ -1,0 +1,71 @@
+k-means++
+good for high dimensional data -> good for our datasets in this case
+Simple -> possibly avoid because of this
+run-time increases dramatically with higher number of clusters
+
+
+1-k-means-+
+each iteration -> remove one cluster, divide another one and apply re-clustering
+good runtime despite number of clusters
+performs best when large number of clusters is desired -> not ideal for us.
+
+
+global k-means
+Attempts to solve the issue of randomising initial cluster positions (thus converging on local minima).
+
+1. start with 1 single cluster center, chosen randomly.
+2. To add next cluster centre, perform N runs of standard k-means, each time with different initial positions (random as used in standard k-means). **EXISTING CENTRES REMAIN FIXED DURING THESE RUNS**
+3. The result with lowest error is selected and added to set of centres.
+4. Repeat until desired number of clusters found.
+
+Computationally expensive compared to standard k-means naturally. 
+Heuristics can be applied to speed global k-means up without harming performance too much.
+	- Fast global k-means
+	- Initialisation with k-d trees
+
+Relatively more complex than standard k-means.
+
+
+enhanced k-means
+paper literally says easy to implement
+"more efficient, especially for dataset containing large number of clusters"
+
+
+----------------------------------------------------------------------------
+
+x-means
+Tries to solve: poor scaling computationally and fixed number of clusters supplied by user.
+
+Searches the space of cluster locations and number of clusters to optimise the Bayesian Information Criterion (BIC) or the Akaike Information Criterion (AIC) measures. (lower the better)
+
+Searches for best number of K. Instead of providing fixed value of K, user provides a range.
+
+Output is set of centroids AND value of K that scores best (using BIC or AIC).
+
+Start with K = lower bound, add centroids where they are needed and record which set achieves best score -> this is output.
+
+
+
+g-means
+authors state BIC is ineffective as scoring function because it doesn't penalise strongly enough the model's complexity -> relevant for above (use of x-means).
+
+
+Start with small k, each iteration split the centroids whose data does not appear to be from a Gaussian distribution.
+
+Just need to choose a significance level which is used to either accept or not accept null hypothesis (centroid is Gaussian distributed)
+
+
+
+chosen:
+G-MEANS and GLOBAL K-MEANS
+
+
+
+
+
+
+
+
+
+
+

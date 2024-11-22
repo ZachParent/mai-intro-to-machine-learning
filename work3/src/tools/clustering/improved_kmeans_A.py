@@ -5,6 +5,7 @@ ImprovedKMeansAParamsGrid = {
     "n_clusters": [2, 3, 4, 5, 6, 7, 8, 9, 10],
 }
 
+# G-Means
 
 class ImprovedKMeansA(ClusterMixin, BaseEstimator):
     def __init__(self, n_clusters: int):
