@@ -3,9 +3,10 @@ from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import MinMaxScaler, OneHotEncoder, LabelEncoder
 from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
-import glob
 import pandas as pd
-from scipy.io import arff
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def identify_categorical_and_numerical(df, unique_threshold=0.05):
@@ -35,17 +36,14 @@ def preprocess_dataset(df):
     # Replace ? with nan for correct imputation
     df.replace("?", np.nan, inplace=True)
 
-    # Drop class column as it's unsupervised
     class_col_name = df.columns[-1]
-    print('last column', class_col_name)
-    
+    class_col = df[class_col_name]    
     df.drop(class_col_name, axis=1, inplace=True)
 
     # Get categorical and numerical columns based on dtype and heuristics
     categorical_cols, numeric_cols = identify_categorical_and_numerical(df)
-    print('AFTER METHOD')
-    print('categorical columns', categorical_cols)
-    print('numeric columns', numeric_cols)
+    logger.info(f'categorical columns: {categorical_cols}')
+    logger.info(f'numeric columns: {numeric_cols}')
 
     # Create a column transformer for preprocessing
     preprocessor = ColumnTransformer(
@@ -77,17 +75,11 @@ def preprocess_dataset(df):
         ],
     )
 
-    # Apply the preprocessor to the dataframe, excluding ignored columns
     processed_array = preprocessor.fit_transform(df)
 
-    # Separate binary and non-binary categorical columns
-    binary_cols = [col for col in categorical_cols if df[col].nunique() == 2]
+    binary_cols = [col for col in categorical_cols if df[col].nunique() <= 2]
     non_binary_cols = [col for col in categorical_cols if df[col].nunique() > 2]
-
-    print('binary cols', binary_cols)
-    print('non binary cols', non_binary_cols)
     
-    # Extract processed numerical data
     processed_numeric_df = pd.DataFrame(processed_array[:, :len(numeric_cols)], columns=numeric_cols)
     processed_categorical_df = pd.DataFrame(processed_array[:, len(numeric_cols):], columns=categorical_cols)
 
@@ -111,7 +103,10 @@ def preprocess_dataset(df):
 
     encoded_categorical_non_binary_df = pd.DataFrame(encoded_categorical_non_binary_array, columns=encoded_columns)
 
-    # Combine DataFrames
     final_df = pd.concat([processed_numeric_df, encoded_categorical_binary_df, encoded_categorical_non_binary_df], axis=1)
+
+    # Encoding the class column (for metrics)
+    le = LabelEncoder()
+    final_df['class'] = le.fit_transform(class_col)
 
     return final_df

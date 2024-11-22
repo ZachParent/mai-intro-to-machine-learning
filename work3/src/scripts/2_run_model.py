@@ -24,7 +24,7 @@ parser.add_argument(
     "--dataset",
     type=str,
     help="The name of the dataset to run the model on",
-    choices=["hepatitis", "mushroom", "synthetic"],
+    choices=["hepatitis", "mushroom","vowel","synthetic"],
     required=True,
 )
 parser.add_argument(

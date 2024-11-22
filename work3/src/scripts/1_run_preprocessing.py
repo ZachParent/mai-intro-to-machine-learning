@@ -3,14 +3,6 @@ import pandas as pd
 import scipy.io.arff
 import os
 import logging
-import sys
-
-current_dir = os.path.dirname(os.path.abspath(__file__))
-# Add the parent directory to the Python path
-parent_dir = os.path.dirname(current_dir) 
- 
-sys.path.append(parent_dir)
-
 from tools.config import RAW_DATA_DIR, PREPROCESSED_DATA_DIR
 from tools.preprocess import preprocess_dataset
 
@@ -18,18 +10,6 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--verbose", "-v", action="store_true", help="Whether to print verbose output")
 
 logger = logging.getLogger(__name__)
-
-
-# def preprocess_hepatitis(df: pd.DataFrame) -> pd.DataFrame:
-#     return df
-
-
-# def preprocess_mushroom(df: pd.DataFrame) -> pd.DataFrame:
-#     return df
-
-
-# def preprocess_vowels(df: pd.DataFrame) -> pd.DataFrame:
-#     pass
 
 
 def main():
