@@ -12,6 +12,8 @@ logger = logging.getLogger(__name__)
 
 
 def compute_analysis(metrics_data: pd.Series, metrics_data_config: dict):
+    print(metrics_data_config)
+    print(metrics_data)
     pass
 
 
@@ -38,7 +40,6 @@ def main():
 
     metrics_data = pd.read_csv(METRICS_DATA_PATH)
     for _, row in metrics_data.iterrows():
-        print(row)
         metrics_data_config = get_config_from_row(row)
         metrics_data = get_metrics_from_row(row)
         logger.info(f"Running analysis for config {metrics_data_config}")
