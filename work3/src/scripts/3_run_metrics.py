@@ -82,8 +82,8 @@ def main():
         logger.info(f"Computing metrics for config {clustered_data_config}")
 
         curr_output_data = {
+            'dataset': clustered_data_config['dataset'],
             'model': clustered_data_config['model'],
-            'dataset': clustered_data_config['dataset']
         }
 
         clustered_data = pd.read_csv(filepath)
