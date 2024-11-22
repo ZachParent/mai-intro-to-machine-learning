@@ -1,4 +1,4 @@
-model,dataset,ARI,Purity,DBI,F1 Score,k,min_samples,max_eps,cluster_method,n_clusters,gamma,random_state
+model,dataset,ari,purity,dbi,f_measure,k,min_samples,max_eps,cluster_method,n_clusters,gamma,random_state
 kmeans,hepatitis,0.07651723628473803,0.34838709677419355,1.7751805750417062,0.08858377828629545,10,,,,,,
 kmeans,hepatitis,0.1502892999645793,0.6967741935483871,1.8971246967877295,0.6615563298490128,2,,,,,,
 kmeans,hepatitis,0.0859929628018935,0.47096774193548385,2.3622143770356328,0.38286141482104474,3,,,,,,

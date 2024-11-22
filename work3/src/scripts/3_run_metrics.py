@@ -50,10 +50,10 @@ def compute_metrics(df: pd.DataFrame, true_labels: np.ndarray) -> pd.Series:
     f1 = f_measure(true_labels, matched_predicted_labels)
 
     metrics = {
-        "ARI": ari,
-        "Purity": pur,
-        "DBI": dbi,
-        "F1 Score": f1
+        "ari": ari,
+        "purity": pur,
+        "dbi": dbi,
+        "f_measure": f1
     }
     return pd.Series(metrics, index=metrics.keys())
 
