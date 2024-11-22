@@ -1,18 +1,18 @@
 # Project is due 2024-12-08
 
 ## TODO by 2024-11-23
-* [ ] Select a third dataset
+* [x] Select a third dataset
 * [ ] (Carlos) Fuzzy c-means
-* [ ] (Carlos) Preprocessing
+* [x] (Carlos) Preprocessing
 * [ ] (Carlos) Plots
 * [ ] (Kacper) Improved k-means
 * [ ] (Kacper) Makefile
 * [ ] (Kacper) README.md
 * [ ] (Sheena) k-means
-* [ ] (Sheena) Evaluation methods   
+* [x] (Sheena) Evaluation methods   
 * [x] (Zach) Initial project setup
-* [ ] (Zach) Optics
-* [ ] (Zach) Spectral clustering
+* [x] (Zach) Optics
+* [x] (Zach) Spectral clustering
 
 
 ## Assignments
