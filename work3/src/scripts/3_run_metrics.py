@@ -7,7 +7,7 @@ from pathlib import Path
 
 from scipy.optimize import linear_sum_assignment
 from sklearn.metrics import confusion_matrix
-from tools.config import CLUSTERED_DATA_DIR, PREPROCESSED_DATA_DIR, DATA_DIR
+from tools.config import CLUSTERED_DATA_DIR, PREPROCESSED_DATA_DIR, METRICS_DATA_PATH
 from tools.metrics import adjusted_rand_index, purity, davies_bouldin_index, f_measure
 
 parser = argparse.ArgumentParser()
@@ -96,7 +96,7 @@ def main():
 
         output_data.append(curr_output_data)
 
-    metrics_data_path = DATA_DIR / f"3_metrics.csv"
+    metrics_data_path = METRICS_DATA_PATH
     pd.DataFrame(output_data).to_csv(metrics_data_path, index=False)
 
 if __name__ == "__main__":

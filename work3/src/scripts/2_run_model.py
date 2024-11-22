@@ -3,21 +3,9 @@ import pandas as pd
 import os
 from itertools import product
 import logging
-from tools.clustering import (
-    KMeans,
-    FuzzyCMeans,
-    ImprovedKMeansA,
-    ImprovedKMeansB,
-    Optics,
-    SpectralClustering,
-    KMeansParamsGrid,
-    FuzzyCMeansParamsGrid,
-    ImprovedKMeansAParamsGrid,
-    ImprovedKMeansBParamsGrid,
-    OpticsParamsGrid,
-    SpectralClusteringParamsGrid
-)
 from tools.config import PREPROCESSED_DATA_DIR, CLUSTERED_DATA_DIR
+from tools.clustering import MODEL_MAP, PARAMS_GRID_MAP
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -45,23 +33,6 @@ parser.add_argument("--verbose", "-v", action="store_true", help="Whether to pri
 
 logger = logging.getLogger(__name__)
 
-model_map = {
-    "kmeans": KMeans,
-    "fuzzy_cmeans": FuzzyCMeans,
-    "improved_kmeans_A": ImprovedKMeansA,
-    "improved_kmeans_B": ImprovedKMeansB,
-    "optics": Optics,
-    "spectral_clustering": SpectralClustering,
-}
-params_grid_map = {
-    "kmeans": KMeansParamsGrid,
-    "fuzzy_cmeans": FuzzyCMeansParamsGrid,
-    "improved_kmeans_A": ImprovedKMeansAParamsGrid,
-    "improved_kmeans_B": ImprovedKMeansBParamsGrid,
-    "optics": OpticsParamsGrid,
-    "spectral_clustering": SpectralClusteringParamsGrid,
-}
-
 
 def main():
     args = parser.parse_args()
@@ -78,10 +49,10 @@ def main():
     clustered_data_dir = CLUSTERED_DATA_DIR / args.dataset / args.model
     os.makedirs(clustered_data_dir, exist_ok=True)
 
-    params_grid = params_grid_map[args.model]
+    params_grid = PARAMS_GRID_MAP[args.model]
     for params in product(*params_grid.values()):
         param_dict = dict(zip(params_grid.keys(), params))
-        model = model_map[args.model](**param_dict)
+        model = MODEL_MAP[args.model](**param_dict)
 
         logger.info(
             f"Running model {args.model} with params: {', '.join(f'{k}={v}' for k, v in param_dict.items())}"
