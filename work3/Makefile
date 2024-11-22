@@ -38,6 +38,14 @@ clean-outputs:
 	rm -f data/2_clustered/*
 	rm -f data/3_metrics/*
 
+.PHONY: run-models
+run-models:
+	for dataset in hepatitis mushroom vowel synthetic; do \
+		for model in kmeans fuzzy_cmeans improved_kmeans_A improved_kmeans_B optics spectral_clustering; do \
+			python src/scripts/2_run_model.py --dataset=$$dataset --model=$$model --verbose; \
+		done; \
+	done
+
 ## Lint using flake8 and black (use `make format` to do formatting)
 .PHONY: lint
 lint:
