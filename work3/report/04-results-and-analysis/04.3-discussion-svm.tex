@@ -1,0 +1,155 @@
+\subsection{Support Vector Machines (SVM) Analysis}
+\label{subsubsec:discussion-svm}
+
+A key advantage of the SVM over KNN is that SVMs are much faster during consultation time. As seen in \autoref{fig:model_comparison_mushroom},
+SVMs tend to have much lower test times than KNN. This is especially noticable for large datasets like the mushroom dataset.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/model_comparison_mushroom.png}
+    \caption{SVM and KNN model comparison on Mushroom Dataset}
+    \label{fig:model_comparison_mushroom}
+\end{figure}
+
+\subsubsection{Mushroom Dataset Performance}
+
+\begin{description}
+    \item[\textbf{Best Configuration:}]\leavevmode
+        \begin{itemize}
+            \item C = 5 and C = 50 with Polynomial Kernel
+            \item C = 50 with RBF Kernel
+            \item \textbf{Results:} F1 score = 1.000, Train Time = 0.117225s, Test Time = 0.003384s
+        \end{itemize}
+    
+    \item[\textbf{Performance Range:}]\leavevmode
+        \begin{itemize}
+            \item Top configurations achieved perfect F1 scores (1.000)
+            \item Test times varied from 0.002183s to 0.015565s
+        \end{itemize}
+\end{description}
+
+\subsubsection*{Observations}
+The results for the mushroom dataset show that the SVM model performed consistently strong across all configurations,
+albeit some performed better than others. The best performing model used a Polynomial kernel with $C=5$ or $C=50$
+or an RBF kernel with $C=50$, with all achieving a perfect mean F1 score of 100\%.
+This result was closely followed by the RBF kernel with $C=5$ achieving a mean F1 score of 99.96\%.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/ranked_folds_SVM_mushroom.png}
+    \caption{SVM Ranked Folds for Mushroom Dataset}
+    \label{fig:ranked_folds_SVM_mushroom}
+\end{figure}
+
+The above figure shows the ranked folds for the SVM algorithm on the mushroom dataset.
+The figure illustrates the variation in performance across different SVM models, with some models performing 
+better than others. Notably, the presence of outliers (shown as points) in several models indicates
+occasional deviations from the mean performance. The median ranks vary considerably across the different models,
+with only C5Lin and C7Lin showing consistent performance across all folds.
+
+The mushroom dataset has some especially obvious cases, in which the $C=5$ and $C=50$ polynomial models
+outperformed all other models across every fold. The $C=50$ RBF model was also among the best performing models overall. (See \autoref{tab:svm_results_mushroom}).
+
+\subsubsection{Hepatitis Dataset Performance}
+
+\begin{description}
+    \item[\textbf{Best Configuration:}]\leavevmode
+        \begin{itemize}
+            \item C = 50 with RBF Kernel
+            \item \textbf{Results:} F1 score = 0.972671, Train Time = 0.000885s, Test Time = 0.000371s
+        \end{itemize}
+    
+    \item[\textbf{Performance Range:}]\leavevmode
+        \begin{itemize}
+            \item Best configuration: F1 = 0.972671 (C=50, RBF)
+            \item Next best configurations: F1 = 0.970963 (C=5, RBF)
+        \end{itemize}
+\end{description}
+
+\subsubsection*{Observations}
+The results for the hepatitis dataset show that the SVM model also performed consistently strong across all configurations.
+(See \autoref{tab:svm_results_mushroom}).
+The best performing model used an RBF kernel with $C=50$.
+This SVM model achieved a mean F1 score of 97.3\%.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/ranked_folds_SVM_hepatitis.png}
+    \caption{SVM Ranked Folds for Hepatitis Dataset}
+    \label{fig:ranked_folds_SVM_hepatitis}
+\end{figure}
+
+The above figure shows the ranked folds for the SVM algorithm on the mushroom dataset.
+The figure illustrates the variation in performance across the different SVM models and folds.
+When considering the mean, SVM models `C3RBF' and `C5RBF' performed the best across all folds.
+
+The hepatitis dataset does not have as extreme of a case, but there are still some models that stand out.
+The linear kernel models were consistently worse than the $C=50$ and $C=5$ RBF models.
+
+\subsubsection*{Overall Comparison}
+A higher C value tends to perform better for both datasets, suggesting that greater regularization is better for both datasets.
+However, the best performing models for each dataset used different kernels paired with these C values
+(poly for mushroom and rbf for hepatitis). See \autoref{tab:svm_results_mushroom} and \autoref{tab:svm_results_hepatitis}.
+
+\subsection*{Support Vector Machines (SVM) Statistical Analysis}
+To compare the performance across model configurations, we employed statistical analysis methods
+(see \autoref{sec:statistical-analysis}) to determine whether the various configurations showed
+statistically significant differences in performance.
+
+As seen in \autoref{fig:ranked_folds_SVM_mushroom} and \autoref{fig:ranked_folds_SVM_hepatitis},
+some models achieved better results than others. By comparing the ranks among each of the 10 folds,
+we can check to see if there were any cases in which 1 model always outperformed another.
+
+The mushroom dataset has some especially obvious cases, in which the $C=5$ and $C=50$ polynomial models
+outperformed all other models across every fold. The $C=50$ RBF model was also among the best performing models overall.
+
+The hepatitis dataset does not have as extreme of a case, but there are still some models that stand out.
+The linear kernel models were consistently worse than the $C=50$ and $C=5$ RBF models.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.4\textwidth]{figures/nemenyi_test_results_SVM_hepatitis.png}
+    \caption{Nemenyi Test Results for SVM on Hepatitis Dataset}
+    \label{fig:nemenyi_test_results_SVM_hepatitis}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.4\textwidth]{figures/nemenyi_test_results_SVM_mushroom.png}
+    \caption{Nemenyi Test Results for SVM on Mushroom Dataset}
+    \label{fig:nemenyi_test_results_SVM_mushroom}
+\end{figure}
+
+To identify significant pairs at a glance, we performed the Nemenyi test on all model pairs,
+and present them in heatmaps (see \autoref{fig:nemenyi_test_results_SVM_hepatitis} and \autoref{fig:nemenyi_test_results_SVM_mushroom}).
+The cells represent the p-values for each pair of models. A value of 0.05 or lower indicates that the models are statistically different
+at the 95\% confidence level. The full tables containing the p-values for each pair of significant models are provided in \autoref{tab:svm_significant_pairs_hepatitis} and \autoref{tab:svm_significant_pairs_mushroom}.
+
+\include{tables/svm_significant_pairs_hepatitis}
+\include{tables/svm_significant_pairs_mushroom}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/interaction_effects_SVM_hepatitis.png}
+    \caption{Interaction Effects for SVM on Hepatitis Dataset}
+    \label{fig:interaction_effects_SVM_hepatitis}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/interaction_effects_SVM_mushroom.png}
+    \caption{Interaction Effects for SVM on Mushroom Dataset}
+    \label{fig:interaction_effects_SVM_mushroom}
+\end{figure}
+
+To further analyze the hyperparameters we plotted the effects of each hyperparameter on the F1 score.
+
+In \autoref{fig:interaction_effects_SVM_hepatitis} and \autoref{fig:interaction_effects_SVM_mushroom} we see that the Kernel Type is a stronger predictor of performance than the $C$ parameter, and that
+the best performing models tend to use the rbf or poly kernels, and that higher values of $C$ tend to perform worse.
+
+\paragraph{Hepatitis Dataset}
+The best performing model was an RBF kernel with $C=50$, achieving a mean F1 score of 97.3\%, as seen in \autoref{tab:svm_results_hepatitis}.
+
+\paragraph{Mushroom Dataset}
+The best performing models were the polynomial kernel with $C=5$ and $C=50$, and RBF kernel with $C=50$, all achieving a perfect mean F1 score of 100\%, as seen in \autoref{tab:svm_results_mushroom}.
+

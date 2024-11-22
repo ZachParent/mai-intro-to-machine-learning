@@ -1,0 +1,110 @@
+\subsection{Support Vector Machines (SVM)}
+\label{subsec:methods-svm}
+
+This section describes the Support Vector Machines (SVM) algorithm and its implementation in our study.
+
+\subsubsection{Algorithm Overview}
+
+Support Vector Machines (SVM) is a powerful supervised learning algorithm used for classification and
+regression tasks. The primary objective of SVM is to find the optimal hyperplane that separates different classes
+in the feature space while maximizing the margin between the classes\cite{burges1998svmTutorial}.
+
+The key principles of SVM include:
+\begin{itemize}
+    \item Margin Maximization: SVM aims to find the hyperplane that maximizes the margin between classes, which enhances the model's generalization capability.
+    \item Support Vectors: The data points closest to the decision boundary, known as support vectors, play a crucial role in defining the optimal hyperplane.
+    \item Kernel Trick: SVM can handle non-linearly separable data by mapping the input space to a higher-dimensional feature space using kernel functions.
+\end{itemize}
+
+Advantages of SVM include:
+\begin{itemize}
+    \item Effectiveness in high-dimensional spaces
+    \item Versatility through different kernel functions
+    \item Memory efficiency compared to instance-based methods like KNN
+\end{itemize}
+
+Disadvantages of SVM include:
+\begin{itemize}
+    \item Performance highly depends on kernel selection and parameter tuning
+    \item Becomes computationally intensive with large-scale datasets
+\end{itemize}
+
+\subsubsection{Implementation Details}
+
+Unlike KNN (see \autoref{subsec:methods-knn}), we used scikit-learn's SVM implementation
+\footnote{Scikit-learn's \texttt{svm} module documentation: \url{https://scikit-learn.org/1.5/modules/svm.html}}.
+We specifically used \texttt{SVC} (Support Vector Classification) as it allows for non-linear classification through kernel functions.
+
+\begin{itemize}
+    \item \texttt{SVC}: Support Vector Classification, the most commonly used implementation for classification tasks.
+    \item \texttt{NuSVC}: Support Vector Classification with Nu-SVC, similar to \texttt{SVC} but with a different formulation of the optimization problem.
+    \item \texttt{LinearSVC}: Linear Support Vector Classification, a specific variant of \texttt{SVC} that uses a linear kernel.
+    \item \texttt{SVR}: Support Vector Regression, a variant of SVM for regression tasks.
+\end{itemize}
+
+For our study, we decided to use \texttt{SVC} as it is the most commonly used implementation
+for classification tasks, allowed for the kernel trick (unlike \texttt{LinearSVC}), and met our needs.
+
+\paragraph{Kernel Selection}
+
+In our study, we explored multiple kernel functions to capture different types of relationships in the data. The kernels used include:
+
+\begin{itemize}
+    \item Linear: $K(x_i, x_j) = x_i^T x_j$
+    \item Polynomial: $K(x_i, x_j) = (\gamma x_i^T x_j + r)^d$
+    \item Radial Basis Function (RBF): $K(x_i, x_j) = \exp(-\gamma ||x_i - x_j||^2)$
+    \item Sigmoid: $K(x_i, x_j) = \tanh(\gamma x_i^T x_j + r)$
+\end{itemize}
+
+\paragraph{Regularization Parameter}
+The regularization parameter C controls the trade-off between achieving a low training error and a low testing error. 
+We explored values [0.05, 0.5, 5, 50] to cover a wide range of regularization strengths:
+\begin{itemize}
+    \item Low values (0.05, 0.5): Stronger regularization, simpler decision boundaries
+    \item Medium values (5): Balanced regularization
+    \item High values (50): Weaker regularization, more complex decision boundaries
+\end{itemize}
+This logarithmic spacing allows us to explore both strong and weak regularization while keeping the number of experiments manageable.
+
+Extremely high C values (much higher than our maximum of 50) can lead to overfitting, as the model attempts to perfectly classify all training points at the expense of generalization. Conversely, extremely low C values (much lower than our minimum of 0.05) can lead to underfitting, as the model becomes too simple to capture the underlying patterns in the data. Our chosen range aims to find a balance between these extremes.
+
+\paragraph{Performance Evaluation}
+Consistent with our KNN evaluation (see \autoref{subsec:methods-knn}), we assessed SVM performance using:
+\begin{itemize}
+    \item Accuracy and F1 Score
+    \item Confusion matrix metrics (TP, TN, FP, FN)
+    \item Training and testing times
+    \item 10-fold cross-validation
+\end{itemize}
+
+\paragraph{Implementation Steps}
+
+The SVM classification process in our study followed these steps:
+
+\begin{enumerate}
+    \item Data Preparation (see \autoref{sec:data} on Data).
+    \item Model Configuration: SVM models were created with different combinations of C values and kernel types.
+    \item Cross-validation: For each configuration, the model was trained and evaluated using cross-validation across 10 predefined folds.
+    \item Performance Evaluation: Various metrics including accuracy, F1 score, and confusion matrix elements (TP, TN, FP, FN) were computed.
+    \item Time Measurement: Training and testing times were recorded for each configuration.
+    \item Results Compilation: The results for each configuration were saved in CSV files for further analysis.
+\end{enumerate}
+
+\paragraph{Multi-class Classification} 
+While simple SVMs are binary classifiers, they can be extended to multi-class classification through various strategies.
+In our case, however, both the datasets included only two classes, so we did not need to use these strategies.
+
+\paragraph{Performance Metrics}
+The performance of the SVM models was evaluated using the following metrics:
+
+\begin{itemize}
+    \item Accuracy: The proportion of correct predictions among the total number of cases examined.
+    \item F1 Score: The harmonic mean of precision and recall, providing a balanced measure of the model's performance.
+    \item Confusion Matrix: Including True Positives (TP), True Negatives (TN), False Positives (FP), and False Negatives (FN).
+    \item Training Time: The time taken to train the model.
+    \item Testing Time: The time taken to make predictions on the test set.
+\end{itemize}
+The F1 score was chosen as our primary metric for the same reasons discussed in the KNN section - it provides a balanced measure particularly suitable for imbalanced datasets like Hepatitis.
+
+Cross-validation folds were kept identical between KNN and SVM experiments to ensure fair comparison. For detailed preprocessing steps, refer to \autoref{sec:data}.
+

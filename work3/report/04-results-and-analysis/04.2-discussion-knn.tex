@@ -1,0 +1,159 @@
+\subsection{k-Nearest Neighbors (KNN) Analysis}
+\label{subsubsec:discussion-knn}
+
+This section interprets the results of the KNN algorithm, discussing its performance and implications.
+
+The KNN algorithm was evaluated using several performance metrics, including accuracy, precision, and recall and the f1 score.
+
+\subsubsection*{General Performance Analysis}
+As seen in Tables \ref{tab:knn_results_mushroom} and \ref{tab:knn_results_hepatitis}, the general performance of the KNN algorithm was excellent across both datasets,
+achieving accuracy scores above 92\% and F1 scores above 92.5\% on all top ten configurations.
+
+\subsubsection{Mushroom Dataset Performance}
+
+\begin{description}
+    \item[\textbf{Best Configuration:}]\leavevmode
+        \begin{itemize}
+            \item $k = 1$ and $k = 3$ with Manhattan Distance or Euclidean Distance
+            \item Majority Class Vote or Inverse Distance Weighting
+            \item Equal Weighting
+            \item \textbf{Results:} F1 score = 1.000, Train Time = 0.000251s, Test Time = 15.225325s
+        \end{itemize}
+    
+    \item[\textbf{Performance Range:}]\leavevmode
+        \begin{itemize}
+            \item All top configurations achieved perfect F1 scores (1.000)
+            \item Test times varied from 14.98s to 18.05s
+        \end{itemize}
+\end{description}
+
+\subsubsection*{Observations}
+The mushroom dataset achieved a perfect mean F1 score of 100\% across all top ten configurations,
+indicating that the KNN algorithm performed exceptionally well on this dataset.
+Given only the top ten configurations were considered, it is reasonable to assume there are additional
+configurations that could also achieve a perfect F1 score on this dataset.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/ranked_folds_KNN_mushroom.png}
+    \caption{KNN Ranked Folds for Mushroom Dataset}
+    \label{fig:ranked_folds_KNN_mushroom}
+\end{figure}
+
+\autoref{fig:ranked_folds_KNN_mushroom} shows the ranked folds for the KNN algorithm on the mushroom dataset.
+The figure illustrates the variation in performance across different KNN models, with some models performing 
+better than others. It's evident a lower value of k (1 or 3) tends to perform better than higher values of k (5 or 7)
+in combination with the other parameters. 
+Interestingly, for each KNN model the performance across the 10 folds is identical.
+
+\subsubsection{Hepatitis Dataset Performance}
+
+\begin{description}
+    \item[\textbf{Best Configuration:}]\leavevmode
+        \begin{itemize}
+            \item $k = 1$ with Chebyshev Distance
+            \item Shepard's Work Vote (tied with Majority Class and Inverse Distance)
+            \item Equal Weighting
+            \item \textbf{Results:} F1 score = 0.972618, Train Time = 0.000084s, Test Time = 0.006925s
+        \end{itemize}
+    
+    \item[\textbf{Performance Range:}]\leavevmode
+        \begin{itemize}
+            \item Top 3 configurations (all with k=1, Chebyshev): F1 = 0.972618
+            \item Next best configurations: F1 = 0.969271 (k=5,7 with Euclidean)
+        \end{itemize}
+\end{description}
+
+\subsubsection*{Observations}
+The hepatitis dataset achieved its best performance with a k value of 1, indicating that the algorithm benefits from
+more localized decisions when making predictions when using this dataset.
+The Chebyshev Distance metric led to the best performance, particularly when combined with a k value of 1.
+The choice of weighting scheme had a minimal impact on performance, with all three schemes performing similarly when combined with k = 1 and Chebyshev Distance.
+As also seen in the mushroom dataset, the F1 scores achieved across all configurations were consistently high, indicating a good balance between precision and recall.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/ranked_folds_KNN_hepatitis.png}
+    \caption{KNN Ranked Folds for Hepatitis Dataset}
+    \label{fig:ranked_folds_KNN_hepatitis}
+\end{figure}
+
+\autoref{fig:ranked_folds_KNN_hepatitis} shows the ranked folds for the KNN algorithm on the hepatitis dataset.
+The figure illustrates the variation in performance across different KNN models, with some models outperforming others.
+Unlike the mushroom dataset, the hepatitis dataset shows variation in performance in each model per fold.
+A number of the models showed consistent mean performance but also contained some outliers that performed significantly better or worse
+than the mean.
+
+
+\subsubsection{Overall Comparison}
+While both datasets achieved high performance, the hepatitis dataset outperformed the mushroom dataset in terms of accuracy and F1 score.
+This difference may be due to the hepatitis dataset's smaller size and more distinct class separations,
+making it easier for the KNN algorithm to make accurate predictions. These distinct class separations may also explain why the k = 1 configuration
+performed best on the hepatitis dataset, as the algorithm can make more precise decisions with fewer neighbors.
+
+\subsection*{K-Nearest Neighbour (KNN) Statistical Analysis}
+Below are the Nemenyi test results for the KNN models on the hepatitis and mushroom datasets respectively.
+
+For the below analysis of both the KNN model, values closer to 1 indicate no significant difference between models,
+whereas values closer to 0 indicate a significant difference.
+
+The diagonal values (top left to bottom right) are always 1 and report no significant difference
+as they represent the comparison of a model with itself.
+
+To determine statistical significance, we use a confidence level of 0.95 (95\% confidence interval) for the Nemenyi test.
+Therefore, any values greater than 0.05 indicate that the models are not significantly different from each other.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/nemenyi_test_results_KNN_hepatitis.png}
+    \caption{Nemenyi test results for KNN models on the hepatitis dataset}
+\label{fig:nemenyi_test_results_KNN_hepatitis}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/nemenyi_test_results_KNN_mushroom.png}
+    \caption{Nemenyi test results for KNN models on the mushroom dataset}
+\label{fig:nemenyi_test_results_KNN_mushroom}
+\end{figure}
+
+\paragraph{Hepatitis Dataset:} The Nemenyi test results for the KNN models on the hepatitis dataset reveal two statistically distinct
+groups of model configurations. The first group consists of k = 1 configurations
+(with Manhattan and Euclidean distance) and k=3 with Manhattan distance, which all perform similarly to each other (p=1.00).
+The second group includes configurations with higher k values (3,5,7) using various distance metrics,
+which also perform similarly within their group (p=1.00) but significantly differently from the first
+group (some comparisons yield p=0.05). This clear separation suggests that the choice of k-value
+has a more substantial impact on model performance than the choice of distance metric, with k=1 configurations behaving distinctly from higher k-values.
+
+\paragraph{Mushroom Dataset:} The Nemenyi test results for the KNN models on the mushroom dataset reveal distinct clustering patterns across models.
+The first group consists of `k1ManMajEq', `k1EucShpEq', and `k3ManDisEq', and `k3ChebMajEq' configurations, which show
+high similarity within their group (p=0.6 $-$ 1.00). A second distinct group includes `k5ManShpInf', `k5ChevDisInf',
+`k7EucMajInf', and `k7ChebShpRtf' which also show high similarity within their group (p=0.87 $-$ 1.00), except 
+one outlier (p=0.11). Despite this outlier, none of the configurations in the second group are significantly different from each other.
+There are clear statistical differences between most configurations across these groups,
+as indicated by the very low p-values (p=0.00 $-$ 0.11) in the darker regions of the heatmap.
+
+We can deduce that the k-value has a substantial impact on model performance on both datasets. 
+
+\subsubsection*{Parameter Analysis}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/interaction_effects_KNN_mushroom.png}
+    \caption{Interaction effects for KNN models on the mushroom dataset}
+    \label{fig:interaction_effects_KNN_mushroom}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/interaction_effects_KNN_hepatitis.png}
+    \caption{Interaction effects for KNN models on the hepatitis dataset}
+    \label{fig:interaction_effects_KNN_hepatitis}
+\end{figure}
+
+To further understand the impact of the parameters on the performance of the KNN algorithm,
+we analyzed the impact of the hyperparameters on the performance of the KNN algorithm, both independently and in combination.
+
+We can see from \autoref{fig:interaction_effects_KNN_mushroom} and \autoref{fig:interaction_effects_KNN_hepatitis} that each parameter plays a significant role in the performance of the KNN algorithm.
+We also see some notable interactions between parameters, such as majority class voting performing better when combined with low k values and the Manhattan distance metric.
+We also see that Inverse Distance Weighting performs poorly in all cases except with k=1.

@@ -1,0 +1,198 @@
+\subsection{k-Nearest Neighbors (KNN)}
+\label{subsec:methods-knn}
+
+This section describes the k-Nearest Neighbors (KNN) algorithm and its implementation in our study.
+
+\subsubsection{Algorithm Overview}
+
+The KNN algorithm operates on a simple yet effective principle: when classifying new data points, 
+it examines the k closest training examples and assigns the most common class among these neighbors
+(where k is a user-defined hyperparameter) \cite{knn}. 
+The algorithm's effectiveness relies on two fundamental assumptions:
+\begin{itemize}
+    \item \textbf{Locality}: Points in close proximity are likely to share the same class
+    \item \textbf{Smoothness}: Decision boundaries between classes are relatively smooth
+\end{itemize}
+
+One key feature of KNN is it employs neighbor-based classification, where the classification of a new data point 
+is determined by majority voting among its k-nearest neighbors. 
+The value of k is one of the most important tunable hyperparameters, as it significantly influences the algorithm's behaviour:
+The dependent variable in our datasets we aim to predict is categorical, so while KNN can be used for both classification and regression problems 
+our focus is on classification.
+
+While the KNN algorithm has it's merits in terms of simplicity and interpretability, it also has several disadvantages \cite{distance_func_knn}:
+\begin{itemize}
+    \item Computationally expensive: As the number of training examples grows, the algorithm's complexity increases\cite{laviale2023}.
+    \item Sensitive to irrelevant features: The algorithm treats all features equally, so irrelevant features can negatively impact performance.
+    \item Curse of dimensionality: As the number of features increases, the algorithm requires more data to maintain performance \cite{dimensionality}.
+\end{itemize}
+
+The choice of k significantly influences the algorithm's behavior:
+\begin{itemize}
+    \item Small k values (1-3): Higher sensitivity to local patterns but more susceptible to noise
+    \item Large k values (5-7): Better noise resistance but may miss important local patterns
+    \item Even vs. Odd k values: Even values may require tie-breaking mechanisms
+\end{itemize}
+
+All three of the above mentioned disadvantages all relate to the features of the dataset, and how they can impact the performance of the algorithm.
+They create a compounding effect: more features lead to higher computational cost, while making the algorithm more susceptible to noise and irrelevant features,
+and also requiring more data to maintain performance. This is why the use of feature selection and reduction techniques are imperative 
+when working with the KNN algorithm to increase performance \cite{distance_func_knn,knn}.
+
+
+\subsubsection{Implementation Details}
+The K-Nearest Neighbors (KNN) algorithm is implemented using Python with various libraries and tools.
+Below are the specific implementation details:
+
+\subsubsection*{Distance calculations}
+The Euclidean distance is used to measure the distance between data points. 
+This distance metric is the most commonly used distance metric in KNN algorithms
+due to its simplicity and effectiveness in measuring the similarity between data points\cite{IBM2023}.
+It operates on the principle of calculating the straight-line distance between two points in a Euclidean space, hence it's simplicity.
+
+The formula for Euclidean distance between two vectors \(x\) and \(y\) is:
+\[ d = \sqrt{\sum_{i=1}^{n} (x_i - y_i)^2} \]
+where \(x_i\) and \(y_i\) are the \(i\)th elements of vectors \(x\) and \(y\), respectively.\\
+
+The Manhattan distance is another distance metric that can be used in KNN algorithms. It is also frequently used with the KNN algorithm,
+albeit not as common as the Euclidean distance.
+The Manhattan distance is calculated by summing the absolute differences between the coordinates of two points.
+
+The formula for Manhattan distance between two vectors \(x\) and \(y\) is:
+\[ d = \sum_{i=1}^{n} |x_i - y_i| \]
+where \(x_i\) and \(y_i\) are the \(i\)th elements of vectors \(x\) and \(y\), respectively.\\
+
+The Chebychev distance less commonly used than the Euclidean and Manhattan distances
+in relation to the KNN algorithm, but it is still a valid distance metric and operates effectively in measuring the similarity between data points.
+The Chebychev distance is calculated by taking the maximum absolute difference between the coordinates of two points. This differs from Manhattan distance
+in that it takes the maximum absolute difference, rather than the sum.
+
+The formula for Chebychev distance between two vectors \(x\) and \(y\) is:
+\[ d = \max_{i=1}^{n} |x_i - y_i| \]
+where \(x_i\) and \(y_i\) are the \(i\)th elements of vectors \(x\) and \(y\), respectively.\\
+
+\paragraph{Weighting Schemes}
+Three weighting approaches were implemented:
+\begin{itemize}
+    \item \textbf{Uniform}: Equal weights for all neighbors
+    \item \textbf{ReliefF}: Weights based on feature relevance
+    \item \textbf{Information Gain}: Weights based on information theory
+\end{itemize}
+
+
+\subsubsection*{Weighting Schemes}
+In the KNN algorithm, the choice of weighting scheme can significantly impact the classification results.
+The following weighting schemes were implemented in this study:\\
+
+In uniform weighting, all neighbours have equal weight in the voting process.
+This is the default weighting scheme in KNN.
+An advantage of uniform weighting is that it is simple and computationally efficient, but it may not be optimal for imbalanced datasets.\\
+
+With ReliefF weighting, neighbours are weighted based on their relevance to the target class.
+This provides a more nuanced approach to weighting as it considers the importance of each neighbour in the classification process, potentially
+improving performance of the algorithm.\\
+
+Information gain weighting, Neighbours are weighted based on gain in information in the context of the target variable\cite{brownlee2019}
+Similarly to ReliefF weighting, this weighting scheme assigns higher weights to neighbours that provide more information about the target class.\\
+
+\subsubsection*{Voting Schemes}
+In the KNN algorithm, the voting scheme determines how the class label of a new data point is determined based on the class labels of its k-nearest neighbors.
+The following voting schemes were implemented in this study:\\
+
+In the majority voting scheme, the class label with the highest frequency among the k-nearest neighbors is assigned to the new data point.
+As well as this, each vote is given equal weight in the voting process\cite{uccNotes}
+This is the default voting scheme in KNN and is simple and easy to implement.\\
+
+With inverse distance weighting voting, the class labels of the k-nearest neighbors are weighted based on their distance from the new data point.
+While there are different methods to perform this weighting, the most simple version is to take a neighbour's vote to be the inverse
+of its distance to q:
+
+\[ w_i = \frac{1}{d(q, x_i)} \]
+
+where \(w_i\) is the weight of the \(i\)th neighbour, \(d(q, x_i)\) is the distance between the new data point \(q\) and the \(i\)th neighbour \(x_i\).
+
+Then the votes are summed and the class with the highest votes is returned\cite{uccNotes}\\
+
+Shepard's method is another voting scheme that can be used in KNN algorithms. 
+It employs the use of an exponential function to weight the votes of the neighbours based on their distance from the new data point,
+rather than the inverse of the distance\cite{Cunningham2021}
+
+The formula for Shepard's voting scheme is:
+\begin{equation} 
+    Vote(y_j)=\sum_{i=1}^k e^{-d(\mathbf{q,x}_i)^2}1(y_j,y_c)
+\end{equation}
+
+where \(Vote(y_j)\) is the vote for class \(y_j\), \(d(\mathbf{q,x}_i)\) is the
+distance between the new data point \(\mathbf{q}\) and the \(i\)th neighbour \(\mathbf{x}_i\),
+and \(1(y_j,y_c)\) is the indicator function that returns 1 if \(y_j\) is the same as
+the class label \(y_c\) of the \(i\)th neighbour, and 0 otherwise.\\
+
+\subsubsection*{Neighbor Selection}
+The choice of the number of neighbors (k) is a critical hyperparameter in the KNN algorithm, as previously discussed in this report.
+Different values of k can significantly impact the algorithm's performance,
+with smaller values being more sensitive to noise and larger values potentially overlooking important local patterns.
+It's imperative to choose an optimal value of k that balances these trade-offs and maximizes the algorithm's performance.
+In this study, the following values of k where examined: [1, 3, 5, 7] \\
+
+\subsubsection*{Basic Algorithm Steps}
+The KNN algorithm can be summarized in the following steps:
+\begin{enumerate}
+    \item Data Preparation (see \autoref{sec:data} on Data).
+    \item Model Configuration: Different combinations of hyperparameters (k values, distance metrics, weighting schemes, and voting schemes) were evaluated.
+    \item Cross-validation: For each configuration, the model was trained and evaluated using cross-validation across the 10 pre-defined folds.
+    \item Performance Evaluation: Various metrics including accuracy, F1 score, and confusion matrix elements (TP, TN, FP, FN) were computed.
+    \item Time Measurement: Training and testing times were recorded for each configuration.
+    \item Results Compilation: The results for each configuration were saved in CSV files for further analysis.
+\end{enumerate}
+
+\subsubsection*{Libraries and Tools}
+The following libraries and tools were used for the implementation of the KNN algorithm in our study:
+
+\begin{itemize}
+    \item \textbf{Python}: The primary programming language used for the implementation of the KNN algorithm.
+    \item \textbf{NumPy}: A useful package for scientific computing with Python, used for numerical operations \cite{numpy}.
+    \item \textbf{Pandas}: A data manipulation library in Python, used for data preprocessing and analysis \cite{pandas}.
+    \item \textbf{Matplotlib}: A plotting library in Python, used for data visualization \cite{matplotlib}.
+    \item \textbf{Seaborn}: A data visualization library in Python, used for creating informative and attractive statistical graphics \cite{seaborn}.
+    \item \textbf{SciPy}: A scientific computing library in Python, used for scientific and technical computing \cite{scipy}.
+\end{itemize}
+
+\subsubsection*{Data Preprocessing}
+Before parameter tuning, comprehensive preprocessing pipelines were implemented for both the hepatitis
+and mushroom datasets using scikit-learn's ColumnTransformer and Pipeline classes.
+For more information on data preprocessing, refer to Section 2 of the report.
+
+\subsubsection*{Parameter Search Implementation}
+The KNN algorithm's performance depends significantly on the careful tuning of several key parameters.
+The optimal combination of parameters was determined using a custom grid search function that evaluated all possible combinations of:
+\begin{itemize}
+    \item k values
+    \item Distance metrics
+    \item Voting schemes
+    \item Weighting schemes
+\end{itemize}
+
+The grid search function was implemented using `itertools.product' to iterate over each parameter combination.
+Each combination was evaluated using a cross validation function, which returned a score value for that combination.
+This score, along with the corresponding hyperparameters, were stored for further analysis.
+
+\subsubsection*{Performance Metrics}
+
+The performance of the KNN models was evaluated using the following metrics:
+
+\begin{itemize}
+    \item Accuracy: The proportion of correct predictions among the total number of cases examined.
+    \item F1 Score: The harmonic mean of precision and recall, providing a balanced measure of the model's performance.
+    \item Confusion Matrix: Including True Positives (TP), True Negatives (TN), False Positives (FP), and False Negatives (FN).
+    \item Training Time: The time taken to train the model.
+    \item Testing Time: The time taken to make predictions on the test set.
+\end{itemize}
+
+\paragraph{F1 Score} The F1 score was used as our primary metric for evaluating the performance of the KNN models.
+since it balances the trade-off between precision and recall, and does not report overly favorable results when the dataset is imbalanced.
+The hepatitis dataset is imbalanced, with a 79 / 31 split between the two classes, so the F1 score is a more reliable metric than accuracy \autoref{fig:class-distributions}
+
+\paragraph{Considerations in medical diagnostics} Additionally, in medical diagnostics like hepatitis classification, the costs of different types of errors are significant $-$ 
+missing a positive diagnosis (false negative, impacting recall) could delay critical treatment,
+while a false positive (impacting precision) could lead to unnecessary medical procedures.
+The F1 score's balance of precision and recall helps account for both these error types, making it particularly suitable for this dataset.
