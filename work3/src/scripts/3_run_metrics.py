@@ -2,7 +2,6 @@ import argparse
 
 import numpy as np
 import pandas as pd
-import os
 import logging
 from pathlib import Path
 
@@ -96,7 +95,7 @@ def main():
 
         output_data.append(curr_output_data)
 
-    metrics_data_path = DATA_DIR / f"metrics.csv"
+    metrics_data_path = DATA_DIR / f"3_metrics.csv"
     pd.DataFrame(output_data).to_csv(metrics_data_path, index=False)
 
 if __name__ == "__main__":
