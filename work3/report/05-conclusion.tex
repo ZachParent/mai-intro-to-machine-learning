@@ -1,38 +1,24 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-This study has provided a comprehensive evaluation of KNN and SVM classification algorithms, along with instance reduction techniques, across two distinctly different datasets. Our analysis yields several important findings and practical implications.
 
 \subsection{Key Findings}
 
 \begin{itemize}
-    \item Both KNN and SVM achieved high classification accuracy (\textgreater 92\%) across both datasets, demonstrating their robustness as classification algorithms
-    \item The optimal configuration for KNN varied significantly between datasets, with k=1 performing best for Hepatitis and k=3,5,7 for Mushroom
-    \item Instance reduction techniques, particularly GCNN, successfully reduced storage requirements while maintaining classification accuracy
-    \item Statistical analysis revealed significant differences between model configurations, highlighting the importance of parameter tuning
-    \item The top-performing models tended to have very similar F1 scores, suggesting there isn't a single perfect model for all datasets
-    \item SVM configurations with higher C values tended to perform better, suggesting that greater regularization is better for both datasets.
+    \item 
 \end{itemize}
 
 \subsection{Practical Implications}
 
-Our results suggest several practical guidelines for practitioners:
 \begin{itemize}
-    \item For smaller datasets with mixed data types (like Hepatitis), both RBF and polynomial kernels in SVM provide excellent performance
-    \item For larger categorical datasets (like Mushroom), SVM with either polynomial or RBF kernels and higher C values (C=5 or C=50) achieves optimal results
-    \item GCNN reduction can significantly improve efficiency without substantial accuracy loss, especially for larger datasets
-    \item SVM with RBF kernel provides consistent performance across different dataset characteristics
+    \item 
 \end{itemize}
 
 \subsection{Limitations and Future Work}
 
-While this study provides valuable insights, several limitations and opportunities for future research remain:
 \begin{itemize}
-    \item Investigation of additional datasets with different characteristics would strengthen the generalizability of our findings
-    \item Exploration of more sophisticated reduction techniques could potentially yield better efficiency-accuracy trade-offs
-    \item Analysis of computational complexity and memory usage could provide deeper insights into algorithm scalability
+    \item 
 \end{itemize}
 
 \subsection{Final Remarks}
 
-This study demonstrates that both KNN and SVM remain powerful classification algorithms when properly configured. The effectiveness of instance reduction techniques, particularly GCNN, suggests that these methods can significantly improve the practical applicability of instance-based learning. These findings contribute to the ongoing development of efficient and accurate classification systems in machine learning.
