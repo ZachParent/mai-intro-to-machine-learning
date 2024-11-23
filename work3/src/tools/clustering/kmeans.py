@@ -13,7 +13,7 @@ KMeansParamsGrid = {
 }
 
 class KMeans(ClusterMixin, BaseEstimator):
-    def __init__(self, n_clusters=3, max_iterations=300, tolerance=1e-4, random_state=None, initial_centroids=None):
+    def __init__(self, n_clusters=2, max_iterations=300, tolerance=1e-4, random_state=None, initial_centroids=None):
         self.n_clusters = n_clusters
         self.max_iterations = max_iterations
         self.tolerance = tolerance
