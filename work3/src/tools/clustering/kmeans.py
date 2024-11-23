@@ -7,15 +7,6 @@ KMeansParamsGrid = {
     "k": [2, 3, 4, 5, 6, 7, 8, 9, 10],
 }
 
-import random
-import numpy as np
-import pandas as pd
-from scipy.spatial.distance import euclidean
-
-KMeansParamsGrid = {
-    "k": [2, 3, 4, 5, 6, 7, 8, 9, 10],
-}
-
 class KMeans:
     def __init__(self, **kwargs):
         self.k = kwargs.get("k", 3)
