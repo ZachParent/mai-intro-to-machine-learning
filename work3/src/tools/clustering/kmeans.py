@@ -9,13 +9,15 @@ KMeansParamsGrid = {
     "n_clusters": [2, 3, 4, 5, 6, 8, 10],
     "max_iterations": [100, 300, 500],
     "tolerance": [1e-5, 1e-4, 1e-3],
+    "random_state": [1, 2, 3, 4, 5],
 }
 
 class KMeans(ClusterMixin, BaseEstimator):
-    def __init__(self, n_clusters=3, max_iterations=300, tolerance=1e-4, initial_centroids=None):
+    def __init__(self, n_clusters=3, max_iterations=300, tolerance=1e-4, random_state=None, initial_centroids=None):
         self.n_clusters = n_clusters
         self.max_iterations = max_iterations
         self.tolerance = tolerance
+        self.random_state = random_state
         self.centroids = initial_centroids
         self.labels_ = None
 
@@ -26,6 +28,8 @@ class KMeans(ClusterMixin, BaseEstimator):
         n_samples, _ = data.shape
 
         if self.centroids is None:
+            if self.random_state is not None:
+                random.seed(self.random_state)
             self.centroids = data[random.sample(range(n_samples), self.n_clusters)]
         else:
             self.centroids = self.centroids = np.array(self.centroids)
