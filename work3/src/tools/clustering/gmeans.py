@@ -1,88 +1,101 @@
-import math
 import numpy as np
 from sklearn.base import BaseEstimator, ClusterMixin
 from scipy.stats import anderson
-import pandas as pd
 from sklearn.preprocessing import scale
+import pandas as pd
 from tools.clustering.kmeans import KMeans
+from sklearn.decomposition import PCA
 
-# TODO: Update accordingly
+# Parameter Grid for G-Means (if using grid search)
 GMeansParamsGrid = {
-    "n_clusters": [2, 3, 4, 5, 6, 7, 8, 9, 10],
+    "strictness": [0, 1, 2, 3, 4],     
+    "min_obs": [1, 5, 10],          
+    "max_depth": [5, 10, 15],        
 }
 
-class GMeans(ClusterMixin, BaseEstimator):
-    def __init__(self, n_clusters: int, min_obs=1, max_depth=10, random_state=None, strictness=4):
-        self.n_clusters = n_clusters
+class GMeans(BaseEstimator, ClusterMixin):
+    def __init__(self, min_obs=10, max_depth=10, strictness=2):
         self.min_obs = min_obs
         self.max_depth = max_depth
-        self.random_state = random_state
+        if strictness not in range(5):
+            raise ValueError("strictness parameter must be an integer from 0 to 4")
         self.strictness = strictness
 
-    def _recursiveClustering(self, data, depth, indices):
-        depth += 1
-        print(f"Recursion Depth: {depth}, Data Shape: {data.shape}, Indices: {len(indices)}")
-        
-        if depth == self.max_depth or len(data) <= self.min_obs:
-            self.cluster_labels[indices] = self.label_counter
-            self.label_counter += 1
-            self.stopping_criteria.append('max_depth' if depth == self.max_depth else 'min_obs')
-            return
-
-        # Fit KMeans with k=2
-        km = KMeans(k=2, random_state=self.random_state)
-        km.fit(data)
-        centers = km.centroids
-        labels = km.clusters
-
-        # Calculate projection vector
-        v = centers[1] - centers[0]
-        v_norm = np.linalg.norm(v)
-        if v_norm == 0:
-            self.cluster_labels[indices] = self.label_counter
-            self.label_counter += 1
-            self.stopping_criteria.append('zero vector norm')
-            return
-
-        v_unit = v / v_norm
-        x_proj = np.dot(data - centers[0], v_unit)
-        x_proj = scale(x_proj)  # Standardize the projection
-
-        # Check for Gaussianity
-        if self._gaussianCheck(x_proj):
-            self.cluster_labels[indices] = self.label_counter
-            self.label_counter += 1
-            self.stopping_criteria.append('gaussian')
-            return
-
-        # If not Gaussian, recursively cluster
-        for k in [0, 1]:
-            mask = (labels == k)
-            current_data = data[mask]
-            current_indices = indices[mask]
-            if len(current_data) <= self.min_obs:
-                self.cluster_labels[current_indices] = self.label_counter
-                self.label_counter += 1
-                self.stopping_criteria.append('min_obs')
-                continue
-            self._recursiveClustering(current_data, depth, current_indices)
-
-    def _gaussianCheck(self, vector):
-        if len(vector) < 10:  # Minimum size for Anderson-Darling test
-            return False
-        output = anderson(vector)
-        return output[0] <= output[1][self.strictness]
-
     def fit(self, data):
-        data = np.array(data)
-        n_samples = data.shape[0]
-        self.cluster_labels = np.full(n_samples, -1, dtype=int)  # Initialize with -1
-        self.label_counter = 0
-        self.stopping_criteria = []
-        self._recursiveClustering(data, depth=0, indices=np.arange(n_samples))
-        self.labels_ = self.cluster_labels
+        """
+        Fit the G-Means clustering algorithm on the input data.
+        """
+        if isinstance(data, pd.DataFrame):
+            data = data.to_numpy()
+
+        # Initialize with one cluster
+        kmeans = KMeans(k=1, max_iterations=300)
+        centroids, clusters = kmeans.fit(data)
+
+        if centroids is None or clusters is None:
+            raise ValueError("KMeans fit method did not return centroids and clusters")
+
+        self.centroids_ = centroids
+        self.clusters_ = clusters
+
+        # Start recursive splitting
+        self._recursive_split(data, clusters, depth=0)
+
         return self
 
+    def _recursive_split(self, data, clusters, depth):
+        """
+        Recursively split clusters and test for Gaussianity.
+        """
+        # Stop splitting if depth or cluster count limits are reached
+        if depth >= self.max_depth:
+            return
+
+        unique_clusters = np.unique(clusters)
+        for cluster_id in unique_clusters:
+            cluster_data = data[clusters == cluster_id]
+
+            # Skip if cluster is too small
+            if len(cluster_data) < max(self.min_obs, 2):  # Require at least 2 points
+                continue
+
+            # Apply KMeans with k=2 to split the cluster
+            sub_kmeans = KMeans(k=2, max_iterations=300)
+            sub_centroids, sub_clusters = sub_kmeans.fit(cluster_data)
+
+            if sub_centroids is None or sub_clusters is None:
+                continue
+
+            # Test Gaussianity
+            is_gaussian = self._test_gaussianity(cluster_data)
+
+            if is_gaussian:
+                continue
+
+            # Accept the split
+            global_cluster_start = len(self.centroids_)
+            self.centroids_ = np.vstack([self.centroids_, sub_centroids])
+            sub_clusters += global_cluster_start
+            clusters[clusters == cluster_id] = sub_clusters
+
+            # Recursively split each sub-cluster
+            self._recursive_split(data, clusters, depth + 1)
+
+    def _test_gaussianity(self, data):
+        """
+        Test if the data follows a Gaussian distribution using the Anderson-Darling test.
+        """
+        pca = PCA(n_components=1)
+        projected_data = pca.fit_transform(data).flatten()
+
+        test_result = anderson(projected_data)
+
+        # Compare test statistic with critical values
+        return test_result.statistic < test_result.critical_values[self.strictness]
+
     def fit_predict(self, data):
+        """
+        Fit the model and return cluster labels.
+        """
         self.fit(data)
-        return self.labels_
+        return self.clusters_
