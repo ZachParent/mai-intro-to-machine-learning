@@ -13,54 +13,54 @@ ImprovedKMeansBParamsGrid = {
 # Global K-Means
 
 class ImprovedKMeansB(ClusterMixin, BaseEstimator):
-    def __init__(self, n_clusters: int, max_iterations = 300, tolerance=1e-4):
+    def __init__(self, n_clusters: int, max_iterations=300, tolerance=1e-4):
         self.n_clusters = n_clusters
         self.tolerance = tolerance
         self.max_iterations = max_iterations
-
-        self.centroids = {} # cluster centres
-        self.clusters = {} # labels
-        self.intertia = {} # WCSS
+        self.centroids = {}  # Dictionary to store centroids for each k
+        self.clusters = {}  # Dictionary to store cluster labels for each k
+        self.inertia = {}  # Dictionary to store WCSS for each k
 
     def fit(self, data):
         if isinstance(data, pd.DataFrame):
             data = data.to_numpy()
 
-        verbose = True
-
+        print(f"Global K-Means: {self.n_clusters} clusters")
+        
         # Initial cluster
-        kmeans = KMeans(
-            k=1,
-            centroids=None,
-            max_iterations=self.max_iterations,
-            tolerance=self.tolerance,
-        )
+        kmeans = KMeans(k=1, max_iterations=self.max_iterations, tolerance=self.tolerance)
         initial_centroids, initial_clusters = kmeans.fit(data)
 
         self.centroids[1] = initial_centroids
         self.clusters[1] = initial_clusters
-        self.intertia[1] = self._compute_wcss(data,  self.clusters[1], self.centroids[1])
+        self.inertia[1] = self._compute_wcss(data, initial_clusters, initial_centroids)
 
         # Repeat the process until we have n_clusters centroids
         for k in range(2, self.n_clusters + 1):
-            if verbose:
-                print(f'Solving {k}-means')
+            best_centroids, best_clusters = None, None
+            min_inertia = float('inf')
 
-            self.intertia[k] = float('inf')
             for i, xi in enumerate(data):
-                current_centroids = np.vstack((self.centroids[k-1], xi))
+                # Add xi as a new centroid
+                current_centroids = np.vstack((self.centroids[k - 1], xi))
 
-                kmeans = KMeans(k=k, centroids=current_centroids, tolerance=self.tolerance)
+                # Perform k-means with the new centroids
+                kmeans = KMeans(k=k, centroids=current_centroids, max_iterations=self.max_iterations, tolerance=self.tolerance)
                 centroids, clusters = kmeans.fit(data)
-                kmeans_interia = self._compute_wcss(data, clusters, centroids)
 
-                if(kmeans_interia < self.intertia[k]):
-                    self.intertia[k] = kmeans_interia
-                    self.centroids[k] = centroids
-                    self.clusters[k] = clusters
+                # Compute WCSS
+                inertia = self._compute_wcss(data, clusters, centroids)
 
-        print(f"Clusters: {self.clusters}")
-        print(f"Centroids: {self.centroids}")
+                # Keep the best solution
+                if inertia < min_inertia:
+                    min_inertia = inertia
+                    best_centroids = centroids
+                    best_clusters = clusters
+
+            # Store the best centroids and clusters for this k
+            self.centroids[k] = best_centroids
+            self.clusters[k] = best_clusters
+            self.inertia[k] = min_inertia
 
         return self.centroids, self.clusters
 
@@ -75,5 +75,6 @@ class ImprovedKMeansB(ClusterMixin, BaseEstimator):
         return wcss
 
     def fit_predict(self, data):
-        _, clusters = self.fit(data)
-        return clusters
+        self.fit(data)
+        final_clusters = self.clusters[self.n_clusters]
+        return final_clusters
