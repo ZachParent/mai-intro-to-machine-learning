@@ -1,13 +1,12 @@
-import random
 import numpy as np
 import pandas as pd
 from sklearn.base import BaseEstimator, ClusterMixin
-from scipy.spatial.distance import euclidean
 from tools.clustering.kmeans import KMeans
 from scipy.spatial.distance import cdist
 
 GlobalKmeansParams = {
-    "n_clusters": [2, 3, 4, 5, 6, 7, 8, 9, 10],
+    "n_clusters": [2, 3, 4, 5, 8, 10],
+    "max_iterations": [100],
 }
 
 class GlobalKMeans(ClusterMixin, BaseEstimator):
