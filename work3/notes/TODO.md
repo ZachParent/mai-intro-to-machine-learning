@@ -6,8 +6,8 @@
 * [x] (Carlos) Preprocessing
 * [ ] (Carlos) Plots
 * [ ] (Kacper) Improved k-means
-* [ ] (Kacper) Makefile
-* [ ] (Kacper) README.md
+* [x] (Kacper) Makefile
+* [x] (Kacper) README.md
 * [ ] (Sheena) k-means
 * [x] (Sheena) Evaluation methods   
 * [x] (Zach) Initial project setup
