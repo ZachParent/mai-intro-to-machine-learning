@@ -1,6 +1,6 @@
 from .kmeans import KMeans, KMeansParamsGrid
-from .improved_kmeans_A import ImprovedKMeansA, ImprovedKMeansAParamsGrid
-from .improved_kmeans_B import ImprovedKMeansB, ImprovedKMeansBParamsGrid
+from .gmeans import GMeans, GMeansParamsGrid
+from .global_kmeans import GlobalKMeans, GlobalKmeansParams
 from .fuzzy_cmeans import FuzzyCMeans, FuzzyCMeansParamsGrid
 from .optics import Optics, OpticsParamsGrid
 from .spectral_clustering import SpectralClustering, SpectralClusteringParamsGrid
@@ -8,10 +8,10 @@ from .spectral_clustering import SpectralClustering, SpectralClusteringParamsGri
 __all__ = [
     "KMeans",
     "KMeansParamsGrid",
-    "ImprovedKMeansA",
-    "ImprovedKMeansAParamsGrid",
-    "ImprovedKMeansB",
-    "ImprovedKMeansBParamsGrid",
+    "GMeans",
+    "GMeansParamsGrid",
+    "GlobalKMeans",
+    "GlobalKmeansParams",
     "FuzzyCMeans",
     "FuzzyCMeansParamsGrid",
     "Optics",

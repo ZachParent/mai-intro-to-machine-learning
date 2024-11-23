@@ -185,10 +185,10 @@ pip install -r requirements.txt
 - `--model`: Choose model (required)
   - `kmeans`: Standard k-means model
   - `fuzzy_cmeans` Fuzzy c-means model
-  - `improved_kmeansA` G-means model
-  - `improved_kmeansB` Global k-means model
+  - `gmeans` G-means model
+  - `global_kmeans` Global k-means model
   - `optics` OPTICS model
-  - `Spectral clustering` Spectral clustering model
+  - `spectral_clustering` Spectral clustering model
 
 **To run metrics:**
 `python src/scripts/3_run_metrics.py`

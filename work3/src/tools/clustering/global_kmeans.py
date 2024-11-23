@@ -6,20 +6,18 @@ from scipy.spatial.distance import euclidean
 from tools.clustering.kmeans import KMeans
 from scipy.spatial.distance import cdist
 
-ImprovedKMeansBParamsGrid = {
+GlobalKmeansParams = {
     "n_clusters": [2, 3, 4, 5, 6, 7, 8, 9, 10],
 }
 
-# Global K-Means
-
-class ImprovedKMeansB(ClusterMixin, BaseEstimator):
+class GlobalKMeans(ClusterMixin, BaseEstimator):
     def __init__(self, n_clusters: int, max_iterations=300, tolerance=1e-4):
         self.n_clusters = n_clusters
         self.tolerance = tolerance
         self.max_iterations = max_iterations
-        self.centroids = {}  # Dictionary to store centroids for each k
-        self.clusters = {}  # Dictionary to store cluster labels for each k
-        self.inertia = {}  # Dictionary to store WCSS for each k
+        self.centroids = {}  
+        self.clusters = {}  
+        self.inertia = {} 
 
     def fit(self, data):
         if isinstance(data, pd.DataFrame):
