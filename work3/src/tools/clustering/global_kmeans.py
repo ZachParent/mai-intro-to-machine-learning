@@ -7,13 +7,15 @@ from scipy.spatial.distance import cdist
 GlobalKmeansParams = {
     "n_clusters": [2, 3, 4, 5, 8, 10],
     "max_iterations": [100],
+    "random_state": [1],
 }
 
 class GlobalKMeans(ClusterMixin, BaseEstimator):
-    def __init__(self, n_clusters: int, max_iterations=300, tolerance=1e-4):
+    def __init__(self, n_clusters: int, max_iterations=300, tolerance=1e-4, random_state=None):
         self.n_clusters = n_clusters
         self.tolerance = tolerance
         self.max_iterations = max_iterations
+        self.random_state = random_state
         self.centroids = {}  
         self.clusters = {}  
         self.inertia = {} 
@@ -49,7 +51,7 @@ class GlobalKMeans(ClusterMixin, BaseEstimator):
                 
                 # Perform k-means with the new centroids
                 kmeans = KMeans(k=k, centroids=current_centroids, 
-                              max_iterations=self.max_iterations, tolerance=self.tolerance)
+                              max_iterations=self.max_iterations, tolerance=self.tolerance, random_state=self.random_state)
                 centroids, clusters = kmeans.fit(data)
 
                 inertia = self._compute_wcss(data, clusters, centroids)
