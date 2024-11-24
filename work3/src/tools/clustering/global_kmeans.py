@@ -27,12 +27,14 @@ class GlobalKMeans(ClusterMixin, BaseEstimator):
         print(f"Global K-Means: {self.n_clusters} clusters")
         
         # Initial cluster
-        kmeans = KMeans(k=1, max_iterations=self.max_iterations, tolerance=self.tolerance)
-        initial_centroids, initial_clusters = kmeans.fit(data)
+        kmeans = KMeans(n_clusters=1,
+                        max_iterations=self.max_iterations,
+                        tolerance=self.tolerance
+                        ).fit(data)
 
-        self.centroids[1] = initial_centroids
-        self.clusters[1] = initial_clusters
-        self.inertia[1] = self._compute_wcss(data, initial_clusters, initial_centroids)
+        self.centroids[1] = kmeans.centroids
+        self.clusters[1] = kmeans.labels_
+        self.inertia[1] = self._compute_wcss(data, kmeans.labels_, kmeans.centroids)
 
         # Repeat the process until we have n_clusters centroids
         for k in range(2, self.n_clusters + 1):
@@ -44,17 +46,20 @@ class GlobalKMeans(ClusterMixin, BaseEstimator):
                 current_centroids = np.vstack((self.centroids[k - 1], xi))
 
                 # Perform k-means with the new centroids
-                kmeans = KMeans(k=k, centroids=current_centroids, max_iterations=self.max_iterations, tolerance=self.tolerance)
-                centroids, clusters = kmeans.fit(data)
+                kmeans = KMeans(n_clusters=k,
+                                initial_centroids=current_centroids,
+                                max_iterations=self.max_iterations,
+                                tolerance=self.tolerance
+                                ).fit(data)
 
                 # Compute WCSS
-                inertia = self._compute_wcss(data, clusters, centroids)
+                inertia = self._compute_wcss(data, kmeans.labels_, kmeans.centroids)
 
                 # Keep the best solution
                 if inertia < min_inertia:
                     min_inertia = inertia
-                    best_centroids = centroids
-                    best_clusters = clusters
+                    best_centroids = kmeans.centroids
+                    best_clusters = kmeans.labels_
 
             # Store the best centroids and clusters for this k
             self.centroids[k] = best_centroids
