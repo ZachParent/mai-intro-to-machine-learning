@@ -88,7 +88,7 @@ def main():
         model = MODEL_MAP[args.model](**param_dict)
 
         logger.info(
-            f"Running model {args.model} with params: {', '.join(f'{k}={v}' for k, v in param_dict.items())}"
+            f"Running {args.dataset}/{args.model}, params: {', '.join(f'{k}={v}' for k, v in param_dict.items())}..."
         )
         tik = time.time()
         clusters = model.fit_predict(features_data)
