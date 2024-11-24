@@ -6,20 +6,21 @@ import pandas as pd
 from tools.clustering.kmeans import KMeans
 from sklearn.decomposition import PCA
 
-# Parameter Grid for G-Means (if using grid search)
 GMeansParamsGrid = {
     "strictness": [0, 1, 2, 3, 4],     
     "min_obs": [1, 5, 10],          
-    "max_depth": [5, 10, 15],        
+    "max_depth": [5, 10, 15],    
+    "random_state": [1]
 }
 
 class GMeans(ClusterMixin, BaseEstimator):
-    def __init__(self, min_obs=10, max_depth=10, strictness=2):
+    def __init__(self, min_obs=10, max_depth=10, strictness=2, random_state=None):
         self.min_obs = min_obs
         self.max_depth = max_depth
         if strictness not in range(5):
             raise ValueError("strictness parameter must be an integer from 0 to 4")
         self.strictness = strictness
+        self.random_state = random_state
 
     def fit(self, data):
         """
@@ -29,8 +30,9 @@ class GMeans(ClusterMixin, BaseEstimator):
             data = data.to_numpy()
 
         # Initialize with one cluster
-        kmeans = KMeans(n_clusters=1, max_iterations=300)
-        centroids, clusters = kmeans.fit(data)
+        kmeans = KMeans(n_clusters=1, max_iterations=300, random_state=self.random_state)
+        clusters = kmeans.fit_predict(data)
+        centroids = kmeans.centroids_
 
         if centroids is None or clusters is None:
             raise ValueError("KMeans fit method did not return centroids and clusters")
@@ -60,8 +62,9 @@ class GMeans(ClusterMixin, BaseEstimator):
                 continue
 
             # Apply KMeans with k=2 to split the cluster
-            sub_kmeans = KMeans(n_clusters=2, max_iterations=300)
-            sub_centroids, sub_clusters = sub_kmeans.fit(cluster_data)
+            sub_kmeans = KMeans(n_clusters=2, max_iterations=300, random_state=self.random_state)
+            sub_clusters = sub_kmeans.fit_predict(cluster_data)
+            sub_centroids = sub_kmeans.centroids_
 
             if sub_centroids is None or sub_clusters is None:
                 continue
@@ -85,7 +88,7 @@ class GMeans(ClusterMixin, BaseEstimator):
         """
         Test if the data follows a Gaussian distribution using the Anderson-Darling test.
         """
-        pca = PCA(n_components=1)
+        pca = PCA(n_components=1, random_state=self.random_state)
         projected_data = pca.fit_transform(data).flatten()
 
         test_result = anderson(projected_data)
