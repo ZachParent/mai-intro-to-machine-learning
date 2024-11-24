@@ -68,6 +68,25 @@ def get_config_from_filepath(filepath: Path) -> dict:
         "params": params,
     }
 
+def load_runtime_df():
+    runtime_filepaths = sorted(list(CLUSTERED_DATA_DIR.glob("**/runtime.csv")))
+    return pd.concat([pd.read_csv(filepath) for filepath in runtime_filepaths])
+
+def get_runtime(runtime_df: pd.DataFrame, clustered_data_config: dict):
+    try:
+        condition = (
+            (runtime_df["dataset"] == clustered_data_config["dataset"]) &
+            (runtime_df["model"] == clustered_data_config["model"])
+        )
+        for k, v in clustered_data_config["params"].items():
+            condition = condition & (runtime_df[k].astype(str) == v)
+        
+        return runtime_df[condition]["runtime"].values[0]
+    except (KeyError, IndexError) as e:
+        logger.warning(f"Runtime not found for config {clustered_data_config}. Error: {e}")
+        return np.nan
+
+
 def main():
     args = parser.parse_args()
     if args.verbose:
@@ -75,15 +94,21 @@ def main():
     else:
         logging.basicConfig(level=logging.WARNING)
 
+    runtime_df = load_runtime_df()
     filepaths = sorted(list(CLUSTERED_DATA_DIR.glob("**/*.csv")))
+    filepaths = [filepath for filepath in filepaths if "runtime.csv" not in filepath.name]
+    filepaths = [filepath for filepath in filepaths if filepath.match("**/synthetic/kmeans/*.csv")]
+
     output_data = []
     for filepath in filepaths:
         clustered_data_config = get_config_from_filepath(filepath)
         logger.info(f"Computing metrics for config {clustered_data_config}")
 
+        runtime = get_runtime(runtime_df, clustered_data_config)
         curr_output_data = {
             'dataset': clustered_data_config['dataset'],
             'model': clustered_data_config['model'],
+            'runtime': runtime,
         }
 
         clustered_data = pd.read_csv(filepath)
