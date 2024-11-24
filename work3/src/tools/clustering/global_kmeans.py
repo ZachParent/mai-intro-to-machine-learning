@@ -12,14 +12,22 @@ import pickle
 from pathlib import Path
 
 GlobalKmeansParams = {
-    'n_clusters': N_CLUSTERS,
-    'max_iterations': [100],
-    'tolerance': [1e-4, 1e-5, 1e-6],
-    'random_state': RANDOM_STATE
+    "n_clusters": N_CLUSTERS,
+    "max_iterations": [100],
+    "tolerance": [1e-4, 1e-5, 1e-6],
+    "random_state": RANDOM_STATE,
 }
 
+
 class GlobalKMeans(ClusterMixin, BaseEstimator):
-    def __init__(self, n_clusters: int, max_iterations=300, tolerance=1e-4, random_state=None, cache_dir=None):
+    def __init__(
+        self,
+        n_clusters: int,
+        max_iterations=300,
+        tolerance=1e-4,
+        random_state=None,
+        cache_dir=None,
+    ):
         if not isinstance(n_clusters, int) or n_clusters <= 0:
             raise ValueError("n_clusters must be a positive integer.")
         if max_iterations <= 0:
@@ -31,12 +39,12 @@ class GlobalKMeans(ClusterMixin, BaseEstimator):
         self.tolerance = tolerance
         self.max_iterations = max_iterations
         self.random_state = random_state
-        self.centroids = {}  
-        self.clusters = {}  
+        self.centroids = {}
+        self.clusters = {}
         self.inertia = {}
 
         # Cache configuration
-        self.cache_dir = cache_dir or Path('.cache/global_kmeans')
+        self.cache_dir = cache_dir or Path(".cache/global_kmeans")
         self.cache_dir = Path(self.cache_dir)
         self.cache_dir.mkdir(parents=True, exist_ok=True)
 
@@ -52,34 +60,42 @@ class GlobalKMeans(ClusterMixin, BaseEstimator):
         for k in range(1, self.n_clusters + 1):
             cached_results = self._load_from_cache(data_hash, k)
             if cached_results is not None:
-                self.centroids[k] = cached_results['centroids']
-                self.clusters[k] = cached_results['clusters']
-                self.inertia[k] = cached_results['inertia']
+                self.centroids[k] = cached_results["centroids"]
+                self.clusters[k] = cached_results["clusters"]
+                self.inertia[k] = cached_results["inertia"]
                 if k > 1:
                     # Update distance matrix for cached results
-                    distance_matrix = cached_results['distance_matrix']
+                    distance_matrix = cached_results["distance_matrix"]
                 start_k = k + 1
             else:
                 break
 
         # If no cache was found, start with k=1
         if start_k == 1:
-            kmeans = KMeans(n_clusters=1, max_iterations=self.max_iterations,
-                          tolerance=self.tolerance, random_state=self.random_state).fit(data)
-            
+            kmeans = KMeans(
+                n_clusters=1,
+                max_iterations=self.max_iterations,
+                tolerance=self.tolerance,
+                random_state=self.random_state,
+            ).fit(data)
+
             self.centroids[1] = kmeans.centroids_
             self.clusters[1] = kmeans.labels_
             self.inertia[1] = self._compute_wcss(data, kmeans.labels_, kmeans.centroids_)
-            
+
             distance_matrix = cdist(data, kmeans.centroids_)
-            
+
             # Cache the results
-            self._save_to_cache(data_hash, 1, {
-                'centroids': self.centroids[1],
-                'clusters': self.clusters[1],
-                'inertia': self.inertia[1],
-                'distance_matrix': distance_matrix
-            })
+            self._save_to_cache(
+                data_hash,
+                1,
+                {
+                    "centroids": self.centroids[1],
+                    "clusters": self.clusters[1],
+                    "inertia": self.inertia[1],
+                    "distance_matrix": distance_matrix,
+                },
+            )
             start_k = 2
 
         # Continue with remaining clusters
@@ -88,19 +104,23 @@ class GlobalKMeans(ClusterMixin, BaseEstimator):
             base_candidates = int(np.sqrt(len(data)))
 
             # Reduce candidates for higher k values to balance computation
-            n_candidates = max(int(base_candidates * (1 - 0.1 * (k-1))), 10)
-            candidate_indices = self._select_candidates(np.min(distance_matrix, axis=1), n_candidates)
-            
-            best_centroids, best_clusters, min_inertia = None, None, float('inf')
+            n_candidates = max(int(base_candidates * (1 - 0.1 * (k - 1))), 10)
+            candidate_indices = self._select_candidates(
+                np.min(distance_matrix, axis=1), n_candidates
+            )
+
+            best_centroids, best_clusters, min_inertia = None, None, float("inf")
 
             for idx in candidate_indices:
                 candidate_centroid = data[idx].reshape(1, -1)
-                current_centroids = np.vstack((self.centroids[k-1], candidate_centroid))
-                
+                current_centroids = np.vstack((self.centroids[k - 1], candidate_centroid))
+
                 kmeans = KMeans(
-                    n_clusters=k, initial_centroids=current_centroids,
-                    max_iterations=self.max_iterations, tolerance=self.tolerance,
-                    random_state=self.random_state
+                    n_clusters=k,
+                    initial_centroids=current_centroids,
+                    max_iterations=self.max_iterations,
+                    tolerance=self.tolerance,
+                    random_state=self.random_state,
                 ).fit(data)
 
                 inertia = self._compute_wcss(data, kmeans.labels_, kmeans.centroids_)
@@ -119,12 +139,16 @@ class GlobalKMeans(ClusterMixin, BaseEstimator):
             distance_matrix = np.hstack((distance_matrix, new_distances))
 
             # Cache the results
-            self._save_to_cache(data_hash, k, {
-                'centroids': self.centroids[k],
-                'clusters': self.clusters[k],
-                'inertia': self.inertia[k],
-                'distance_matrix': distance_matrix
-            })
+            self._save_to_cache(
+                data_hash,
+                k,
+                {
+                    "centroids": self.centroids[k],
+                    "clusters": self.clusters[k],
+                    "inertia": self.inertia[k],
+                    "distance_matrix": distance_matrix,
+                },
+            )
 
         return self
 
@@ -182,7 +206,7 @@ class GlobalKMeans(ClusterMixin, BaseEstimator):
         cache_file = self.cache_dir / self._get_cache_key(data_hash, k)
         if cache_file.exists():
             try:
-                with open(cache_file, 'rb') as f:
+                with open(cache_file, "rb") as f:
                     cached_results = pickle.load(f)
                 return cached_results
             except Exception as e:
@@ -195,8 +219,7 @@ class GlobalKMeans(ClusterMixin, BaseEstimator):
         """
         cache_file = self.cache_dir / self._get_cache_key(data_hash, k)
         try:
-            with open(cache_file, 'wb') as f:
+            with open(cache_file, "wb") as f:
                 pickle.dump(results, f)
         except Exception as e:
             print(f"Warning: Failed to save cache for k={k}: {e}")
-            

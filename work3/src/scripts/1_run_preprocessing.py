@@ -21,11 +21,11 @@ def main():
 
     os.makedirs(PREPROCESSED_DATA_DIR, exist_ok=True)
 
-    datasets = ['hepatitis', 'mushroom', 'vowel']
+    datasets = ["hepatitis", "mushroom", "vowel"]
 
     for dataset in datasets:
         logger.info(f"Preprocessing {dataset}")
-        
+
         raw_data_path = RAW_DATA_DIR / f"{dataset}.arff"
         raw_data, meta = scipy.io.arff.loadarff(raw_data_path)
 

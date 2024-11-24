@@ -11,11 +11,12 @@ from tools.config import RANDOM_STATE
 logger = logging.getLogger(__name__)
 
 GMeansParamsGrid = {
-    "strictness": [0, 1, 2, 3, 4],     
-    "min_obs": [1, 5, 10],          
-    "max_depth": [5, 10, 15],    
-    "random_state": RANDOM_STATE
+    "strictness": [0, 1, 2, 3, 4],
+    "min_obs": [1, 5, 10],
+    "max_depth": [5, 10, 15],
+    "random_state": RANDOM_STATE,
 }
+
 
 class GMeans(ClusterMixin, BaseEstimator):
     def __init__(self, min_obs=10, max_depth=10, strictness=2, random_state=None):
@@ -94,11 +95,11 @@ class GMeans(ClusterMixin, BaseEstimator):
         """
         # Scale the data first to standardize the variance
         n_features = data.shape[1]
-        
+
         # Project data onto principal components
-        pca = PCA(n_components=min(n_features, len(data)-1), random_state=self.random_state)
+        pca = PCA(n_components=min(n_features, len(data) - 1), random_state=self.random_state)
         projected_data = pca.fit_transform(data)
-        
+
         # Test each principal component
         for dim in range(projected_data.shape[1]):
             test_result = anderson(projected_data[:, dim])
@@ -106,7 +107,7 @@ class GMeans(ClusterMixin, BaseEstimator):
             # If any dimension fails the Gaussianity test, return False
             if test_result.statistic >= test_result.critical_values[self.strictness]:
                 return False
-            
+
         # All dimensions passed the test
         return True
 

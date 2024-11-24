@@ -12,8 +12,16 @@ KMeansParamsGrid = {
     "random_state": RANDOM_STATE,
 }
 
+
 class KMeans(ClusterMixin, BaseEstimator):
-    def __init__(self, n_clusters=2, max_iterations=300, tolerance=1e-4, random_state=None, initial_centroids=None):
+    def __init__(
+        self,
+        n_clusters=2,
+        max_iterations=300,
+        tolerance=1e-4,
+        random_state=None,
+        initial_centroids=None,
+    ):
         self.n_clusters = n_clusters
         self.max_iterations = max_iterations
         self.tolerance = tolerance
@@ -39,11 +47,16 @@ class KMeans(ClusterMixin, BaseEstimator):
             clusters = self._assign_clusters(data)
 
             # Update centroids
-            new_centroids = np.array([
-                data[clusters == i].mean(axis=0) if len(data[clusters == i]) > 0 else
-                data[random.sample(range(n_samples), 1)][0]
-                for i in range(self.n_clusters)
-            ])
+            new_centroids = np.array(
+                [
+                    (
+                        data[clusters == i].mean(axis=0)
+                        if len(data[clusters == i]) > 0
+                        else data[random.sample(range(n_samples), 1)][0]
+                    )
+                    for i in range(self.n_clusters)
+                ]
+            )
 
             # Check for convergence
             if np.all(np.abs(new_centroids - self.centroids_) < self.tolerance):
@@ -54,7 +67,8 @@ class KMeans(ClusterMixin, BaseEstimator):
 
         return self
 
-
     def _assign_clusters(self, data):
-        distances = np.array([[euclidean(point, centroid) for centroid in self.centroids_] for point in data])
+        distances = np.array(
+            [[euclidean(point, centroid) for centroid in self.centroids_] for point in data]
+        )
         return np.argmin(distances, axis=1)
