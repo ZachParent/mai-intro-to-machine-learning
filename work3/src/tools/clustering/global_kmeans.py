@@ -5,9 +5,10 @@ from sklearn.base import BaseEstimator, ClusterMixin
 from scipy.spatial.distance import euclidean
 from tools.clustering.kmeans import KMeans
 from scipy.spatial.distance import cdist
+from tools.config import N_CLUSTERS
 
 GlobalKmeansParams = {
-    "n_clusters": [2, 3, 4, 5, 6, 7, 8, 9, 10],
+    "n_clusters": N_CLUSTERS,
 }
 
 class GlobalKMeans(ClusterMixin, BaseEstimator):

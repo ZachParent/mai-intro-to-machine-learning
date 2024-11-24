@@ -2,27 +2,35 @@ import random
 import numpy as np
 import pandas as pd
 from scipy.spatial.distance import euclidean
+from sklearn.base import BaseEstimator, ClusterMixin
+from tools.config import N_CLUSTERS, RANDOM_STATE
 
 KMeansParamsGrid = {
-    "k": [2, 3, 4, 5, 6, 7, 8, 9, 10],
+    "n_clusters": N_CLUSTERS,
+    "max_iterations": [100, 300, 500],
+    "tolerance": [1e-5, 1e-4, 1e-3],
+    "random_state": RANDOM_STATE,
 }
 
-class KMeans:
-    def __init__(self, **kwargs):
-        self.k = kwargs.get("k", 3)
-        self.max_iterations = kwargs.get("max_iterations", 300)
-        self.tolerance = kwargs.get("tolerance", 1e-4)
-        self.centroids = kwargs.get("initial_centroids", None)
-        self.clusters = None
+class KMeans(ClusterMixin, BaseEstimator):
+    def __init__(self, n_clusters=2, max_iterations=300, tolerance=1e-4, random_state=None, initial_centroids=None):
+        self.n_clusters = n_clusters
+        self.max_iterations = max_iterations
+        self.tolerance = tolerance
+        self.random_state = random_state
+        self.centroids = initial_centroids
+        self.labels_ = None
 
     def fit(self, data):
         if isinstance(data, pd.DataFrame):
             data = data.to_numpy()
 
-        n_samples, n_features = data.shape
+        n_samples, _ = data.shape
 
         if self.centroids is None:
-            self.centroids = data[random.sample(range(n_samples), self.k)]
+            if self.random_state is not None:
+                random.seed(self.random_state)
+            self.centroids = data[random.sample(range(n_samples), self.n_clusters)]
         else:
             self.centroids = self.centroids = np.array(self.centroids)
 
@@ -34,7 +42,7 @@ class KMeans:
             new_centroids = np.array([
                 data[clusters == i].mean(axis=0) if len(data[clusters == i]) > 0 else
                 data[random.sample(range(n_samples), 1)][0]
-                for i in range(self.k)
+                for i in range(self.n_clusters)
             ])
 
             # Check for convergence
@@ -42,13 +50,10 @@ class KMeans:
                 break
 
             self.centroids = new_centroids
-            self.clusters = clusters
+            self.labels_ = clusters
 
-        return self.centroids, self.clusters
+        return self
 
-    def fit_predict(self, data):
-        _, clusters = self.fit(data)
-        return clusters
 
     def _assign_clusters(self, data):
         distances = np.array([[euclidean(point, centroid) for centroid in self.centroids] for point in data])

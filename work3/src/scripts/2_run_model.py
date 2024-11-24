@@ -3,6 +3,7 @@ import pandas as pd
 import os
 from itertools import product
 import logging
+import time
 from tools.clustering import (
     KMeans,
     FuzzyCMeans,
@@ -18,6 +19,8 @@ from tools.clustering import (
     SpectralClusteringParamsGrid
 )
 from tools.config import PREPROCESSED_DATA_DIR, CLUSTERED_DATA_DIR
+from tools.clustering import MODEL_MAP, PARAMS_GRID_MAP
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -34,8 +37,8 @@ parser.add_argument(
     choices=[
         "kmeans",
         "fuzzy_cmeans",
-        "improved_kmeans_A",
-        "improved_kmeans_B",
+        "gmeans",
+        "global_kmeans",
         "optics",
         "spectral_clustering",
     ],
@@ -48,16 +51,16 @@ logger = logging.getLogger(__name__)
 model_map = {
     "kmeans": KMeans,
     "fuzzy_cmeans": FuzzyCMeans,
-    "improved_kmeans_A": GMeans,
-    "improved_kmeans_B": GlobalKMeans,
+    "gmeans": GMeans,
+    "global_kmeans": GlobalKMeans,
     "optics": Optics,
     "spectral_clustering": SpectralClustering,
 }
 params_grid_map = {
     "kmeans": KMeansParamsGrid,
     "fuzzy_cmeans": FuzzyCMeansParamsGrid,
-    "improved_kmeans_A": GMeansParamsGrid,
-    "improved_kmeans_B": GlobalKmeansParams,
+    "gmeans": GMeansParamsGrid,
+    "global_kmeans": GlobalKmeansParams,
     "optics": OpticsParamsGrid,
     "spectral_clustering": SpectralClusteringParamsGrid,
 }
@@ -78,16 +81,22 @@ def main():
     clustered_data_dir = CLUSTERED_DATA_DIR / args.dataset / args.model
     os.makedirs(clustered_data_dir, exist_ok=True)
 
-    params_grid = params_grid_map[args.model]
+    params_grid = PARAMS_GRID_MAP[args.model]
+    runtimes = []
     for params in product(*params_grid.values()):
         param_dict = dict(zip(params_grid.keys(), params))
-        model = model_map[args.model](**param_dict)
+        model = MODEL_MAP[args.model](**param_dict)
 
         logger.info(
-            f"Running model {args.model} with params: {', '.join(f'{k}={v}' for k, v in param_dict.items())}"
+            f"Running {args.dataset}/{args.model}, params: {', '.join(f'{k}={v}' for k, v in param_dict.items())}..."
         )
-
+        tik = time.time()
         clusters = model.fit_predict(features_data)
+        tok = time.time()
+
+        logger.info(f"Time taken: {tok - tik} seconds")
+        runtime_data = {"dataset": args.dataset, "model": args.model, **param_dict, "runtime": tok - tik}
+        runtimes.append(runtime_data)
 
         clustered_data = pd.concat(
             [preprocessed_data.iloc[:, :-1], pd.Series(clusters, name="cluster")], axis=1
@@ -96,6 +105,8 @@ def main():
         clustered_data_path = clustered_data_dir / f"{','.join(f'{k}={v}' for k, v in param_dict.items())}.csv"
         clustered_data.to_csv(clustered_data_path, index=False)
 
+    runtime_df = pd.DataFrame(runtimes)
+    runtime_df.to_csv(clustered_data_dir / "runtime.csv", index=False)
 
 if __name__ == "__main__":
     main()
