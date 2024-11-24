@@ -17,7 +17,6 @@ class ImprovedKMeansB(ClusterMixin, BaseEstimator):
         self.n_init = n_init
         self.centroids = None
         self.clusters = None
-
     def fit(self, data):
         if isinstance(data, pd.DataFrame):
             data = data.to_numpy()
