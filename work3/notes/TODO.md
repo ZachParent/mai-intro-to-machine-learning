@@ -8,7 +8,7 @@
         * [ ] (Carlos) Preprocessing
         * [ ] ~~(Zach) Synthetic data~~
         * [ ] (Sheena) Evaluation methods
-        * [ ] (Sheena) k-means
+        * [ ] (Sheena) k-means (DONE by Tuesday 2024-11-26)
         * [ ] (Kacper) gmeans
         * [ ] (Kacper) global_kmeans
         * [ ] (Carlos) Fuzzy c-means
