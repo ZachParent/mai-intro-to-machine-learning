@@ -9,3 +9,5 @@ METRICS_DATA_PATH = DATA_DIR / "3_metrics.csv"
 
 N_CLUSTERS = [2, 3, 5, 10, 11, 12]
 RANDOM_STATE = [1, 2, 3, 4, 5]
+MAX_ITERATIONS = [100, 200, 300]
+TOLERANCE = [1e-4, 1e-5, 1e-6]

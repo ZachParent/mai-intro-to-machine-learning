@@ -4,7 +4,7 @@ import logging
 from sklearn.base import BaseEstimator, ClusterMixin
 from tools.clustering.kmeans import KMeans
 from scipy.spatial.distance import cdist
-from tools.config import N_CLUSTERS
+from tools.config import N_CLUSTERS, MAX_ITERATIONS, TOLERANCE, RANDOM_STATE
 
 logger = logging.getLogger(__name__)
 import os
@@ -12,9 +12,10 @@ import pickle
 from pathlib import Path
 
 GlobalKmeansParams = {
-    "n_clusters": [2, 3, 4, 5, 8, 10],
-    "max_iterations": [100],
-    "random_state": [1],
+    'n_clusters': N_CLUSTERS,
+    'max_iterations': MAX_ITERATIONS,
+    'tolerance': TOLERANCE,
+    'random_state': RANDOM_STATE
 }
 
 class GlobalKMeans(ClusterMixin, BaseEstimator):
