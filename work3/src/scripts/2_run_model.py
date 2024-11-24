@@ -3,6 +3,20 @@ import pandas as pd
 import os
 from itertools import product
 import logging
+from tools.clustering import (
+    KMeans,
+    FuzzyCMeans,
+    GMeans,
+    GlobalKMeans,
+    Optics,
+    SpectralClustering,
+    KMeansParamsGrid,
+    FuzzyCMeansParamsGrid,
+    GMeansParamsGrid,
+    GlobalKmeansParams,
+    OpticsParamsGrid,
+    SpectralClusteringParamsGrid
+)
 from tools.config import PREPROCESSED_DATA_DIR, CLUSTERED_DATA_DIR
 from tools.clustering import MODEL_MAP, PARAMS_GRID_MAP
 
@@ -32,6 +46,23 @@ parser.add_argument(
 parser.add_argument("--verbose", "-v", action="store_true", help="Whether to print verbose output")
 
 logger = logging.getLogger(__name__)
+
+model_map = {
+    "kmeans": KMeans,
+    "fuzzy_cmeans": FuzzyCMeans,
+    "improved_kmeans_A": GMeans,
+    "improved_kmeans_B": GlobalKMeans,
+    "optics": Optics,
+    "spectral_clustering": SpectralClustering,
+}
+params_grid_map = {
+    "kmeans": KMeansParamsGrid,
+    "fuzzy_cmeans": FuzzyCMeansParamsGrid,
+    "improved_kmeans_A": GMeansParamsGrid,
+    "improved_kmeans_B": GlobalKmeansParams,
+    "optics": OpticsParamsGrid,
+    "spectral_clustering": SpectralClusteringParamsGrid,
+}
 
 
 def main():
