@@ -18,6 +18,8 @@ from tools.clustering import (
     SpectralClusteringParamsGrid
 )
 from tools.config import PREPROCESSED_DATA_DIR, CLUSTERED_DATA_DIR
+from tools.clustering import MODEL_MAP, PARAMS_GRID_MAP
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -78,10 +80,10 @@ def main():
     clustered_data_dir = CLUSTERED_DATA_DIR / args.dataset / args.model
     os.makedirs(clustered_data_dir, exist_ok=True)
 
-    params_grid = params_grid_map[args.model]
+    params_grid = PARAMS_GRID_MAP[args.model]
     for params in product(*params_grid.values()):
         param_dict = dict(zip(params_grid.keys(), params))
-        model = model_map[args.model](**param_dict)
+        model = MODEL_MAP[args.model](**param_dict)
 
         logger.info(
             f"Running model {args.model} with params: {', '.join(f'{k}={v}' for k, v in param_dict.items())}"

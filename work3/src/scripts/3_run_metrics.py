@@ -2,13 +2,12 @@ import argparse
 
 import numpy as np
 import pandas as pd
-import os
 import logging
 from pathlib import Path
 
 from scipy.optimize import linear_sum_assignment
 from sklearn.metrics import confusion_matrix
-from tools.config import CLUSTERED_DATA_DIR, METRICS_DATA_DIR, PREPROCESSED_DATA_DIR
+from tools.config import CLUSTERED_DATA_DIR, PREPROCESSED_DATA_DIR, METRICS_DATA_PATH
 from tools.metrics import adjusted_rand_index, purity, davies_bouldin_index, f_measure
 
 parser = argparse.ArgumentParser()
@@ -39,8 +38,7 @@ def hungarian_algorithm(true_labels, predicted_labels):
 
     return matched_labels
 
-def compute_metrics(df: pd.DataFrame, dataset_name: str, model_name: str, params: dict) -> pd.DataFrame:
-    true_labels = load_true_labels(dataset_name)
+def compute_metrics(df: pd.DataFrame, true_labels: np.ndarray) -> pd.Series:
 
     predicted_labels = df['cluster'].values
 
@@ -52,12 +50,12 @@ def compute_metrics(df: pd.DataFrame, dataset_name: str, model_name: str, params
     f1 = f_measure(true_labels, matched_predicted_labels)
 
     metrics = {
-        "ARI": ari,
-        "Purity": pur,
-        "DBI": dbi,
-        "F1 Score": f1
+        "ari": ari,
+        "purity": pur,
+        "dbi": dbi,
+        "f_measure": f1
     }
-    return pd.DataFrame(metrics, index=[0])
+    return pd.Series(metrics, index=metrics.keys())
 
 def get_config_from_filepath(filepath: Path) -> dict:
     dataset_name = filepath.parent.parent.name
@@ -65,8 +63,8 @@ def get_config_from_filepath(filepath: Path) -> dict:
     params_str = filepath.stem.split(",")
     params = {param.split("=")[0]: param.split("=")[1] for param in params_str}
     return {
-        "dataset_name": dataset_name,
-        "model_name": model_name,
+        "dataset": dataset_name,
+        "model": model_name,
         "params": params,
     }
 
@@ -77,25 +75,29 @@ def main():
     else:
         logging.basicConfig(level=logging.WARNING)
 
-    os.makedirs(METRICS_DATA_DIR, exist_ok=True)
-
     filepaths = sorted(list(CLUSTERED_DATA_DIR.glob("**/*.csv")))
+    output_data = []
     for filepath in filepaths:
         clustered_data_config = get_config_from_filepath(filepath)
         logger.info(f"Computing metrics for config {clustered_data_config}")
 
+        curr_output_data = {
+            'dataset': clustered_data_config['dataset'],
+            'model': clustered_data_config['model'],
+        }
+
         clustered_data = pd.read_csv(filepath)
+        true_labels = load_true_labels(clustered_data_config["dataset"])
+        curr_metrics_data = compute_metrics(clustered_data, true_labels)
+        curr_output_data.update(curr_metrics_data)
 
-        metrics_data = compute_metrics(clustered_data, **clustered_data_config)
+        for param, value in clustered_data_config["params"].items():
+            curr_output_data[param] = value
 
-        metrics_data_dir = (
-            METRICS_DATA_DIR
-            / clustered_data_config["dataset_name"]
-            / clustered_data_config["model_name"]
-        )
-        os.makedirs(metrics_data_dir, exist_ok=True)
-        metrics_data_path = metrics_data_dir / f"{filepath.stem}.csv"
-        metrics_data.to_csv(metrics_data_path, index=False)
+        output_data.append(curr_output_data)
+
+    metrics_data_path = METRICS_DATA_PATH
+    pd.DataFrame(output_data).to_csv(metrics_data_path, index=False)
 
 if __name__ == "__main__":
     main()
