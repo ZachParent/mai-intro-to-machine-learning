@@ -31,37 +31,37 @@ mai-iml-work3/
 │   │   └── vowel.csv
 │   ├── 2_clustered/
 │   │   ├── hepatitis/
-│   │   │   ├── improved_kmeans_A/
-│   │   │   ├── improved_kmeans_B/
+│   │   │   ├── gmeans/
+│   │   │   ├── global_kmeans/
 │   │   │   └── kmeans/
 │   │   ├── mushroom/
-│   │   │   ├── improved_kmeans_A/
-│   │   │   ├── improved_kmeans_B/
+│   │   │   ├── gmeans/
+│   │   │   ├── global_kmeans/
 │   │   │   └── kmeans/
 │   │   ├── synthetic/
-│   │   │   ├── improved_kmeans_A/
-│   │   │   ├── improved_kmeans_B/
+│   │   │   ├── gmeans/
+│   │   │   ├── global_kmeans/
 │   │   │   └── kmeans/
 │   │   └── vowel/
-│   │   │   ├── improved_kmeans_A/
-│   │   │   ├── improved_kmeans_B/
+│   │   │   ├── gmeans/
+│   │   │   ├── global_kmeans/
 │   │   │   └── kmeans/
 │   ├── 3_metrics/
 │   │   ├── hepatitis/
-│   │   │   ├── improved_kmeans_A/
-│   │   │   ├── improved_kmeans_B/
+│   │   │   ├── gmeans/
+│   │   │   ├── global_kmeans/
 │   │   │   └── kmeans/
 │   │   ├── mushroom/
-│   │   │   ├── improved_kmeans_A/
-│   │   │   ├── improved_kmeans_B/
+│   │   │   ├── gmeans/
+│   │   │   ├── global_kmeans/
 │   │   │   └── kmeans/
 │   │   ├── synthetic/
-│   │   │   ├── improved_kmeans_A/
-│   │   │   ├── improved_kmeans_B/
+│   │   │   ├── gmeans/
+│   │   │   ├── global_kmeans/
 │   │   │   └── kmeans/
 │   │   └── vowel/
-│   │   │   ├── improved_kmeans_A/
-│   │   │   ├── improved_kmeans_B/
+│   │   │   ├── gmeans/
+│   │   │   ├── global_kmeans/
 │   │   │   └── kmeans/
 │   └── datasets/
 ├── notebooks/
