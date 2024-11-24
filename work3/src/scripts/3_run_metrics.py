@@ -41,6 +41,7 @@ def hungarian_algorithm(true_labels, predicted_labels):
 def compute_metrics(df: pd.DataFrame, true_labels: np.ndarray) -> pd.Series:
 
     predicted_labels = df['cluster'].values
+    n_clusters = len(np.unique(predicted_labels))
 
     matched_predicted_labels = hungarian_algorithm(true_labels, predicted_labels)
 
@@ -53,7 +54,8 @@ def compute_metrics(df: pd.DataFrame, true_labels: np.ndarray) -> pd.Series:
         "ari": ari,
         "purity": pur,
         "dbi": dbi,
-        "f_measure": f1
+        "f_measure": f1,
+        "n_clusters": n_clusters
     }
     return pd.Series(metrics, index=metrics.keys())
 
