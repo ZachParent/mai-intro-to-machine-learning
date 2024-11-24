@@ -27,9 +27,9 @@
     * [ ] (Zach) Conclusion
 
 ## TODO by Monday 2024-11-25
-* [ ] Optimize implementations
+* [x] Optimize implementations
     * [x] (Carlos) Fuzzy c-means
-    * [ ] (Kacper) global_kmeans
+    * [x] (Kacper) global_kmeans
 * [ ] Improve results
     * [ ] (Kacper) gmeans
 * [ ] Choose params
@@ -37,7 +37,7 @@
     * [ ] (Zach) Spectral clustering
     * [ ] (Sheena) k-means
     * [ ] (Kacper) gmeans
-    * [ ] (Kacper) global_kmeans
+    * [x] (Kacper) global_kmeans
     * [ ] (Carlos) Fuzzy c-means
 * [ ] (Carlos) Plots
 
