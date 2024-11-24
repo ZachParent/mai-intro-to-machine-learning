@@ -36,11 +36,10 @@ run-preprocessing:
 	@echo ">>> Running preprocessing for all datasets..."
 	$(PYTHON_INTERPRETER) src/scripts/1_run_preprocessing.py
 
-# TODO: run for all datasets
 ## Run all models for all datasets
 .PHONY: run-models
 run-models:
-	for dataset in synthetic; do \
+	for dataset in synthetic hepatitis mushroom; do \
 		for model in kmeans fuzzy_cmeans gmeans global_kmeans optics spectral_clustering; do \
 			python src/scripts/2_run_model.py --dataset=$$dataset --model=$$model --verbose; \
 		done; \
