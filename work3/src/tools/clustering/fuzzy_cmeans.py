@@ -1,9 +1,9 @@
 import numpy as np
 from sklearn.base import BaseEstimator, ClusterMixin
-
+from tools.config import N_CLUSTERS
 
 FuzzyCMeansParamsGrid = {
-    "n_clusters": [2, 3, 4, 5, 6, 7, 8, 9, 10],
+    "n_clusters": N_CLUSTERS,
     "fuzzyness": [1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5]
 }
 
@@ -58,13 +58,11 @@ class FuzzyCMeans(ClusterMixin, BaseEstimator):
         return self
 
     def _initialize_membership(self, X):
-        print('initialize membership')
         U = np.random.rand(len(X), self.n_clusters)
         U = U / np.sum(U, axis=1, keepdims=True)  # Normalize to satisfy probabilistic constraint
         return U
 
     def _compute_distances(self, X):
-        print('compute distances')
         distances = np.zeros((len(X), self.n_clusters))
         for i in range(self.n_clusters):
             # print(self.cluster_prototypes_)
@@ -72,14 +70,12 @@ class FuzzyCMeans(ClusterMixin, BaseEstimator):
         return distances
 
     def _update_membership(self, distances):
-        print('update membership')
         m = self.fuzzyness
         U = np.power(distances, -2 / (m - 1))
         U = U / np.sum(U, axis=1, keepdims=True)  # Normalize
         return U
 
     def _apply_suppression(self, U, distances):
-        print('apply suppression')
         suppressed_U = np.zeros_like(U)
         winner_indices = np.argmax(U, axis=1)
 
@@ -93,7 +89,6 @@ class FuzzyCMeans(ClusterMixin, BaseEstimator):
         return suppressed_U
 
     def _compute_suppression_rate(self, u_w, distances_k, w):
-        print(f'compute suppression rate with {self.suppression_rule}')
         m = self.fuzzyness
         rule = self.suppression_rule
         param = self.suppression_param
@@ -116,7 +111,6 @@ class FuzzyCMeans(ClusterMixin, BaseEstimator):
             raise ValueError("Invalid suppression rule")
 
     def _update_prototypes(self, X, U):
-        print('update prototypes')
         m = self.fuzzyness
         U_m = np.power(U, m)
         new_prototypes = np.dot(U_m.T, X) / np.sum(U_m, axis=0, keepdims=True).T
