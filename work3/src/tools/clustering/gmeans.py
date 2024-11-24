@@ -1,16 +1,20 @@
 import numpy as np
 from sklearn.base import BaseEstimator, ClusterMixin
 from scipy.stats import anderson
-from sklearn.preprocessing import scale
 import pandas as pd
-from tools.clustering.kmeans import KMeans
 from sklearn.decomposition import PCA
+import logging
+from tools.clustering.kmeans import KMeans
+from tools.config import RANDOM_STATE
+
+
+logger = logging.getLogger(__name__)
 
 GMeansParamsGrid = {
     "strictness": [0, 1, 2, 3, 4],     
     "min_obs": [1, 5, 10],          
     "max_depth": [5, 10, 15],    
-    "random_state": [1]
+    "random_state": RANDOM_STATE
 }
 
 class GMeans(ClusterMixin, BaseEstimator):
@@ -88,13 +92,23 @@ class GMeans(ClusterMixin, BaseEstimator):
         """
         Test if the data follows a Gaussian distribution using the Anderson-Darling test.
         """
-        pca = PCA(n_components=1, random_state=self.random_state)
-        projected_data = pca.fit_transform(data).flatten()
+        # Scale the data first to standardize the variance
+        n_features = data.shape[1]
+        
+        # Project data onto principal components
+        pca = PCA(n_components=min(n_features, len(data)-1), random_state=self.random_state)
+        projected_data = pca.fit_transform(data)
+        
+        # Test each principal component
+        for dim in range(projected_data.shape[1]):
+            test_result = anderson(projected_data[:, dim])
 
-        test_result = anderson(projected_data)
-
-        # Compare test statistic with critical values
-        return test_result.statistic < test_result.critical_values[self.strictness]
+            # If any dimension fails the Gaussianity test, return False
+            if test_result.statistic >= test_result.critical_values[self.strictness]:
+                return False
+            
+        # All dimensions passed the test
+        return True
 
     def fit_predict(self, data):
         """
