@@ -24,40 +24,32 @@ class GlobalKMeans(ClusterMixin, BaseEstimator):
     def fit(self, data):
         if isinstance(data, pd.DataFrame):
             data = data.to_numpy()
-        
+
         # Initial cluster
-        kmeans = KMeans(n_clusters=1,
-                        max_iterations=self.max_iterations,
-                        tolerance=self.tolerance
-                        ).fit(data)
+        kmeans = KMeans(n_clusters=1, max_iterations=self.max_iterations,
+                        tolerance=self.tolerance, random_state=self.random_state).fit(data)
 
         self.centroids[1] = kmeans.centroids
         self.clusters[1] = kmeans.labels_
+        min_distances = np.min(cdist(data, kmeans.centroids), axis=1)
         self.inertia[1] = self._compute_wcss(data, kmeans.labels_, kmeans.centroids)
 
-        # Repeat the process until we have n_clusters centroids
+        # Expand clusters iteratively
         for k in range(2, self.n_clusters + 1):
-            # Fast Global k-means optimization: Calculate distances to existing centroids
-            distances = cdist(data, self.centroids[k-1])
-            min_distances = np.min(distances, axis=1)
-            
-            # Select top N candidates (e.g., sqrt(n) points with highest min_distances)
             n_candidates = int(np.sqrt(len(data)))
-            candidate_indices = np.argsort(min_distances)[-n_candidates:]
-            
-            best_centroids, best_clusters = None, None
-            min_inertia = float('inf')
+            candidate_indices = self._select_candidates(data, min_distances, n_candidates)
 
-            # Only try the most promising candidates
+            best_centroids, best_clusters, min_inertia = None, None, float('inf')
+
             for idx in candidate_indices:
-                current_centroids = np.vstack((self.centroids[k - 1], data[idx]))
-                
-                # Perform k-means with the new centroids
-                kmeans = KMeans(k=k, centroids=current_centroids, 
-                              max_iterations=self.max_iterations, tolerance=self.tolerance, random_state=self.random_state)
-                centroids, clusters = kmeans.fit(data)
+                current_centroids = np.vstack((self.centroids[k-1], data[idx]))
+                kmeans = KMeans(
+                    n_clusters=k, initial_centroids=current_centroids,
+                    max_iterations=self.max_iterations, tolerance=self.tolerance,
+                    random_state=self.random_state
+                ).fit(data)
 
-                inertia = self._compute_wcss(data, clusters, centroids)
+                inertia = self._compute_wcss(data, kmeans.labels_, kmeans.centroids)
 
                 if inertia < min_inertia:
                     min_inertia = inertia
@@ -68,17 +60,26 @@ class GlobalKMeans(ClusterMixin, BaseEstimator):
             self.clusters[k] = best_clusters
             self.inertia[k] = min_inertia
 
-        return self.centroids, self.clusters
+            # Efficiently update min_distances
+            new_centroid = best_centroids[-1].reshape(1, -1)
+            distances_to_new_centroid = np.linalg.norm(data - new_centroid, axis=1)
+            min_distances = np.minimum(min_distances, distances_to_new_centroid)
+
+        return self
+    
+    def _select_candidates(self, min_distances, n_candidates):
+        """
+        Select top candidates based on minimum distances using np.argpartition
+        for improved efficiency.
+        """
+        candidate_indices = np.argpartition(min_distances, -n_candidates)[-n_candidates:]
+        return candidate_indices
+    
 
     def _compute_wcss(self, X, labels, centroids):
-        """Compute the Within-Cluster Sum of Squares (WCSS)."""
-        wcss = 0
-        for idx in range(len(centroids)):
-            cluster_points = X[labels == idx]
-            if len(cluster_points) > 0:
-                centroid = centroids[idx]
-                wcss += np.sum((cluster_points - centroid) ** 2)
-        return wcss
+        """Vectorized WCSS computation."""
+        return np.sum((X - centroids[labels]) ** 2)
+
 
     def fit_predict(self, data):
         self.fit(data)
