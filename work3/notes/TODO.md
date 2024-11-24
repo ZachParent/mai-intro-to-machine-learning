@@ -1,21 +1,12 @@
 # Project is due 2024-12-08
 
-## TODO by _______
-* [ ] Optimize implementations
-    * [ ] (Carlos) Fuzzy c-means
-    * [ ] (Kacper) gmeans
-    * [ ] (Kacper) global_kmeans
-* [ ] Choose params
-    * [ ] (Zach) Optics
-    * [ ] (Zach) Spectral clustering
-    * [ ] (Sheena) k-means 
-* [ ] (Carlos) Plots
+## TODO by Friday 2024-11-29
 * [ ] report
-    * [ ] () Introduction
-    * [ ] () Data
+    * [ ] (Sheena) Introduction
+    * [ ] (Carlos) Data
     * [ ] Methods
         * [ ] (Carlos) Preprocessing
-        * [ ] (Zach) Synthetic data
+        * [ ] ~~(Zach) Synthetic data~~
         * [ ] (Sheena) Evaluation methods
         * [ ] (Sheena) k-means
         * [ ] (Kacper) gmeans
@@ -23,16 +14,32 @@
         * [ ] (Carlos) Fuzzy c-means
         * [ ] (Zach) Optics
         * [ ] (Zach) Spectral clustering
-    * [ ] Results (Zach)
-    * [ ] Discussion
+    * [ ] Results and Analysis
         * [ ] (Sheena) k-means
+            * [ ] Results
+            * [ ] Analysis
         * [ ] (Kacper) gmeans
         * [ ] (Kacper) global_kmeans
         * [ ] (Carlos) Fuzzy c-means
         * [ ] (Zach) Optics
         * [ ] (Zach) Spectral clustering
-        * [ ] () Summary
-    * [ ] Conclusion
+        * [ ] (Kacper) Summary
+    * [ ] (Zach) Conclusion
+
+## TODO by Monday 2024-11-25
+* [ ] Optimize implementations
+    * [x] (Carlos) Fuzzy c-means
+    * [ ] (Kacper) global_kmeans
+* [ ] Improve results
+    * [ ] (Kacper) gmeans
+* [ ] Choose params
+    * [ ] (Zach) Optics
+    * [ ] (Zach) Spectral clustering
+    * [ ] (Sheena) k-means
+    * [ ] (Kacper) gmeans
+    * [ ] (Kacper) global_kmeans
+    * [ ] (Carlos) Fuzzy c-means
+* [ ] (Carlos) Plots
 
 
 ## TODO by 2024-11-23
@@ -40,7 +47,8 @@
 * [ ] (Carlos) Fuzzy c-means
 * [x] (Carlos) Preprocessing
 * [ ] (Carlos) Plots
-* [ ] (Kacper) Improved k-means
+* [x] (Kacper) global kmeans (is slow)
+* [x] (Kacper) gmeans (works badly)
 * [x] (Kacper) Makefile
 * [x] (Kacper) README.md
 * [x] (Sheena) k-means
