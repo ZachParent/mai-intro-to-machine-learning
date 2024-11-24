@@ -1,9 +1,12 @@
 import numpy as np
 import pandas as pd
+import logging
 from sklearn.base import BaseEstimator, ClusterMixin
 from tools.clustering.kmeans import KMeans
 from scipy.spatial.distance import cdist
 from tools.config import N_CLUSTERS
+
+logger = logging.getLogger(__name__)
 import os
 import pickle
 from pathlib import Path
@@ -99,11 +102,11 @@ class GlobalKMeans(ClusterMixin, BaseEstimator):
                     random_state=self.random_state
                 ).fit(data)
 
-                inertia = self._compute_wcss(data, kmeans.labels_, kmeans.centroids)
+                inertia = self._compute_wcss(data, kmeans.labels_, kmeans.centroids_)
 
                 if inertia < min_inertia:
                     min_inertia = inertia
-                    best_centroids = kmeans.centroids
+                    best_centroids = kmeans.centroids_
                     best_clusters = kmeans.labels_
 
             self.centroids[k] = best_centroids

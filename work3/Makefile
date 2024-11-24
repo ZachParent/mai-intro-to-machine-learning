@@ -12,12 +12,6 @@ SUBMISSION_NAME = ${PROJECT_NAME}-KacperPoniatowski-ZacharyParent-SheenaLang-Car
 ZIP_FILE_NAME = $(SUBMISSION_NAME).zip
 
 #################################################################################
-# DATA DEPENDENCIES                                                             #
-#################################################################################	
-
-
-
-#################################################################################
 # COMMANDS                                                                      #
 #################################################################################
 
@@ -25,28 +19,11 @@ ZIP_FILE_NAME = $(SUBMISSION_NAME).zip
 .PHONY: all
 all: clean-outputs run-preprocessing run-models run-metrics run-analysis
 
-.PHONY: run-preprocessing
-run-preprocessing:
-	@echo ">>> Running preprocessing for all datasets..."
-	$(PYTHON_INTERPRETER) src/scripts/1_run_preprocessing.py
-
 ## Delete all compiled Python files
 .PHONY: clean
 clean:
 	find . -type f -name "*.py[co]" -delete
 	find . -type d -name "__pycache__" -delete
-
-## Perform statistical analysis on results
-.PHONY: run-analysis
-run-analysis:
-	@echo ">>> Performing statistical analysis on results..."
-	$(PYTHON_INTERPRETER) src/scripts/4_run_analysis.py --verbose
-
-## Calculate metrics for all clustered datasets
-.PHONY: run-metrics
-run-metrics:
-	@echo ">>> Calculating metrics for all clustered datasets..."
-	$(PYTHON_INTERPRETER) src/scripts/3_run_metrics.py --verbose
 
 ## Clean output directories
 .PHONY: clean-outputs
@@ -54,15 +31,32 @@ clean-outputs:
 	rm -rf data/2_clustered/*
 	rm -rf data/3_metrics/*
 
-# TODO: enable gmeans and global_kmeans
+.PHONY: run-preprocessing
+run-preprocessing:
+	@echo ">>> Running preprocessing for all datasets..."
+	$(PYTHON_INTERPRETER) src/scripts/1_run_preprocessing.py
+
+# TODO: run for all datasets
 ## Run all models for all datasets
 .PHONY: run-models
 run-models:
-	for dataset in synthetic hepatitis mushroom vowel; do \
+	for dataset in synthetic; do \
 		for model in kmeans fuzzy_cmeans gmeans global_kmeans optics spectral_clustering; do \
 			python src/scripts/2_run_model.py --dataset=$$dataset --model=$$model --verbose; \
 		done; \
 	done
+
+## Calculate metrics for all clustered datasets
+.PHONY: run-metrics
+run-metrics:
+	@echo ">>> Calculating metrics for all clustered datasets..."
+	$(PYTHON_INTERPRETER) src/scripts/3_run_metrics.py --verbose
+
+## Perform statistical analysis on results
+.PHONY: run-analysis
+run-analysis:
+	@echo ">>> Performing statistical analysis on results..."
+	$(PYTHON_INTERPRETER) src/scripts/4_run_analysis.py --verbose
 
 ## Lint using flake8 and black (use `make format` to do formatting)
 .PHONY: lint
