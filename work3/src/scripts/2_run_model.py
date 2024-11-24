@@ -6,14 +6,14 @@ import logging
 from tools.clustering import (
     KMeans,
     FuzzyCMeans,
-    ImprovedKMeansA,
-    ImprovedKMeansB,
+    GMeans,
+    GlobalKMeans,
     Optics,
     SpectralClustering,
     KMeansParamsGrid,
     FuzzyCMeansParamsGrid,
-    ImprovedKMeansAParamsGrid,
-    ImprovedKMeansBParamsGrid,
+    GMeansParamsGrid,
+    GlobalKmeansParams,
     OpticsParamsGrid,
     SpectralClusteringParamsGrid
 )
@@ -48,16 +48,16 @@ logger = logging.getLogger(__name__)
 model_map = {
     "kmeans": KMeans,
     "fuzzy_cmeans": FuzzyCMeans,
-    "improved_kmeans_A": ImprovedKMeansA,
-    "improved_kmeans_B": ImprovedKMeansB,
+    "improved_kmeans_A": GMeans,
+    "improved_kmeans_B": GlobalKMeans,
     "optics": Optics,
     "spectral_clustering": SpectralClustering,
 }
 params_grid_map = {
     "kmeans": KMeansParamsGrid,
     "fuzzy_cmeans": FuzzyCMeansParamsGrid,
-    "improved_kmeans_A": ImprovedKMeansAParamsGrid,
-    "improved_kmeans_B": ImprovedKMeansBParamsGrid,
+    "improved_kmeans_A": GMeansParamsGrid,
+    "improved_kmeans_B": GlobalKmeansParams,
     "optics": OpticsParamsGrid,
     "spectral_clustering": SpectralClusteringParamsGrid,
 }
