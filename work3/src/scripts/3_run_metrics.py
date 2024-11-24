@@ -73,16 +73,43 @@ def load_runtime_df():
     return pd.concat([pd.read_csv(filepath) for filepath in runtime_filepaths])
 
 def get_runtime(runtime_df: pd.DataFrame, clustered_data_config: dict):
+    logging.info(f"Clustered data config: {clustered_data_config}")
+    logging.info(f"DataFrame columns: {runtime_df.columns}")
+    
     try:
+        # First filter by dataset and model
         condition = (
             (runtime_df["dataset"] == clustered_data_config["dataset"]) &
             (runtime_df["model"] == clustered_data_config["model"])
         )
-        for k, v in clustered_data_config["params"].items():
-            condition = condition & (runtime_df[k].astype(str) == v)
         
-        return runtime_df[condition]["runtime"].values[0]
-    except (KeyError, IndexError) as e:
+        intermediate_df = runtime_df[condition]
+        logging.info(f"After dataset/model filter: {len(intermediate_df)} rows")
+        
+        # Then add each parameter condition
+        for k, v in clustered_data_config["params"].items():
+            if k in runtime_df.columns:
+                # Convert both DataFrame values and config value to float for numeric comparison
+                try:
+                    value = float(v)
+                    condition = condition & (runtime_df[k] == value)
+                except ValueError:
+                    condition = condition & (runtime_df[k].astype(str) == str(v))
+                
+                intermediate_df = runtime_df[condition]
+                logging.info(f"After adding {k}={v} condition: {len(intermediate_df)} rows")
+            else:
+                logging.warning(f"Parameter {k} not found in runtime DataFrame columns")
+        
+        runtime_df = runtime_df[condition]
+        
+        if len(runtime_df) == 0:
+            logger.warning(f"No matching rows found for config {clustered_data_config}")
+            logger.info(f"Sample of runtime_df:\n{runtime_df.head()}")
+            return np.nan
+            
+        return runtime_df["runtime"].values[0]
+    except KeyError as e:
         logger.warning(f"Runtime not found for config {clustered_data_config}. Error: {e}")
         return np.nan
 
@@ -97,7 +124,7 @@ def main():
     runtime_df = load_runtime_df()
     filepaths = sorted(list(CLUSTERED_DATA_DIR.glob("**/*.csv")))
     filepaths = [filepath for filepath in filepaths if "runtime.csv" not in filepath.name]
-    filepaths = [filepath for filepath in filepaths if filepath.match("**/synthetic/kmeans/*.csv")]
+    # filepaths = [filepath for filepath in filepaths if filepath.match("**/synthetic/kmeans/*.csv")][:5]
 
     output_data = []
     for filepath in filepaths:
