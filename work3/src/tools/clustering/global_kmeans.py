@@ -66,11 +66,11 @@ class GlobalKMeans(ClusterMixin, BaseEstimator):
             kmeans = KMeans(n_clusters=1, max_iterations=self.max_iterations,
                           tolerance=self.tolerance, random_state=self.random_state).fit(data)
             
-            self.centroids[1] = kmeans.centroids
+            self.centroids[1] = kmeans.centroids_
             self.clusters[1] = kmeans.labels_
-            self.inertia[1] = self._compute_wcss(data, kmeans.labels_, kmeans.centroids)
+            self.inertia[1] = self._compute_wcss(data, kmeans.labels_, kmeans.centroids_)
             
-            distance_matrix = cdist(data, kmeans.centroids)
+            distance_matrix = cdist(data, kmeans.centroids_)
             
             # Cache the results
             self._save_to_cache(data_hash, 1, {
