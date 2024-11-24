@@ -28,3 +28,7 @@ def plot_clustering_results(X, true_labels, predicted_labels, metrics):
     plt.xlabel('Metric')
     plt.ylabel('Score')
     plt.show()
+
+
+
+# TODO: add interconnection plot: check work 2 code for plots page 27 in report
