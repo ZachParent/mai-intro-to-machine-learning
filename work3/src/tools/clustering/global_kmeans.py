@@ -1,20 +1,21 @@
-import random
 import numpy as np
 import pandas as pd
 from sklearn.base import BaseEstimator, ClusterMixin
-from scipy.spatial.distance import euclidean
 from tools.clustering.kmeans import KMeans
 from scipy.spatial.distance import cdist
 
 GlobalKmeansParams = {
-    "n_clusters": [2, 3, 4, 5, 6, 7, 8, 9, 10],
+    "n_clusters": [2, 3, 4, 5, 8, 10],
+    "max_iterations": [100],
+    "random_state": [1],
 }
 
 class GlobalKMeans(ClusterMixin, BaseEstimator):
-    def __init__(self, n_clusters: int, max_iterations=300, tolerance=1e-4):
+    def __init__(self, n_clusters: int, max_iterations=300, tolerance=1e-4, random_state=None):
         self.n_clusters = n_clusters
         self.tolerance = tolerance
         self.max_iterations = max_iterations
+        self.random_state = random_state
         self.centroids = {}  
         self.clusters = {}  
         self.inertia = {} 
@@ -22,8 +23,6 @@ class GlobalKMeans(ClusterMixin, BaseEstimator):
     def fit(self, data):
         if isinstance(data, pd.DataFrame):
             data = data.to_numpy()
-
-        print(f"Global K-Means: {self.n_clusters} clusters")
         
         # Initial cluster
         kmeans = KMeans(k=1, max_iterations=self.max_iterations, tolerance=self.tolerance)
@@ -35,27 +34,33 @@ class GlobalKMeans(ClusterMixin, BaseEstimator):
 
         # Repeat the process until we have n_clusters centroids
         for k in range(2, self.n_clusters + 1):
+            # Fast Global k-means optimization: Calculate distances to existing centroids
+            distances = cdist(data, self.centroids[k-1])
+            min_distances = np.min(distances, axis=1)
+            
+            # Select top N candidates (e.g., sqrt(n) points with highest min_distances)
+            n_candidates = int(np.sqrt(len(data)))
+            candidate_indices = np.argsort(min_distances)[-n_candidates:]
+            
             best_centroids, best_clusters = None, None
             min_inertia = float('inf')
 
-            for i, xi in enumerate(data):
-                # Add xi as a new centroid
-                current_centroids = np.vstack((self.centroids[k - 1], xi))
-
+            # Only try the most promising candidates
+            for idx in candidate_indices:
+                current_centroids = np.vstack((self.centroids[k - 1], data[idx]))
+                
                 # Perform k-means with the new centroids
-                kmeans = KMeans(k=k, centroids=current_centroids, max_iterations=self.max_iterations, tolerance=self.tolerance)
+                kmeans = KMeans(k=k, centroids=current_centroids, 
+                              max_iterations=self.max_iterations, tolerance=self.tolerance, random_state=self.random_state)
                 centroids, clusters = kmeans.fit(data)
 
-                # Compute WCSS
                 inertia = self._compute_wcss(data, clusters, centroids)
 
-                # Keep the best solution
                 if inertia < min_inertia:
                     min_inertia = inertia
                     best_centroids = centroids
                     best_clusters = clusters
 
-            # Store the best centroids and clusters for this k
             self.centroids[k] = best_centroids
             self.clusters[k] = best_clusters
             self.inertia[k] = min_inertia
