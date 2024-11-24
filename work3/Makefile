@@ -59,8 +59,8 @@ clean-outputs:
 ## Run all models for all datasets
 .PHONY: run-models
 run-models:
-	for dataset in hepatitis mushroom vowel synthetic; do \
-		for model in kmeans optics spectral_clustering; do \
+	for dataset in synthetic hepatitis mushroom vowel; do \
+		for model in kmeans fuzzy_cmeans gmeans global_kmeans optics spectral_clustering; do \
 			python src/scripts/2_run_model.py --dataset=$$dataset --model=$$model --verbose; \
 		done; \
 	done

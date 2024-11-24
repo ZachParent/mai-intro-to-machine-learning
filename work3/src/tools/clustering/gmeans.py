@@ -13,11 +13,8 @@ GMeansParamsGrid = {
     "max_depth": [5, 10, 15],        
 }
 
-# Optimisation notes:
-# - Further limit max_depth in params grid
-# - 
-
-class GMeans(BaseEstimator, ClusterMixin):
+class GMeans(ClusterMixin, BaseEstimator):
+=======
     def __init__(self, min_obs=10, max_depth=10, strictness=2):
         self.min_obs = min_obs
         self.max_depth = max_depth

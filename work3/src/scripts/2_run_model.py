@@ -74,7 +74,7 @@ def main():
         logging.basicConfig(level=logging.WARNING)
 
     preprocessed_data_path = PREPROCESSED_DATA_DIR / f"{args.dataset}.csv"
-    preprocessed_data = pd.read_csv(preprocessed_data_path)
+    preprocessed_data = pd.read_csv(preprocessed_data_path).iloc[:, :50]
 
     features_data = preprocessed_data.iloc[:, :-1]
 
