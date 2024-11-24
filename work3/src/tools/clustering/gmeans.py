@@ -14,6 +14,7 @@ GMeansParamsGrid = {
 }
 
 class GMeans(ClusterMixin, BaseEstimator):
+=======
     def __init__(self, min_obs=10, max_depth=10, strictness=2):
         self.min_obs = min_obs
         self.max_depth = max_depth
@@ -29,7 +30,7 @@ class GMeans(ClusterMixin, BaseEstimator):
             data = data.to_numpy()
 
         # Initialize with one cluster
-        kmeans = KMeans(k=1, max_iterations=300)
+        kmeans = KMeans(n_clusters=1, max_iterations=300)
         centroids, clusters = kmeans.fit(data)
 
         if centroids is None or clusters is None:
@@ -60,7 +61,7 @@ class GMeans(ClusterMixin, BaseEstimator):
                 continue
 
             # Apply KMeans with k=2 to split the cluster
-            sub_kmeans = KMeans(k=2, max_iterations=300)
+            sub_kmeans = KMeans(n_clusters=2, max_iterations=300)
             sub_centroids, sub_clusters = sub_kmeans.fit(cluster_data)
 
             if sub_centroids is None or sub_clusters is None:

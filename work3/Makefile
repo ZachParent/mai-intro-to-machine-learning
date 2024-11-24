@@ -40,21 +40,23 @@ clean:
 .PHONY: run-analysis
 run-analysis:
 	@echo ">>> Performing statistical analysis on results..."
-	$(PYTHON_INTERPRETER) src/scripts/4_run_analysis.py
+	$(PYTHON_INTERPRETER) src/scripts/4_run_analysis.py --verbose
 
 ## Calculate metrics for all clustered datasets
 .PHONY: run-metrics
 run-metrics:
 	@echo ">>> Calculating metrics for all clustered datasets..."
-	$(PYTHON_INTERPRETER) src/scripts/3_run_metrics.py
+	$(PYTHON_INTERPRETER) src/scripts/3_run_metrics.py --verbose
 
 ## Clean output directories
 .PHONY: clean-outputs
 clean-outputs:
-	rm -f data/1_preprocessed/*
-	rm -f data/2_clustered/*
-	rm -f data/3_metrics/*
+	rm -rf data/1_preprocessed/*
+	rm -rf data/2_clustered/*
+	rm -rf data/3_metrics/*
 
+# TODO: enable gmeans and global_kmeans
+## Run all models for all datasets
 .PHONY: run-models
 run-models:
 	for dataset in synthetic hepatitis mushroom vowel; do \

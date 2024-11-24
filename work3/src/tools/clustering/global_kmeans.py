@@ -3,6 +3,7 @@ import pandas as pd
 from sklearn.base import BaseEstimator, ClusterMixin
 from tools.clustering.kmeans import KMeans
 from scipy.spatial.distance import cdist
+from tools.config import N_CLUSTERS
 
 GlobalKmeansParams = {
     "n_clusters": [2, 3, 4, 5, 8, 10],
@@ -25,12 +26,14 @@ class GlobalKMeans(ClusterMixin, BaseEstimator):
             data = data.to_numpy()
         
         # Initial cluster
-        kmeans = KMeans(k=1, max_iterations=self.max_iterations, tolerance=self.tolerance)
-        initial_centroids, initial_clusters = kmeans.fit(data)
+        kmeans = KMeans(n_clusters=1,
+                        max_iterations=self.max_iterations,
+                        tolerance=self.tolerance
+                        ).fit(data)
 
-        self.centroids[1] = initial_centroids
-        self.clusters[1] = initial_clusters
-        self.inertia[1] = self._compute_wcss(data, initial_clusters, initial_centroids)
+        self.centroids[1] = kmeans.centroids
+        self.clusters[1] = kmeans.labels_
+        self.inertia[1] = self._compute_wcss(data, kmeans.labels_, kmeans.centroids)
 
         # Repeat the process until we have n_clusters centroids
         for k in range(2, self.n_clusters + 1):
@@ -58,8 +61,8 @@ class GlobalKMeans(ClusterMixin, BaseEstimator):
 
                 if inertia < min_inertia:
                     min_inertia = inertia
-                    best_centroids = centroids
-                    best_clusters = clusters
+                    best_centroids = kmeans.centroids
+                    best_clusters = kmeans.labels_
 
             self.centroids[k] = best_centroids
             self.clusters[k] = best_clusters
