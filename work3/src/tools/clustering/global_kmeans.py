@@ -13,6 +13,13 @@ GlobalKmeansParams = {
 
 class GlobalKMeans(ClusterMixin, BaseEstimator):
     def __init__(self, n_clusters: int, max_iterations=300, tolerance=1e-4, random_state=None):
+        if not isinstance(n_clusters, int) or n_clusters <= 0:
+            raise ValueError("n_clusters must be a positive integer.")
+        if max_iterations <= 0:
+            raise ValueError("max_iterations must be a positive integer.")
+        if tolerance <= 0:
+            raise ValueError("tolerance must be positive.")
+
         self.n_clusters = n_clusters
         self.tolerance = tolerance
         self.max_iterations = max_iterations
@@ -25,24 +32,37 @@ class GlobalKMeans(ClusterMixin, BaseEstimator):
         if isinstance(data, pd.DataFrame):
             data = data.to_numpy()
 
+        # Initialize cache for distances
+        distance_matrix = None
+
         # Initial cluster
         kmeans = KMeans(n_clusters=1, max_iterations=self.max_iterations,
                         tolerance=self.tolerance, random_state=self.random_state).fit(data)
 
+        # Initial cluster centroids, labels & inertia
         self.centroids[1] = kmeans.centroids
         self.clusters[1] = kmeans.labels_
-        min_distances = np.min(cdist(data, kmeans.centroids), axis=1)
         self.inertia[1] = self._compute_wcss(data, kmeans.labels_, kmeans.centroids)
+
+        # Initialize distance cache
+        distance_matrix = cdist(data, kmeans.centroids)
 
         # Expand clusters iteratively
         for k in range(2, self.n_clusters + 1):
+            # Select candidate centroids (optimises runtime)
             n_candidates = int(np.sqrt(len(data)))
-            candidate_indices = self._select_candidates(data, min_distances, n_candidates)
+
+            # Select candidates based on minimum distance
+            candidate_indices = self._select_candidates(np.min(distance_matrix, axis=1), n_candidates)
 
             best_centroids, best_clusters, min_inertia = None, None, float('inf')
 
             for idx in candidate_indices:
-                current_centroids = np.vstack((self.centroids[k-1], data[idx]))
+                # Update distance matrix for candidate centroid
+                candidate_centroid = data[idx].reshape(1, -1)
+
+                # Fit KMeans with pre-initialized centroids
+                current_centroids = np.vstack((self.centroids[k-1], candidate_centroid))
                 kmeans = KMeans(
                     n_clusters=k, initial_centroids=current_centroids,
                     max_iterations=self.max_iterations, tolerance=self.tolerance,
@@ -60,12 +80,12 @@ class GlobalKMeans(ClusterMixin, BaseEstimator):
             self.clusters[k] = best_clusters
             self.inertia[k] = min_inertia
 
-            # Efficiently update min_distances
             new_centroid = best_centroids[-1].reshape(1, -1)
-            distances_to_new_centroid = np.linalg.norm(data - new_centroid, axis=1)
-            min_distances = np.minimum(min_distances, distances_to_new_centroid)
+            new_distances = np.linalg.norm(data - new_centroid, axis=1).reshape(-1, 1)
+            distance_matrix = np.hstack((distance_matrix, new_distances))
 
         return self
+
     
     def _select_candidates(self, min_distances, n_candidates):
         """
@@ -77,11 +97,16 @@ class GlobalKMeans(ClusterMixin, BaseEstimator):
     
 
     def _compute_wcss(self, X, labels, centroids):
-        """Vectorized WCSS computation."""
+        """
+        Vectorized WCSS computation.
+        """
         return np.sum((X - centroids[labels]) ** 2)
 
 
     def fit_predict(self, data):
+        """
+        Fit the model and return cluster labels.
+        """
         self.fit(data)
         final_clusters = self.clusters[self.n_clusters]
         return final_clusters
