@@ -1,9 +1,12 @@
 import numpy as np
 import pandas as pd
+import logging
 from sklearn.base import BaseEstimator, ClusterMixin
 from tools.clustering.kmeans import KMeans
 from scipy.spatial.distance import cdist
 from tools.config import N_CLUSTERS
+
+logger = logging.getLogger(__name__)
 
 GlobalKmeansParams = {
     "n_clusters": [2, 3, 4, 5, 8, 10],
@@ -27,6 +30,7 @@ class GlobalKMeans(ClusterMixin, BaseEstimator):
         self.centroids = {}  
         self.clusters = {}  
         self.inertia = {} 
+        self.labels_ = None
 
     def fit(self, data):
         if isinstance(data, pd.DataFrame):
@@ -40,12 +44,12 @@ class GlobalKMeans(ClusterMixin, BaseEstimator):
                         tolerance=self.tolerance, random_state=self.random_state).fit(data)
 
         # Initial cluster centroids, labels & inertia
-        self.centroids[1] = kmeans.centroids
+        self.centroids[1] = kmeans.centroids_
         self.clusters[1] = kmeans.labels_
-        self.inertia[1] = self._compute_wcss(data, kmeans.labels_, kmeans.centroids)
+        self.inertia[1] = self._compute_wcss(data, kmeans.labels_, kmeans.centroids_)
 
         # Initialize distance cache
-        distance_matrix = cdist(data, kmeans.centroids)
+        distance_matrix = cdist(data, kmeans.centroids_)
 
         # Expand clusters iteratively
         for k in range(2, self.n_clusters + 1):
@@ -69,11 +73,11 @@ class GlobalKMeans(ClusterMixin, BaseEstimator):
                     random_state=self.random_state
                 ).fit(data)
 
-                inertia = self._compute_wcss(data, kmeans.labels_, kmeans.centroids)
+                inertia = self._compute_wcss(data, kmeans.labels_, kmeans.centroids_)
 
                 if inertia < min_inertia:
                     min_inertia = inertia
-                    best_centroids = kmeans.centroids
+                    best_centroids = kmeans.centroids_
                     best_clusters = kmeans.labels_
 
             self.centroids[k] = best_centroids
@@ -84,6 +88,8 @@ class GlobalKMeans(ClusterMixin, BaseEstimator):
             new_distances = np.linalg.norm(data - new_centroid, axis=1).reshape(-1, 1)
             distance_matrix = np.hstack((distance_matrix, new_distances))
 
+        self.labels_ = self.clusters[self.n_clusters]
+        logger.info(f"GlobalKMeans finished with {self.n_clusters} clusters")
         return self
 
     
@@ -102,11 +108,3 @@ class GlobalKMeans(ClusterMixin, BaseEstimator):
         """
         return np.sum((X - centroids[labels]) ** 2)
 
-
-    def fit_predict(self, data):
-        """
-        Fit the model and return cluster labels.
-        """
-        self.fit(data)
-        final_clusters = self.clusters[self.n_clusters]
-        return final_clusters
