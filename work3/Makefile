@@ -51,7 +51,6 @@ run-metrics:
 ## Clean output directories
 .PHONY: clean-outputs
 clean-outputs:
-	rm -rf data/1_preprocessed/*
 	rm -rf data/2_clustered/*
 	rm -rf data/3_metrics/*
 
