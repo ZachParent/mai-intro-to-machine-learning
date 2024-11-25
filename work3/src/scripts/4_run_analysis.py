@@ -4,6 +4,7 @@ import os
 import logging
 from tools.config import METRICS_DATA_PATH
 from tools.clustering import PARAMS_GRID_MAP
+from tools.analysis.plots import *
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--verbose", "-v", action="store_true", help="Whether to print verbose output")
