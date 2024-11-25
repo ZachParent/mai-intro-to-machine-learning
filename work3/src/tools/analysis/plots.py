@@ -1,15 +1,15 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
-import os
 import pandas as pd
-from sklearn.metrics import f1_score
 from sklearn.model_selection import ParameterGrid
 import itertools
-from config import DATA_DIR
+import logging
+
+logger = logging.getLogger(__name__)
 
 
-def plot_interactions_grid(df, col_names, metrics):
+def plot_interactions_grid(df, col_names, metrics, save_path=None):
     """
     Plots interaction plots for the specified columns and metrics.
     
@@ -74,12 +74,12 @@ def plot_interactions_grid(df, col_names, metrics):
     return fig
 
 
-def plot_interactions(csv_path, model_name, paramsGrid):
+def plot_interactions(data, model_name, paramsGrid, save_path=None):
     """
     Plots interaction plots for various metrics based on a model and parameter grid.
 
     Parameters:
-    - csv_path (str): Path to the metrics CSV file.
+    - data (df): metrics pandas df
     - model_name (str): Name of the model to filter for in the dataset (e.g., 'fuzzy_cmeans').
     - paramsGrid (list of str): List of parameter names to include in the interaction plot (e.g., ['fuzzyness']).
 
@@ -87,17 +87,8 @@ def plot_interactions(csv_path, model_name, paramsGrid):
     - None: Displays the interaction plot.
 
 
-    Example usage:
-
-    csv_path = '3_metrics.csv'
-    model_name = 'fuzzy_cmeans'
-    paramsGrid = FuzzyCMeansParamsGrid.keys()  # Example parameter grid
-
-    plot_interactions(csv_path, model_name, paramsGrid)
 
     """
-    # Load the data
-    data = pd.read_csv(f'{DATA_DIR}/{csv_path}')
     
     # Filter data for the selected model
     data = data[data['model'] == model_name]
@@ -131,21 +122,33 @@ def plot_interactions(csv_path, model_name, paramsGrid):
             ax.set_ylabel(metric.upper())
         
         plt.tight_layout()
+
+    if save_path:
+        plt.savefig(save_path, format='png', dpi=300)
+        logger.info(f"Figure saved to {save_path}")
+    else:
+        plt.show()
+        
+
+
+def plot_pairplot(data, vars, save_path=None):
+    # vars = ['ari', 'purity', 'dbi', 'f_measure']
+    sns.pairplot(data, vars=vars, hue='model')
+    
+    if save_path:
+        plt.savefig(save_path, format='png', dpi=300)
+        logger.info(f"Figure saved to {save_path}")
+    else:
         plt.show()
 
 
-def plot_pairplot(data):
-    sns.pairplot(data, vars=['ari', 'purity', 'dbi', 'f_measure'], hue='model')
-    plt.show()
-
-
-def plot_clusters(path, features):
+def plot_clusters(path, features, save_path=None):
     """
     Example of use 
 
         for path in glob.glob(f'{CLUSTERED_DATA_DIR}/{dataset_name}/{model_name}/*'):
-        if 'n_clusters=10' in path:  # change the number of clusters or any other param
-            plot_clusters(path=path, features=['0','1']) # for synthetic dataset
+            if 'n_clusters=10' in path:  # change the number of clusters or any other param
+                plot_clusters(path=path, features=['0','1']) # for synthetic dataset
 
 
     """
@@ -162,10 +165,15 @@ def plot_clusters(path, features):
     plt.title(f'Clusters visualized using {config}')
     plt.xlabel(x)
     plt.ylabel(y)
-    plt.show()
+    
+    if save_path:
+        plt.savefig(save_path, format='png', dpi=300)
+        logger.info(f"Figure saved to {save_path}")
+    else:
+        plt.show()
 
 
-def plot_model_comparisons(data, metric, title):
+def plot_model_comparisons(data, metric, title, save_path=None):
     """
     Plot comparisons of models across datasets based on a given metric.
     
@@ -180,7 +188,7 @@ def plot_model_comparisons(data, metric, title):
         x='dataset', 
         y=metric, 
         hue='model', 
-        ci='sd', 
+        errorbar='sd', 
         palette='viridis'
     )
     plt.title(title, fontsize=14)
@@ -189,10 +197,15 @@ def plot_model_comparisons(data, metric, title):
     plt.legend(title='Model', fontsize=10, loc='best')
     plt.grid(axis='y', linestyle='--', alpha=0.7)
     plt.tight_layout()
-    plt.show()
+
+    if save_path:
+        plt.savefig(save_path, format='png', dpi=300)
+        logger.info(f"Figure saved to {save_path}")
+    else:
+        plt.show()
 
 
-def plot_combined_heatmaps(data, metrics, datasets, models):
+def plot_combined_heatmaps(data, metrics, datasets, models, save_path=None):
     """
     Generate a grid of heatmaps (e.g., 2x2) for multiple metrics.
     
@@ -235,10 +248,15 @@ def plot_combined_heatmaps(data, metrics, datasets, models):
     for j in range(i + 1, len(axes)):
         fig.delaxes(axes[j])
     
-    plt.show()
+
+    if save_path:
+        plt.savefig(save_path, format='png', dpi=300)
+        logger.info(f"Figure saved to {save_path}")
+    else:
+        plt.show()
 
 
-def plot_radar_chart(data, dataset_name, metrics, models):
+def plot_radar_chart(data, dataset_name, metrics, models, save_path=None):
     """
     Generate radar chart to visualize multiple metrics for each model.
     
@@ -281,5 +299,8 @@ def plot_radar_chart(data, dataset_name, metrics, models):
     plt.legend(loc='upper right', bbox_to_anchor=(1.2, 1.1))
     plt.title(f'Radar Chart for {dataset_name}', fontsize=15)
     
-    # Show plot
-    plt.show()
+    if save_path:
+        plt.savefig(save_path, format='png', dpi=300)
+        logger.info(f"Figure saved to {save_path}")
+    else:
+        plt.show()
