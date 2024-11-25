@@ -2,9 +2,13 @@ import numpy as np
 from sklearn.base import BaseEstimator, ClusterMixin
 from tools.config import N_CLUSTERS
 
+np.seterr(divide='ignore', invalid='ignore')
+
+
+
 FuzzyCMeansParamsGrid = {
-    "n_clusters": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-    "fuzzyness": [1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5]
+    "n_clusters": N_CLUSTERS,
+    "fuzzyness": [1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0]
 }
 
 # Implementation of the Generalized Suppressed Fuzzy C-means algorithm
@@ -121,3 +125,6 @@ class FuzzyCMeans(ClusterMixin, BaseEstimator):
         U_m = np.power(U, m)
         new_prototypes = np.dot(U_m.T, X) / np.sum(U_m, axis=0, keepdims=True).T
         return new_prototypes
+    
+
+

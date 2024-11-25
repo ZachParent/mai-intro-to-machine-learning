@@ -39,7 +39,6 @@ def hungarian_algorithm(true_labels, predicted_labels):
     return matched_labels
 
 def compute_metrics(df: pd.DataFrame, true_labels: np.ndarray) -> pd.Series:
-
     predicted_labels = df['cluster'].values
 
     matched_predicted_labels = hungarian_algorithm(true_labels, predicted_labels)
@@ -78,6 +77,7 @@ def get_runtime(runtime_df: pd.DataFrame, clustered_data_config: dict):
             (runtime_df["dataset"] == clustered_data_config["dataset"]) &
             (runtime_df["model"] == clustered_data_config["model"])
         )
+
         for k, v in clustered_data_config["params"].items():
             condition = condition & (runtime_df[k].astype(str) == v)
         
@@ -88,6 +88,7 @@ def get_runtime(runtime_df: pd.DataFrame, clustered_data_config: dict):
 
 
 def main():
+    
     args = parser.parse_args()
     if args.verbose:
         logging.basicConfig(level=logging.INFO)
@@ -97,13 +98,15 @@ def main():
     runtime_df = load_runtime_df()
     filepaths = sorted(list(CLUSTERED_DATA_DIR.glob("**/*.csv")))
     filepaths = [filepath for filepath in filepaths if "runtime.csv" not in filepath.name]
-    filepaths = [filepath for filepath in filepaths if filepath.match("**/synthetic/kmeans/*.csv")]
+    filepaths = [filepath for filepath in filepaths if filepath.match("**/synthetic/fuzzy_cmeans/*.csv")]
 
     output_data = []
     for filepath in filepaths:
         clustered_data_config = get_config_from_filepath(filepath)
         logger.info(f"Computing metrics for config {clustered_data_config}")
 
+        logger.info(runtime_df)
+        logger.info(clustered_data_config)
         runtime = get_runtime(runtime_df, clustered_data_config)
         curr_output_data = {
             'dataset': clustered_data_config['dataset'],
@@ -114,6 +117,8 @@ def main():
         clustered_data = pd.read_csv(filepath)
         true_labels = load_true_labels(clustered_data_config["dataset"])
         curr_metrics_data = compute_metrics(clustered_data, true_labels)
+
+        logger.info(curr_metrics_data)
         curr_output_data.update(curr_metrics_data)
 
         for param, value in clustered_data_config["params"].items():

@@ -7,5 +7,5 @@ PREPROCESSED_DATA_DIR = DATA_DIR / "1_preprocessed"
 CLUSTERED_DATA_DIR = DATA_DIR / "2_clustered"
 METRICS_DATA_PATH = DATA_DIR / "3_metrics.csv"
 
-N_CLUSTERS = [2, 3, 4, 5, 8, 10]
+N_CLUSTERS = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 RANDOM_STATE = [1, 2, 3, 4, 5]
