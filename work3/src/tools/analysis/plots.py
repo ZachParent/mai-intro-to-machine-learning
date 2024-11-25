@@ -9,34 +9,6 @@ import itertools
 from config import DATA_DIR
 
 
-def plot_metrics_comparison(metrics_dict):
-    for metric_name, metric_values in metrics_dict.items():
-        plt.figure(figsize=(10, 6))
-        sns.barplot(x=list(metric_values.keys()), y=list(metric_values.values()))
-        plt.title(f"Comparison of {metric_name}")
-        plt.xlabel("Algorithm")
-        plt.ylabel(metric_name)
-        plt.show()
-
-
-def plot_clustering_results(X, true_labels, predicted_labels, metrics):
-    # Scatter plot of the data points, colored by predicted clusters
-    plt.figure(figsize=(12, 6))
-    sns.scatterplot(x=X[:, 0], y=X[:, 1], hue=predicted_labels, palette="viridis")
-    plt.title("Clustering Results")
-    plt.xlabel("Feature 1")
-    plt.ylabel("Feature 2")
-    plt.show()
-
-    # Bar plot of evaluation metrics
-    plt.figure(figsize=(10, 6))
-    sns.barplot(x=list(metrics.keys()), y=list(metrics.values()))
-    plt.title("Evaluation Metrics")
-    plt.xlabel("Metric")
-    plt.ylabel("Score")
-    plt.show()
-
-
 def plot_interactions_grid(df, col_names, metrics):
     """
     Plots interaction plots for the specified columns and metrics.
@@ -162,6 +134,10 @@ def plot_interactions(csv_path, model_name, paramsGrid):
         plt.show()
 
 
+def plot_pairplot(data):
+    sns.pairplot(data, vars=['ari', 'purity', 'dbi', 'f_measure'], hue='model')
+    plt.show()
+
 
 def plot_clusters(path, features):
     """
@@ -187,7 +163,6 @@ def plot_clusters(path, features):
     plt.xlabel(x)
     plt.ylabel(y)
     plt.show()
-
 
 
 def plot_model_comparisons(data, metric, title):
@@ -216,3 +191,95 @@ def plot_model_comparisons(data, metric, title):
     plt.tight_layout()
     plt.show()
 
+
+def plot_combined_heatmaps(data, metrics, datasets, models):
+    """
+    Generate a grid of heatmaps (e.g., 2x2) for multiple metrics.
+    
+    Args:
+        data (pd.DataFrame): The dataset containing performance metrics.
+        metrics (list): List of metrics to plot heatmaps for.
+        datasets (list): List of dataset names.
+        models (list): List of model names.
+    """
+    n_metrics = len(metrics)
+    n_cols = 2  # Number of columns for the heatmap grid
+    n_rows = (n_metrics + n_cols - 1) // n_cols  # Calculate rows needed
+    
+    fig, axes = plt.subplots(n_rows, n_cols, figsize=(14, 6 * n_rows), constrained_layout=True)
+    
+    # Flatten axes to easily iterate over them, even for 2D array
+    axes = axes.flatten()
+    
+    for i, metric in enumerate(metrics):
+        # Pivot table for the heatmap
+        pivot_table = data.pivot_table(
+            index='model', columns='dataset', values=metric, aggfunc='mean'
+        ).reindex(index=models, columns=datasets)  # Ensure consistent order
+        
+        # Plot the heatmap on the respective subplot
+        sns.heatmap(
+            pivot_table,
+            ax=axes[i],
+            annot=True,
+            cmap='coolwarm',
+            cbar=True,
+            linewidths=0.5,
+            fmt=".2f",
+        )
+        axes[i].set_title(f'Heatmap for {metric.capitalize()}', fontsize=14)
+        axes[i].set_xlabel('Dataset', fontsize=12)
+        axes[i].set_ylabel('Model', fontsize=12)
+    
+    # Hide any unused subplots (in case metrics < n_rows * n_cols)
+    for j in range(i + 1, len(axes)):
+        fig.delaxes(axes[j])
+    
+    plt.show()
+
+
+def plot_radar_chart(data, dataset_name, metrics, models):
+    """
+    Generate radar chart to visualize multiple metrics for each model.
+    
+    Args:
+        data (pd.DataFrame): The dataset containing performance metrics.
+        dataset_name (str): The name of the dataset to filter by.
+        metrics (list): List of metrics to include in the radar chart.
+        models (list): List of models to compare.
+    """
+    # Filter data for the selected dataset
+    subset = data[data['dataset'] == dataset_name]
+    
+    # Normalize metrics to make them comparable (optional but recommended)
+    normalized_data = subset.copy()
+    for metric in metrics:
+        max_value = subset[metric].max()
+        min_value = subset[metric].min()
+        normalized_data[metric] = (subset[metric] - min_value) / (max_value - min_value)
+    
+    # Prepare data for radar chart
+    angles = np.linspace(0, 2 * np.pi, len(metrics), endpoint=False).tolist()
+    angles += angles[:1]  # Complete the circle
+
+    plt.figure(figsize=(8, 8))
+    
+    for model in models:
+        model_data = normalized_data[normalized_data['model'] == model]
+        if not model_data.empty:
+            # Extract metric values
+            values = model_data[metrics].mean().tolist()
+            values += values[:1]  # Complete the circle
+            
+            # Plot data
+            plt.polar(angles, values, label=model)
+    
+    # Draw one axis per metric
+    plt.xticks(angles[:-1], metrics, fontsize=12)
+    
+    # Add legend and title
+    plt.legend(loc='upper right', bbox_to_anchor=(1.2, 1.1))
+    plt.title(f'Radar Chart for {dataset_name}', fontsize=15)
+    
+    # Show plot
+    plt.show()
