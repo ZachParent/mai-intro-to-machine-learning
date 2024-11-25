@@ -41,13 +41,8 @@ def hungarian_algorithm(true_labels, predicted_labels):
 
 
 def compute_metrics(df: pd.DataFrame, true_labels: np.ndarray) -> pd.Series:
-<<<<<<< HEAD
-    predicted_labels = df['cluster'].values
-=======
-
     predicted_labels = df["cluster"].values
     n_clusters = len(np.unique(predicted_labels))
->>>>>>> 287f04d0ae2e7b52ec45b8023a902c8f073c37b2
 
     matched_predicted_labels = hungarian_algorithm(true_labels, predicted_labels)
 
@@ -110,10 +105,6 @@ def main():
     runtime_df = load_runtime_df()
     filepaths = sorted(list(CLUSTERED_DATA_DIR.glob("**/*.csv")))
     filepaths = [filepath for filepath in filepaths if "runtime.csv" not in filepath.name]
-<<<<<<< HEAD
-    filepaths = [filepath for filepath in filepaths if filepath.match("**/synthetic/fuzzy_cmeans/*.csv")]
-=======
->>>>>>> 287f04d0ae2e7b52ec45b8023a902c8f073c37b2
 
     output_data = []
     for filepath in filepaths:

@@ -187,3 +187,32 @@ def plot_clusters(path, features):
     plt.xlabel(x)
     plt.ylabel(y)
     plt.show()
+
+
+
+def plot_model_comparisons(data, metric, title):
+    """
+    Plot comparisons of models across datasets based on a given metric.
+    
+    Args:
+        data (pd.DataFrame): The dataset containing performance metrics.
+        metric (str): The metric to visualize (e.g., 'ari', 'purity').
+        title (str): Title of the plot.
+    """
+    plt.figure(figsize=(10, 6))
+    sns.barplot(
+        data=data, 
+        x='dataset', 
+        y=metric, 
+        hue='model', 
+        ci='sd', 
+        palette='viridis'
+    )
+    plt.title(title, fontsize=14)
+    plt.xlabel('Dataset', fontsize=12)
+    plt.ylabel(metric.capitalize(), fontsize=12)
+    plt.legend(title='Model', fontsize=10, loc='best')
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.tight_layout()
+    plt.show()
+
