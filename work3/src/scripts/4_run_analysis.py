@@ -20,14 +20,13 @@ def compute_analysis(metrics_data: pd.Series, metrics_data_config: dict):
 def get_metrics_from_row(row: pd.Series) -> pd.Series:
     return row.loc[["ari", "purity", "dbi", "f_measure"]]
 
+
 def get_config_from_row(row: pd.Series) -> dict:
     params_keys = PARAMS_GRID_MAP[row["model"]].keys()
     return {
         "dataset_name": row["dataset"],
         "model_name": row["model"],
-        "params": {
-            key: row[key] for key in params_keys
-        },
+        "params": {key: row[key] for key in params_keys},
     }
 
 
@@ -43,7 +42,6 @@ def main():
         metrics_data_config = get_config_from_row(row)
         metrics_data = get_metrics_from_row(row)
         logger.info(f"Running analysis for config {metrics_data_config}")
-
 
         compute_analysis(metrics_data, metrics_data_config)
 

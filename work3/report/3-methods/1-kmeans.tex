@@ -1,2 +1,55 @@
+
 \subsection{K-Means}
 \label{subsec:methods-kmeans}
+
+K-Means is one of the most widely used clustering algorithms due to its simplicity and efficiency. It partitions a dataset into a predefined number of clusters by iteratively refining cluster centroids based on the distance between data points and the centroids.
+
+\subsubsection{Mechanism}
+
+The K-Means algorithm operates by minimizing the within-cluster variance, which is defined as the sum of squared distances between each point and the centroid of its assigned cluster. The process begins with the initialization of \(k\) centroids, where \(k\) represents the number of clusters. These centroids can either be selected randomly or provided as input.
+
+Following initialization, each data point \(x_i\) is assigned to the nearest centroid \(c_j\) based on a distance metric, typically the Euclidean distance. This assignment is computed using the formula:  
+\[
+\text{Cluster}(x_i) = \underset{j}{\arg\min} \, ||x_i - c_j||_2^2.
+\]
+
+After assigning clusters, the centroids are updated by recalculating their positions as the mean of all points assigned to each cluster. The new centroid \(c_j\) is determined using the equation:  
+\[
+c_j = \frac{1}{|C_j|} \sum_{x_i \in C_j} x_i,
+\]  
+where \(C_j\) is the set of points in cluster \(j\), and \(|C_j|\) is the number of points in that cluster.
+
+Finally, the algorithm checks for convergence by comparing the updated centroids to the previous ones. If the difference between the new and old centroids is less than a predefined tolerance (\(\epsilon\)), or if the maximum number of iterations is reached, the algorithm terminates. The difference is computed as:  
+\[
+\Delta = \sum_{j=1}^{k} ||c_j^{(t)} - c_j^{(t-1)}||_2^2 < \epsilon.
+\]
+
+K-Means is computationally efficient but sensitive to the initial positions of centroids, which can cause it to converge to a local minimum.
+
+
+\subsubsection{Parameter Grid}
+
+K-Means involves several important parameters, which include:
+
+\begin{itemize}
+    \item \textbf{Number of Clusters (\(n_{\text{clusters}}\))}: Determines the number of clusters (\(k\)) to form.
+    \item \textbf{Maximum Iterations (\(max_{\text{iterations}}\))}: The maximum number of iterations allowed for convergence.
+    \item \textbf{Tolerance (\(\epsilon\))}: The convergence threshold based on the change in centroids.
+    \item \textbf{Random State}: Controls the random seed for reproducibility of results.
+\end{itemize}
+
+The parameter variations used in our experiments are summarized in Table~\ref{tab:kmeans-param-grid}.
+
+\begin{table}[h!]
+\centering
+\caption{K-Means Parameter Grid}
+\label{tab:kmeans-param-grid}
+\begin{tabularx}{\columnwidth}{|X|X|}
+\hline
+\textbf{Parameter} & \textbf{Values} \\ \hline
+Number of Clusters (\(n_{\text{clusters}}\)) & 2, 3, 4, 5, 6, 8, 10 \\ \hline
+Maximum Iterations (\(max_{\text{iterations}}\)) & 100, 300, 500 \\ \hline
+Tolerance (\(\epsilon\)) & \(1 \times 10^{-5}, 1 \times 10^{-4}, 1 \times 10^{-3}\) \\ \hline
+Random State & 1, 2, 3, 4, 5 \\ \hline
+\end{tabularx}
+\end{table}

@@ -15,12 +15,13 @@ parser.add_argument("--verbose", "-v", action="store_true", help="Whether to pri
 
 logger = logging.getLogger(__name__)
 
+
 def load_true_labels(dataset_name):
     preprocessed_data_path = Path(PREPROCESSED_DATA_DIR) / f"{dataset_name}.csv"
     if not preprocessed_data_path.exists():
         raise FileNotFoundError(f"Dataset file not found: {preprocessed_data_path}")
     preprocessed_data = pd.read_csv(preprocessed_data_path)
-    if 'class' not in preprocessed_data.columns:
+    if "class" not in preprocessed_data.columns:
         raise KeyError(f"'class' column not found in the dataset: {preprocessed_data_path}")
     return preprocessed_data["class"].values
 
@@ -38,8 +39,15 @@ def hungarian_algorithm(true_labels, predicted_labels):
 
     return matched_labels
 
+
 def compute_metrics(df: pd.DataFrame, true_labels: np.ndarray) -> pd.Series:
+<<<<<<< HEAD
     predicted_labels = df['cluster'].values
+=======
+
+    predicted_labels = df["cluster"].values
+    n_clusters = len(np.unique(predicted_labels))
+>>>>>>> 287f04d0ae2e7b52ec45b8023a902c8f073c37b2
 
     matched_predicted_labels = hungarian_algorithm(true_labels, predicted_labels)
 
@@ -48,13 +56,9 @@ def compute_metrics(df: pd.DataFrame, true_labels: np.ndarray) -> pd.Series:
     dbi = davies_bouldin_index(df.iloc[:, :-2].values, matched_predicted_labels)
     f1 = f_measure(true_labels, matched_predicted_labels)
 
-    metrics = {
-        "ari": ari,
-        "purity": pur,
-        "dbi": dbi,
-        "f_measure": f1
-    }
+    metrics = {"ari": ari, "purity": pur, "dbi": dbi, "f_measure": f1, "n_clusters": n_clusters}
     return pd.Series(metrics, index=metrics.keys())
+
 
 def get_config_from_filepath(filepath: Path) -> dict:
     dataset_name = filepath.parent.parent.name
@@ -67,22 +71,30 @@ def get_config_from_filepath(filepath: Path) -> dict:
         "params": params,
     }
 
+
 def load_runtime_df():
     runtime_filepaths = sorted(list(CLUSTERED_DATA_DIR.glob("**/runtime.csv")))
     return pd.concat([pd.read_csv(filepath) for filepath in runtime_filepaths])
 
+
 def get_runtime(runtime_df: pd.DataFrame, clustered_data_config: dict):
     try:
-        condition = (
-            (runtime_df["dataset"] == clustered_data_config["dataset"]) &
-            (runtime_df["model"] == clustered_data_config["model"])
+        # First filter by dataset and model
+        condition = (runtime_df["dataset"] == clustered_data_config["dataset"]) & (
+            runtime_df["model"] == clustered_data_config["model"]
         )
 
         for k, v in clustered_data_config["params"].items():
-            condition = condition & (runtime_df[k].astype(str) == v)
-        
+            if k in runtime_df.columns:
+                try:
+                    value = float(v)
+                    condition = condition & (runtime_df[k] == value)
+                except ValueError:
+                    condition = condition & (runtime_df[k].astype(str) == str(v))
+            else:
+                logging.warning(f"Parameter {k} not found in runtime DataFrame columns")
         return runtime_df[condition]["runtime"].values[0]
-    except (KeyError, IndexError) as e:
+    except (IndexError, KeyError) as e:
         logger.warning(f"Runtime not found for config {clustered_data_config}. Error: {e}")
         return np.nan
 
@@ -98,7 +110,10 @@ def main():
     runtime_df = load_runtime_df()
     filepaths = sorted(list(CLUSTERED_DATA_DIR.glob("**/*.csv")))
     filepaths = [filepath for filepath in filepaths if "runtime.csv" not in filepath.name]
+<<<<<<< HEAD
     filepaths = [filepath for filepath in filepaths if filepath.match("**/synthetic/fuzzy_cmeans/*.csv")]
+=======
+>>>>>>> 287f04d0ae2e7b52ec45b8023a902c8f073c37b2
 
     output_data = []
     for filepath in filepaths:
@@ -109,9 +124,9 @@ def main():
         logger.info(clustered_data_config)
         runtime = get_runtime(runtime_df, clustered_data_config)
         curr_output_data = {
-            'dataset': clustered_data_config['dataset'],
-            'model': clustered_data_config['model'],
-            'runtime': runtime,
+            "dataset": clustered_data_config["dataset"],
+            "model": clustered_data_config["model"],
+            "runtime": runtime,
         }
 
         clustered_data = pd.read_csv(filepath)
@@ -128,6 +143,7 @@ def main():
 
     metrics_data_path = METRICS_DATA_PATH
     pd.DataFrame(output_data).to_csv(metrics_data_path, index=False)
+
 
 if __name__ == "__main__":
     main()

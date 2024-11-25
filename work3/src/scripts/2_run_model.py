@@ -16,7 +16,7 @@ from tools.clustering import (
     GMeansParamsGrid,
     GlobalKmeansParams,
     OpticsParamsGrid,
-    SpectralClusteringParamsGrid
+    SpectralClusteringParamsGrid,
 )
 from tools.config import PREPROCESSED_DATA_DIR, CLUSTERED_DATA_DIR
 from tools.clustering import MODEL_MAP, PARAMS_GRID_MAP
@@ -27,7 +27,7 @@ parser.add_argument(
     "--dataset",
     type=str,
     help="The name of the dataset to run the model on",
-    choices=["hepatitis", "mushroom","vowel","synthetic"],
+    choices=["hepatitis", "mushroom", "vowel", "synthetic"],
     required=True,
 )
 parser.add_argument(
@@ -74,7 +74,7 @@ def main():
         logging.basicConfig(level=logging.WARNING)
 
     preprocessed_data_path = PREPROCESSED_DATA_DIR / f"{args.dataset}.csv"
-    preprocessed_data = pd.read_csv(preprocessed_data_path)
+    preprocessed_data = pd.read_csv(preprocessed_data_path).iloc[:, :50]
 
     features_data = preprocessed_data.iloc[:, :-1]
 
@@ -95,18 +95,26 @@ def main():
         tok = time.time()
 
         logger.info(f"Time taken: {tok - tik} seconds")
-        runtime_data = {"dataset": args.dataset, "model": args.model, **param_dict, "runtime": tok - tik}
+        runtime_data = {
+            "dataset": args.dataset,
+            "model": args.model,
+            **param_dict,
+            "runtime": tok - tik,
+        }
         runtimes.append(runtime_data)
 
         clustered_data = pd.concat(
             [preprocessed_data.iloc[:, :-1], pd.Series(clusters, name="cluster")], axis=1
         )
 
-        clustered_data_path = clustered_data_dir / f"{','.join(f'{k}={v}' for k, v in param_dict.items())}.csv"
+        clustered_data_path = (
+            clustered_data_dir / f"{','.join(f'{k}={v}' for k, v in param_dict.items())}.csv"
+        )
         clustered_data.to_csv(clustered_data_path, index=False)
 
     runtime_df = pd.DataFrame(runtimes)
     runtime_df.to_csv(clustered_data_dir / "runtime.csv", index=False)
+
 
 if __name__ == "__main__":
     main()
