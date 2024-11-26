@@ -57,3 +57,23 @@ $Au = \lambda u$, where $u$ is the eigenvector, $A$ is a matrix, $\lambda$ is a 
 ![T9_2024_students_wide, p.39](T9_2024_students_wide.pdf#page=39&rect=55,12,926,445)
 
 ![T9_2024_students_wide, p.40](T9_2024_students_wide.pdf#page=40&rect=326,37,706,386)
+
+## Independent Component Analysis (ICA)
+
+![T9_2024_students_wide, p.58](T9_2024_students_wide.pdf#page=58&rect=180,57,814,401)
+
+> [!PDF|] [T9_2024_students_wide, p.64](T9_2024_students_wide.pdf#page=64)
+> > “Independent component analysis (ICA) is a method for finding underlying factors or components from multivariate (multi-dimensional) statistical data. What distinguishes ICA from other methods is that it looks for components that are both statistically independent, and nonGaussian.” A.Hyvarinen, A.Karhunen, E.Oja ‘Independent Component Analysis’ What is ICA?
+> 
+>
+
+![T9_2024_students_wide, p.65](T9_2024_students_wide.pdf#page=65&rect=174,7,542,440)
+
+> [!PDF|] [T9_2024_students_wide, p.69](T9_2024_students_wide.pdf#page=69&selection=2,0,32,37)
+> > * Central Limit Theorem
+> > 	* If two random (non-Gaussian) signals are added, the resulting signal will be more Gaussian than the original two random signals
+> > * ICA Separation Concept 
+> > 	* Central Limit Theorem (in Reverse)
+> > 	* Maximizing Non-Gaussianity • Results in separating the two signals
+
+![T9_2024_students_wide, p.83](T9_2024_students_wide.pdf#page=83&rect=207,9,772,440)
