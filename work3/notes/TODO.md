@@ -28,7 +28,7 @@
 
 ## TODO by Wednesday 2024-11-27
 * [ ] (Kacper) make a results demo
-* [ ] (Zach) remove synthetic data results
+* [x] (Zach) remove synthetic data results
 * [ ] (Carlos) update plots 
     * [ ] showing how the parameters affect the performance, for each model for each dataset
         * i.e. how do we get the best results for each dataset
