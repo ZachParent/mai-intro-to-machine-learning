@@ -111,8 +111,6 @@ def main():
         clustered_data_config = get_config_from_filepath(filepath)
         logger.info(f"Computing metrics for config {clustered_data_config}")
 
-        logger.info(runtime_df)
-        logger.info(clustered_data_config)
         runtime = get_runtime(runtime_df, clustered_data_config)
         curr_output_data = {
             "dataset": clustered_data_config["dataset"],
@@ -124,7 +122,6 @@ def main():
         true_labels = load_true_labels(clustered_data_config["dataset"])
         curr_metrics_data = compute_metrics(clustered_data, true_labels)
 
-        logger.info(curr_metrics_data)
         curr_output_data.update(curr_metrics_data)
 
         for param, value in clustered_data_config["params"].items():
