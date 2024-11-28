@@ -1,2 +1,69 @@
 \subsection{Improved K-Means}
 \label{subsec:methods-improved-kmeans}
+
+This section provides an overview of the improved K-Means algorithms implemented, Global K-Means and G-Means.
+
+\subsubsection{Global K-Means}
+\label{subsec:globalkmeansdiscussion}
+
+The global K-Means algorithm is an advanced clustering approach that improves upon the
+traditional K-Means by introducing an intelligent centroid initialization and incremental clustering strategy.
+Our implementation focuses on addressing key limitations of standard clustering techniques
+through a novel candidate selection and optimization mechanism.
+
+\subsubsection*{Mechanism}
+The Global K-Means algorithm operates through a progressive clustering process with several key improvements:
+
+\begin{enumerate}
+    \item \textbf{Incremental Clustering:} The algorithm starts with a single cluster and incrementally adds clusters by:
+    \begin{itemize}
+        \item Initializing with a single centroid using standard K-Means
+        \item Systematically exploring candidate points for additional centroids
+        \item Minimizing the within-cluster sum of squares (WCSS)
+    \end{itemize}
+    \item \textbf{Candidate Selection Strategy:} 
+    \begin{itemize}
+        \item Selects candidate points based on their minimum distance from existing centroids
+        \item Dynamically adjusts the number of candidates based on the current cluster count
+        \item Uses an efficient selection method via \texttt{np.argpartition}
+    \end{itemize}
+    \item \textbf{Optimization Approach:}
+    \begin{itemize}
+        \item Vectorized WCSS computation for computational efficiency
+        \item Explores multiple candidate centroids for each iteration
+        \item Selects the centroid configuration with the lowest inertia
+    \end{itemize}
+\end{enumerate}
+
+\subsubsection*{Computational Characteristics}
+This implementation of Global K-Means is designed to be computationally efficient and scalable. 
+Through the use of vectorized operations, optimized candidate selection, and most importantly a robust caching mechanism,
+the algorithm is capable of handling large datasets with minimal computational overhead.
+
+
+\subsubsection*{Parameter Grid}
+
+The Global K-Means algorithm is highly configurable, with several key parameters that can be tuned to optimize performance:
+
+\begin{itemize}
+    \item \textbf{Number of Clusters (\(n_{\text{clusters}}\))}: Determines the number of clusters (\(k\)) to form.
+    \item \textbf{Maximum Iterations (\(max_{\text{iterations}}\))}: The maximum number of iterations allowed for convergence.
+    \item \textbf{Tolerance (\(\epsilon\))}: The convergence threshold based on the change in centroids.
+    \item \textbf{Random State}: Controls the random seed for reproducibility of results.
+\end{itemize}
+
+The parameter grid for Global K-Means is shown in Table \ref{tab:globalkmeansparams}.
+
+\begin{table}[h!]
+\centering
+\caption{Global K-Means Parameter Configuration}
+\label{tab:globalkmeansparams}
+\begin{tabularx}{\columnwidth}{|X|X|}
+\hline
+\textbf{Parameter} & \textbf{Values}\\ \hline
+Number of Clusters & [2, 3, 5, 10, 11, 12] \\ \hline
+Maximum Iterations & [100, 300, 500] \\ \hline
+Convergence Tolerance & $\{1 \times 10^{-5},\ 1 \times 10^{-4},\ 1 \times 10^{-3}\}$ \\ \hline
+Random State & [1, 2, 3, 4, 5] \\ \hline
+\end{tabularx}
+\end{table}
