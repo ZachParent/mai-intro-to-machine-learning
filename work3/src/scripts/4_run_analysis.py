@@ -81,7 +81,13 @@ def main():
             save_path=f'{PLOTS_DIR}/radar_chart_{dataset_name}.png'
         )
 
-    
+
+    for model_name, value in PARAMS_GRID_MAP.items():
+        params = list(value.keys())
+        logger.info(f'Plotting interactions of {model_name} between {params}...')
+        plot_all_interactions(metrics_data, model_name, params, 'f_measure', save_dir=PLOTS_DIR)
+
+
     # for path in glob.glob(f'{CLUSTERED_DATA_DIR}/{dataset_name}/{model_name}/*'):
     #     if 'n_clusters=10' in path:  # change the number of clusters or any other param
     #         plot_clusters(path=path, features=['0','1']) # for synthetic dataset
