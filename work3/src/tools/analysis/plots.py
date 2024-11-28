@@ -304,3 +304,55 @@ def plot_radar_chart(data, dataset_name, metrics, models, save_path=None):
         logger.info(f"Figure saved to {save_path}")
     else:
         plt.show()
+
+
+
+def plot_all_interactions(data, model_name, params, metric, save_dir=None):
+    """
+    Create interaction plots for all pairwise combinations of parameters and a given metric.
+    
+    Args:
+        data (pd.DataFrame): The dataset containing parameters and metrics.
+        model_name (str): The name of the model to analyze.
+        params (list): A list of parameter column names.
+        metric (str): The metric to analyze.
+        save_dir (str or None): Directory to save the plots. If None, plots are shown interactively.
+    """
+    # Filter the data for the selected model
+    subset = data[data['model'] == model_name]
+    
+    # Ensure the specified columns exist in the dataset
+    if not set(params + [metric]).issubset(data.columns):
+        raise ValueError("One or more specified parameters or metric are not present in the dataset.")
+    
+    # Generate all pairwise combinations of parameter
+    print(params, type(params))
+    # params.remove(['n_clusters'])
+    param_combinations = list(itertools.permutations(params, 2))
+    
+    # Iterate over each pair of parameters
+    for param_x, param_y in param_combinations:
+        plt.figure(figsize=(10, 6))
+        sns.lineplot(
+            data=subset,
+            x=param_x,
+            y=metric,
+            hue=param_y,
+            marker="o",
+            palette="viridis"
+        )
+        
+        # Add labels and title
+        plt.title(f"Interaction Plot: {model_name} ({param_x} vs {metric} by {param_y})", fontsize=14)
+        plt.xlabel(param_x, fontsize=12)
+        plt.ylabel(metric, fontsize=12)
+        plt.legend(title=param_y, fontsize=10)
+        plt.grid(True)
+        
+        # Save or display the plot
+        if save_dir:
+            save_path = f"{save_dir}/{model_name}_{param_x}_vs_{param_y}_interaction.png"
+            plt.savefig(save_path, format='png', dpi=300)
+            print(f"Saved interaction plot: {save_path}")
+        else:
+            plt.show()
