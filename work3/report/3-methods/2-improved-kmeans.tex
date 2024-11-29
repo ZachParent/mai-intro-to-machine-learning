@@ -14,32 +14,24 @@ through a novel candidate selection and optimization mechanism.
 \subsubsection*{Mechanism}
 The Global K-Means algorithm operates through a progressive clustering process with several key improvements:
 
-\begin{enumerate}
-    \item \textbf{Incremental Clustering:} The algorithm starts with a single cluster and incrementally adds clusters by:
-    \begin{itemize}
-        \item Initializing with a single centroid using standard K-Means
-        \item Systematically exploring candidate points for additional centroids
-        \item Minimizing the within-cluster sum of squares (WCSS)
-    \end{itemize}
-    \item \textbf{Candidate Selection Strategy:} 
-    \begin{itemize}
-        \item Selects candidate points based on their minimum distance from existing centroids
-        \item Dynamically adjusts the number of candidates based on the current cluster count
-        \item Uses an efficient selection method via \texttt{np.argpartition}
-    \end{itemize}
-    \item \textbf{Optimization Approach:}
-    \begin{itemize}
-        \item Vectorized WCSS computation for computational efficiency
-        \item Explores multiple candidate centroids for each iteration
-        \item Selects the centroid configuration with the lowest inertia
-    \end{itemize}
-\end{enumerate}
+The clustering process starts with a single cluster by using standard K-Means with \(k=1\), and incrementally adds clusters.
+For each iteration, the optimal location for the new centroid is determined by minimising the Within-Cluster Sum of Squares (WCSS).
+Candidate points for the new centroid are selected based on their minimum distance from existing centroids, with the
+number of candidates dynamically adjusted based on the current cluster count. An efficient selection method is
+used via \texttt{np.argpartition}, ensures scability.
 
-\subsubsection*{Computational Characteristics}
-This implementation of Global K-Means is designed to be computationally efficient and scalable. 
-Through the use of vectorized operations, optimized candidate selection, and most importantly a robust caching mechanism,
-the algorithm is capable of handling large datasets with minimal computational overhead.
+The algorithm refines centroid placement by using vecotorised WCSS computation, reducing the computational
+complexity of the algorithm by simultaneously calculating the WCSS for all candidates. The configuration with the lowest
+WCSS is selected as the optimal solution for the current cluster count.
 
+A unique aspect of this implementation is the caching mechanism. Intermediate results such as cluster labels, centroids, and
+distance matrices are stored persistently. This allows the algorithm to resume from cached states for higher values of \(k\),
+thus reducing computational overhead dramatically by preventing recomputations of lower values of \(k\).
+The caching mechanism is hash-based, ensuring compatibility with different datasets and configurations.
+
+The implementation also includes an adaptive candidate reduction strategy. As the number of clusters increases, the number of candidate
+points are reduced to prevent the algorithm from becoming computationally infeasible. This adaptive strategy ensures that the algorithm
+remains efficient and scalable for large datasets, while maintaining high-quality clustering results.
 
 \subsubsection*{Parameter Grid}
 
@@ -67,3 +59,58 @@ Convergence Tolerance & $\{1 \times 10^{-5},\ 1 \times 10^{-4},\ 1 \times 10^{-3
 Random State & [1, 2, 3, 4, 5] \\ \hline
 \end{tabularx}
 \end{table}
+
+
+\subsubsection{G-Means}
+\label{subsec:gmeansdiscussion}
+
+The G-Means algorithm is an advanced clustering techniques that improves upon the standard K-Means algorithm by addressing
+a fundamental limitation: the need to specify a predetermined number of clusters.
+G-Means dynamically determines the optimal number of clusters by recursively splitting clusters based on 
+statistically validating their Gaussian distribution.
+
+\subsubsection*{Mechanism}
+
+The algorithm begins the clustering process by initialising a single cluster, obtained using standard K-Means with \(k=1\).
+For each cluster, the data points are split into two subclusters by applying K-Means with \(k=2\).
+The resulting clusters are then evaluated using Anderson-Darling Gaussianity test. This test evaluates whether the data points in the cluster
+are Gaussian distributed. 
+
+If the test indicates both subclusters are Gaussian distributed, the split is rejected and the original cluster remains unchanged.
+If at least one of the subclusters are not Gaussian distributed, the split is accepted and the process is repeated recursively for each subcluster
+until all clusters are Gaussian distributed, or the user-defined maximum depth is reached.
+
+Before applying the Gaussianity test, the algorithm projects the data onto the principal components using Principal Component
+Analysis (PCA) to ensure the Anderson-Darling test is applied to the most significant directions in the data.
+
+To prevent over-segmentation, a minimum number of observations (\(\min_{\text{obs}}\)) is enforced for each cluster.
+If a cluster has fewer observations than the minimum threshold, it is not split further.
+
+\subsubsection*{Parameter Grid}
+
+The G-Means algorithm offers several configurable parameters to fine-tune its clustering behavior:
+
+\begin{itemize}
+    \item \textbf{Strictness ($s$)}: Controls the sensitivity of the Gaussianity test.
+    \item \textbf{Minimum Observations ($\min_{\text{obs}}$)}: Prevents splitting clusters with too few data points.
+    \item \textbf{Maximum Depth ($\max_{\text{depth}}$)}: Limits the recursive splitting process.
+    \item \textbf{Random State}: Ensures reproducibility of results.
+\end{itemize}
+
+The parameter grid for Global K-Means is shown in Table \ref{tab:gmeansparams}.
+
+\begin{table}[h!]
+\centering
+\caption{G-Means Parameter Configuration}
+\label{tab:gmeansparams}
+\begin{tabularx}{\columnwidth}{|X|X|}
+\hline
+\textbf{Parameter} & \textbf{Values}\\ \hline
+Strictness & [0, 1, 2, 3, 4] \\ \hline
+Minimum Observations & [1, 5, 10] \\ \hline
+Maximum Depth & [5, 10, 15] \\ \hline
+Random State & [1, 2, 3, 4, 5] \\ \hline
+\end{tabularx}
+\end{table}
+
+
