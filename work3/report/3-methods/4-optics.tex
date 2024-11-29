@@ -1,2 +1,53 @@
 \subsection{OPTICS}
 \label{subsec:methods-optics}
+
+OPTICS (Ordering Points To Identify the Clustering Structure) is a density-based clustering algorithm that creates an augmented ordering of data points to identify cluster structures \cite{1999-optics}.
+
+\subsubsection{Mechanism}
+
+OPTICS works by computing a special ordering of points in the dataset based on their density-reachability relationships. The algorithm introduces two key concepts: core-distance and reachability-distance.
+
+The core-distance represents how dense the neighborhood around a point is, measured as the minimum radius needed to classify a point as a core point (containing a minimum number of neighbors). If a point doesn't have enough neighbors, its core-distance is undefined.
+
+The reachability-distance between two points measures how close they are from a density-connectivity perspective. It considers both the direct distance between points and the density of the neighborhood they're in, ensuring that points in dense regions are considered more closely connected than those in sparse regions.
+
+The algorithm processes points in a specific order, maintaining a priority queue ordered by reachability-distance. For each point:
+\begin{enumerate}
+    \item The core-distance is computed
+    \item For each unprocessed neighbor, the reachability-distance is calculated
+    \item Points are added to the priority queue based on their reachability-distance
+    \item The process continues with the point having the smallest reachability-distance
+\end{enumerate}
+
+This ordering produces a reachability plot, where valleys in the plot represent clusters. The \(\xi\) parameter is used to identify significant drops in reachability that indicate cluster boundaries. The minimum cluster size parameter ensures that identified clusters have a meaningful number of points.
+
+Unlike traditional clustering algorithms, OPTICS does not explicitly produce clusters but rather provides a density-based ordering that can be used to extract clusters of varying density. This makes it particularly effective at finding clusters of arbitrary shape and identifying noise points in the dataset.
+
+\subsubsection{Parameter Grid}
+
+OPTICS involves several important parameters, which include:
+
+\begin{itemize}
+    \item \textbf{Metric}: The distance metric used for calculating point distances.
+    \item \textbf{Algorithm}: The algorithm used to compute the nearest neighbors.
+    \item \textbf{Minimum Samples (\(min_{\text{samples}}\))}: The number of samples in a neighborhood for a point to be considered a core point.
+    \item \textbf{Xi (\(\xi\))}: The minimum steepness on the reachability plot that constitutes a cluster boundary.
+    \item \textbf{Minimum Cluster Size (\(min_{\text{cluster}}\))}: The minimum number of samples in a cluster.
+\end{itemize}
+
+The parameter variations used in our experiments are summarized in Table~\ref{tab:optics-param-grid}.
+
+\begin{table}[ht]
+\centering
+\caption{OPTICS Parameter Grid}
+\label{tab:optics-param-grid}
+\begin{tabularx}{\columnwidth}{|X|X|}
+\hline
+\textbf{Parameter} & \textbf{Values} \\ \hline
+Metric & euclidean, manhattan \\ \hline
+Algorithm & auto, ball\_tree \\ \hline
+Minimum Samples & 5, 10, 20 \\ \hline
+Xi & 0.01, 0.05, 0.1 \\ \hline
+Minimum Cluster Size & 5, 10, 20 \\ \hline
+\end{tabularx}
+\end{table}

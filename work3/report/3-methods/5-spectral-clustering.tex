@@ -1,2 +1,44 @@
 \subsection{Spectral Clustering}
 \label{subsec:methods-spectral-clustering}
+
+Spectral clustering is a technique that performs dimensionality reduction before clustering by using the eigenvectors of a similarity matrix \cite{2018-spectral}.
+
+\subsubsection{Mechanism}
+
+The algorithm proceeds in three main steps:
+\begin{enumerate}
+    \item Constructs a similarity matrix using either RBF kernel or k-nearest neighbors to capture relationships between data points
+    \item Computes the normalized Laplacian matrix and extracts its eigenvectors, creating a lower-dimensional representation that emphasizes cluster structure
+    \item Applies either k-means or cluster\_qr to this transformed space to obtain the final clustering
+\end{enumerate}
+
+This approach is particularly effective at identifying clusters of arbitrary shape, as it does not make assumptions about the geometric structure of the clusters.
+
+\subsubsection{Parameter Grid}
+
+Spectral Clustering involves several important parameters:
+
+\begin{itemize}
+    \item \textbf{Number of Neighbors (\(n_{\text{neighbors}}\))}: The number of neighbors for affinity matrix construction.
+    \item \textbf{Affinity}: The type of affinity matrix to construct.
+    \item \textbf{Eigen Solver}: The eigenvalue decomposition strategy.
+    \item \textbf{Assign Labels}: The strategy for assigning labels in the embedding space.
+    \item \textbf{Random State}: Controls reproducibility of results.
+\end{itemize}
+
+The parameter variations used in our experiments are summarized in Table~\ref{tab:spectral-param-grid}.
+
+\begin{table}[ht]
+\centering
+\caption{Spectral Clustering Parameter Grid}
+\label{tab:spectral-param-grid}
+\begin{tabularx}{\columnwidth}{|X|X|}
+\hline
+\textbf{Parameter} & \textbf{Values} \\ \hline
+Number of Neighbors & 5, 10, 20 \\ \hline
+Affinity & nearest\_neighbors, rbf \\ \hline
+Eigen Solver & arpack, lobpcg \\ \hline
+Assign Labels & kmeans, cluster\_qr \\ \hline
+Random State & 1, 2, 3, 4, 5 \\ \hline
+\end{tabularx}
+\end{table}
