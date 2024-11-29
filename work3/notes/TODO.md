@@ -8,12 +8,12 @@
         * [ ] (Carlos) Preprocessing
         * [ ] ~~(Zach) Synthetic data~~
         * [ ] (Sheena) Evaluation methods
-        * [ ] (Sheena) k-means (DONE by Tuesday 2024-11-26)
-        * [ ] (Kacper) gmeans
-        * [ ] (Kacper) global_kmeans
+        * [x] (Sheena) k-means (DONE by Tuesday 2024-11-26)
+        * [x] (Kacper) gmeans
+        * [x] (Kacper) global_kmeans
         * [ ] (Carlos) Fuzzy c-means
-        * [ ] (Zach) Optics
-        * [ ] (Zach) Spectral clustering
+        * [x] (Zach) Optics
+        * [x] (Zach) Spectral clustering
     * [ ] Results and Analysis
         * [ ] (Sheena) k-means
             * [ ] Results
@@ -27,7 +27,7 @@
     * [ ] (Zach) Conclusion
 
 ## TODO by Wednesday 2024-11-27
-* [ ] (Kacper) make a results demo
+* [x] (Kacper) make a results demo
 * [x] (Zach) remove synthetic data results
 * [ ] (Carlos) update plots 
     * [ ] showing how the parameters affect the performance, for each model for each dataset
@@ -42,13 +42,13 @@
 * [ ] Improve results
     * [ ] (Kacper) gmeans
 * [ ] Choose params
-    * [ ] (Zach) Optics
-    * [ ] (Zach) Spectral clustering
+    * [x] (Zach) Optics
+    * [x] (Zach) Spectral clustering
     * [ ] (Sheena) k-means
     * [ ] (Kacper) gmeans
     * [x] (Kacper) global_kmeans
     * [ ] (Carlos) Fuzzy c-means
-* [ ] (Carlos) Plots
+* [x] (Carlos) Plots
 
 
 ## TODO by 2024-11-23
