@@ -8,7 +8,7 @@ from pathlib import Path
 from scipy.optimize import linear_sum_assignment
 from sklearn.metrics import confusion_matrix
 from tools.config import CLUSTERED_DATA_DIR, PREPROCESSED_DATA_DIR, METRICS_DATA_PATH
-from tools.metrics import adjusted_rand_index, purity, davies_bouldin_index, f_measure
+from tools.metrics import davies_bouldin_index,calinski_harabasz_index, adjusted_rand_index, f_measure
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--verbose", "-v", action="store_true", help="Whether to print verbose output")
@@ -46,12 +46,12 @@ def compute_metrics(df: pd.DataFrame, true_labels: np.ndarray) -> pd.Series:
 
     matched_predicted_labels = hungarian_algorithm(true_labels, predicted_labels)
 
-    ari = adjusted_rand_index(true_labels, matched_predicted_labels)
-    pur = purity(true_labels, matched_predicted_labels)
     dbi = davies_bouldin_index(df.iloc[:, :-2].values, matched_predicted_labels)
+    chi = calinski_harabasz_index(df.iloc[:, :-2].values, matched_predicted_labels)
+    ari = adjusted_rand_index(true_labels, matched_predicted_labels)
     f1 = f_measure(true_labels, matched_predicted_labels)
 
-    metrics = {"ari": ari, "purity": pur, "dbi": dbi, "f_measure": f1, "n_clusters": n_clusters}
+    metrics = {"dbi": dbi, "chi": chi, "ari": ari, "f_measure": f1, "n_clusters": n_clusters}
     return pd.Series(metrics, index=metrics.keys())
 
 
