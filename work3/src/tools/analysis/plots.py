@@ -384,7 +384,7 @@ def custom_boxplot(ax, data):
     ax.spines["right"].set_visible(False)
 
 
-def plot_interactions_with_gridspec(df, col_names, datasets, model_name):
+def plot_interactions_with_gridspec(df, col_names, datasets, model_name, save_path=None):
     num_cols = len(col_names)
     total_datasets = len(datasets)
 
@@ -476,4 +476,12 @@ def plot_interactions_with_gridspec(df, col_names, datasets, model_name):
     # Add a global title for the entire plot
     fig.suptitle(f'Interaction Effects of {model_name.capitalize()} Parameters Across Datasets', fontsize=18, fontweight="bold")
     fig.tight_layout()
+
+
+    if save_path:
+        plt.savefig(save_path, format='png', dpi=300)
+        logger.info(f"Figure saved to {save_path}")
+    else:
+        plt.show()
+
     return fig

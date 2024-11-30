@@ -88,6 +88,15 @@ def main():
         plot_all_interactions(metrics_data, model_name, params, 'f_measure', save_dir=PLOTS_DIR)
 
 
+    for model_name, value in PARAMS_GRID_MAP.items():
+        params = list(value.keys())
+        logger.info(f'Plotting interactions (GridSpec) of {model_name} between {params}...')
+        plot_interactions_with_gridspec(
+            metrics_data, params, datasets, model_name,
+            save_path=f'{PLOTS_DIR}/interactions_gripspec_{model_name}.png'
+        )
+
+
     # for path in glob.glob(f'{CLUSTERED_DATA_DIR}/{dataset_name}/{model_name}/*'):
     #     if 'n_clusters=10' in path:  # change the number of clusters or any other param
     #         plot_clusters(path=path, features=['0','1']) # for synthetic dataset
