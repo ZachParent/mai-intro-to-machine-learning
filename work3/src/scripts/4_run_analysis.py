@@ -82,10 +82,10 @@ def main():
         )
 
 
-    for model_name, value in PARAMS_GRID_MAP.items():
-        params = list(value.keys())
-        logger.info(f'Plotting interactions of {model_name} between {params}...')
-        plot_all_interactions(metrics_data, model_name, params, 'f_measure', save_dir=PLOTS_DIR)
+    # for model_name, value in PARAMS_GRID_MAP.items():
+    #     params = list(value.keys())
+    #     logger.info(f'Plotting interactions of {model_name} between {params}...')
+    #     plot_all_interactions(metrics_data, model_name, params, 'f_measure', save_dir=PLOTS_DIR)
 
 
     for model_name, value in PARAMS_GRID_MAP.items():
