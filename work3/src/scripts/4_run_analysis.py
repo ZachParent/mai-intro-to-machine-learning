@@ -94,7 +94,7 @@ def main():
         logger.info(f'Plotting interactions (GridSpec) of {model_name} between {params}...')
         plot_interactions_with_gridspec(
             metrics_data, params, datasets, model_name,
-            save_path=f'{PLOTS_DIR}/interactions_gripspec_{model_name}.png'
+            save_path=f'{PLOTS_DIR}/interactions_{model_name}.png'
         )
 
 
