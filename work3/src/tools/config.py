@@ -10,4 +10,5 @@ METRICS_DATA_PATH = DATA_DIR / "3_metrics.csv"
 N_CLUSTERS = [2, 3, 5, 10, 11, 12]
 RANDOM_STATE = [1, 2, 3, 4, 5]
 
-PLOTS_DIR = DATA_DIR / "plots"
+REPORT_DIR = PROJECT_ROOT / "report"
+PLOTS_DIR = REPORT_DIR / "figures"
