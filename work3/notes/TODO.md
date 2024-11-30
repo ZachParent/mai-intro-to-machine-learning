@@ -3,15 +3,14 @@
 ## TODO by Friday 2024-11-29
 * [ ] report
     * [ ] (Sheena) Introduction
-    * [ ] (Carlos) Data
+    * [x] (Carlos) Data
     * [ ] Methods
-        * [ ] (Carlos) Preprocessing
-        * [ ] ~~(Zach) Synthetic data~~
+        * [x] (Carlos) Preprocessing
         * [ ] (Sheena) Evaluation methods
         * [x] (Sheena) k-means (DONE by Tuesday 2024-11-26)
         * [x] (Kacper) gmeans
         * [x] (Kacper) global_kmeans
-        * [ ] (Carlos) Fuzzy c-means
+        * [x] (Carlos) Fuzzy c-means
         * [x] (Zach) Optics
         * [x] (Zach) Spectral clustering
     * [ ] Results and Analysis
@@ -33,7 +32,7 @@
     * [ ] showing how the parameters affect the performance, for each model for each dataset
         * i.e. how do we get the best results for each dataset
         * maybe pairwise plots? maybe heatmap?
-* [ ] (Sheena) update metrics
+* [x] (Sheena) update metrics
 
 ## TODO by Monday 2024-11-25
 * [x] Optimize implementations
