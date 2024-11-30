@@ -1,0 +1,6 @@
+\subsection{Evaluation Metrics}
+\label{subsec:methods-evaluation-metrics}
+
+We evaluated our clustering approaches using two internal and two external metrics to ensure a comprehensive assessment by capturing different aspects of clustering performance. The \textbf{Davies-Bouldin Index (DBI)} measures the compactness and separation of clusters, where lower values indicate better clustering. The \textbf{Calinski-Harabasz Index (CHI)} evaluates the ratio of between-cluster variance to within-cluster variance, favoring solutions with well-separated, compact clusters; higher scores are better. These two internal metrics together provide insights into the geometric quality of clusters.
+
+On the other hand, external metrics assess alignment with ground truth labels. The \textbf{Adjusted Rand Index (ARI)} quantifies the agreement between true and predicted labels while correcting for chance, making it robust for comparing different clustering solutions. The \textbf{F-measure}, derived from precision and recall, evaluates how well the predicted clusters capture the true ones, focusing on class overlap. Together, these external metrics assess clustering accuracy and consistency, while complementing the internal metrics by incorporating the dataset’s known structure.
