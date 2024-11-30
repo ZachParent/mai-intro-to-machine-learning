@@ -2,9 +2,15 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 import pandas as pd
-from sklearn.model_selection import ParameterGrid
+from matplotlib.gridspec import GridSpec, GridSpecFromSubplotSpec
 import itertools
 import logging
+from pypalettes import load_cmap
+
+alexandrite = load_cmap("Alexandrite")
+emrld = load_cmap("Emrld", reverse=True)
+colors = alexandrite.colors
+plt.style.use("default")
 
 logger = logging.getLogger(__name__)
 
@@ -306,7 +312,6 @@ def plot_radar_chart(data, dataset_name, metrics, models, save_path=None):
         plt.show()
 
 
-
 def plot_all_interactions(data, model_name, params, metric, save_dir=None):
     """
     Create interaction plots for all pairwise combinations of parameters and a given metric.
@@ -356,3 +361,119 @@ def plot_all_interactions(data, model_name, params, metric, save_dir=None):
             print(f"Saved interaction plot: {save_path}")
         else:
             plt.show()
+
+
+def custom_boxplot(ax, data):
+    ax.boxplot(
+        data,
+        patch_artist=True,  # Fill boxes with color
+        medianprops={"color": "blue", "linewidth": 2},  # Style median lines
+        flierprops={
+            "marker": "o",
+            "markerfacecolor": "red",
+            "markeredgewidth": 1,
+            "markersize": 4,
+        },  # Style outlier points
+        boxprops={"facecolor": "lightblue", "alpha": 0.7},  # Style boxes
+        whiskerprops={"linestyle": "--"},  # Style whiskers
+        capprops={"linewidth": 2},  # Style caps
+    )
+    ax.yaxis.grid(True, linestyle="--", alpha=0.7)
+    ax.set_axisbelow(True)  # Put grid behind plot elements
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+
+
+def plot_interactions_with_gridspec(df, col_names, datasets, model_name):
+    num_cols = len(col_names)
+    total_datasets = len(datasets)
+
+    # Create the main figure and grid for datasets
+    fig = plt.figure(figsize=(15 * total_datasets, 6 * num_cols))
+    outer_grid = GridSpec(1, total_datasets, figure=fig, wspace=0.1)
+
+    # Prepare a placeholder for the colorbar data
+    heatmap_min, heatmap_max = np.inf, -np.inf
+
+    for dataset_idx, dataset_name in enumerate(datasets):
+        # Create a sub-grid for each dataset within the main grid
+        inner_grid = GridSpecFromSubplotSpec(
+            num_cols, num_cols, subplot_spec=outer_grid[dataset_idx],
+        )
+
+        filtered_df = df[(df['dataset'] == dataset_name) & (df['model'] == model_name)]
+
+        for i, ((col_name1, col_name2), inner_idx) in enumerate(
+            zip(itertools.product(col_names, repeat=2), range(num_cols * num_cols))
+        ):
+            row = inner_idx // num_cols
+            col = inner_idx % num_cols
+
+            ax = fig.add_subplot(inner_grid[row, col])
+
+
+            # Skip plots above the diagonal
+            if col > row:
+                ax.axis("off")
+                continue
+
+            
+
+            if col_name1 == col_name2:
+                # Diagonal-like plots: Single-variable distribution (boxplot)
+                unique_vals = filtered_df[col_name1].unique()
+                if np.issubdtype(unique_vals.dtype, np.number):
+                    unique_vals.sort()
+                sorted_data = [
+                    filtered_df[filtered_df[col_name1] == val]["f_measure"].tolist()
+                    for val in unique_vals
+                ]
+                
+                custom_boxplot(ax, sorted_data)
+                
+                # ax.set_xticks(unique_vals)
+                # ax.set_yticks(unique_vals)
+                ax.set_ylabel(f"{col_name1}", fontsize=10)
+                # ax.set_title(f"{col_name1}", fontsize=10)
+            else:
+                # Off-diagonal: Interaction heatmap
+                pivot_table = filtered_df.pivot_table(
+                    values="f_measure", index=col_name1, columns=col_name2, aggfunc="mean"
+                )
+                sns.heatmap(
+                    pivot_table,
+                    ax=ax,
+                    cmap="viridis",
+                    annot=False,
+                    # fmt=".2f",
+                    cbar=False,
+                )
+                # ax.set_title(f"{col_name1} vs {col_name2}", fontsize=8)
+
+                # Update the global min and max for the colorbar
+                if pivot_table.values.size > 0:  # Check if pivot_table is not empty
+                    heatmap_min = min(heatmap_min, np.nanmin(pivot_table.values))
+                    heatmap_max = max(heatmap_max, np.nanmax(pivot_table.values))
+
+            # Style: Remove ticks for clarity
+            # ax.set_xticks([])
+            # ax.set_yticks([])
+
+        # Add a title for the entire dataset grid
+        inner_title = fig.add_subplot(outer_grid[dataset_idx])
+        inner_title.axis("off")
+        inner_title.set_title(dataset_name, fontsize=14, fontweight="bold", y=.96)
+    
+
+
+    cbar_ax = fig.add_axes([0.92, 0.05, 0.01, 0.9])  # [left, bottom, width, height]
+    norm = plt.Normalize(heatmap_min, heatmap_max)
+    sm = plt.cm.ScalarMappable(cmap="viridis", norm=norm)
+    sm.set_array([])
+    fig.colorbar(sm, cax=cbar_ax, label="F1 Score", orientation="vertical")
+
+    
+    # Add a global title for the entire plot
+    fig.suptitle(f'Interaction Effects of {model_name.capitalize()} Parameters Across Datasets', fontsize=18, fontweight="bold")
+    fig.tight_layout()
+    return fig
