@@ -31,7 +31,7 @@ def get_config_from_row(row: pd.Series) -> dict:
         "params": {key: row[key] for key in params_keys},
     }
 
-metrics = ['ari', 'purity', 'dbi', 'f_measure', 'runtime']
+metrics = ['ari', 'chi', 'dbi', 'f_measure', 'runtime']
 models = ['fuzzy_cmeans', 'kmeans', 'gmeans', 'global_kmeans', 'optics', 'spectral_clustering'] # add more models if needed
 datasets = ['mushroom','hepatitis','vowel']
 
