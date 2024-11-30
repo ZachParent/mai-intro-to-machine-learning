@@ -2,11 +2,11 @@
 
 ## TODO by Friday 2024-11-29
 * [ ] report
-    * [ ] (Sheena) Introduction
+    * [x] (Sheena) Introduction
     * [x] (Carlos) Data
     * [ ] Methods
         * [x] (Carlos) Preprocessing
-        * [ ] (Sheena) Evaluation methods
+        * [x] (Sheena) Evaluation methods
         * [x] (Sheena) k-means (DONE by Tuesday 2024-11-26)
         * [x] (Kacper) gmeans
         * [x] (Kacper) global_kmeans
