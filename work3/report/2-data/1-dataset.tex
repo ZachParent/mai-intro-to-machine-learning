@@ -1,60 +1,133 @@
-\subsection{Dataset Selection and Characteristics}
-\label{subsec:dataset}
+\section{Dataset Selection and Characteristics}
+\label{sec:dataset}
 
-This section outlines our dataset selection criteria and analyzes the characteristics of the chosen datasets.
+This section outlines our dataset selection criteria and analyzes the characteristics of the chosen datasets for evaluating clustering algorithms.
 
-\subsubsection{Dataset Selection}
-In this project, we aimed to select two datasets that offer substantial variability across different aspects to evaluate the performance of Support Vector Machine (SVM) and k-Nearest Neighbors (KNN) algorithms.
-The criteria for dataset selection were centered around having one dataset that is small and another that is large, allowing us to analyze both the efficiency and effectiveness of these models across differing dataset sizes.
-\paragraph{Smaller datasets} 
-\paragraph{Larger datasets} 
+\subsection{Dataset Selection}
+In this project, we aimed to select three datasets that offer substantial variability across different aspects to evaluate the performance of various clustering algorithms, such as K-Means, G-Means, OPTICS, gs-FCM, etc.
 
-\paragraph{Attribute types} We wanted to assess the models' ability to handle datasets with different types of attributes.
-For this purpose, we wanted to select one dataset with primarily nominal attributes and another with numerical features.
-This allows us to evaluate how well each algorithm handles the representation and processing of different data types.
-\paragraph{Class distribution} By choosing one dataset with a balanced distribution and another with a notable class imbalance, we aim to observe how SVM and KNN, particularly with reduction, perform in scenarios where the data is skewed.
-\paragraph{Missing data} Lastly, we prioritized finding datasets with varying levels of missing data to examine how effectively the algorithms manage incomplete information.
+The criteria for dataset selection were centered around diversity in dataset size, attribute types, class distribution, and missing data patterns. These factors allowed us to thoroughly analyze the efficiency and effectiveness of each clustering algorithm under different scenarios.
 
-Based on these criteria, we selected the Hepatitis and Mushroom datasets, as they provide the most distinct and complementary combination for our evaluation.
-\subsubsection{Selection Criteria}
-We selected two datasets with contrasting characteristics to evaluate the performance of Support Vector Machine (SVM) and k-Nearest Neighbors (KNN) algorithms across different scenarios. Our selection criteria focused on:
+\paragraph{Dataset size variation} 
+To examine the scalability of the clustering algorithms, we selected one small dataset (Hepatitis), one medium-sized dataset (Vowel), and one large dataset (Mushroom). This setup enables us to assess the computational requirements and clustering performance of the algorithms across varying dataset sizes.
 
-\begin{itemize}
-    \item Dataset size variation (small vs. large)
-    \item Attribute type diversity (nominal vs. numerical)
-    \item Class distribution (balanced vs. imbalanced)
-    \item Missing data patterns
-\end{itemize}
+\paragraph{Attribute type diversity} 
+We chose datasets with diverse attribute types, including nominal, numerical, and mixed attributes. This ensures that the clustering algorithms are evaluated for their ability to handle varying data representations and preprocessing requirements.
 
-A smaller dataset enables rapid experimentation and initial algorithm validation, while a larger dataset allows evaluation of reduction methods' effectiveness, particularly for KNN's storage and computational requirements.
+\paragraph{Class distribution} 
+Although clustering is an unsupervised learning task, the class distributions of the datasets can serve as a baseline for validating the quality of clusters. We included one dataset with balanced classes (Vowel), one with slightly imbalanced classes (Mushroom), and one with a heavily imbalanced distribution (Hepatitis).
 
-\subsubsection{Dataset Characteristics}
+\paragraph{Missing data patterns} 
+We considered datasets with varying levels of missing data. The Hepatitis dataset contains missing values, challenging the algorithms to handle incomplete information, while the Vowel and Mushroom datasets are complete, ensuring a comparison of clustering performance in the absence of missing data.
+
+\subsection{Dataset Characteristics}
 
 \begin{itemize}
     \item \textbf{Mushroom Dataset}
     \begin{itemize}
         \item 8,124 instances
         \item 22 nominal attributes
-        \item Binary classification (edible vs. poisonous)
+        \item Binary classification (edible vs. poisonous, used for validation purposes)
         \item Nearly balanced classes
+        \item No missing values
     \end{itemize}
     
     \item \textbf{Hepatitis Dataset}
     \begin{itemize}
         \item 155 instances
-        \item Mixed attribute types (both nominal and numerical)
-        \item Binary classification (survive vs. die)
+        \item Mixed attribute types (13 nominal and 6 numerical)
+        \item Binary classification (survive vs. die, used for validation purposes)
         \item Imbalanced classes (79.35\% majority class)
         \item 6.01\% missing values
     \end{itemize}
+
+    \item \textbf{Vowel Dataset}
+    \begin{itemize}
+        \item 990 instances
+        \item Mixed attribute types (3 nominal and 10 numerical)
+        \item Multi-Class classification (11 classes, used for validation purposes)
+        \item Balanced classes
+        \item No missing values
+    \end{itemize}
 \end{itemize}
 
-\begin{figure}
-    \centering
-    \includegraphics[width=0.45\textwidth]{figures/hepatitis-class-distribution.png}
-    \includegraphics[width=0.45\textwidth]{figures/mushroom-class-distribution.png}
-    \caption{Class distribution comparison between datasets}
-    \label{fig:class-distributions}
-\end{figure}
+\subsection{Selection Criteria}
+We selected the Mushroom, Hepatitis, and Vowel datasets to provide complementary characteristics for evaluating clustering algorithms. Our selection criteria focused on:
 
-These datasets provide complementary characteristics for evaluating our algorithms' performance across different scenarios. The Mushroom dataset challenges the algorithms with its size and categorical nature, while the Hepatitis dataset tests their ability to handle mixed data types and class imbalance.
+\begin{itemize}
+    \item \textbf{Dataset size variation} (small, medium, large)
+    \item \textbf{Attribute type diversity} (nominal, numerical, mixed)
+  
+
+
+
+% \subsection{Dataset Selection and Characteristics}
+% \label{subsec:dataset}
+
+% This section outlines our dataset selection criteria and analyzes the characteristics of the chosen datasets.
+
+% \subsubsection{Dataset Selection}
+% In this project, we aimed to select two datasets that offer substantial variability across different aspects to evaluate the performance of Support Vector Machine (SVM) and k-Nearest Neighbors (KNN) algorithms.
+% The criteria for dataset selection were centered around having one dataset that is small and another that is large, allowing us to analyze both the efficiency and effectiveness of these models across differing dataset sizes.
+% \paragraph{Smaller datasets} 
+% \paragraph{Larger datasets} 
+
+% \paragraph{Attribute types} We wanted to assess the models' ability to handle datasets with different types of attributes.
+% For this purpose, we wanted to select one dataset with primarily nominal attributes and another with numerical features.
+% This allows us to evaluate how well each algorithm handles the representation and processing of different data types.
+% \paragraph{Class distribution} By choosing one dataset with a balanced distribution and another with a notable class imbalance, we aim to observe how SVM and KNN, particularly with reduction, perform in scenarios where the data is skewed.
+% \paragraph{Missing data} Lastly, we prioritized finding datasets with varying levels of missing data to examine how effectively the algorithms manage incomplete information.
+
+% Based on these criteria, we selected the Hepatitis and Mushroom datasets, as they provide the most distinct and complementary combination for our evaluation.
+% \subsubsection{Selection Criteria}
+% We selected two datasets with contrasting characteristics to evaluate the performance of Support Vector Machine (SVM) and k-Nearest Neighbors (KNN) algorithms across different scenarios. Our selection criteria focused on:
+
+% \begin{itemize}
+%     \item Dataset size variation (small vs. large)
+%     \item Attribute type diversity (nominal vs. numerical)
+%     \item Class distribution (balanced vs. imbalanced)
+%     \item Missing data patterns
+% \end{itemize}
+
+% A smaller dataset enables rapid experimentation and initial algorithm validation, while a larger dataset allows evaluation of reduction methods' effectiveness, particularly for KNN's storage and computational requirements.
+
+% \subsubsection{Dataset Characteristics}
+
+% \begin{itemize}
+%     \item \textbf{Mushroom Dataset}
+%     \begin{itemize}
+%         \item 8,124 instances
+%         \item 22 nominal attributes
+%         \item Binary classification (edible vs. poisonous)
+%         \item Nearly balanced classes
+%     \end{itemize}
+    
+%     \item \textbf{Hepatitis Dataset}
+%     \begin{itemize}
+%         \item 155 instances
+%         \item Mixed attribute types (13 nominal and 6 numerical)
+%         \item Binary classification (survive vs. die)
+%         \item Imbalanced classes (79.35\% majority class)
+%         \item 6.01\% missing values
+%     \end{itemize}
+
+%     \item \textbf{Vowel Dataset}
+%     \begin{itemize}
+%         \item 990 instances
+%         \item Mixed attribute types (3 nominal and 10 numerical)
+%         \item Multi-Class classification (11 classes)
+%         \item Balanced classes
+%         \item No missing values
+
+%     \end{itemize}
+% \end{itemize}
+
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=0.45\textwidth]{figures/hepatitis-class-distribution.png}
+%     \includegraphics[width=0.45\textwidth]{figures/mushroom-class-distribution.png}
+%     \caption{Class distribution comparison between datasets}
+%     \label{fig:class-distributions}
+% \end{figure}
+
+% These datasets provide complementary characteristics for evaluating our algorithms' performance across different scenarios. The Mushroom dataset challenges the algorithms with its size and categorical nature, while the Hepatitis dataset tests their ability to handle mixed data types and class imbalance.
