@@ -9,12 +9,12 @@ This section provides an overview of the results obtained from the improved K-Me
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.5\textwidth]{figures/interactions_global_kmeans.png}
-    \caption{hyperparameter interactions for Global K-Means}
+    \caption{Hyperparameter interactions for Global K-Means}
     \label{fig:interactions-global-kmeans}
 \end{figure}
 
 We found that the number of clusters had the most significant impact on the F-measure, as shown in Figure \ref{fig:interactions-global-kmeans}. For both the Mushroom and Hepatitis datasets, the F1 score was
-highest when number of clusters set to 2, and steadily decreased as the number of clusters increased. For the Vowel dataset, the F1 score was lowest 
+highest when number of clusters set to 2, and steadily decreased as the number of clusters increased. For the Vowel dataset, the F1 score was lowest
 with a small number of clusters, and increased as the number of clusters increased, peaking at number of clusters set to 11.
 These results are consistent with the number of classes in each dataset— 2 for Mushroom and Hepatitis, and 11 for Vowel.
 
@@ -34,7 +34,7 @@ performance of Global K-Means than the tolerance or max iterations parameters.
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.5\textwidth]{figures/interactions_gmeans.png}
-    \caption{hyperparameter interactions for G-Means}
+    \caption{Hyperparameter interactions for G-Means}
     \label{fig:interactions_gmeans}
 \end{figure}
 
@@ -55,6 +55,6 @@ cannot accurately predict the clusters in the Hepatitis dataset.
 
 The F1 score remains consistently low across all hyperparameter configurations for the Vowel dataset.
 The heatmaps suggest that $max_depth$ is the most significant hyperparameter, with lower levels producing the best results.
-Having said this, the results are still poor.The box plots show negligible variability for most parameters, with no significant outliers. 
-These results indicate that G-Means struggles to produce meaningful clusters for this dataset, 
+Having said this, the results are still poor. The box plots show negligible variability for most parameters, with no significant outliers.
+These results indicate that G-Means struggles to produce meaningful clusters for this dataset,
 likely due to the dataset's complexity and the algorithm's limitations in handling high-class scenarios.
