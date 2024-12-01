@@ -7,7 +7,7 @@
     \label{fig:interactions_spectral}
 \end{figure}
 
-As seen in \ref{fig:interactions_spectral}, spectral clustering showed varying performance across different parameter configurations and datasets. It performed best on the mushroom dataset, achieving ARI scores of 0.35 and F-measures of 0.16 using RBF affinity with ARPACK solver and assigning labels using kmeans. The vowel dataset showed more modest results, with nearest-neighbors affinity performing better than RBF, though still achieving relatively low ARI scores (typically between -0.007 and 0.03).
+As seen in \ref{fig:interactions_spectral}, spectral clustering showed varying performance across different parameter configurations and datasets. It achieved roughly 0.15 F1 scores at best across the datasets, including achieving an F1 of 0.16 on the mushroom dataset using RBF affinity with ARPACK solver and assigning labels using kmeans. It was the best performing method on the difficult-to-cluster vowel dataset, with an F1 score of 0.17.
 
 The algorithm's performance was significantly influenced by several key parameters:
 
