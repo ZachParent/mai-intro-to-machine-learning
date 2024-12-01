@@ -1,4 +1,22 @@
 \subsection{Spectral Clustering}
 \label{subsec:spectralclusteringresults}
 
-% Add plots here when ready
+\begin{figure}[ht!]
+    \includegraphics[width=0.5\textwidth]{figures/interactions_spectral_clustering.png}
+    \caption{Parameter interactions for Spectral Clustering}
+    \label{fig:interactions_spectral}
+\end{figure}
+
+As seen in \ref{fig:interactions_spectral}, spectral clustering showed varying performance across different parameter configurations and datasets. It performed best on the mushroom dataset, achieving ARI scores of 0.35 and F-measures of 0.16 using RBF affinity with ARPACK solver and assigning labels using kmeans. The vowel dataset showed more modest results, with nearest-neighbors affinity performing better than RBF, though still achieving relatively low ARI scores (typically between -0.007 and 0.03).
+
+The algorithm's performance was significantly influenced by several key parameters:
+
+\begin{itemize}
+    \item \textbf{Affinity Matrix}: Nearest-neighbors consistently outperformed RBF kernel for the vowel dataset, while RBF showed superior results for the mushroom and hepatitis datasets
+    \item \textbf{Solver Choice}: LOBPCG solver generally provided faster execution times (0.03-0.08s) compared to ARPACK (0.1-0.4s), and the results were similar
+    \item \textbf{Number of Neighbors}: Lower values (n\_neighbors=5) produced more stable results for the vowel dataset, but it mattered less for the other datasets
+    \item \textbf{Assignment Method}: cluster\_qr and kmeans assignments showed similar clustering quality
+    \item \textbf{Random State}: The results were very similar across different random states, indicating that the results are consistent and not highly dependent on the initialization
+\end{itemize}
+
+We saw interesting interactions between the parameters. For example, using a Kmeans assignment with the rbf affinity matrix showed particular effectiveness on the hepatitis dataset.
