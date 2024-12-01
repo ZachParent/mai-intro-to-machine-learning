@@ -5,11 +5,7 @@ OPTICS (Ordering Points To Identify the Clustering Structure) is a density-based
 
 \subsubsection{Mechanism}
 
-OPTICS works by computing a special ordering of points in the dataset based on their density-reachability relationships. The algorithm introduces two key concepts: core-distance and reachability-distance.
-
-The core-distance represents how dense the neighborhood around a point is, measured as the minimum radius needed to classify a point as a core point (containing a minimum number of neighbors). If a point doesn't have enough neighbors, its core-distance is undefined.
-
-The reachability-distance between two points measures how close they are from a density-connectivity perspective. It considers both the direct distance between points and the density of the neighborhood they're in, ensuring that points in dense regions are considered more closely connected than those in sparse regions.
+OPTICS works by computing a special ordering of points based on their density-reachability relationships. The algorithm uses core-distance (representing neighborhood density) and reachability-distance (measuring density-connectivity between points) to determine cluster structure.
 
 The algorithm processes points in a specific order, maintaining a priority queue ordered by reachability-distance. For each point:
 \begin{enumerate}
