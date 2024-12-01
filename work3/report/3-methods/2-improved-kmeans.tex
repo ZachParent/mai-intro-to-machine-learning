@@ -6,14 +6,14 @@ This section provides an overview of the improved K-Means algorithms implemented
 \subsubsection{Global K-Means}
 \label{subsec:globalkmeansdiscussion}
 
-The Global K-Means algorithm is an advanced clustering approach that improves upon the traditional K-Means by introducing an intelligent centroid initialization and incremental clustering strategy.
+The Global K-Means algorithm is an advanced clustering approach that improves upon the traditional K-Means by introducing an intelligent centroid initialization and incremental clustering strategy. \cite{global_kmeans}
 Our implementation focuses on addressing key limitations of standard clustering techniques through a novel candidate selection and optimization mechanism.
 
 \subsubsection*{Mechanism}
 The Global K-Means algorithm operates through a progressive clustering process with several key improvements:
 
 The clustering process starts with a single cluster by using standard K-Means with \(k=1\), and incrementally adds clusters.
-For each iteration, the optimal location for the new centroid is determined by minimizing the Within-Cluster Sum-of-Squares (WCSS).
+For each iteration, the optimal location for the new centroid is determined by minimizing the Within-Cluster Sum-of-Squares (WCSS). \cite{global_kmeans}
 Candidate points for the new centroid are selected based on their minimum distance from existing centroids, with the
 number of candidates dynamically adjusted based on the current cluster count. An efficient selection method is
 used via \texttt{np.argpartition}, ensuring scability.
@@ -65,18 +65,18 @@ Random State & [1, 2, 3, 4, 5] \\ \hline
 The G-Means algorithm is an advanced clustering techniques that improves upon the standard K-Means algorithm by addressing
 a fundamental limitation: the need to specify a predetermined number of clusters.
 G-Means dynamically determines the optimal number of clusters by recursively splitting clusters based on the
-statistical validation of their Gaussian distribution.
+statistical validation of their Gaussian distribution. \cite{gmeans}
 
 \subsubsection*{Mechanism}
 
 The algorithm begins the clustering process by initializing a single cluster, obtained using standard K-Means with \(k=1\).
 For each cluster, the data points are split into two sub-clusters by applying K-Means with \(k=2\).
 The resulting clusters are then evaluated using Anderson-Darling Gaussianity test. This test evaluates whether the data points in the cluster
-are Gaussian distributed.
+are Gaussian distributed. \cite{gmeans}
 
 If the test indicates both sub-clusters have a Gaussian distribution, the split is rejected and the original cluster remains unchanged.
 If at least one of the sub-clusters are not of Gaussian distribution, the split is accepted and the process is repeated recursively for each sub-cluster
-until all clusters are of Gaussian distribution, or the user-defined maximum depth is reached.
+until all clusters are of Gaussian distribution, or the user-defined maximum depth is reached. \cite{gmeans}
 
 Before applying the Gaussianity test, the algorithm projects the data onto the principal components using Principal Component
 Analysis (PCA) to ensure the Anderson-Darling test is applied to the most significant directions in the data.
