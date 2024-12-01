@@ -1,13 +1,8 @@
 \subsection{K-Means}
 \label{subsec:kmeansresults}
 
-K-Means performed exceptionally well across all three datasets: Mushroom, Hepatitis, and Vowel. As shown in Figure \ref{fig:interactions-kmeans}, the number of clusters that yielded the highest F-measure varied between the datasets. For Mushroom and Hepatitis, the optimal number of clusters was 2, while for the Vowel dataset, it was 11 clusters. This result is consistent with the number of classes in each dataset—2 for Mushroom and Hepatitis, and 11 for Vowel.
+K-Means demonstrated strong performance on the Mushroom and Hepatitis datasets. For Mushroom, it achieved an F-measure of 0.94 with the optimal parameters, highlighting its effectiveness. However, its performance on the Vowel dataset was poor, with a best F-measure of only 0.17. This low performance can likely be attributed to the dataset's higher optimal cluster count (11). As depicted in Figure \ref{fig:interactions-kmeans}, the optimal number of clusters varied across datasets. For Mushroom and Hepatitis, the highest F-measure was obtained with 2 clusters, matching the number of classes in these datasets. In contrast, for the Vowel dataset, the optimal result was achieved with 8 clusters, falling short of the actual number of classes (11). The inability to correctly identify the full number of clusters may explain the lower performance.
 
-Although changes in the maximum number of iterations and tolerance parameters had little effect on the F-measure, the random state settings, displayed in the fourth row of the plots, had a significant impact on the results. For example, in the Mushroom dataset, the F-measure was near 1 for one random state but dropped to around 0.6 for another, highlighting the importance of testing different initializations in K-Means clustering.
+While variations in parameters such as the maximum number of iterations and tolerance had minimal effect on the F-measure, the choice of the random state significantly influenced the results. For instance, in the Mushroom dataset, the F-measure reached 0.94 with one random state but dropped dramatically to around 0.46 with another. This underscores the critical role of testing different initializations in K-Means clustering to ensure robust results.
 
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.5\textwidth]{figures/interactions_kmeans.png}
-    \caption{Interactions for K-Means Clustering.}
-    \label{fig:interactions-kmeans}
-\end{figure}
+\begin{figure}[h!] \centering \includegraphics[width=0.5\textwidth]{figures/interactions_kmeans.png} \caption{Parameter Interactions for K-Means Clustering.} \label{fig:interactions-kmeans} \end{figure}
