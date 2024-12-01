@@ -4,7 +4,7 @@ import os
 import logging
 from tools.clustering import PARAMS_GRID_MAP
 from tools.analysis.plots import *
-from tools.analysis.tables import generate_best_models_table, generate_top_models_by_dataset
+from tools.analysis.tables import generate_best_models_table, generate_top_models_by_dataset, generate_model_best_configs_table
 from tools.config import METRICS_DATA_PATH, PLOTS_DIR, TABLES_DIR
 
 parser = argparse.ArgumentParser()
@@ -65,6 +65,15 @@ def main():
             metrics_data,
             dataset_name,
             f'{TABLES_DIR}/top_models_{dataset_name}.tex'
+        )
+    
+    # Per-model best configurations tables
+    for model_name in models:
+        logger.info(f"Generating best configs table for {model_name}...")
+        generate_model_best_configs_table(
+            metrics_data,
+            model_name,
+            f'{TABLES_DIR}/best_configs_{model_name}.tex'
         )
 
     # Generate plots
