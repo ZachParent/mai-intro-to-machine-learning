@@ -3,15 +3,14 @@
 
 The Mushroom dataset, with its simple two-class structure, was best handled by K-Means,
 Spectral Clustering, and Fuzzy C-Means. K-Means and Spectral Clustering achieved high F1 
-scores when cluster counts matched the natural class count. Fuzzy C-Means maintained 
+scores when the cluster counts matched the natural class count. Fuzzy C-Means maintained
 consistently high performance across a range of parameter combinations, while more complex 
 methods like G-Means and OPTICS added no benefit.
 
 The Hepatitis dataset, with moderate complexity and imbalanced classes, showed mixed results.
 K-Means and Global K-Means performed well when clusters aligned with the natural classes. 
-OPTICS and Fuzzy C-Means succeeded with careful tuning, favoring larger clusters or 
-lower fuzziness values, respectively. G-Means, however, exhibited instability due 
-to sensitivity to hyperparameters like $max_depth$ and strictness.
+OPTICS and Fuzzy C-Means succeeded with careful tuning, with OPTICS favoring larger clusters and Fuzzy C-Means performing better with lower fuzziness values.
+G-Means, however, exhibited instability due to sensitivity to hyperparameters like $max_depth$ and strictness.
 
 The Vowel dataset, characterized by high-class complexity and overlapping 
 features, posed significant challenges. All algorithms struggled, with low F1 
