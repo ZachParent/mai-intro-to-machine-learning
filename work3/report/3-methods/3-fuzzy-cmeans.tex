@@ -3,7 +3,7 @@
 
 To be more precise, we implemented the \textbf{\textit{Generalized Suppressed Fuzzy C-Means}} (gs-FCM) algorithm,
 which extends the Suppressed Fuzzy C-Means (s-FCM) approach by introducing a time-invariant,
-context-sensitive suppression rule \cite{gsFCM, suppresedFCM}. 
+context-sensitive suppression rule \cite{suppresedFCM, gsFCM}.
   
 The s-FCM algorithm itself incorporates a constant suppression factor to enhance clustering
 performance. Intuitively, the gs-FCM algorithm retains the same primary objective as the original 
@@ -20,39 +20,40 @@ Initially, the user specifies the number of clusters \( c \) and sets the fuzzy 
 \]
 where \( u_w \) is the fuzzy membership of the winning cluster, \( \text{param} \) is the suppression parameter, and \( m \) is the fuzzy exponent.
 
-At each iteration, fuzzy memberships are calculated using the standard FCM formula. For each data point \( \mathbf{x}_k \), the algorithm determines the winning cluster (i.e., the cluster prototype closest to \( \mathbf{x}_k \)) and calculates the suppression rate \( \alpha_k \) using the chosen rule. Suppressed fuzzy memberships are then computed using a modified formula that incorporates \( \alpha_k \), effectively reducing the influence of over-represented data points.
+At each iteration, fuzzy memberships are calculated for each data point \( \mathbf{x}_k \). The algorithm determines the winning cluster and calculates a suppression rate \( \alpha_k \), which is used to modify the fuzzy memberships, effectively reducing the influence of over-represented data points.
 
-Cluster prototypes are updated using the suppressed memberships, ensuring that the influence of individual data points on the cluster centers aligns with the suppression mechanism. These steps are repeated iteratively until convergence, typically measured by the norm of the variation in cluster prototypes between successive iterations.
+Cluster prototypes are then updated using these suppressed memberships, and the process repeats until convergence. This suppression mechanism enhances clustering robustness by addressing imbalances in data distribution and improving result quality.
 
-This suppression mechanism enhances the robustness of the clustering process, addressing imbalances in data distribution and improving the interpretability and quality of the clustering results.
-% gs-FCM works by iteratively minimizing an objective function that considers both fuzzy membership and suppression factors. The fuzzy membership matrix, $U$, determines the degree of belongingness of each data point to each cluster. The suppression factor, $S$, controls the influence of data points on the clustering process.
-
-% Cluster centers, $V$, are updated as a weighted average of data points, with weights determined by the fuzzy membership and suppression factors. The membership matrix is also updated based on distances to cluster centers and the suppression factor.
 
 \subsubsection{Parameter Grid}
-gs-FCM involves the following parameters:
+% gs-FCM involves the following parameters:
 
-\begin{itemize}
-    \item \textbf{Number of Clusters}: Determines the number of clusters (\(k\)) to form.
-    \item \textbf{Fuzzyness}: Controls the degree of fuzziness in the membership function.
-\end{itemize}
+% \begin{itemize}
+%     \item \textbf{Number of Clusters}: Determines the number of clusters (\(k\)) to form.
+%     \item \textbf{Fuzzyness}: Controls the degree of fuzziness in the membership function.
+% \end{itemize}
 
-* It's important to add that there's a suppression factor $\alpha$ that varies for each data point
-(i.e.m it is context/data sensitive) following a pre-defined suppresion rule.
+% * It's important to add that there's a suppression factor $\alpha$ that varies for each data point
+% (i.e. it is context/data sensitive) following a pre-defined suppresion rule.
 
-The parameter variations used in our experiments are summarized in Table~\ref{tab:gsfcm-param-grid}.
+% The parameter variations used in our experiments are summarized in Table~\ref{tab:gsfcm-param-grid}.
+
+The parameters and their variations used for gs-FCM in our experiments are summarized in Table~\ref{tab:gsfcm-param-grid}.
 
 \begin{table}[h!]
 \centering
-\caption{gs-FCM Parameter Grid}
-\label{tab:gsfcm-param-grid}
 \begin{tabularx}{\columnwidth}{|X|X|}
-\hline
-\textbf{Parameter} & \textbf{Values} \\ \hline
-Number of Clusters & 2, 3, 5, 10, 11, 12 \\ \hline
-Fuzzyness & 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0 \\ \hline
-Suppression Factor & Varies for each data point (context/data sensitive) \\ \hline
+    \hline
+    \textbf{Parameter} & \textbf{Values} \\ \hline
+    Number of Clusters & 2, 3, 5, 10, 11, 12 \\ \hline
+    Fuzzyness & 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0 \\ \hline
+    Suppression Factor & Varies per data point \\ \hline
 \end{tabularx}
+\caption{
+    Parameter grid for gs-FCM.\\ 
+    The \textit{Number of Clusters} determining the number of clusters to form.
+    The \textit{Fuzzyness} parameter, controls the degree of fuzziness in the membership function.
+    The \textit{Suppression Factor} is context-sensitive and adapts per data point based on a predefined suppression rule.
+}
+\label{tab:gsfcm-param-grid}
 \end{table}
-
-By tuning these parameters, gs-FCM can adapt to various data distributions and noise levels, making it a powerful tool for clustering complex datasets.

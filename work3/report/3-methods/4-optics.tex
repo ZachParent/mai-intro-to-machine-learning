@@ -5,11 +5,7 @@ OPTICS (Ordering Points To Identify the Clustering Structure) is a density-based
 
 \subsubsection{Mechanism}
 
-OPTICS works by computing a special ordering of points in the dataset based on their density-reachability relationships. The algorithm introduces two key concepts: core-distance and reachability-distance.
-
-The core-distance represents how dense the neighborhood around a point is, measured as the minimum radius needed to classify a point as a core point (containing a minimum number of neighbors). If a point doesn't have enough neighbors, its core-distance is undefined.
-
-The reachability-distance between two points measures how close they are from a density-connectivity perspective. It considers both the direct distance between points and the density of the neighborhood they're in, ensuring that points in dense regions are considered more closely connected than those in sparse regions.
+OPTICS works by computing a special ordering of points based on their density-reachability relationships. The algorithm uses core-distance (representing neighborhood density) and reachability-distance (measuring density-connectivity between points) to determine cluster structure.
 
 The algorithm processes points in a specific order, maintaining a priority queue ordered by reachability-distance. For each point:
 \begin{enumerate}
@@ -25,29 +21,57 @@ Unlike traditional clustering algorithms, OPTICS does not explicitly produce clu
 
 \subsubsection{Parameter Grid}
 
-OPTICS involves several important parameters, which include:
+The parameter grid for OPTICS, detailing the key configurable parameters, 
+is summarized in Table \ref{tab:optics-param-grid}.
 
-\begin{itemize}
-    \item \textbf{Metric}: The distance metric used for calculating point distances.
-    \item \textbf{Algorithm}: The algorithm used to compute the nearest neighbors.
-    \item \textbf{Minimum Samples (\(min_{\text{samples}}\))}: The number of samples in a neighborhood for a point to be considered a core point.
-    \item \textbf{Xi (\(\xi\))}: The minimum steepness on the reachability plot that constitutes a cluster boundary.
-    \item \textbf{Minimum Cluster Size (\(min_{\text{cluster}}\))}: The minimum number of samples in a cluster.
-\end{itemize}
-
-The parameter variations used in our experiments are summarized in Table~\ref{tab:optics-param-grid}.
-
-\begin{table}[ht]
+\begin{table}[htb]
 \centering
-\caption{OPTICS Parameter Grid}
-\label{tab:optics-param-grid}
 \begin{tabularx}{\columnwidth}{|X|X|}
-\hline
-\textbf{Parameter} & \textbf{Values} \\ \hline
-Metric & euclidean, manhattan \\ \hline
-Algorithm & auto, ball\_tree \\ \hline
-Minimum Samples & 5, 10, 20 \\ \hline
-Xi & 0.01, 0.05, 0.1 \\ \hline
-Minimum Cluster Size & 5, 10, 20 \\ \hline
+    \hline
+    \textbf{Parameter} & \textbf{Values} \\ \hline
+    Metric & euclidean, manhattan \\ \hline
+    Algorithm & auto, ball\_tree \\ \hline
+    Minimum Samples & 5, 10, 20 \\ \hline
+    Xi & 0.01, 0.05, 0.1 \\ \hline
+    Minimum Cluster Size & 5, 10, 20 \\ \hline
 \end{tabularx}
+\caption{
+    Parameter grid for OPTICS.\\ 
+    The \textit{Metric} specifies the distance metric used for calculating point distances, with options like euclidean and manhattan.
+    The \textit{Algorithm} defines the method for computing nearest neighbors, with choices such as auto and ball\_tree.
+    The \textit{Minimum Samples} refers to the number of samples in a neighborhood needed for a point to be considered a core point.
+    The \textit{Xi} defines the minimum steepness on the reachability plot that constitutes a cluster boundary.
+    The \textit{Minimum Cluster Size} specifies the minimum number of samples required in a cluster.
+}
+\label{tab:optics-param-grid}
 \end{table}
+
+
+% \subsubsection{Parameter Grid}
+
+% OPTICS involves several important parameters, which include:
+
+% \begin{itemize}
+%     \item \textbf{Metric}: The distance metric used for calculating point distances.
+%     \item \textbf{Algorithm}: The algorithm used to compute the nearest neighbors.
+%     \item \textbf{Minimum Samples (\(min_{\text{samples}}\))}: The number of samples in a neighborhood for a point to be considered a core point.
+%     \item \textbf{Xi (\(\xi\))}: The minimum steepness on the reachability plot that constitutes a cluster boundary.
+%     \item \textbf{Minimum Cluster Size (\(min_{\text{cluster}}\))}: The minimum number of samples in a cluster.
+% \end{itemize}
+
+% The parameter variations used in our experiments are summarized in Table~\ref{tab:optics-param-grid}.
+
+% \begin{table}[ht]
+% \centering
+% \caption{OPTICS Parameter Grid}
+% \label{tab:optics-param-grid}
+% \begin{tabularx}{\columnwidth}{|X|X|}
+% \hline
+% \textbf{Parameter} & \textbf{Values} \\ \hline
+% Metric & euclidean, manhattan \\ \hline
+% Algorithm & auto, ball\_tree \\ \hline
+% Minimum Samples & 5, 10, 20 \\ \hline
+% Xi & 0.01, 0.05, 0.1 \\ \hline
+% Minimum Cluster Size & 5, 10, 20 \\ \hline
+% \end{tabularx}
+% \end{table}

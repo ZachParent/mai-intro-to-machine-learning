@@ -6,27 +6,25 @@ This section provides an overview of the improved K-Means algorithms implemented
 \subsubsection{Global K-Means}
 \label{subsec:globalkmeansdiscussion}
 
-The global K-Means algorithm is an advanced clustering approach that improves upon the
-traditional K-Means by introducing an intelligent centroid initialization and incremental clustering strategy.
-Our implementation focuses on addressing key limitations of standard clustering techniques
-through a novel candidate selection and optimization mechanism.
+The Global K-Means algorithm is an advanced clustering approach that improves upon the traditional K-Means by introducing an intelligent centroid initialization and incremental clustering strategy. \cite{global_kmeans}
+Our implementation focuses on addressing key limitations of standard clustering techniques through a novel candidate selection and optimization mechanism.
 
 \subsubsection*{Mechanism}
 The Global K-Means algorithm operates through a progressive clustering process with several key improvements:
 
 The clustering process starts with a single cluster by using standard K-Means with \(k=1\), and incrementally adds clusters.
-For each iteration, the optimal location for the new centroid is determined by minimising the Within-Cluster Sum of Squares (WCSS).
+For each iteration, the optimal location for the new centroid is determined by minimizing the Within-Cluster Sum-of-Squares (WCSS). \cite{global_kmeans}
 Candidate points for the new centroid are selected based on their minimum distance from existing centroids, with the
 number of candidates dynamically adjusted based on the current cluster count. An efficient selection method is
-used via \texttt{np.argpartition}, ensures scability.
+used via \texttt{np.argpartition}, ensuring scability.
 
-The algorithm refines centroid placement by using vecotorised WCSS computation, reducing the computational
+The algorithm refines centroid placement by using vecotorized WCSS computation, reducing the computational
 complexity of the algorithm by simultaneously calculating the WCSS for all candidates. The configuration with the lowest
 WCSS is selected as the optimal solution for the current cluster count.
 
 A unique aspect of this implementation is the caching mechanism. Intermediate results such as cluster labels, centroids, and
 distance matrices are stored persistently. This allows the algorithm to resume from cached states for higher values of \(k\),
-thus reducing computational overhead dramatically by preventing recomputations of lower values of \(k\).
+thus reducing computational overhead dramatically by preventing re-computations of lower values of \(k\).
 The caching mechanism is hash-based, ensuring compatibility with different datasets and configurations.
 
 The implementation also includes an adaptive candidate reduction strategy. As the number of clusters increases, the number of candidate
@@ -35,30 +33,55 @@ remains efficient and scalable for large datasets, while maintaining high-qualit
 
 \subsubsection*{Parameter Grid}
 
-The Global K-Means algorithm is highly configurable, with several key parameters that can be tuned to optimize performance:
-
-\begin{itemize}
-    \item \textbf{Number of Clusters (\(n_{\text{clusters}}\))}: Determines the number of clusters (\(k\)) to form.
-    \item \textbf{Maximum Iterations (\(max_{\text{iterations}}\))}: The maximum number of iterations allowed for convergence.
-    \item \textbf{Tolerance (\(\epsilon\))}: The convergence threshold based on the change in centroids.
-    \item \textbf{Random State}: Controls the random seed for reproducibility of results.
-\end{itemize}
-
-The parameter grid for Global K-Means is shown in Table \ref{tab:globalkmeansparams}.
+The parameter grid for Global K-Means, highlighting its key configurable parameters, is shown in Table~\ref{tab:globalkmeansparams}.
 
 \begin{table}[h!]
 \centering
-\caption{Global K-Means Parameter Configuration}
-\label{tab:globalkmeansparams}
 \begin{tabularx}{\columnwidth}{|X|X|}
-\hline
-\textbf{Parameter} & \textbf{Values}\\ \hline
-Number of Clusters & [2, 3, 5, 10, 11, 12] \\ \hline
-Maximum Iterations & [100, 300, 500] \\ \hline
-Convergence Tolerance & $\{1 \times 10^{-5},\ 1 \times 10^{-4},\ 1 \times 10^{-3}\}$ \\ \hline
-Random State & [1, 2, 3, 4, 5] \\ \hline
+    \hline
+    \textbf{Parameter} & \textbf{Values} \\ \hline
+    Number of Clusters & 2, 3, 5, 10, 11, 12 \\ \hline
+    Maximum Iterations & 100, 300, 500 \\ \hline
+    Convergence Tolerance & \(1 \times 10^{-5}, 1 \times 10^{-4}, 1 \times 10^{-3}\) \\ \hline
+    Random State & 1, 2, 3, 4, 5 \\ \hline
 \end{tabularx}
+\caption{
+    Parameter grid for Global K-Means.\\ 
+    The \textit{Number of Clusters} determines the number of clusters to form.
+    The \textit{Maximum Iterations} parameter sets the upper limit for convergence iterations.
+    The \textit{Convergence Tolerance} defines the threshold for centroid changes. 
+    Finally, the \textit{Random State} ensures reproducibility by controlling the random seed, varying from 1 to 5.
+}
+\label{tab:globalkmeansparams}
 \end{table}
+
+
+% \subsubsection*{Parameter Grid}
+
+% The Global K-Means algorithm is highly configurable, with several key parameters that can be tuned to optimize performance:
+
+% \begin{itemize}
+%     \item \textbf{Number of Clusters (\(n_{\text{clusters}}\))}: Determines the number of clusters (\(k\)) to form.
+%     \item \textbf{Maximum Iterations (\(max_{\text{iterations}}\))}: The maximum number of iterations allowed for convergence.
+%     \item \textbf{Tolerance (\(\epsilon\))}: The convergence threshold based on the change in centroids.
+%     \item \textbf{Random State}: Controls the random seed for reproducibility of results.
+% \end{itemize}
+
+% The parameter grid for Global K-Means is shown in Table \ref{tab:globalkmeansparams}.
+
+% \begin{table}[h!]
+% \centering
+% \caption{Global K-Means Parameter Configuration}
+% \label{tab:globalkmeansparams}
+% \begin{tabularx}{\columnwidth}{|X|X|}
+% \hline
+% \textbf{Parameter} & \textbf{Values}\\ \hline
+% Number of Clusters & [2, 3, 5, 10, 11, 12] \\ \hline
+% Maximum Iterations & [100, 300, 500] \\ \hline
+% Convergence Tolerance & $\{1 \times 10^{-5},\ 1 \times 10^{-4},\ 1 \times 10^{-3}\}$ \\ \hline
+% Random State & [1, 2, 3, 4, 5] \\ \hline
+% \end{tabularx}
+% \end{table}
 
 
 \subsubsection{G-Means}
@@ -66,19 +89,19 @@ Random State & [1, 2, 3, 4, 5] \\ \hline
 
 The G-Means algorithm is an advanced clustering techniques that improves upon the standard K-Means algorithm by addressing
 a fundamental limitation: the need to specify a predetermined number of clusters.
-G-Means dynamically determines the optimal number of clusters by recursively splitting clusters based on 
-statistically validating their Gaussian distribution.
+G-Means dynamically determines the optimal number of clusters by recursively splitting clusters based on the
+statistical validation of their Gaussian distribution. \cite{gmeans}
 
 \subsubsection*{Mechanism}
 
-The algorithm begins the clustering process by initialising a single cluster, obtained using standard K-Means with \(k=1\).
-For each cluster, the data points are split into two subclusters by applying K-Means with \(k=2\).
+The algorithm begins the clustering process by initializing a single cluster, obtained using standard K-Means with \(k=1\).
+For each cluster, the data points are split into two sub-clusters by applying K-Means with \(k=2\).
 The resulting clusters are then evaluated using Anderson-Darling Gaussianity test. This test evaluates whether the data points in the cluster
-are Gaussian distributed. 
+are Gaussian distributed. \cite{gmeans}
 
-If the test indicates both subclusters are Gaussian distributed, the split is rejected and the original cluster remains unchanged.
-If at least one of the subclusters are not Gaussian distributed, the split is accepted and the process is repeated recursively for each subcluster
-until all clusters are Gaussian distributed, or the user-defined maximum depth is reached.
+If the test indicates both sub-clusters have a Gaussian distribution, the split is rejected and the original cluster remains unchanged.
+If at least one of the sub-clusters are not of Gaussian distribution, the split is accepted and the process is repeated recursively for each sub-cluster
+until all clusters are of Gaussian distribution, or the user-defined maximum depth is reached. \cite{gmeans}
 
 Before applying the Gaussianity test, the algorithm projects the data onto the principal components using Principal Component
 Analysis (PCA) to ensure the Anderson-Darling test is applied to the most significant directions in the data.
@@ -88,29 +111,55 @@ If a cluster has fewer observations than the minimum threshold, it is not split 
 
 \subsubsection*{Parameter Grid}
 
-The G-Means algorithm offers several configurable parameters to fine-tune its clustering behavior:
-
-\begin{itemize}
-    \item \textbf{Strictness ($s$)}: Controls the sensitivity of the Gaussianity test.
-    \item \textbf{Minimum Observations ($\min_{\text{obs}}$)}: Prevents splitting clusters with too few data points.
-    \item \textbf{Maximum Depth ($\max_{\text{depth}}$)}: Limits the recursive splitting process.
-    \item \textbf{Random State}: Ensures reproducibility of results.
-\end{itemize}
-
-The parameter grid for Global K-Means is shown in Table \ref{tab:gmeansparams}.
+The parameter grid for G-Means, highlighting key configurable parameters, is summarized in Table~\ref{tab:gmeansparams}.
 
 \begin{table}[h!]
 \centering
-\caption{G-Means Parameter Configuration}
-\label{tab:gmeansparams}
+
 \begin{tabularx}{\columnwidth}{|X|X|}
 \hline
-\textbf{Parameter} & \textbf{Values}\\ \hline
+\textbf{Parameter} & \textbf{Values} \\ \hline
 Strictness & [0, 1, 2, 3, 4] \\ \hline
 Minimum Observations & [1, 5, 10] \\ \hline
 Maximum Depth & [5, 10, 15] \\ \hline
 Random State & [1, 2, 3, 4, 5] \\ \hline
 \end{tabularx}
+\caption{
+    Parameter grid for G-Means.\\ 
+    The \textit{Strictness} ($s$) controls the sensitivity of the Gaussianity test, with values ranging from 0 to 4.
+    The \textit{Minimum Observations} ($\min_{\text{obs}}$) determines the minimum number of data points required to prevent splitting clusters with too few observations.
+    The \textit{Maximum Depth} ($\max_{\text{depth}}$) limits the recursive splitting process, with values ranging from 5 to 15.
+    The \textit{Random State} ensures reproducibility, with values ranging from 1 to 5.
+}
+\label{tab:gmeansparams}
 \end{table}
+
+
+% \subsubsection*{Parameter Grid}
+
+% The G-Means algorithm offers several configurable parameters to fine-tune its clustering behavior:
+
+% \begin{itemize}
+%     \item \textbf{Strictness ($s$)}: Controls the sensitivity of the Gaussianity test.
+%     \item \textbf{Minimum Observations ($\min_{\text{obs}}$)}: Prevents splitting clusters with too few data points.
+%     \item \textbf{Maximum Depth ($\max_{\text{depth}}$)}: Limits the recursive splitting process.
+%     \item \textbf{Random State}: Ensures reproducibility of results.
+% \end{itemize}
+
+% The parameter grid for Global K-Means is shown in Table \ref{tab:gmeansparams}.
+
+% \begin{table}[h!]
+% \centering
+% \caption{G-Means Parameter Configuration}
+% \label{tab:gmeansparams}
+% \begin{tabularx}{\columnwidth}{|X|X|}
+% \hline
+% \textbf{Parameter} & \textbf{Values}\\ \hline
+% Strictness & [0, 1, 2, 3, 4] \\ \hline
+% Minimum Observations & [1, 5, 10] \\ \hline
+% Maximum Depth & [5, 10, 15] \\ \hline
+% Random State & [1, 2, 3, 4, 5] \\ \hline
+% \end{tabularx}
+% \end{table}
 
 

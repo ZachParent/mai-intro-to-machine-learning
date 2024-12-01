@@ -4,52 +4,90 @@
 This section outlines our dataset selection criteria and analyzes the characteristics of the chosen datasets for evaluating clustering algorithms.
 
 \subsection{Dataset Selection}
-In this project, we aimed to select three datasets that offer substantial variability across different aspects to evaluate the performance of various clustering algorithms, such as K-Means, G-Means, OPTICS, gs-FCM, etc.
 
-The criteria for dataset selection were centered around diversity in dataset size, attribute types, class distribution, and missing data patterns. These factors allowed us to thoroughly analyze the efficiency and effectiveness of each clustering algorithm under different scenarios.
+To evaluate clustering algorithms, we selected three datasets with diverse characteristics in size, attribute types, class distribution, and missing data patterns. This diversity allows for a comprehensive analysis of algorithm performance under varying conditions.
 
-\paragraph{Dataset size variation} 
-To examine the scalability of the clustering algorithms, we selected one small dataset (Hepatitis), one medium-sized dataset (Vowel), and one large dataset (Mushroom). This setup enables us to assess the computational requirements and clustering performance of the algorithms across varying dataset sizes.
+The datasets vary in size, including a small dataset (Hepatitis), a medium-sized dataset (Vowel), and a large dataset (Mushroom), enabling an assessment of scalability and computational efficiency. They also include diverse attribute types: nominal, numerical, and mixed, ensuring the algorithms are tested across different data representations.
 
-\paragraph{Attribute type diversity} 
-We chose datasets with diverse attribute types, including nominal, numerical, and mixed attributes. This ensures that the clustering algorithms are evaluated for their ability to handle varying data representations and preprocessing requirements.
+Class distribution was another consideration. Although clustering is unsupervised, class distributions serve as baselines for validating cluster quality. We included a balanced dataset (Vowel), a slightly imbalanced one (Mushroom), and a heavily imbalanced one (Hepatitis). Lastly, missing data patterns were addressed, with Hepatitis containing missing values to test robustness, while Vowel and Mushroom datasets are complete, allowing performance comparisons under ideal conditions.
 
-\paragraph{Class distribution} 
-Although clustering is an unsupervised learning task, the class distributions of the datasets can serve as a baseline for validating the quality of clusters. We included one dataset with balanced classes (Vowel), one with slightly imbalanced classes (Mushroom), and one with a heavily imbalanced distribution (Hepatitis).
 
-\paragraph{Missing data patterns} 
-We considered datasets with varying levels of missing data. The Hepatitis dataset contains missing values, challenging the algorithms to handle incomplete information, while the Vowel and Mushroom datasets are complete, ensuring a comparison of clustering performance in the absence of missing data.
+% \subsection{Dataset Selection}
+% To evaluate the performance of clustering algorithms, we selected three datasets with diverse characteristics in size,
+% attribute types, class distribution, and missing data patterns. This diversity ensures a comprehensive analysis of algorithm efficiency under varying conditions.
+
+% % \subsection{Dataset Selection}
+% % In this project, we aimed to select three datasets that offer substantial variability across different aspects to evaluate the performance of various clustering algorithms, such as K-Means, G-Means, OPTICS, gs-FCM, etc.
+
+% % The criteria for dataset selection were centered around diversity in dataset size, attribute types, class distribution, and missing data patterns. These factors allowed us to thoroughly analyze the efficiency and effectiveness of each clustering algorithm under different scenarios.
+
+% \paragraph{Dataset size variation} 
+% To examine the scalability of the clustering algorithms, we selected one small dataset (Hepatitis), one medium-sized dataset (Vowel), and one large dataset (Mushroom). This setup enables us to assess the computational requirements and clustering performance of the algorithms across varying dataset sizes.
+
+% \paragraph{Attribute type diversity} 
+% We chose datasets with diverse attribute types, including nominal, numerical, and mixed attributes. This ensures that the clustering algorithms are evaluated for their ability to handle varying data representations and preprocessing requirements.
+
+% \paragraph{Class distribution} 
+% Although clustering is an unsupervised learning task, the class distributions of the datasets can serve as a baseline for validating the quality of clusters. We included one dataset with balanced classes (Vowel), one with slightly imbalanced classes (Mushroom), and one with a heavily imbalanced distribution (Hepatitis).
+
+% \paragraph{Missing data patterns} 
+% We considered datasets with varying levels of missing data. The Hepatitis dataset contains missing values, challenging the algorithms to handle incomplete information, while the Vowel and Mushroom datasets are complete, ensuring a comparison of clustering performance in the absence of missing data.
 
 \subsection{Dataset Characteristics}
 
-\begin{itemize}
-    \item \textbf{Mushroom Dataset}
-    \begin{itemize}
-        \item 8,124 instances
-        \item 22 nominal attributes
-        \item Binary classification (edible vs. poisonous, used for validation purposes)
-        \item Nearly balanced classes
-        \item No missing values
-    \end{itemize}
-    
-    \item \textbf{Hepatitis Dataset}
-    \begin{itemize}
-        \item 155 instances
-        \item Mixed attribute types (13 nominal and 6 numerical)
-        \item Binary classification (survive vs. die, used for validation purposes)
-        \item Imbalanced classes (79.35\% majority class)
-        \item 6.01\% missing values
-    \end{itemize}
+The Mushroom dataset consists of 8,124 instances with 22 nominal attributes. It represents a binary classification problem (edible vs. poisonous) with nearly balanced classes and contains no missing values. 
 
-    \item \textbf{Vowel Dataset}
-    \begin{itemize}
-        \item 990 instances
-        \item Mixed attribute types (3 nominal and 10 numerical)
-        \item Multi-Class classification (11 classes, used for validation purposes)
-        \item Balanced classes
-        \item No missing values
-    \end{itemize}
-\end{itemize}
+The Hepatitis dataset includes 155 instances with a mix of 13 nominal and 6 numerical attributes. It represents a binary classification problem (survive vs. die), but the classes are imbalanced, with the majority class comprising 79.35\% of the instances. Approximately 6.01\% of the values are missing. 
+
+The Vowel dataset contains 990 instances with 3 nominal and 10 numerical attributes. It represents a multi-class classification problem with 11 balanced classes and no missing values. 
+
+
+% \begin{table*}[h]
+% \centering
+% \begin{tabular}{|l|c|c|c|}
+% \hline
+% \textbf{Dataset}      & \textbf{Mushroom}                & \textbf{Hepatitis}              & \textbf{Vowel}                  \\ \hline
+% \textbf{Instances}    & 8,124                           & 155                             & 990                             \\ \hline
+% \textbf{Attributes}   & 22 nominal                      & 13 nominal, 6 numerical         & 3 nominal, 10 numerical         \\ \hline
+% \textbf{Classification Type} & Binary (edible vs. poisonous) & Binary (survive vs. die)        & Multi-Class (11 classes)        \\ \hline
+% \textbf{Class Balance} & Nearly balanced                 & Imbalanced (79.35\% majority)   & Balanced                        \\ \hline
+% \textbf{Missing Values} & None                            & 6.01\%                          & None                            \\ \hline
+% \end{tabular}
+% \caption{Characteristics of the Mushroom, Hepatitis, and Vowel datasets.}
+% \label{tab:dataset_characteristics}
+% \end{table*}
+
+
+% \subsection{Dataset Characteristics}
+
+% \begin{itemize}
+%     \item \textbf{Mushroom Dataset}
+%     \begin{itemize}
+%         \item 8,124 instances
+%         \item 22 nominal attributes
+%         \item Binary classification (edible vs. poisonous)
+%         \item Nearly balanced classes
+%         \item No missing values
+%     \end{itemize}
+    
+%     \item \textbf{Hepatitis Dataset}
+%     \begin{itemize}
+%         \item 155 instances
+%         \item Mixed attribute types (13 nominal and 6 numerical)
+%         \item Binary classification (survive vs. die)
+%         \item Imbalanced classes (79.35\% majority class)
+%         \item 6.01\% missing values
+%     \end{itemize}
+
+%     \item \textbf{Vowel Dataset}
+%     \begin{itemize}
+%         \item 990 instances
+%         \item Mixed attribute types (3 nominal and 10 numerical)
+%         \item Multi-Class classification (11 classes)
+%         \item Balanced classes
+%         \item No missing values
+%     \end{itemize}
+% \end{itemize}
 
 \subsection{Selection Criteria}
 We selected the Mushroom, Hepatitis, and Vowel datasets to provide complementary characteristics for evaluating clustering algorithms. Our selection criteria focused on:

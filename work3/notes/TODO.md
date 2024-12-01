@@ -1,10 +1,10 @@
 # Project is due 2024-12-08
 
-## TODO by Friday 2024-11-29
+## TODO by Friday 2024-12-01
 * [ ] report
     * [x] (Sheena) Introduction
     * [x] (Carlos) Data
-    * [ ] Methods
+    * [x] Methods
         * [x] (Carlos) Preprocessing
         * [x] (Sheena) Evaluation methods
         * [x] (Sheena) k-means (DONE by Tuesday 2024-11-26)
@@ -13,23 +13,29 @@
         * [x] (Carlos) Fuzzy c-means
         * [x] (Zach) Optics
         * [x] (Zach) Spectral clustering
-    * [ ] Results and Analysis
-        * [ ] (Sheena) k-means
-            * [ ] Results
-            * [ ] Analysis
-        * [ ] (Kacper) gmeans
-        * [ ] (Kacper) global_kmeans
-        * [ ] (Carlos) Fuzzy c-means
-        * [ ] (Zach) Optics
-        * [ ] (Zach) Spectral clustering
-        * [ ] (Kacper) Summary
-    * [ ] (Zach) Conclusion
+    * [x] Results and Analysis
+        * [x] (Sheena) k-means
+            * [x] Results
+            * [x] Analysis
+        * [x] (Kacper) gmeans
+        * [x] (Kacper) global_kmeans
+        * [x] (Carlos) Fuzzy c-means
+        * [x] (Zach) Optics
+        * [x] (Zach) Spectral clustering
+        * [x] (Kacper) Summary
+	        * [x] add summary plots
+    * [x] (Zach) Conclusion
+    * [ ] reduce size
+- [x] (Sheena) review Kacper's work
+- [x] (Kacper) review Sheena's work
+- [ ] (Carlos) review Zach's work
+- [x] (Zach) review Carlos's work
 
 ## TODO by Wednesday 2024-11-27
 * [x] (Kacper) make a results demo
 * [x] (Zach) remove synthetic data results
-* [ ] (Carlos) update plots 
-    * [ ] showing how the parameters affect the performance, for each model for each dataset
+* [x] (Carlos) update plots 
+    * [x] showing how the parameters affect the performance, for each model for each dataset
         * i.e. how do we get the best results for each dataset
         * maybe pairwise plots? maybe heatmap?
 * [x] (Sheena) update metrics
@@ -38,23 +44,23 @@
 * [x] Optimize implementations
     * [x] (Carlos) Fuzzy c-means
     * [x] (Kacper) global_kmeans
-* [ ] Improve results
-    * [ ] (Kacper) gmeans
-* [ ] Choose params
+* [x] Improve results
+    * [x] (Kacper) gmeans
+* [x] Choose params
     * [x] (Zach) Optics
     * [x] (Zach) Spectral clustering
-    * [ ] (Sheena) k-means
-    * [ ] (Kacper) gmeans
+    * [x] (Sheena) k-means
+    * [x] (Kacper) gmeans
     * [x] (Kacper) global_kmeans
-    * [ ] (Carlos) Fuzzy c-means
+    * [x] (Carlos) Fuzzy c-means
 * [x] (Carlos) Plots
 
 
 ## TODO by 2024-11-23
 * [x] Select a third dataset
-* [ ] (Carlos) Fuzzy c-means
+* [x] (Carlos) Fuzzy c-means
 * [x] (Carlos) Preprocessing
-* [ ] (Carlos) Plots
+* [x] (Carlos) Plots
 * [x] (Kacper) global kmeans (is slow)
 * [x] (Kacper) gmeans (works badly)
 * [x] (Kacper) Makefile

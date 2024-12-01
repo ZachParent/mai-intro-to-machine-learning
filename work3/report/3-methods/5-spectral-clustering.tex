@@ -16,29 +16,56 @@ This approach is particularly effective at identifying clusters of arbitrary sha
 
 \subsubsection{Parameter Grid}
 
-Spectral Clustering involves several important parameters:
+The parameter grid for Spectral Clustering, including its key configurable parameters, is summarized in Table~\ref{tab:spectral-param-grid}.
 
-\begin{itemize}
-    \item \textbf{Number of Neighbors (\(n_{\text{neighbors}}\))}: The number of neighbors for affinity matrix construction.
-    \item \textbf{Affinity}: The type of affinity matrix to construct.
-    \item \textbf{Eigen Solver}: The eigenvalue decomposition strategy.
-    \item \textbf{Assign Labels}: The strategy for assigning labels in the embedding space.
-    \item \textbf{Random State}: Controls reproducibility of results.
-\end{itemize}
-
-The parameter variations used in our experiments are summarized in Table~\ref{tab:spectral-param-grid}.
-
-\begin{table}[ht]
+\begin{table}[htb]
 \centering
-\caption{Spectral Clustering Parameter Grid}
-\label{tab:spectral-param-grid}
 \begin{tabularx}{\columnwidth}{|X|X|}
-\hline
-\textbf{Parameter} & \textbf{Values} \\ \hline
-Number of Neighbors & 5, 10, 20 \\ \hline
-Affinity & nearest\_neighbors, rbf \\ \hline
-Eigen Solver & arpack, lobpcg \\ \hline
-Assign Labels & kmeans, cluster\_qr \\ \hline
-Random State & 1, 2, 3, 4, 5 \\ \hline
+    \hline
+    \textbf{Parameter} & \textbf{Values} \\ \hline
+    Number of Neighbors & 5, 10, 20 \\ \hline
+    Affinity & nearest\_neighbors, rbf \\ \hline
+    Eigen Solver & arpack, lobpcg \\ \hline
+    Assign Labels & kmeans, cluster\_qr \\ \hline
+    Random State & 1, 2, 3, 4, 5 \\ \hline
 \end{tabularx}
+\caption{
+    Parameter grid for Spectral Clustering.\\ 
+    The \textit{Number of Neighbors} (\(n_{\text{neighbors}}\)) specifies the number of neighbors used for constructing the affinity matrix.
+    The \textit{Affinity} parameter defines the type of affinity matrix, with options like nearest\_neighbors and rbf.
+    The \textit{Eigen Solver} determines the strategy for eigenvalue decomposition, such as arpack or lobpcg.
+    The \textit{Assign Labels} parameter specifies the method for label assignment in the embedding space, using strategies like kmeans or cluster\_qr.
+    Finally, the \textit{Random State} controls reproducibility, varying from 1 to 5.
+}
+\label{tab:spectral-param-grid}
 \end{table}
+
+
+% \subsubsection{Parameter Grid}
+
+% Spectral Clustering involves several important parameters:
+
+% \begin{itemize}
+%     \item \textbf{Number of Neighbors (\(n_{\text{neighbors}}\))}: The number of neighbors for affinity matrix construction.
+%     \item \textbf{Affinity}: The type of affinity matrix to construct.
+%     \item \textbf{Eigen Solver}: The eigenvalue decomposition strategy.
+%     \item \textbf{Assign Labels}: The strategy for assigning labels in the embedding space.
+%     \item \textbf{Random State}: Controls reproducibility of results.
+% \end{itemize}
+
+% The parameter variations used in our experiments are summarized in Table~\ref{tab:spectral-param-grid}.
+
+% \begin{table}[ht]
+% \centering
+% \caption{Spectral Clustering Parameter Grid}
+% \label{tab:spectral-param-grid}
+% \begin{tabularx}{\columnwidth}{|X|X|}
+% \hline
+% \textbf{Parameter} & \textbf{Values} \\ \hline
+% Number of Neighbors & 5, 10, 20 \\ \hline
+% Affinity & nearest\_neighbors, rbf \\ \hline
+% Eigen Solver & arpack, lobpcg \\ \hline
+% Assign Labels & kmeans, cluster\_qr \\ \hline
+% Random State & 1, 2, 3, 4, 5 \\ \hline
+% \end{tabularx}
+% \end{table}
