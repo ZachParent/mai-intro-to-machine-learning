@@ -389,7 +389,7 @@ def plot_interactions_with_gridspec(df, col_names, datasets, model_name, save_pa
     total_datasets = len(datasets)
 
     # Create the main figure and grid for datasets
-    fig = plt.figure(figsize=(10 * total_datasets, 4 * num_cols))
+    fig = plt.figure(figsize=(10 * total_datasets, 10))
     outer_grid = GridSpec(1, total_datasets, figure=fig, wspace=0.05)  # Reduced from 0.1
 
     # Prepare a placeholder for the colorbar data
@@ -478,7 +478,7 @@ def plot_interactions_with_gridspec(df, col_names, datasets, model_name, save_pa
         # Add a title for the entire dataset grid
         inner_plot = fig.add_subplot(outer_grid[dataset_idx])
         inner_plot.axis("off")
-        inner_plot.set_title(dataset_name, fontsize=14, fontweight="bold", y=.96)
+        inner_plot.set_title(dataset_name, fontsize=30, fontweight="bold", y=.96)
     
 
     # Adjust the overall layout with tighter spacing
