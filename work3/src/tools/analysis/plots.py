@@ -6,7 +6,8 @@ from matplotlib.gridspec import GridSpec, GridSpecFromSubplotSpec
 import itertools
 import logging
 from pypalettes import load_cmap
-
+from matplotlib.colors import LogNorm
+import matplotlib.ticker as ticker
 alexandrite = load_cmap("Alexandrite")
 emrld = load_cmap("Emrld", reverse=True)
 colors = alexandrite.colors
@@ -393,7 +394,9 @@ def plot_interactions_with_gridspec(df, col_names, datasets, model_name, save_pa
     outer_grid = GridSpec(1, total_datasets, figure=fig, wspace=0.05)  # Reduced from 0.1
 
     # Prepare a placeholder for the colorbar data
-    heatmap_min, heatmap_max = np.inf, -np.inf
+    heatmap_min = max(0.00001, df[df['model'] == model_name]['f_measure'].min())
+    heatmap_max = df[df['model'] == model_name]['f_measure'].max()
+    norm = LogNorm(heatmap_min, heatmap_max, clip=True)
 
     for dataset_idx, dataset_name in enumerate(datasets):
         # Create a sub-grid for each dataset within the main grid
@@ -450,12 +453,10 @@ def plot_interactions_with_gridspec(df, col_names, datasets, model_name, save_pa
                     cmap="viridis",
                     annot=False,
                     cbar=False,
+                    vmin=heatmap_min,
+                    vmax=heatmap_max,
+                    norm=norm
                 )
-
-                # Update the global min and max for the colorbar
-                if pivot_table.values.size > 0:  # Check if pivot_table is not empty
-                    heatmap_min = min(heatmap_min, np.nanmin(pivot_table.values))
-                    heatmap_max = max(heatmap_max, np.nanmax(pivot_table.values))
                 
                 # ax.set_yticks(range(len(unique_vals_1)))
                 # ax.set_xticks(range(len(unique_vals_2)))
@@ -493,10 +494,10 @@ def plot_interactions_with_gridspec(df, col_names, datasets, model_name, save_pa
 
     # Adjust colorbar position for new spacing
     cbar_ax = fig.add_axes([0.93, 0.15, 0.01, 0.75])
-    norm = plt.Normalize(heatmap_min, heatmap_max)
     sm = plt.cm.ScalarMappable(cmap="viridis", norm=norm)
     sm.set_array([])
-    fig.colorbar(sm, cax=cbar_ax, label="F1 Score", orientation="vertical")
+    cbar = fig.colorbar(sm, cax=cbar_ax, orientation="vertical", format=ticker.FuncFormatter(lambda x, pos: f"{x:.3f}"))
+    cbar.set_label("F1 Score", fontsize=14, fontweight="bold")
 
     if save_path:
         plt.savefig(save_path, format='png', dpi=300, bbox_inches='tight')
