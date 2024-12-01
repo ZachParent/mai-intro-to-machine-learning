@@ -1,19 +1,20 @@
 \subsection{Summary}
 \label{subsec:resultssummary}
 
-The Mushroom dataset, with its simple two-class structure, was best handled by K-Means and Spectral Clustering.
-Both achieved high F1 scores when the number of clusters matched the true class count.
-More complex algorithms like G-Means and OPTICS added no benefit, showing that simpler methods suffice for straightforward datasets.
+The Mushroom dataset, with its simple two-class structure, was best handled by K-Means,
+Spectral Clustering, and Fuzzy C-Means. K-Means and Spectral Clustering achieved high F1 
+scores when cluster counts matched the natural class count. Fuzzy C-Means maintained 
+consistently high performance across a range of parameter combinations, while more complex 
+methods like G-Means and OPTICS added no benefit.
 
 The Hepatitis dataset, with moderate complexity and imbalanced classes, showed mixed results.
-K-Means and Global K-Means performed well when cluster counts aligned with the natural classes. 
-OPTICS achieved moderate success when tuned for larger clusters using $min_samples$ and $min_cluster_size$. 
-G-Means struggled due to sensitivity to parameters like $max_depth$ and strictness, causing instability.
-For this dataset, K-Means or OPTICS are effective with proper tuning.
+K-Means and Global K-Means performed well when clusters aligned with the natural classes. 
+OPTICS and Fuzzy C-Means succeeded with careful tuning, favoring larger clusters or 
+lower fuzziness values, respectively. G-Means, however, exhibited instability due 
+to sensitivity to hyperparameters like $max_depth$ and strictness.
 
-The Vowel dataset, with its high-class complexity (11 classes) and overlapping features, was 
-challenging for all algorithms. F1 scores were low across the board. Spectral Clustering showed slight 
-improvement using nearest-neighbors affinity but still failed to produce meaningful clusters. K-Means 
-and Global K-Means struggled with their reliance on fixed cluster counts, while G-Means and OPTICS 
-could not handle the dataset's complexity. Advanced methods like hierarchical or 
-deep clustering may be better suited for such datasets.
+The Vowel dataset, characterized by high-class complexity and overlapping 
+features, posed significant challenges. All algorithms struggled, with low F1 
+scores across the board. Fuzzy C-Means showed some improvement with higher fuzziness 
+values and larger cluster counts, but the gains were limited. Spectral Clustering 
+and other methods failed to handle the dataset's complexity effectively, emphasizing the need for advanced clustering techniques.
