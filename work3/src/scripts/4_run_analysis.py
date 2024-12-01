@@ -78,8 +78,7 @@ def main():
 
     # Generate plots
     logger.info("Generating plots...")
-    return
-    
+        
     plot_pairplot(
         data=metrics_data,
         vars=metrics,
