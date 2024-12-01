@@ -1,10 +1,10 @@
 # Project is due 2024-12-08
 
-## TODO by Friday 2024-11-29
+## TODO by Friday 2024-12-01
 * [ ] report
     * [x] (Sheena) Introduction
     * [x] (Carlos) Data
-    * [ ] Methods
+    * [x] Methods
         * [x] (Carlos) Preprocessing
         * [x] (Sheena) Evaluation methods
         * [x] (Sheena) k-means (DONE by Tuesday 2024-11-26)
@@ -13,17 +13,23 @@
         * [x] (Carlos) Fuzzy c-means
         * [x] (Zach) Optics
         * [x] (Zach) Spectral clustering
-    * [ ] Results and Analysis
-        * [ ] (Sheena) k-means
-            * [ ] Results
-            * [ ] Analysis
-        * [ ] (Kacper) gmeans
-        * [ ] (Kacper) global_kmeans
-        * [ ] (Carlos) Fuzzy c-means
-        * [ ] (Zach) Optics
-        * [ ] (Zach) Spectral clustering
+    * [x] Results and Analysis
+        * [x] (Sheena) k-means
+            * [x] Results
+            * [x] Analysis
+        * [x] (Kacper) gmeans
+        * [x] (Kacper) global_kmeans
+        * [x] (Carlos) Fuzzy c-means
+        * [x] (Zach) Optics
+        * [x] (Zach) Spectral clustering
         * [ ] (Kacper) Summary
+	        * [ ] add summary plots
     * [ ] (Zach) Conclusion
+    * [ ] reduce size
+- [ ] (Sheena) review Kacper's work
+- [ ] (Kacper) review Sheena's work
+- [ ] (Carlos) review Zach's work
+- [x] (Zach) review Carlos's work
 
 ## TODO by Wednesday 2024-11-27
 * [x] (Kacper) make a results demo
