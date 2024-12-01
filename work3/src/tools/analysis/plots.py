@@ -431,9 +431,9 @@ def plot_interactions_with_gridspec(df, col_names, datasets, model_name, save_pa
                 
                 custom_boxplot(ax, sorted_data)
                 
-                # ax.set_xticks(unique_vals)
-                # ax.set_yticks(unique_vals)
-                ax.set_ylabel(f"{col_name1}", fontsize=10)
+                ax.set_xticklabels(unique_vals)
+                ax.set_xlabel(f"{col_name1}", fontsize=10)
+                ax.set_ylabel("F1 measure", fontsize=10)
                 # ax.set_title(f"{col_name1}", fontsize=10)
             else:
                 # Off-diagonal: Interaction heatmap
@@ -466,7 +466,8 @@ def plot_interactions_with_gridspec(df, col_names, datasets, model_name, save_pa
     
 
 
-    cbar_ax = fig.add_axes([0.92, 0.05, 0.01, 0.9])  # [left, bottom, width, height]
+    # cbar_ax = fig.add_axes([0.92, 0.05, 0.01, 0.9])  # [left, bottom, width, height]
+    cbar_ax = fig.add_axes([0.92, 0.15, 0.01, 0.75])  # [left, bottom, width, height]
     norm = plt.Normalize(heatmap_min, heatmap_max)
     sm = plt.cm.ScalarMappable(cmap="viridis", norm=norm)
     sm.set_array([])
