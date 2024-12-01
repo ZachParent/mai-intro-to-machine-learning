@@ -1,24 +1,37 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-
 \subsection{Key Findings}
 
 \begin{itemize}
-    \item 
+    \item K-means demonstrated consistent performance with moderate execution times (0.03-0.07s) and balanced clustering metrics
+    \item Fuzzy C-means showed particularly strong performance on the hepatitis dataset, achieving high ARI scores (0.14-0.17) for lower cluster numbers
+    \item Global K-means exhibited longer execution times but provided more stable clustering than K-means results across different initializations
+    \item Gmeans did not demonstrate competitive results generally, but exhibited decent F1 scores on the vowel dataset
+    \item OPTICS generally showed weak performance, probably due to the lack of natural density variations in the datasets
+    \item Spectral clustering performed well with nearest-neighbors affinity, especially on the vowel dataset, achieving competitive ARI scores
 \end{itemize}
 
 \subsection{Practical Implications}
 
 \begin{itemize}
-    \item 
+    \item For well-separated clusters: K-means offers the best balance of speed and accuracy
+    \item For overlapping clusters: Fuzzy C-means provides more nuanced cluster assignments
+    \item For datasets with varying densities: OPTICS or Spectral clustering are more suitable
+    \item When cluster number is unknown: Mean Shift or OPTICS are preferable
+    \item When stability is crucial: Global K-means offers more consistent results
 \end{itemize}
 
 \subsection{Limitations and Future Work}
 
 \begin{itemize}
-    \item 
+    \item Current analysis is limited to specific parameter ranges and could be expanded
+    \item Computational efficiency could be improved, particularly for Global K-means and OPTICS
+    \item The impact of data preprocessing and normalization needs further investigation
+    \item Integration of multiple algorithms in an ensemble approach could potentially yield better results
 \end{itemize}
 
 \subsection{Final Remarks}
+
+Each clustering algorithm demonstrates distinct strengths and weaknesses, suggesting that the choice of algorithm should be primarily driven by specific application requirements and data characteristics. While K-means and Fuzzy C-means offer good general-purpose solutions, specialized algorithms like OPTICS and Spectral clustering provide advantages for specific data distributions. Future work should focus on developing hybrid approaches that can combine the strengths of multiple algorithms while mitigating their individual weaknesses.
 
