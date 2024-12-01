@@ -1,4 +1,13 @@
 \subsection{K-Means}
 \label{subsec:kmeansresults}
 
-% Add plots here when ready
+K-Means performed exceptionally well across all three datasets: Mushroom, Hepatitis, and Vowel. As shown in Figure \ref{fig:interactions-kmeans}, the number of clusters that yielded the highest F-measure varied between the datasets. For Mushroom and Hepatitis, the optimal number of clusters was 2, while for the Vowel dataset, it was 11 clusters. This result is consistent with the number of classes in each dataset—2 for Mushroom and Hepatitis, and 11 for Vowel.
+
+Although changes in the maximum number of iterations and tolerance parameters had little effect on the F-measure, the random state settings, displayed in the fourth row of the plots, had a significant impact on the results. For example, in the Mushroom dataset, the F-measure was near 1 for one random state but dropped to around 0.6 for another, highlighting the importance of testing different initializations in K-Means clustering.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.5\textwidth]{figures/interactions_kmeans.png}
+    \caption{Interactions for K-Means Clustering.}
+    \label{fig:interactions-kmeans}
+\end{figure}

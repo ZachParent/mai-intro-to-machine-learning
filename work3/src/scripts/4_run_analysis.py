@@ -44,6 +44,8 @@ def main():
         logging.basicConfig(level=logging.WARNING)
 
     metrics_data = pd.read_csv(METRICS_DATA_PATH)
+    os.makedirs(PLOTS_DIR, exist_ok=True)
+
 
     # for _, row in metrics_data.iterrows():
     #     metrics_data_config = get_config_from_row(row)
@@ -87,13 +89,12 @@ def main():
     #     logger.info(f'Plotting interactions of {model_name} between {params}...')
     #     plot_all_interactions(metrics_data, model_name, params, 'f_measure', save_dir=PLOTS_DIR)
 
-
     for model_name, value in PARAMS_GRID_MAP.items():
         params = list(value.keys())
         logger.info(f'Plotting interactions (GridSpec) of {model_name} between {params}...')
         plot_interactions_with_gridspec(
             metrics_data, params, datasets, model_name,
-            save_path=f'{PLOTS_DIR}/interactions_gripspec_{model_name}.png'
+            save_path=f'{PLOTS_DIR}/interactions_{model_name}.png'
         )
 
 
