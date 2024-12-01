@@ -22,9 +22,9 @@
         * [x] (Carlos) Fuzzy c-means
         * [x] (Zach) Optics
         * [x] (Zach) Spectral clustering
-        * [ ] (Kacper) Summary
-	        * [ ] add summary plots
-    * [ ] (Zach) Conclusion
+        * [x] (Kacper) Summary
+	        * [x] add summary plots
+    * [x] (Zach) Conclusion
     * [ ] reduce size
 - [ ] (Sheena) review Kacper's work
 - [ ] (Kacper) review Sheena's work
@@ -34,8 +34,8 @@
 ## TODO by Wednesday 2024-11-27
 * [x] (Kacper) make a results demo
 * [x] (Zach) remove synthetic data results
-* [ ] (Carlos) update plots 
-    * [ ] showing how the parameters affect the performance, for each model for each dataset
+* [x] (Carlos) update plots 
+    * [x] showing how the parameters affect the performance, for each model for each dataset
         * i.e. how do we get the best results for each dataset
         * maybe pairwise plots? maybe heatmap?
 * [x] (Sheena) update metrics
@@ -44,23 +44,23 @@
 * [x] Optimize implementations
     * [x] (Carlos) Fuzzy c-means
     * [x] (Kacper) global_kmeans
-* [ ] Improve results
-    * [ ] (Kacper) gmeans
-* [ ] Choose params
+* [x] Improve results
+    * [x] (Kacper) gmeans
+* [x] Choose params
     * [x] (Zach) Optics
     * [x] (Zach) Spectral clustering
-    * [ ] (Sheena) k-means
-    * [ ] (Kacper) gmeans
+    * [x] (Sheena) k-means
+    * [x] (Kacper) gmeans
     * [x] (Kacper) global_kmeans
-    * [ ] (Carlos) Fuzzy c-means
+    * [x] (Carlos) Fuzzy c-means
 * [x] (Carlos) Plots
 
 
 ## TODO by 2024-11-23
 * [x] Select a third dataset
-* [ ] (Carlos) Fuzzy c-means
+* [x] (Carlos) Fuzzy c-means
 * [x] (Carlos) Preprocessing
-* [ ] (Carlos) Plots
+* [x] (Carlos) Plots
 * [x] (Kacper) global kmeans (is slow)
 * [x] (Kacper) gmeans (works badly)
 * [x] (Kacper) Makefile
