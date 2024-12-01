@@ -27,7 +27,7 @@
     * [x] (Zach) Conclusion
     * [ ] reduce size
 - [x] (Sheena) review Kacper's work
-- [ ] (Kacper) review Sheena's work
+- [x] (Kacper) review Sheena's work
 - [ ] (Carlos) review Zach's work
 - [x] (Zach) review Carlos's work
 
