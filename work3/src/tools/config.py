@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 DATA_DIR = PROJECT_ROOT / "data"
@@ -12,3 +13,4 @@ RANDOM_STATE = [1, 2, 3, 4, 5]
 
 REPORT_DIR = PROJECT_ROOT / "report"
 PLOTS_DIR = REPORT_DIR / "figures"
+TABLES_DIR = os.path.join(REPORT_DIR, 'tables')

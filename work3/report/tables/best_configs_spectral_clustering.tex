@@ -1,0 +1,11 @@
+\begin{table*}[ht!]
+\caption{Best Configurations for Spectral Clustering by Dataset}
+\label{tab:best_configs_spectral_clustering}
+\begin{tabular}{lrrrlllrrrrr}
+Dataset & N Clusters & Random State & N Neighbors & Affinity & Eigen Solver & Assign Labels & F Measure & Ari & Chi & Dbi & Runtime (s) \\\midrule
+
+hepatitis & 8.0000 & 3.0000 & 10.0000 & rbf & lobpcg & kmeans & 0.1537 & 0.1916 & 14.3724 & 1.7614 & 0.0258 \\
+mushroom & 8.0000 & 2.0000 & 5.0000 & rbf & arpack & kmeans & 0.1636 & 0.3510 & 770.8375 & 1.7358 & 6.1551 \\
+vowel & 8.0000 & 4.0000 & 5.0000 & nearest\_neighbors & lobpcg & cluster\_qr & 0.1701 & 0.0438 & 19.2650 & 4.8690 & 0.0268 \\
+\end{tabular}
+\end{table*}

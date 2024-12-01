@@ -1,0 +1,11 @@
+\begin{table*}[ht!]
+\caption{Best Configurations for Optics by Dataset}
+\label{tab:best_configs_optics}
+\begin{tabular}{lrllrrrrrrrr}
+Dataset & N Clusters & Metric & Algorithm & Min Samples & Xi & Min Cluster Size & F Measure & Ari & Chi & Dbi & Runtime (s) \\\midrule
+
+hepatitis & 1.0000 & manhattan & auto & 20.0000 & 0.0100 & 20.0000 & 0.4424 & 0.0000 & 21.1174 & 2.6439 & 0.0379 \\
+mushroom & 196.0000 & euclidean & ball\_tree & 10.0000 & 0.1000 & 5.0000 & 0.0000 & 0.0486 & 172.0067 & 0.8884 & 7.3716 \\
+vowel & 15.0000 & manhattan & ball\_tree & 20.0000 & 0.1000 & 10.0000 & 0.0564 & -0.0119 & 388.3954 & 0.7410 & 0.2441 \\
+\end{tabular}
+\end{table*}
