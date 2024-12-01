@@ -26,7 +26,7 @@
 	        * [x] add summary plots
     * [x] (Zach) Conclusion
     * [ ] reduce size
-- [ ] (Sheena) review Kacper's work
+- [x] (Sheena) review Kacper's work
 - [ ] (Kacper) review Sheena's work
 - [ ] (Carlos) review Zach's work
 - [x] (Zach) review Carlos's work
