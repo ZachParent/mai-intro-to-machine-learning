@@ -4,7 +4,8 @@ import os
 import logging
 from tools.clustering import PARAMS_GRID_MAP
 from tools.analysis.plots import *
-from tools.config import METRICS_DATA_PATH, PLOTS_DIR
+from tools.analysis.tables import generate_best_models_table, generate_top_models_by_dataset
+from tools.config import METRICS_DATA_PATH, PLOTS_DIR, TABLES_DIR
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--verbose", "-v", action="store_true", help="Whether to print verbose output")
@@ -43,8 +44,33 @@ def main():
         logging.basicConfig(level=logging.WARNING)
 
     metrics_data = pd.read_csv(METRICS_DATA_PATH)
+    
+    # Create output directories
     os.makedirs(PLOTS_DIR, exist_ok=True)
+    os.makedirs(TABLES_DIR, exist_ok=True)
 
+    # Generate tables
+    logger.info("Generating LaTeX tables...")
+    
+    # Overall best models table
+    generate_best_models_table(
+        metrics_data,
+        f'{TABLES_DIR}/best_models_overall.tex'
+    )
+    
+    # Per-dataset top models tables
+    for dataset_name in datasets:
+        logger.info(f"Generating table for {dataset_name}...")
+        generate_top_models_by_dataset(
+            metrics_data,
+            dataset_name,
+            f'{TABLES_DIR}/top_models_{dataset_name}.tex'
+        )
+
+    # Generate plots
+    logger.info("Generating plots...")
+    return
+    
     plot_pairplot(
         data=metrics_data,
         vars=metrics,
@@ -58,7 +84,6 @@ def main():
             title=f'Comparison of {metric.capitalize()} Across Models and Datasets',
             save_path=f'{PLOTS_DIR}/model_comparison_{metric}.png'
         )
-
 
     plot_combined_heatmaps(
         metrics_data, metrics,
