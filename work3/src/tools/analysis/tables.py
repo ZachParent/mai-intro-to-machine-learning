@@ -151,7 +151,7 @@ def generate_model_best_configs_table(metrics_df: pd.DataFrame, model_name: str,
     
     config_path = output_path_base.replace('.tex', '_config.tex')
     config_caption = f"Best Parameter Configurations for {model_name.replace('_', ' ').title()} by Dataset"
-    write_latex_table(config_df, config_path, config_caption, precision=4)
+    write_latex_table(config_df, config_path, config_caption, precision=5)
 
     # Generate performance metrics table
     metrics_columns = ["dataset", "f_measure", "ari", "chi", "dbi", "runtime"]
