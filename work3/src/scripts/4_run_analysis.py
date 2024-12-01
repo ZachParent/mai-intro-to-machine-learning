@@ -5,7 +5,6 @@ import logging
 from tools.clustering import PARAMS_GRID_MAP
 from tools.analysis.plots import *
 from tools.config import METRICS_DATA_PATH, PLOTS_DIR
-import glob
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--verbose", "-v", action="store_true", help="Whether to print verbose output")
@@ -46,15 +45,6 @@ def main():
     metrics_data = pd.read_csv(METRICS_DATA_PATH)
     os.makedirs(PLOTS_DIR, exist_ok=True)
 
-
-    # for _, row in metrics_data.iterrows():
-    #     metrics_data_config = get_config_from_row(row)
-    #     metrics_data = get_metrics_from_row(row)
-    #     logger.info(f"Running analysis for config {metrics_data_config}")
-
-    #     compute_analysis(metrics_data, metrics_data_config)
-
-    # save plots for further analysis
     plot_pairplot(
         data=metrics_data,
         vars=metrics,
@@ -83,12 +73,6 @@ def main():
             save_path=f'{PLOTS_DIR}/radar_chart_{dataset_name}.png'
         )
 
-
-    # for model_name, value in PARAMS_GRID_MAP.items():
-    #     params = list(value.keys())
-    #     logger.info(f'Plotting interactions of {model_name} between {params}...')
-    #     plot_all_interactions(metrics_data, model_name, params, 'f_measure', save_dir=PLOTS_DIR)
-
     for model_name, value in PARAMS_GRID_MAP.items():
         params = list(value.keys())
         logger.info(f'Plotting interactions (GridSpec) of {model_name} between {params}...')
@@ -96,11 +80,6 @@ def main():
             metrics_data, params, datasets, model_name,
             save_path=f'{PLOTS_DIR}/interactions_{model_name}.png'
         )
-
-
-    # for path in glob.glob(f'{CLUSTERED_DATA_DIR}/{dataset_name}/{model_name}/*'):
-    #     if 'n_clusters=10' in path:  # change the number of clusters or any other param
-    #         plot_clusters(path=path, features=['0','1']) # for synthetic dataset
 
 
 
