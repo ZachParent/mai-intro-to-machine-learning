@@ -6,7 +6,8 @@ from matplotlib.gridspec import GridSpec, GridSpecFromSubplotSpec
 import itertools
 import logging
 from pypalettes import load_cmap
-
+from matplotlib.colors import LogNorm
+import matplotlib.ticker as ticker
 alexandrite = load_cmap("Alexandrite")
 emrld = load_cmap("Emrld", reverse=True)
 colors = alexandrite.colors
@@ -389,16 +390,22 @@ def plot_interactions_with_gridspec(df, col_names, datasets, model_name, save_pa
     total_datasets = len(datasets)
 
     # Create the main figure and grid for datasets
-    fig = plt.figure(figsize=(15 * total_datasets, 6 * num_cols))
-    outer_grid = GridSpec(1, total_datasets, figure=fig, wspace=0.1)
+    fig = plt.figure(figsize=(10 * total_datasets, 10))
+    outer_grid = GridSpec(1, total_datasets, figure=fig, wspace=0.05)  # Reduced from 0.1
 
     # Prepare a placeholder for the colorbar data
-    heatmap_min, heatmap_max = np.inf, -np.inf
+    heatmap_min = max(0.00001, df[df['model'] == model_name]['f_measure'].min())
+    heatmap_max = df[df['model'] == model_name]['f_measure'].max()
+    norm = LogNorm(heatmap_min, heatmap_max, clip=True)
 
     for dataset_idx, dataset_name in enumerate(datasets):
         # Create a sub-grid for each dataset within the main grid
         inner_grid = GridSpecFromSubplotSpec(
-            num_cols, num_cols, subplot_spec=outer_grid[dataset_idx],
+            num_cols, 
+            num_cols, 
+            subplot_spec=outer_grid[dataset_idx],
+            wspace=0.1,  # Add tight spacing between columns
+            hspace=0.05   # Add tight spacing between rows
         )
 
         filtered_df = df[(df['dataset'] == dataset_name) & (df['model'] == model_name)]
@@ -417,23 +424,23 @@ def plot_interactions_with_gridspec(df, col_names, datasets, model_name, save_pa
                 ax.axis("off")
                 continue
 
-            
+            unique_vals_1 = filtered_df[col_name1].unique()
+            unique_vals_2 = filtered_df[col_name2].unique()
+            if np.issubdtype(unique_vals_1.dtype, np.number):
+                unique_vals_1.sort()
+            if np.issubdtype(unique_vals_2.dtype, np.number):
+                unique_vals_2.sort()
+
 
             if col_name1 == col_name2:
                 # Diagonal-like plots: Single-variable distribution (boxplot)
-                unique_vals = filtered_df[col_name1].unique()
-                if np.issubdtype(unique_vals.dtype, np.number):
-                    unique_vals.sort()
+
                 sorted_data = [
                     filtered_df[filtered_df[col_name1] == val]["f_measure"].tolist()
-                    for val in unique_vals
+                    for val in unique_vals_1
                 ]
                 
                 custom_boxplot(ax, sorted_data)
-                
-                ax.set_xticklabels(unique_vals)
-                ax.set_xlabel(f"{col_name1}", fontsize=10)
-                ax.set_ylabel("F1 measure", fontsize=10)
                 # ax.set_title(f"{col_name1}", fontsize=10)
             else:
                 # Off-diagonal: Interaction heatmap
@@ -445,42 +452,55 @@ def plot_interactions_with_gridspec(df, col_names, datasets, model_name, save_pa
                     ax=ax,
                     cmap="viridis",
                     annot=False,
-                    # fmt=".2f",
                     cbar=False,
+                    vmin=heatmap_min,
+                    vmax=heatmap_max,
+                    norm=norm
                 )
-                # ax.set_title(f"{col_name1} vs {col_name2}", fontsize=8)
+                
+                # ax.set_yticks(range(len(unique_vals_1)))
+                # ax.set_xticks(range(len(unique_vals_2)))
+                ax.set_xticklabels(unique_vals_2)
+                ax.set_yticklabels(unique_vals_1)
+            ax.set_xlabel(col_name2, fontsize=14, fontweight="bold")
+            ax.set_ylabel(col_name1, fontsize=14, fontweight="bold")
+            if col != 0:
+                ax.set_yticks([])
+                ax.set_ylabel('')
 
-                # Update the global min and max for the colorbar
-                if pivot_table.values.size > 0:  # Check if pivot_table is not empty
-                    heatmap_min = min(heatmap_min, np.nanmin(pivot_table.values))
-                    heatmap_max = max(heatmap_max, np.nanmax(pivot_table.values))
+            if row != len(col_names) - 1:
+                ax.set_xticks([])
+                ax.set_xlabel('')
 
-            # Style: Remove ticks for clarity
-            # ax.set_xticks([])
-            # ax.set_yticks([])
+            if row == 0 and col == 0:
+                ax.set_ylabel("F1 Score", fontsize=14, fontweight="bold")
+            
 
         # Add a title for the entire dataset grid
-        inner_title = fig.add_subplot(outer_grid[dataset_idx])
-        inner_title.axis("off")
-        inner_title.set_title(dataset_name, fontsize=14, fontweight="bold", y=.96)
+        inner_plot = fig.add_subplot(outer_grid[dataset_idx])
+        inner_plot.axis("off")
+        inner_plot.set_title(dataset_name, fontsize=30, fontweight="bold", y=.96)
     
 
+    # Adjust the overall layout with tighter spacing
+    fig.subplots_adjust(
+        top=0.90,      # More room at top for title
+        right=0.92,    # Slightly more room for colorbar
+        wspace=0.05,   # Tighter spacing between dataset panels
+        hspace=0.05,   # Tighter vertical spacing
+        left=0.05,     # Less left margin
+        bottom=0.05    # Less bottom margin
+    )
 
-    # cbar_ax = fig.add_axes([0.92, 0.05, 0.01, 0.9])  # [left, bottom, width, height]
-    cbar_ax = fig.add_axes([0.92, 0.15, 0.01, 0.75])  # [left, bottom, width, height]
-    norm = plt.Normalize(heatmap_min, heatmap_max)
+    # Adjust colorbar position for new spacing
+    cbar_ax = fig.add_axes([0.93, 0.15, 0.01, 0.75])
     sm = plt.cm.ScalarMappable(cmap="viridis", norm=norm)
     sm.set_array([])
-    fig.colorbar(sm, cax=cbar_ax, label="F1 Score", orientation="vertical")
-
-    
-    # Add a global title for the entire plot
-    fig.suptitle(f'Interaction Effects of {model_name.capitalize()} Parameters Across Datasets', fontsize=18, fontweight="bold")
-    fig.tight_layout()
-
+    cbar = fig.colorbar(sm, cax=cbar_ax, orientation="vertical", format=ticker.FuncFormatter(lambda x, pos: f"{x:.3f}"))
+    cbar.set_label("F1 Score", fontsize=14, fontweight="bold")
 
     if save_path:
-        plt.savefig(save_path, format='png', dpi=300)
+        plt.savefig(save_path, format='png', dpi=300, bbox_inches='tight')
         logger.info(f"Figure saved to {save_path}")
     else:
         plt.show()
