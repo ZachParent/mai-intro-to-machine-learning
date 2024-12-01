@@ -33,7 +33,7 @@ def get_config_from_row(row: pd.Series) -> dict:
 
 metrics = ['ari', 'chi', 'dbi', 'f_measure', 'runtime']
 models = ['fuzzy_cmeans', 'kmeans', 'gmeans', 'global_kmeans', 'optics', 'spectral_clustering'] # add more models if needed
-datasets = ['mushroom','hepatitis','vowel']
+datasets = ['hepatitis','mushroom','vowel']
 
 
 def main():
@@ -78,7 +78,7 @@ def main():
 
     # Generate plots
     logger.info("Generating plots...")
-        
+
     plot_pairplot(
         data=metrics_data,
         vars=metrics,
