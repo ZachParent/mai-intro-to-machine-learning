@@ -114,16 +114,18 @@ def write_latex_table_summary(
     write_latex_table(df, filename, caption, precision=6)
 
 
-def generate_model_best_configs_table(metrics_df: pd.DataFrame, model_name: str, output_path: str):
-    """Generate a LaTeX table showing the best configuration for each dataset for a specific model.
+def generate_model_best_configs_table(metrics_df: pd.DataFrame, model_name: str, output_path_base: str):
+    """Generate LaTeX tables showing the best configuration for each dataset for a specific model.
+    Generates two tables:
+    1. Best configurations (parameters)
+    2. Performance metrics for those configurations
 
     Args:
         metrics_df: Input DataFrame with all metrics
         model_name: Name of the model to analyze
-        output_path: Path to save the LaTeX table
+        output_path_base: Base path to save the LaTeX tables (will append _config and _performance)
     """
-    # Filter for the specific model and select relevant columns
-    columns = ["dataset", "f_measure", "ari", "chi", "dbi", "runtime"]
+    # Filter for the specific model
     model_results = metrics_df[metrics_df["model"] == model_name]
 
     # Get parameter columns for this model
@@ -134,21 +136,28 @@ def generate_model_best_configs_table(metrics_df: pd.DataFrame, model_name: str,
         and not model_results[col].isna().all()
     ]
 
-    # Add relevant parameters to columns
-    columns = ["dataset"] + param_cols + ["f_measure", "ari", "chi", "dbi", "runtime"]
-
     # Get best configuration for each dataset
     best_configs = (
         model_results.sort_values("f_measure", ascending=False)
         .groupby("dataset")
         .first()
         .reset_index()
-        .loc[:, columns]
     )
 
-    # Format the table
-    best_configs = format_column_names(best_configs)
+    # Generate configurations table
+    config_columns = ["dataset"] + param_cols
+    config_df = best_configs.loc[:, config_columns]
+    config_df = format_column_names(config_df)
+    
+    config_path = output_path_base.replace('.tex', '_config.tex')
+    config_caption = f"Best Parameter Configurations for {model_name.replace('_', ' ').title()} by Dataset"
+    write_latex_table(config_df, config_path, config_caption, precision=4)
 
-    # Write to LaTeX
-    caption = f"Best Configurations for {model_name.replace('_', ' ').title()} by Dataset"
-    write_latex_table(best_configs, output_path, caption, precision=4)
+    # Generate performance metrics table
+    metrics_columns = ["dataset", "f_measure", "ari", "chi", "dbi", "runtime"]
+    metrics_df = best_configs.loc[:, metrics_columns]
+    metrics_df = format_column_names(metrics_df)
+    
+    metrics_path = output_path_base.replace('.tex', '_performance.tex')
+    metrics_caption = f"Performance Metrics for Best {model_name.replace('_', ' ').title()} Configurations by Dataset"
+    write_latex_table(metrics_df, metrics_path, metrics_caption, precision=4)
