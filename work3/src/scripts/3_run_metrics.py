@@ -8,7 +8,12 @@ from pathlib import Path
 from scipy.optimize import linear_sum_assignment
 from sklearn.metrics import confusion_matrix
 from tools.config import CLUSTERED_DATA_DIR, PREPROCESSED_DATA_DIR, METRICS_DATA_PATH
-from tools.metrics import davies_bouldin_index,calinski_harabasz_index, adjusted_rand_index, f_measure
+from tools.metrics import (
+    davies_bouldin_index,
+    calinski_harabasz_index,
+    adjusted_rand_index,
+    f_measure,
+)
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--verbose", "-v", action="store_true", help="Whether to print verbose output")
@@ -95,7 +100,7 @@ def get_runtime(runtime_df: pd.DataFrame, clustered_data_config: dict):
 
 
 def main():
-    
+
     args = parser.parse_args()
     if args.verbose:
         logging.basicConfig(level=logging.INFO)

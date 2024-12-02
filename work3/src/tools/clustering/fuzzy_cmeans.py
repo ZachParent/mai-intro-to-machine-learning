@@ -2,13 +2,12 @@ import numpy as np
 from sklearn.base import BaseEstimator, ClusterMixin
 from tools.config import N_CLUSTERS
 
-np.seterr(divide='ignore', invalid='ignore')
-
+np.seterr(divide="ignore", invalid="ignore")
 
 
 FuzzyCMeansParamsGrid = {
     "n_clusters": N_CLUSTERS,
-    "fuzzyness": [1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0]
+    "fuzzyness": [1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0],
 }
 
 
