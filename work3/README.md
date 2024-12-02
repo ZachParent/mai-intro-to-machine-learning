@@ -30,15 +30,8 @@ work3/
 │   │   ├── synthetic.csv
 │   │   └── vowel.csv
 │   ├── 2_clustered/
-│   │   ├── hepatitis/
-│   │   ├── mushroom/
-│   │   ├── synthetic/
-│   │   └── vowel/
-│   ├── 3_metrics/
-│   │   ├── hepatitis/
-│   │   ├── mushroom/
-│   │   ├── synthetic/
-│   │   └── vowel/
+│   │   ├── ...
+│   ├── 3_metrics.csv
 │   └── datasets/
 ├── notebooks/
 ├── references/
@@ -48,9 +41,9 @@ work3/
 |   ├── 4-results-and-analysis/
 │   ├── figures/
 │   ├── tables/
-│   ├── 01-introduction.tex
-│   ├── 05-conclusion.tex
-│   ├── 06-appendix.tex
+│   ├── 1-introduction.tex
+│   ├── 5-conclusion.tex
+│   ├── 6-appendix.tex
 │   ├── report.pdf
 │   └── report.tex
 ├── src/
@@ -62,7 +55,16 @@ work3/
 │   │   └── 4_run_analysis.py
 │   └── tools/
 │   │   ├── analysis/
+│   │   │   ├── plots.py
+│   │   │   └── tables.py
 │   │   ├── clustering/
+│   │   │   ├── __init__.py
+│   │   │   ├── kmeans.py
+│   │   │   ├── fuzzy_cmeans.py
+│   │   │   ├── gmeans.py
+│   │   │   ├── global_kmeans.py
+│   │   │   ├── optics.py
+│   │   │   └── spectral_clustering.py
 │   │   ├── __init__.py
 │   │   ├── config.py
 │   │   ├── metrics.py
@@ -77,18 +79,18 @@ work3/
 
 ## Getting Started
 ### Clone the Repository
-First, clonse the repository to your local machine:
+First, clone the repository to your local machine:
 `git clone https://github.com/ZachParent/mai-intro-to-machine-learning.git`
 
 Then, navigate to the project directory:
-`cd work3`
+`cd mai-iml-work3-KacperPoniatowski-ZacharyParent-SheenaLang-CarlosJimenezFarfan`
 
 ### Use Make (Recommended)
 
 The easiest way to get started is using our Makefile commands:
 
 **1. Create a virtual environment**
-Create a virtual environment in the `.venv` directory:
+Create a virtual environment in the `.venv` directory *(it's important to use Python 3.9; if this is not the default on your machine, be sure to create and activate the environment on your own using Python 3.9)*:
 ```bash
 make create_environment
 ```
@@ -111,7 +113,7 @@ make install_requirements
 
 ## Execution of Project
 
-Preprocesses the data, run all of the models for each dataset, outputs metrics and performs statistical analysis:
+Preprocesses the data, run all of the models for each dataset, outputs metrics and performs analysis to generate plots and tables:
 ```bash
 make all
 ```
@@ -120,7 +122,7 @@ make all
 If you prefer to set up the project without using `make`, follow these steps:
 
 **1. Create a Virtual Environment**
-Create a virtual environment in the `.venv` directory:
+Create a virtual environment in the `.venv` directory *(it's important to use Python 3.9; if this is not the default on your machine, be sure to create and activate the environment on your own using Python 3.9)*:
 ```bash
 python -m venv .venv
 ```
@@ -145,10 +147,14 @@ pip install -r requirements.txt
 ### Execute Scripts
 
 **To run preprocessing on all datasets:**
-`python src/scripts/1_run_preprocessing.py`
+```bash
+python src/scripts/1_run_preprocessing.py
+```
 
 **To run a model for one dataset manually:**
-`python src/scripts/2_run_model.py --dataset <dataset_name> --model <model_name>`
+```bash
+python src/scripts/2_run_model.py --dataset <dataset_name> --model <model_name>
+```
 
 *Command Line Options*
 
@@ -169,12 +175,12 @@ pip install -r requirements.txt
 **To run metrics:**
 `python src/scripts/3_run_metrics.py`
 
-This command will generate metrics for any available data.
+This command will generate metrics for all clustered data.
 
 **To run analysis:**
 `python src/scripts/4_run_analysis.py`
 
-This command will performance analysis on any available data.
+This command will perform analysis on the metrics data.
 
 ### Example Commands
 Here are some example commands to help you get started.
@@ -184,17 +190,22 @@ Example 1: Run preprocessing on all datasets
 python src/scripts/1_run_preprocessing.py
 ```
 
-Example 2: Run the fuzzy c-means model on the synthetic dataset
+Example 2: Run the fuzzy c-means model on the hepatitis dataset
 ```bash
-python src/scripts/2_run_model.py --dataset synthetic --model fuzzy_cmeans
+python src/scripts/2_run_model.py --dataset hepatitis --model fuzzy_cmeans
 ```
 
-Example 3: Run the improved k-means A model on the mushroom dataset
+Example 3: Run the kmeans model on the mushroom dataset
 ```bash
-python src/scripts/2_run_model.py --dataset mushroom --model improved_kmeansA
+python src/scripts/2_run_model.py --dataset mushroom --model kmeans
 ```
 
-Example 4: Run analysis on all available data
+Example 4: Run metrics on all available clustered data
+```bash
+python src/scripts/3_run_metrics.py
+```
+
+Example 5: Run analysis on all available metrics data
 ```bash
 python src/scripts/4_run_analysis.py
 ```

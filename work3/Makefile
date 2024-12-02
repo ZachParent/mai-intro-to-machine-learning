@@ -96,7 +96,7 @@ zip: clean
 	(cd .. && \
 	mkdir -p $(SUBMISSION_NAME) && \
 	cp -r $(PROJECT_DIR)/* $(SUBMISSION_NAME)/ && \
-	cp $(SUBMISSION_NAME)/report/report.pdf $(SUBMISSION_NAME)/$(SUBMISSION_NAME).pdf && \
+	cp $(SUBMISSION_NAME)/report/report.pdf $(SUBMISSION_NAME)/$(PROJECT_NAME)-report.pdf && \
 	zip -r $(ZIP_FILE_NAME) $(SUBMISSION_NAME) -x "*.pyc" -x "*.pyo" -x "*.pyd" -x "*.so" -x "*.dll" -x "*.dylib" \
 	-x "*/__pycache__/*" -x "*/$(ENV_NAME)/*" -x "*/.git/*" -x "*.zip" -x "*.egg-info/*" \
 	-x "*.aux" -x "*.log" -x "*.toc" -x "*.out" -x "*.synctex.gz" -x "*.fls" -x "*.fdb_latexmk" -x "*.bbl" -x "*.blg" \
