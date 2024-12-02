@@ -18,7 +18,7 @@ This markdown file outlines the requirements, project structure and how to run t
 ## Project Structure
 
 ```
-mai-iml-work3/
+work3/
 ├── data/
 |   ├── 0_raw/
 │   │   ├── hepatitis.arff
@@ -31,38 +31,14 @@ mai-iml-work3/
 │   │   └── vowel.csv
 │   ├── 2_clustered/
 │   │   ├── hepatitis/
-│   │   │   ├── gmeans/
-│   │   │   ├── global_kmeans/
-│   │   │   └── kmeans/
 │   │   ├── mushroom/
-│   │   │   ├── gmeans/
-│   │   │   ├── global_kmeans/
-│   │   │   └── kmeans/
 │   │   ├── synthetic/
-│   │   │   ├── gmeans/
-│   │   │   ├── global_kmeans/
-│   │   │   └── kmeans/
 │   │   └── vowel/
-│   │   │   ├── gmeans/
-│   │   │   ├── global_kmeans/
-│   │   │   └── kmeans/
 │   ├── 3_metrics/
 │   │   ├── hepatitis/
-│   │   │   ├── gmeans/
-│   │   │   ├── global_kmeans/
-│   │   │   └── kmeans/
 │   │   ├── mushroom/
-│   │   │   ├── gmeans/
-│   │   │   ├── global_kmeans/
-│   │   │   └── kmeans/
 │   │   ├── synthetic/
-│   │   │   ├── gmeans/
-│   │   │   ├── global_kmeans/
-│   │   │   └── kmeans/
 │   │   └── vowel/
-│   │   │   ├── gmeans/
-│   │   │   ├── global_kmeans/
-│   │   │   └── kmeans/
 │   └── datasets/
 ├── notebooks/
 ├── references/
@@ -104,8 +80,8 @@ mai-iml-work3/
 First, clonse the repository to your local machine:
 `git clone https://github.com/ZachParent/mai-intro-to-machine-learning.git`
 
-Then, navigate to the project directory: **SUBJECT TO CHANGE**
-`cd mai-iml-work3`
+Then, navigate to the project directory:
+`cd work3`
 
 ### Use Make (Recommended)
 
@@ -146,7 +122,7 @@ If you prefer to set up the project without using `make`, follow these steps:
 **1. Create a Virtual Environment**
 Create a virtual environment in the `.venv` directory:
 ```bash
-make create_environment
+python -m venv .venv
 ```
 
 **2. Activate the virtual environment:**
