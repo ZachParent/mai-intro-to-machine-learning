@@ -1,6 +1,6 @@
 import numpy as np
 
-from tools.knn import KNNClassifier
+from knn import KNNClassifier
 
 
 # Condensed: GCNN

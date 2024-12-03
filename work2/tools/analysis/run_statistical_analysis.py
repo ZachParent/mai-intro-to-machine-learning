@@ -8,8 +8,8 @@ import seaborn as sns
 import itertools
 import math
 import argparse
-from tools.analysis.statistical_analysis_tools import *
-from tools.analysis.table_tool import *
+from analysis.statistical_analysis_tools import *
+from analysis.table_tool import *
 import os
 import logging
 

@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import circlify
 from pywaffle import Waffle
 import os
-from tools.preprocess import load_datasets
+from preprocess import load_datasets
 from pypalettes import load_cmap
 
 alexandrite = load_cmap("Alexandrite")
