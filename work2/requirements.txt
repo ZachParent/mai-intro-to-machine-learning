@@ -61,6 +61,7 @@ scikit-learn==1.5.2
 scikit-posthocs==0.10.0
 scipy==1.13.1
 seaborn==0.13.2
+setuptools==74.1.2
 six==1.16.0
 sklearn-relief==1.0.0b2
 stack-data==0.6.3
