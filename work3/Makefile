@@ -17,7 +17,7 @@ ZIP_FILE_NAME = $(SUBMISSION_NAME).zip
 
 ## Run all scripts
 .PHONY: all
-all: clean-outputs run-preprocessing run-models run-metrics run-analysis
+all: run-preprocessing run-models run-metrics run-analysis
 
 ## Delete all compiled Python files
 .PHONY: clean
