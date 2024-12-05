@@ -78,21 +78,11 @@ work3/
 ```
 
 ## Getting Started
-### Clone the Repository
-First, clone the repository to your local machine:
-`git clone https://github.com/ZachParent/mai-intro-to-machine-learning.git`
-
-Then, navigate to the project directory:
-`cd mai-iml-work3-KacperPoniatowski-ZacharyParent-SheenaLang-CarlosJimenezFarfan`
-
-### Use Make (Recommended)
-
-The easiest way to get started is using our Makefile commands:
 
 **1. Create a virtual environment**
 Create a virtual environment in the `.venv` directory *(it's important to use Python 3.9; if this is not the default on your machine, be sure to create and activate the environment on your own using Python 3.9)*:
 ```bash
-make create_environment
+python3.9 -m venv .venv
 ```
 
 **2. Activate the virtual environment:**
@@ -108,7 +98,7 @@ make create_environment
 
 **3. Install the necessary requirements:**
 ```bash
-make install_requirements
+python3.9 -m pip install -r requirements.txt
 ```
 
 ## Execution of Project
@@ -118,42 +108,16 @@ Preprocesses the data, run all of the models for each dataset, outputs metrics a
 make all
 ```
 
-## Manual Setup (Without Make)
-If you prefer to set up the project without using `make`, follow these steps:
-
-**1. Create a Virtual Environment**
-Create a virtual environment in the `.venv` directory *(it's important to use Python 3.9; if this is not the default on your machine, be sure to create and activate the environment on your own using Python 3.9)*:
-```bash
-python -m venv .venv
-```
-
-**2. Activate the virtual environment:**
-- On Windows
-    ```bash
-    .venv\Scripts\activate
-    ```
-
-- On MacOS/Linux
-    ```bash
-    source .venv/bin/activate
-    ```
-
-**3. Install Requirements**
-Install the required packages:
-```bash
-pip install -r requirements.txt
-```
-
-### Execute Scripts
+### Execute Individual Scripts
 
 **To run preprocessing on all datasets:**
 ```bash
-python src/scripts/1_run_preprocessing.py
+python src/1_run_preprocessing.py -v
 ```
 
 **To run a model for one dataset manually:**
 ```bash
-python src/scripts/2_run_model.py --dataset <dataset_name> --model <model_name>
+python src/2_run_model.py --dataset <dataset_name> --model <model_name> -v
 ```
 
 *Command Line Options*
@@ -172,40 +136,46 @@ python src/scripts/2_run_model.py --dataset <dataset_name> --model <model_name>
   - `optics` OPTICS model
   - `spectral_clustering` Spectral clustering model
 
-**To run metrics:**
-`python src/scripts/3_run_metrics.py`
+The clustered data will be saved in the `data/2_clustered/` directory.
 
-This command will generate metrics for all clustered data.
+**To run metrics:**
+```bash
+python src/3_run_metrics.py -v
+```
+
+This command will generate metrics for all clustered data in the `data/2_clustered/` directory and save them in the `data/3_metrics.csv` file.
 
 **To run analysis:**
-`python src/scripts/4_run_analysis.py`
+```bash
+python src/4_run_analysis.py -v
+```
 
-This command will perform analysis on the metrics data.
+This command will perform analysis on the metrics data in the `data/3_metrics.csv` file and save the plots and tables in the `report/figures/` and `report/tables/` directories.
 
 ### Example Commands
 Here are some example commands to help you get started.
 
 Example 1: Run preprocessing on all datasets
 ```bash
-python src/scripts/1_run_preprocessing.py
+python src/1_run_preprocessing.py -v
 ```
 
 Example 2: Run the fuzzy c-means model on the hepatitis dataset
 ```bash
-python src/scripts/2_run_model.py --dataset hepatitis --model fuzzy_cmeans
+python src/2_run_model.py --dataset hepatitis --model fuzzy_cmeans -v
 ```
 
 Example 3: Run the kmeans model on the mushroom dataset
 ```bash
-python src/scripts/2_run_model.py --dataset mushroom --model kmeans
+python src/2_run_model.py --dataset mushroom --model kmeans -v
 ```
 
 Example 4: Run metrics on all available clustered data
 ```bash
-python src/scripts/3_run_metrics.py
+python src/3_run_metrics.py -v
 ```
 
 Example 5: Run analysis on all available metrics data
 ```bash
-python src/scripts/4_run_analysis.py
+python src/4_run_analysis.py -v
 ```
