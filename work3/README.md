@@ -27,12 +27,10 @@ work3/
 |   ├── 1_preprocessed/
 │   │   ├── hepatitis.csv
 │   │   ├── mushroom.csv
-│   │   ├── synthetic.csv
 │   │   └── vowel.csv
 │   ├── 2_clustered/
 │   │   ├── ...
-│   ├── 3_metrics.csv
-│   └── datasets/
+│   └── 3_metrics.csv
 ├── notebooks/
 ├── references/
 ├── report/
@@ -47,12 +45,11 @@ work3/
 │   ├── report.pdf
 │   └── report.tex
 ├── src/
-│   ├── scripts/
-│   │   ├── __init__.py
-│   │   ├── 1_run_preprocessing.py
-│   │   ├── 2_run_model.py
-│   │   ├── 3_run_metrics.py
-│   │   └── 4_run_analysis.py
+│   ├── __init__.py
+│   ├── 1_run_preprocessing.py
+│   ├── 2_run_model.py
+│   ├── 3_run_metrics.py
+│   ├── 4_run_analysis.py
 │   └── tools/
 │   │   ├── analysis/
 │   │   │   ├── plots.py
