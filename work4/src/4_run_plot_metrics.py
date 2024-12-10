@@ -44,7 +44,7 @@ models = [
     "global_kmeans",
     "optics",
     "spectral_clustering",
-]  # add more models if needed
+] 
 datasets = ["hepatitis", "mushroom", "vowel"]
 
 
