@@ -1,0 +1,138 @@
+@article{label_encoding, 
+title={An Euclidean Distance Based on Tensor Product Graph Diffusion Related Attribute Value Embedding for Nominal Data Clustering}, volume={32}, url={https://ojs.aaai.org/index.php/AAAI/article/view/11681}, DOI={10.1609/aaai.v32i1.11681}, abstractNote={ &lt;p&gt; Not like numerical data clustering, nominal data clustering is a very difficult problem because there exists no natural relative ordering between nominal attribute values. This paper mainly aims to make the Euclidean distance measure appropriate to nominal data clustering, and the core idea is the attribute value embedding, namely, transforming each nominal attribute value into a numerical vector. This embedding method consists of four steps. In the first step, the weights, which can quantify the amount of information in attribute values, is calculated for each value in each nominal attribute based on each object and its k nearest neighbors. In the second step, an intra-attribute value similarity matrix is created for each nominal attribute by using the attribute value’s weights. In the third step, for each nominal attribute, we find another attribute with the maximal dependence on it, and build an inter-attribute value similarity matrix on the basis of the attribute value’s weights related to these two attributes. In the last step, a diffusion matrix of each nominal attribute is constructed by the tensor product graph diffusion process, and this step can cause the acquired value embedding to contain simultaneously the intra- and inter-attribute value similarities information. To evaluate the effectiveness of our proposed method, experiments are done on 10 data sets. Experimental results demonstrate that our method not only enables the Euclidean distance to be used for nominal data clustering, but also can acquire the better clustering performance than several existing state-of-the-art approaches. &lt;/p&gt; }, number={1}, journal={Proceedings of the AAAI Conference on Artificial Intelligence}, author={Gu, Lei and Zhou, Ningning and Zhao, Yang}, year={2018}, month={Apr.} }
+
+
+@article{numpy,
+  title={Array programming with NumPy},
+  author={Harris, Charles R and Millman, K Jarrod and Van Der Walt, St{\'e}fan J and Gommers, Ralf and Virtanen, Pauli and Cournapeau, David and Wieser, Eric and Taylor, Julian and Berg, Sebastian and Smith, Nathaniel J and others},
+  journal={Nature},
+  volume={585},
+  number={7825},
+  pages={357--362},
+  year={2020},
+  publisher={Nature Publishing Group UK London}
+}
+
+@article{pandas,
+  title={Data structures for statistical computing in Python.},
+  author={McKinney, Wes and others},
+  journal={Scipy},
+  volume={445},
+  number={1},
+  pages={51--56},
+  year={2010}
+}
+
+@misc{matplotlib,
+  title={Matplotlib: A 2D Graphics Environment. Com-464 puting in Science \& Engineering, 9 (3), 90--95},
+  author={Hunter, JD},
+  year={2007}
+}
+
+@article{seaborn,
+  title={Seaborn: statistical data visualization},
+  author={Waskom, Michael L},
+  journal={Journal of Open Source Software},
+  volume={6},
+  number={60},
+  pages={3021},
+  year={2021}
+}
+
+@article{scipy,
+  title={SciPy 1.0: fundamental algorithms for scientific computing in Python},
+  author={Virtanen, Pauli and Gommers, Ralf and Oliphant, Travis E and Haberland, Matt and Reddy, Tyler and Cournapeau, David and Burovski, Evgeni and Peterson, Pearu and Weckesser, Warren and Bright, Jonathan and others},
+  journal={Nature methods},
+  volume={17},
+  number={3},
+  pages={261--272},
+  year={2020},
+  publisher={Nature Publishing Group}
+}
+
+@article{dimensionality,
+  title={High-dimensional data analysis: The curses and blessings of dimensionality},
+  author={Donoho, David L and others},
+  journal={AMS math challenges lecture},
+  volume={1},
+  number={2000},
+  pages={32},
+  year={2000}
+}
+
+@inproceedings{data_cleaning,
+  title={Data cleaning: Overview and emerging challenges},
+  author={Chu, Xu and Ilyas, Ihab F and Krishnan, Sanjay and Wang, Jiannan},
+  booktitle={Proceedings of the 2016 international conference on management of data},
+  pages={2201--2206},
+  year={2016}
+}
+
+@article{data_preprocess,
+  title={Review of data preprocessing techniques in data mining},
+  author={Alasadi, Suad A and Bhaya, Wesam S},
+  journal={Journal of Engineering and Applied Sciences},
+  volume={12},
+  number={16},
+  pages={4102--4107},
+  year={2017}
+}
+
+@article{1999-optics,
+author = {Ankerst, Mihael and Breunig, Markus M. and Kriegel, Hans-Peter and Sander, J\"{o}rg},
+title = {OPTICS: ordering points to identify the clustering structure},
+year = {1999},
+issue_date = {June 1999},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {28},
+number = {2},
+issn = {0163-5808},
+url = {https://doi.org/10.1145/304181.304187},
+doi = {10.1145/304181.304187},
+abstract = {Cluster analysis is a primary method for database mining. It is either used as a stand-alone tool to get insight into the distribution of a data set, e.g. to focus further analysis and data processing, or as a preprocessing step for other algorithms operating on the detected clusters. Almost all of the well-known clustering algorithms require input parameters which are hard to determine but have a significant influence on the clustering result. Furthermore, for many real-data sets there does not even exist a global parameter setting for which the result of the clustering algorithm describes the intrinsic clustering structure accurately. We introduce a new algorithm for the purpose of cluster analysis which does not produce a clustering of a data set explicitly; but instead creates an augmented ordering of the database representing its density-based clustering structure. This cluster-ordering contains information which is equivalent to the density-based clusterings corresponding to a broad range of parameter settings. It is a versatile basis for both automatic and interactive cluster analysis. We show how to automatically and efficiently extract not only 'traditional' clustering information (e.g. representative points, arbitrary shaped clusters), but also the intrinsic clustering structure. For medium sized data sets, the cluster-ordering can be represented graphically and for very large data sets, we introduce an appropriate visualization technique. Both are suitable for interactive exploration of the intrinsic clustering structure offering additional insights into the distribution and correlation of the data.},
+journal = {SIGMOD Rec.},
+month = jun,
+pages = {49–60},
+numpages = {12},
+keywords = {cluster analysis, database mining, visualization}
+}
+
+@article{2018-spectral,
+    author = {Damle, Anil and Minden, Victor and Ying, Lexing},
+    title = {Simple, direct and efficient multi-way spectral clustering},
+    journal = {Information and Inference: A Journal of the IMA},
+    volume = {8},
+    number = {1},
+    pages = {181-203},
+    year = {2018},
+    month = {06},
+    abstract = {We present a new algorithm for spectral clustering based on a column-pivoted QR factorization that may be directly used for cluster assignment or to provide an initial guess for k-means. Our algorithm is simple to implement, direct and requires no initial guess. Furthermore, it scales linearly in the number of nodes of the graph and a randomized variant provides significant computational gains. Provided the subspace spanned by the eigenvectors used for clustering contains a basis that resembles the set of indicator vectors on the clusters, we prove that both our deterministic and randomized algorithms recover a basis close to the indicators in Frobenius norm. We also experimentally demonstrate that the performance of our algorithm tracks recent information theoretic bounds for exact recovery in the stochastic block model. Finally, we explore the performance of our algorithm when applied to a real-world graph.},
+    issn = {2049-8772},
+    doi = {10.1093/imaiai/iay008},
+    url = {https://doi.org/10.1093/imaiai/iay008},
+    eprint = {https://academic.oup.com/imaiai/article-pdf/8/1/181/28053156/iay008.pdf},
+}
+
+@article{scikit-learn,
+  title={Scikit-learn: Machine Learning in Python},
+  author={Pedregosa, Fabian and Varoquaux, Ga{\"e}l and Gramfort, Alexandre and Michel, Vincent and Thirion, Bertrand and Grisel, Olivier and Blondel, Mathieu and Prettenhofer, Peter and Weiss, Ron and Dubourg, Vincent and Vanderplas, Jake and Passos, Alexandre and Cournapeau, David and Brucher, Matthieu and Perrot, Matthieu and Duchesnay, {\'E}douard},
+  journal={Journal of Machine Learning Research},
+  volume={12},
+  pages={2825--2830},
+  year={2011}
+}
+
+@article{global_kmeans,
+  author = {Artistidis Likas, Nikos Vlassis, Jakob J. Verbeek},
+  title = {The Global k-Means Clustering Algorithm},
+  volume = {12},
+  year = {2001}
+}
+
+@article{gmeans,
+  author = {Greg Hamerly, Charles Elkan},
+  title = {Learning the k in k-means},
+  volume = {27},
+  year = {2003}
+}
