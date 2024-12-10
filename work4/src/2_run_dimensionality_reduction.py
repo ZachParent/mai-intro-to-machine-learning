@@ -62,12 +62,13 @@ def main():
     logger.info(f"Time taken: {tok - tik} seconds")
     runtime_data = {
         "dataset": args.dataset,
-        "method": args.model,
+        "method": args.method,
         "runtime": tok - tik,
     }
     runtimes.append(runtime_data)
 
     reduced_data_path = reduced_data_dir / f"{args.dataset}_{args.method}.csv"
+    reduced_data = pd.DataFrame(reduced_data)
     reduced_data.to_csv(reduced_data_path, index=False)
 
     runtime_df = pd.DataFrame(runtimes)
