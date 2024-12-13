@@ -68,7 +68,7 @@ def main():
         logger.info(f"Time taken: {tok - tik} seconds")
         runtime_data = {
             "dataset": args.dataset,
-            "method": args.method,
+            "reduction_method": args.method,
             **param_dict,
             "runtime": tok - tik,
         }

@@ -7,7 +7,12 @@ from pathlib import Path
 
 from scipy.optimize import linear_sum_assignment
 from sklearn.metrics import confusion_matrix
-from tools.config import CLUSTERED_DATA_DIR, PREPROCESSED_DATA_DIR, METRICS_DATA_PATH
+from tools.config import (
+    PREPROCESSED_DATA_DIR,
+    REDUCED_DATA_DIR,
+    CLUSTERED_DATA_DIR,
+    METRICS_DATA_PATH,
+)
 from tools.metrics import (
     davies_bouldin_index,
     calinski_harabasz_index,
@@ -74,12 +79,38 @@ def get_config_from_filepath(filepath: Path) -> dict:
     }
 
 
-def load_runtime_df():
+def load_reduction_runtime_df():
+    runtime_filepaths = sorted(list(REDUCED_DATA_DIR.glob("**/runtime.csv")))
+    return pd.concat([pd.read_csv(filepath) for filepath in runtime_filepaths])
+
+
+def load_clustering_runtime_df():
     runtime_filepaths = sorted(list(CLUSTERED_DATA_DIR.glob("**/runtime.csv")))
     return pd.concat([pd.read_csv(filepath) for filepath in runtime_filepaths])
 
 
-def get_runtime(runtime_df: pd.DataFrame, clustered_data_config: dict):
+def get_reduction_runtime(runtime_df: pd.DataFrame, clustered_data_config: dict):
+    try:
+        # First filter by dataset and model
+        condition = (runtime_df["dataset"] == clustered_data_config["dataset"]) & (
+            runtime_df["reduction_method"] == clustered_data_config["reduction_method"]
+        )
+
+        for k, v in clustered_data_config["params"].items():
+            if k in runtime_df.columns:
+                try:
+                    value = float(v)
+                    condition = condition & (runtime_df[k] == value)
+                except ValueError:
+                    condition = condition & (runtime_df[k].astype(str) == str(v))
+            else:
+                logging.warning(f"Parameter {k} not found in reduction runtime DataFrame columns")
+        return runtime_df[condition]["runtime"].values[0]
+    except (IndexError, KeyError) as e:
+        logger.warning(f"Reduction runtime not found for config {clustered_data_config}. Error: {e}")
+        return np.nan
+
+def get_clustering_runtime(runtime_df: pd.DataFrame, clustered_data_config: dict):
     try:
         # First filter by dataset and model
         condition = (runtime_df["dataset"] == clustered_data_config["dataset"]) & (
@@ -94,10 +125,10 @@ def get_runtime(runtime_df: pd.DataFrame, clustered_data_config: dict):
                 except ValueError:
                     condition = condition & (runtime_df[k].astype(str) == str(v))
             else:
-                logging.warning(f"Parameter {k} not found in runtime DataFrame columns")
+                logging.warning(f"Parameter {k} not found in clustering runtime DataFrame columns")
         return runtime_df[condition]["runtime"].values[0]
     except (IndexError, KeyError) as e:
-        logger.warning(f"Runtime not found for config {clustered_data_config}. Error: {e}")
+        logger.warning(f"Clustering runtime not found for config {clustered_data_config}. Error: {e}")
         return np.nan
 
 
@@ -109,7 +140,8 @@ def main():
     else:
         logging.basicConfig(level=logging.WARNING)
 
-    runtime_df = load_runtime_df()
+    reduction_runtime_df = load_reduction_runtime_df()
+    clustering_runtime_df = load_clustering_runtime_df()
     filepaths = sorted(list(CLUSTERED_DATA_DIR.glob("**/*.csv")))
     filepaths = [filepath for filepath in filepaths if "runtime.csv" not in filepath.name]
 
@@ -118,12 +150,14 @@ def main():
         clustered_data_config = get_config_from_filepath(filepath)
         logger.info(f"Computing metrics for config {clustered_data_config}")
 
-        runtime = get_runtime(runtime_df, clustered_data_config)
+        reduction_runtime = get_reduction_runtime(reduction_runtime_df, clustered_data_config)
+        clustering_runtime = get_clustering_runtime(clustering_runtime_df, clustered_data_config)
         curr_output_data = {
             "dataset": clustered_data_config["dataset"],
             "reduction_method": clustered_data_config["reduction_method"],
             "clustering_model": clustered_data_config["clustering_model"],
-            "runtime": runtime,
+            "reduction_runtime": reduction_runtime,
+            "clustering_runtime": clustering_runtime,
         }
 
         clustered_data = pd.read_csv(filepath)
