@@ -8,6 +8,7 @@ PREPROCESSED_DATA_DIR = DATA_DIR / "1_preprocessed"
 REDUCED_DATA_DIR = DATA_DIR / "2_reduced"
 CLUSTERED_DATA_DIR = DATA_DIR / "3_clustered"
 METRICS_DATA_PATH = DATA_DIR / "4_metrics.csv"
+NON_REDUCED_DATA_NAME = "non_reduced"
 
 N_CLUSTERS = [2, 3, 5, 10, 11, 12]
 RANDOM_STATE = [1, 2, 3, 4, 5]

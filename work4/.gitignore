@@ -169,5 +169,5 @@ cython_debug/
 #.idea/
 
 # large intermediate files
-data/2_reduced/**/*
-data/3_clustered/**/*
+data/2_reduced/*
+data/3_clustered/*

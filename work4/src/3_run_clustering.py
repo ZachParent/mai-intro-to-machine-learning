@@ -18,18 +18,11 @@ from tools.clustering import (
     OpticsParamsGrid,
     SpectralClusteringParamsGrid,
 )
-from tools.config import PREPROCESSED_DATA_DIR, CLUSTERED_DATA_DIR
+from tools.config import CLUSTERED_DATA_DIR, NON_REDUCED_DATA_NAME
 from tools.clustering import MODEL_MAP, PARAMS_GRID_MAP
 
 
 parser = argparse.ArgumentParser()
-# parser.add_argument(
-#     "--dataset",
-#     type=str,
-#     help="The name of the dataset to run the model on",
-#     choices=["hepatitis", "mushroom", "vowel", "synthetic"],
-#     required=True,
-# )
 parser.add_argument(
     "--model",
     type=str,
@@ -83,7 +76,7 @@ def main():
         input_file_basename = os.path.splitext(os.path.basename(args.input_file_path))[0]
     else:
         input_dataset = os.path.splitext(os.path.basename(args.input_file_path))[0]
-        input_method = "plain"
+        input_method = NON_REDUCED_DATA_NAME
         input_file_basename = ""
 
     features_data = input_data.iloc[:, :-1]
