@@ -3,8 +3,8 @@
 ## by Monday 2024-12-16
 
 - [ ] (Zach) set up project structure
-    - [ ] (Zach) dimensionality reduction
-    - [ ] (Zach) simplified clustering
-    - [ ] (Zach) metrics
+    - [x] (Zach) dimensionality reduction
+    - [x] (Zach) simplified clustering
+    - [x] (Zach) metrics
     - [ ] (Zach) visualization
-    - [ ] (Zach) Makefile
+    - [x] (Zach) Makefile
