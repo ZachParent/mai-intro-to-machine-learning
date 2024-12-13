@@ -1,6 +1,7 @@
 import numpy as np
 from sklearn.cluster import OPTICS
 
+# TODO: choose reasonable parameters
 OpticsParamsGrid = {
     "metric": ["euclidean"],
     "algorithm": ["auto",],

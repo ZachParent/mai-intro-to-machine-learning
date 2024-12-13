@@ -11,6 +11,7 @@ import os
 import pickle
 from pathlib import Path
 
+# TODO: choose reasonable parameters
 GlobalKmeansParams = {
     "n_clusters": [2, 3],
     # "max_iterations": [100, 300, 500],
