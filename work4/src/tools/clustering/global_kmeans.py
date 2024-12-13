@@ -12,10 +12,10 @@ import pickle
 from pathlib import Path
 
 GlobalKmeansParams = {
-    "n_clusters": N_CLUSTERS,
-    "max_iterations": [100, 300, 500],
-    "tolerance": [1e-5, 1e-4, 1e-3],
-    "random_state": RANDOM_STATE,
+    "n_clusters": [2, 3],
+    # "max_iterations": [100, 300, 500],
+    # "tolerance": [1e-5, 1e-4, 1e-3],
+    # "random_state": RANDOM_STATE,
 }
 
 

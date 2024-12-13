@@ -3,7 +3,7 @@ from sklearn.decomposition import PCA as SklearnPCA
 
 # TODO: choose reasonable n_components and kernel
 PCA_PARAMS_GRID_MAP = {
-    "n_components": [2, 3, 4, 5, 6, 7, 8, 9, 10],
+    "n_components": [2, 3],
 }
 
 # TODO: implement our own PCA
