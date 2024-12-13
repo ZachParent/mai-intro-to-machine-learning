@@ -4,12 +4,13 @@ import os
 from itertools import product
 import logging
 import time
-from tools.pca import PCA
+from tools.dimensionality_reduction.pca import PCA
+from tools.dimensionality_reduction.kernel_pca import KernelPCA
 from tools.config import PREPROCESSED_DATA_DIR, REDUCED_DATA_DIR
-from tools.clustering import MODEL_MAP, PARAMS_GRID_MAP
 
 METHOD_MAP = {
     "pca": PCA,
+    "kernel_pca": KernelPCA,
 }
 
 parser = argparse.ArgumentParser()
