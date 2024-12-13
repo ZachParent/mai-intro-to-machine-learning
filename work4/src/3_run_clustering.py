@@ -23,13 +23,13 @@ from tools.clustering import MODEL_MAP, PARAMS_GRID_MAP
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument(
-    "--dataset",
-    type=str,
-    help="The name of the dataset to run the model on",
-    choices=["hepatitis", "mushroom", "vowel", "synthetic"],
-    required=True,
-)
+# parser.add_argument(
+#     "--dataset",
+#     type=str,
+#     help="The name of the dataset to run the model on",
+#     choices=["hepatitis", "mushroom", "vowel", "synthetic"],
+#     required=True,
+# )
 parser.add_argument(
     "--model",
     type=str,
@@ -44,25 +44,28 @@ parser.add_argument(
     ],
     required=True,
 )
+parser.add_argument(
+    "--input_file_path",
+    type=str,
+    help="The path to the input data",
+    required=True,
+)
+parser.add_argument(
+    "--reduced",
+    action="store_true",
+    help="Whether the input data is reduced",
+)
 parser.add_argument("--verbose", "-v", action="store_true", help="Whether to print verbose output")
 
 logger = logging.getLogger(__name__)
 
 model_map = {
-    "kmeans": KMeans,
-    "fuzzy_cmeans": FuzzyCMeans,
-    "gmeans": GMeans,
     "global_kmeans": GlobalKMeans,
     "optics": Optics,
-    "spectral_clustering": SpectralClustering,
 }
 params_grid_map = {
-    "kmeans": KMeansParamsGrid,
-    "fuzzy_cmeans": FuzzyCMeansParamsGrid,
-    "gmeans": GMeansParamsGrid,
     "global_kmeans": GlobalKmeansParams,
     "optics": OpticsParamsGrid,
-    "spectral_clustering": SpectralClusteringParamsGrid,
 }
 
 
@@ -73,12 +76,19 @@ def main():
     else:
         logging.basicConfig(level=logging.WARNING)
 
-    preprocessed_data_path = PREPROCESSED_DATA_DIR / f"{args.dataset}.csv"
-    preprocessed_data = pd.read_csv(preprocessed_data_path).iloc[:, :50]
+    input_data = pd.read_csv(args.input_file_path)
+    if args.reduced:
+        input_dataset = os.path.basename(os.path.dirname(os.path.dirname(args.input_file_path)))
+        input_method = os.path.basename(os.path.dirname(args.input_file_path))
+        input_file_basename = os.path.splitext(os.path.basename(args.input_file_path))[0]
+    else:
+        input_dataset = os.path.splitext(os.path.basename(args.input_file_path))[0]
+        input_method = "plain"
+        input_file_basename = ""
 
-    features_data = preprocessed_data.iloc[:, :-1]
+    features_data = input_data.iloc[:, :-1]
 
-    clustered_data_dir = CLUSTERED_DATA_DIR / args.dataset / args.model
+    clustered_data_dir = CLUSTERED_DATA_DIR / input_dataset / input_method / args.model
     os.makedirs(clustered_data_dir, exist_ok=True)
 
     params_grid = PARAMS_GRID_MAP[args.model]
@@ -88,7 +98,7 @@ def main():
         model = MODEL_MAP[args.model](**param_dict)
 
         logger.info(
-            f"Running {args.dataset}/{args.model}, params: {', '.join(f'{k}={v}' for k, v in param_dict.items())}..."
+            f"Running {input_dataset}/{input_method}/{args.model}, params: {', '.join(f'{k}={v}' for k, v in param_dict.items())}..."
         )
         tik = time.time()
         clusters = model.fit_predict(features_data)
@@ -96,7 +106,8 @@ def main():
 
         logger.info(f"Time taken: {tok - tik} seconds")
         runtime_data = {
-            "dataset": args.dataset,
+            "dataset": input_dataset,
+            "method": input_method,
             "model": args.model,
             **param_dict,
             "runtime": tok - tik,
@@ -104,11 +115,12 @@ def main():
         runtimes.append(runtime_data)
 
         clustered_data = pd.concat(
-            [preprocessed_data.iloc[:, :-1], pd.Series(clusters, name="cluster")], axis=1
+            [input_data.iloc[:, :-1], pd.Series(clusters, name="cluster")], axis=1
         )
 
         clustered_data_path = (
-            clustered_data_dir / f"{','.join(f'{k}={v}' for k, v in param_dict.items())}.csv"
+            clustered_data_dir /
+            f"{input_file_basename + ',' if input_file_basename else ''}{','.join(f'{k}={v}' for k, v in param_dict.items())}.csv"
         )
         clustered_data.to_csv(clustered_data_path, index=False)
 
