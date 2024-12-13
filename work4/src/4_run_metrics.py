@@ -61,13 +61,15 @@ def compute_metrics(df: pd.DataFrame, true_labels: np.ndarray) -> pd.Series:
 
 
 def get_config_from_filepath(filepath: Path) -> dict:
-    dataset_name = filepath.parent.parent.name
-    model_name = filepath.parent.name
+    dataset_name = filepath.parent.parent.parent.name
+    reduction_method = filepath.parent.parent.name
+    clustering_model = filepath.parent.name
     params_str = filepath.stem.split(",")
     params = {param.split("=")[0]: param.split("=")[1] for param in params_str}
     return {
         "dataset": dataset_name,
-        "model": model_name,
+        "reduction_method": reduction_method,
+        "clustering_model": clustering_model,
         "params": params,
     }
 
@@ -81,8 +83,8 @@ def get_runtime(runtime_df: pd.DataFrame, clustered_data_config: dict):
     try:
         # First filter by dataset and model
         condition = (runtime_df["dataset"] == clustered_data_config["dataset"]) & (
-            runtime_df["model"] == clustered_data_config["model"]
-        )
+            runtime_df["reduction_method"] == clustered_data_config["reduction_method"]
+        ) & (runtime_df["clustering_model"] == clustered_data_config["clustering_model"])
 
         for k, v in clustered_data_config["params"].items():
             if k in runtime_df.columns:
@@ -119,7 +121,8 @@ def main():
         runtime = get_runtime(runtime_df, clustered_data_config)
         curr_output_data = {
             "dataset": clustered_data_config["dataset"],
-            "model": clustered_data_config["model"],
+            "reduction_method": clustered_data_config["reduction_method"],
+            "clustering_model": clustered_data_config["clustering_model"],
             "runtime": runtime,
         }
 

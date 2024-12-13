@@ -72,16 +72,16 @@ def main():
     input_data = pd.read_csv(args.input_file_path)
     if args.reduced:
         input_dataset = os.path.basename(os.path.dirname(os.path.dirname(args.input_file_path)))
-        input_method = os.path.basename(os.path.dirname(args.input_file_path))
+        reduction_method = os.path.basename(os.path.dirname(args.input_file_path))
         input_file_basename = os.path.splitext(os.path.basename(args.input_file_path))[0]
     else:
         input_dataset = os.path.splitext(os.path.basename(args.input_file_path))[0]
-        input_method = NON_REDUCED_DATA_NAME
+        reduction_method = NON_REDUCED_DATA_NAME
         input_file_basename = ""
 
     features_data = input_data.iloc[:, :-1]
 
-    clustered_data_dir = CLUSTERED_DATA_DIR / input_dataset / input_method / args.model
+    clustered_data_dir = CLUSTERED_DATA_DIR / input_dataset / reduction_method / args.model
     os.makedirs(clustered_data_dir, exist_ok=True)
 
     params_grid = PARAMS_GRID_MAP[args.model]
@@ -91,7 +91,7 @@ def main():
         model = MODEL_MAP[args.model](**param_dict)
 
         logger.info(
-            f"Running {input_dataset}/{input_method}/{args.model}, params: {', '.join(f'{k}={v}' for k, v in param_dict.items())}..."
+            f"Running {input_dataset}/{reduction_method}/{args.model}, params: {', '.join(f'{k}={v}' for k, v in param_dict.items())}..."
         )
         tik = time.time()
         clusters = model.fit_predict(features_data)
@@ -100,8 +100,8 @@ def main():
         logger.info(f"Time taken: {tok - tik} seconds")
         runtime_data = {
             "dataset": input_dataset,
-            "method": input_method,
-            "model": args.model,
+            "reduction_method": reduction_method,
+            "clustering_model": args.model,
             **param_dict,
             "runtime": tok - tik,
         }
