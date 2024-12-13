@@ -17,7 +17,7 @@ ZIP_FILE_NAME = $(SUBMISSION_NAME).zip
 
 ## Run all scripts
 .PHONY: all
-all: run-preprocessing run-dimensionality-reduction run-clustering-non-reduced run-clustering-reduced run-metrics run-analysis
+all: run-preprocessing run-dimensionality-reduction run-clustering-non-reduced run-clustering-reduced run-metrics
 
 ## Delete all compiled Python files
 .PHONY: clean
@@ -69,13 +69,19 @@ run-clustering-reduced:
 .PHONY: run-metrics
 run-metrics:
 	@echo ">>> Calculating metrics for all clustered datasets..."
-	$(PYTHON_INTERPRETER) src/3_run_metrics.py --verbose
+	$(PYTHON_INTERPRETER) src/4_run_metrics.py --verbose
 
-## Perform statistical analysis on results
-.PHONY: run-analysis
-run-analysis:
-	@echo ">>> Performing statistical analysis on results..."
-	$(PYTHON_INTERPRETER) src/4_run_analysis.py --verbose
+## Plot the computed metrics
+.PHONY: run-plot-metrics
+run-plot-metrics:
+	@echo ">>> Plotting metrics..."
+	$(PYTHON_INTERPRETER) src/5_run_plot_metrics.py --verbose
+
+## Calculate and plot visualizations
+.PHONY: run-visualizations
+run-visualizations:
+	@echo ">>> Calculating and plotting visualizations..."
+	$(PYTHON_INTERPRETER) src/6_run_visualizations.py --verbose
 
 ## Lint using flake8 and black (use `make format` to do formatting)
 .PHONY: lint
