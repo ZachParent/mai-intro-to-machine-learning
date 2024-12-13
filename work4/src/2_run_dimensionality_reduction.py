@@ -74,8 +74,14 @@ def main():
         }
         runtimes.append(runtime_data)
 
-        reduced_data = pd.DataFrame(
-            reduced_data, columns=[f"dim_{i}" for i in range(reduced_data.shape[1])]
+        reduced_data = pd.concat(
+            [
+                pd.DataFrame(
+                    reduced_data, columns=[f"dim_{i}" for i in range(reduced_data.shape[1])]
+                ),
+                preprocessed_data.iloc[:, -1],
+            ],
+            axis=1,
         )
 
         reduced_data_path = (
