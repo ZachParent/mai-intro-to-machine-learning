@@ -2,7 +2,7 @@
 # GLOBALS                                                                       #
 #################################################################################
 
-PROJECT_NAME = mai-iml-work3
+PROJECT_NAME = mai-iml-work4
 PYTHON_VERSION = 3.9
 PYTHON_INTERPRETER = python
 ENV_NAME = .venv
@@ -17,7 +17,7 @@ ZIP_FILE_NAME = $(SUBMISSION_NAME).zip
 
 ## Run all scripts
 .PHONY: all
-all: run-preprocessing run-models run-metrics run-analysis
+all: run-preprocessing run-dimensionality-reduction run-clustering-non-reduced run-clustering-reduced run-metrics run-analysis
 
 ## Delete all compiled Python files
 .PHONY: clean
@@ -28,20 +28,40 @@ clean:
 ## Clean output directories
 .PHONY: clean-outputs
 clean-outputs:
-	rm -rf data/2_clustered/*
-	rm -rf data/3_metrics/*
+	rm -rf data/1_preprocessed/*
+	rm -rf data/2_reduced/*
+	rm -rf data/3_clustered/*
+	rm -rf data/4_metrics.csv
 
 .PHONY: run-preprocessing
 run-preprocessing:
 	@echo ">>> Running preprocessing for all datasets..."
 	$(PYTHON_INTERPRETER) src/1_run_preprocessing.py
 
-## Run all models for all datasets
-.PHONY: run-models
-run-models:
+.PHONY: run-dimensionality-reduction
+run-dimensionality-reduction:
+	@echo ">>> Running dimensionality reduction for all datasets..."
 	for dataset in hepatitis vowel mushroom; do \
-		for model in kmeans fuzzy_cmeans gmeans global_kmeans optics spectral_clustering; do \
-			python src/2_run_model.py --dataset=$$dataset --model=$$model --verbose; \
+		for method in pca kernel_pca; do \
+			python src/2_run_dimensionality_reduction.py --dataset=$$dataset --method=$$method --verbose; \
+		done; \
+	done
+
+## Run clustering for the non-reduced datasets
+.PHONY: run-clustering-non-reduced
+run-clustering-non-reduced:
+	for filename in $$(find data/1_preprocessed -type f -name "*.csv"); do \
+		for model in global_kmeans optics; do \
+			python src/3_run_clustering.py --input_file_path=$$filename --model=$$model --verbose; \
+		done; \
+	done
+
+## Run clustering for the reduced datasets
+.PHONY: run-clustering-reduced
+run-clustering-reduced:
+	for filename in $$(find data/2_reduced -type f -name "*.csv"); do \
+		for model in global_kmeans optics; do \
+			python src/3_run_clustering.py --reduced --input_file_path=$$filename --model=$$model --verbose; \
 		done; \
 	done
 
