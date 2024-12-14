@@ -2,7 +2,7 @@ import argparse
 import pandas as pd
 import os
 import logging
-from tools.clustering import PARAMS_GRID_MAP
+from tools.clustering import CLUSTERING_PARAMS_GRID_MAP
 from tools.dimensionality_reduction import PCA
 from tools.analysis.plots import *
 from tools.config import FIGURES_DIR, CLUSTERED_DATA_DIR
@@ -17,6 +17,7 @@ parser.add_argument(
 logger = logging.getLogger(__name__)
 
 VISUALIZATION_METHODS = {"pca": PCA, "umap": UMAP}
+
 
 def get_metrics_from_row(row: pd.Series) -> pd.Series:
     return row.loc[["ari", "purity", "dbi", "f_measure"]]
@@ -34,6 +35,7 @@ def get_config_from_filepath(filepath: Path) -> dict:
         "clustering_model": clustering_model,
         "params": params,
     }
+
 
 def plot_visualization(ax, two_d_data: np.ndarray, labels: np.ndarray):
     ax.scatter(two_d_data[:, 0], two_d_data[:, 1], c=labels, cmap="viridis")
@@ -61,19 +63,36 @@ def main():
     logger.info("Generating visualizations...")
     for path, df in clustered_data_dfs.items():
         config = get_config_from_filepath(path)
-        for visualization_method_name, visualization_method in VISUALIZATION_METHODS.items():
-            logger.info(f"Generating {visualization_method_name} visualization for {path}")
-            viz = visualization_method(n_components=2)  # Explicitly set n_components for PCA
+        for (
+            visualization_method_name,
+            visualization_method,
+        ) in VISUALIZATION_METHODS.items():
+            logger.info(
+                f"Generating {visualization_method_name} visualization for {path}"
+            )
+            viz = visualization_method(
+                n_components=2
+            )  # Explicitly set n_components for PCA
             two_d_data = viz.fit_transform(df.iloc[:, :-1])
-            
+
             fig, ax = plt.subplots()
             plot_visualization(ax, two_d_data, df["cluster"].values)
-            ax.set_title(f"{config['reduction_method']} {config['clustering_model']} {visualization_method_name}")
-            
-            output_dir = FIGURES_DIR / config['dataset'] / config['reduction_method'] / config['clustering_model']
+            ax.set_title(
+                f"{config['reduction_method']} {config['clustering_model']} {visualization_method_name}"
+            )
+
+            output_dir = (
+                FIGURES_DIR
+                / config["dataset"]
+                / config["reduction_method"]
+                / config["clustering_model"]
+            )
             output_dir.mkdir(parents=True, exist_ok=True)
-            
-            output_path = output_dir / f"{visualization_method_name}_{','.join([f'{k}={v}' for k, v in config['params'].items()])}.png"
+
+            output_path = (
+                output_dir
+                / f"{visualization_method_name}_{','.join([f'{k}={v}' for k, v in config['params'].items()])}.png"
+            )
             fig.savefig(output_path)
             plt.close(fig)
             logger.info(f"Saved {output_path}")

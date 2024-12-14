@@ -19,7 +19,7 @@ from tools.clustering import (
     SpectralClusteringParamsGrid,
 )
 from tools.config import CLUSTERED_DATA_DIR, NON_REDUCED_DATA_NAME
-from tools.clustering import MODEL_MAP, PARAMS_GRID_MAP
+from tools.clustering import CLUSTERING_MODEL_MAP, CLUSTERING_PARAMS_GRID_MAP
 
 
 parser = argparse.ArgumentParser()
@@ -48,7 +48,9 @@ parser.add_argument(
     action="store_true",
     help="Whether the input data is reduced",
 )
-parser.add_argument("--verbose", "-v", action="store_true", help="Whether to print verbose output")
+parser.add_argument(
+    "--verbose", "-v", action="store_true", help="Whether to print verbose output"
+)
 
 logger = logging.getLogger(__name__)
 
@@ -71,9 +73,13 @@ def main():
 
     input_data = pd.read_csv(args.input_file_path)
     if args.reduced:
-        input_dataset = os.path.basename(os.path.dirname(os.path.dirname(args.input_file_path)))
+        input_dataset = os.path.basename(
+            os.path.dirname(os.path.dirname(args.input_file_path))
+        )
         reduction_method = os.path.basename(os.path.dirname(args.input_file_path))
-        input_file_basename = os.path.splitext(os.path.basename(args.input_file_path))[0]
+        input_file_basename = os.path.splitext(os.path.basename(args.input_file_path))[
+            0
+        ]
     else:
         input_dataset = os.path.splitext(os.path.basename(args.input_file_path))[0]
         reduction_method = NON_REDUCED_DATA_NAME
@@ -81,14 +87,16 @@ def main():
 
     features_data = input_data.iloc[:, :-1]
 
-    clustered_data_dir = CLUSTERED_DATA_DIR / input_dataset / reduction_method / args.model
+    clustered_data_dir = (
+        CLUSTERED_DATA_DIR / input_dataset / reduction_method / args.model
+    )
     os.makedirs(clustered_data_dir, exist_ok=True)
 
-    params_grid = PARAMS_GRID_MAP[args.model]
+    params_grid = CLUSTERING_PARAMS_GRID_MAP[args.model]
     runtimes = []
     for params in product(*params_grid.values()):
         param_dict = dict(zip(params_grid.keys(), params))
-        model = MODEL_MAP[args.model](**param_dict)
+        model = CLUSTERING_MODEL_MAP[args.model](**param_dict)
 
         logger.info(
             f"Running {input_dataset}/{reduction_method}/{args.model}, params: {', '.join(f'{k}={v}' for k, v in param_dict.items())}..."
@@ -112,8 +120,8 @@ def main():
         )
 
         clustered_data_path = (
-            clustered_data_dir /
-            f"{input_file_basename + ',' if input_file_basename else ''}{','.join(f'{k}={v}' for k, v in param_dict.items())}.csv"
+            clustered_data_dir
+            / f"{input_file_basename + ',' if input_file_basename else ''}{','.join(f'{k}={v}' for k, v in param_dict.items())}.csv"
         )
         clustered_data.to_csv(clustered_data_path, index=False)
 

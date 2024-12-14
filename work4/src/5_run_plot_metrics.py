@@ -2,7 +2,7 @@ import argparse
 import pandas as pd
 import os
 import logging
-from tools.clustering import PARAMS_GRID_MAP
+from tools.clustering import CLUSTERING_PARAMS_GRID_MAP
 from tools.analysis.plots import *
 from tools.analysis.tables import (
     generate_best_models_table,
@@ -30,11 +30,13 @@ def get_metrics_from_row(row: pd.Series) -> pd.Series:
 
 
 def get_config_from_row(row: pd.Series) -> dict:
-    params_keys = PARAMS_GRID_MAP[row["model"]].keys()
+    reduction_params_keys = REDUCTION_PARAMS_GRID_MAP[row["reduction_method"]].keys()
+    clustering_params_keys = CLUSTERING_PARAMS_GRID_MAP[row["clustering_model"]].keys()
     return {
         "dataset_name": row["dataset"],
-        "model_name": row["model"],
-        "params": {key: row[key] for key in params_keys},
+        "clustering_model": row["clustering_model"],
+        "reduction_method": row["reduction_method"],
+        "params": {key: row[key] for key in clustering_params_keys},
     }
 
 
@@ -111,7 +113,7 @@ def main():
             save_path=f"{FIGURES_DIR}/radar_chart_{dataset_name}.png",
         )
 
-    for model_name, value in PARAMS_GRID_MAP.items():
+    for model_name, value in CLUSTERING_PARAMS_GRID_MAP.items():
         params = list(value.keys())
         logger.info(
             f"Plotting interactions (GridSpec) of {model_name} between {params}..."

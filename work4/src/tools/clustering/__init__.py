@@ -5,7 +5,7 @@ from .fuzzy_cmeans import FuzzyCMeans, FuzzyCMeansParamsGrid
 from .optics import Optics, OpticsParamsGrid
 from .spectral_clustering import SpectralClustering, SpectralClusteringParamsGrid
 
-MODEL_MAP = {
+CLUSTERING_MODEL_MAP = {
     "kmeans": KMeans,
     "fuzzy_cmeans": FuzzyCMeans,
     "gmeans": GMeans,
@@ -14,7 +14,7 @@ MODEL_MAP = {
     "spectral_clustering": SpectralClustering,
 }
 
-PARAMS_GRID_MAP = {
+CLUSTERING_PARAMS_GRID_MAP = {
     "kmeans": KMeansParamsGrid,
     "fuzzy_cmeans": FuzzyCMeansParamsGrid,
     "gmeans": GMeansParamsGrid,
@@ -36,6 +36,6 @@ __all__ = [
     "OpticsParamsGrid",
     "SpectralClustering",
     "SpectralClusteringParamsGrid",
-    "MODEL_MAP",
-    "PARAMS_GRID_MAP",
+    "CLUSTERING_MODEL_MAP",
+    "CLUSTERING_PARAMS_GRID_MAP",
 ]
