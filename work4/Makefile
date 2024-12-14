@@ -17,7 +17,7 @@ ZIP_FILE_NAME = $(SUBMISSION_NAME).zip
 
 ## Run all scripts
 .PHONY: all
-all: run-preprocessing run-dimensionality-reduction run-clustering-non-reduced run-clustering-reduced run-metrics
+all: run-preprocessing run-dimensionality-reduction run-clustering-non-reduced run-clustering-reduced run-metrics run-plot-metrics run-visualizations
 
 ## Delete all compiled Python files
 .PHONY: clean
