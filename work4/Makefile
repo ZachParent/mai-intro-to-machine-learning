@@ -32,8 +32,8 @@ clean-outputs:
 	rm -rf data/2_reduced/*
 	rm -rf data/3_clustered/*
 	rm -rf data/4_metrics.csv
-	rm -rf reports/tables/*
-	rm -rf reports/figures/*
+	rm -rf data/5_metrics_plots/*
+	rm -rf data/6_visualizations/*
 
 .PHONY: run-preprocessing
 run-preprocessing:

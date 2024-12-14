@@ -5,7 +5,7 @@ import logging
 from tools.clustering import CLUSTERING_PARAMS_GRID_MAP
 from tools.dimensionality_reduction import PCA
 from tools.analysis.plots import *
-from tools.config import FIGURES_DIR, CLUSTERED_DATA_DIR
+from tools.config import VISUALIZATIONS_DIR, CLUSTERED_DATA_DIR
 from pathlib import Path
 from umap import UMAP
 
@@ -58,7 +58,7 @@ def main():
         clustered_data_dfs[path] = pd.read_csv(path)
 
     # Create output directories
-    os.makedirs(FIGURES_DIR, exist_ok=True)
+    os.makedirs(VISUALIZATIONS_DIR, exist_ok=True)
 
     logger.info("Generating visualizations...")
     for path, df in clustered_data_dfs.items():
@@ -82,7 +82,7 @@ def main():
             )
 
             output_dir = (
-                FIGURES_DIR
+                VISUALIZATIONS_DIR
                 / config["dataset"]
                 / config["reduction_method"]
                 / config["clustering_model"]

@@ -10,7 +10,7 @@ from tools.analysis.tables import (
     generate_top_models_by_dataset,
     generate_model_best_configs_table,
 )
-from tools.config import METRICS_DATA_PATH, FIGURES_DIR, TABLES_DIR
+from tools.config import METRICS_DATA_PATH, METRICS_PLOTS_DIR, METRICS_TABLES_DIR
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -59,34 +59,34 @@ def main():
     metrics_data = pd.read_csv(METRICS_DATA_PATH)
 
     # Create output directories
-    os.makedirs(FIGURES_DIR, exist_ok=True)
-    os.makedirs(TABLES_DIR, exist_ok=True)
+    os.makedirs(METRICS_PLOTS_DIR, exist_ok=True)
+    os.makedirs(METRICS_TABLES_DIR, exist_ok=True)
 
     # Generate tables
     logger.info("Generating LaTeX tables...")
 
     # Overall best models table
-    generate_best_models_table(metrics_data, f"{TABLES_DIR}/best_models_overall.tex")
+    generate_best_models_table(metrics_data, f"{METRICS_TABLES_DIR}/best_models_overall.tex")
 
     # Per-dataset top models tables
     for dataset_name in datasets:
         logger.info(f"Generating table for {dataset_name}...")
         generate_top_models_by_dataset(
-            metrics_data, dataset_name, f"{TABLES_DIR}/top_models_{dataset_name}.tex"
+            metrics_data, dataset_name, f"{METRICS_TABLES_DIR}/top_models_{dataset_name}.tex"
         )
 
     # Per-model best configurations tables
     for model_name in models:
         logger.info(f"Generating best configs table for {model_name}...")
         generate_model_best_configs_table(
-            metrics_data, model_name, f"{TABLES_DIR}/best_configs_{model_name}.tex"
+            metrics_data, model_name, f"{METRICS_TABLES_DIR}/best_configs_{model_name}.tex"
         )
 
     # Generate plots
     logger.info("Generating plots...")
 
     plot_pairplot(
-        data=metrics_data, vars=metrics, save_path=f"{FIGURES_DIR}/pairplot.png"
+        data=metrics_data, vars=metrics, save_path=f"{METRICS_PLOTS_DIR}/pairplot.png"
     )
 
     for metric in metrics:
@@ -94,11 +94,11 @@ def main():
             data=metrics_data,
             metric=metric,
             title=f"Comparison of {metric.capitalize()} Across Models and Datasets",
-            save_path=f"{FIGURES_DIR}/model_comparison_{metric}.png",
+            save_path=f"{METRICS_PLOTS_DIR}/model_comparison_{metric}.png",
         )
 
     plot_combined_heatmaps(
-        metrics_data, metrics, datasets, models, save_path=f"{FIGURES_DIR}/heatmaps.png"
+        metrics_data, metrics, datasets, models, save_path=f"{METRICS_PLOTS_DIR}/heatmaps.png"
     )
 
     for dataset_name in datasets:
@@ -107,7 +107,7 @@ def main():
             dataset_name,
             metrics,
             models,
-            save_path=f"{FIGURES_DIR}/radar_chart_{dataset_name}.png",
+            save_path=f"{METRICS_PLOTS_DIR}/radar_chart_{dataset_name}.png",
         )
 
     for model_name, value in CLUSTERING_PARAMS_GRID_MAP.items():
@@ -120,7 +120,7 @@ def main():
             params,
             datasets,
             model_name,
-            save_path=f"{FIGURES_DIR}/interactions_{model_name}.png",
+            save_path=f"{METRICS_PLOTS_DIR}/interactions_{model_name}.png",
         )
 
 
