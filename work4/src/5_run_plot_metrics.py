@@ -9,10 +9,12 @@ from tools.analysis.tables import (
     generate_top_models_by_dataset,
     generate_model_best_configs_table,
 )
-from tools.config import METRICS_DATA_PATH, PLOTS_DIR, TABLES_DIR
+from tools.config import METRICS_DATA_PATH, FIGURES_DIR, TABLES_DIR
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--verbose", "-v", action="store_true", help="Whether to print verbose output")
+parser.add_argument(
+    "--verbose", "-v", action="store_true", help="Whether to print verbose output"
+)
 
 logger = logging.getLogger(__name__)
 
@@ -44,7 +46,7 @@ models = [
     "global_kmeans",
     "optics",
     "spectral_clustering",
-] 
+]
 datasets = ["hepatitis", "mushroom", "vowel"]
 
 
@@ -58,7 +60,7 @@ def main():
     metrics_data = pd.read_csv(METRICS_DATA_PATH)
 
     # Create output directories
-    os.makedirs(PLOTS_DIR, exist_ok=True)
+    os.makedirs(FIGURES_DIR, exist_ok=True)
     os.makedirs(TABLES_DIR, exist_ok=True)
 
     # Generate tables
@@ -84,18 +86,20 @@ def main():
     # Generate plots
     logger.info("Generating plots...")
 
-    plot_pairplot(data=metrics_data, vars=metrics, save_path=f"{PLOTS_DIR}/pairplot.png")
+    plot_pairplot(
+        data=metrics_data, vars=metrics, save_path=f"{FIGURES_DIR}/pairplot.png"
+    )
 
     for metric in metrics:
         plot_model_comparisons(
             data=metrics_data,
             metric=metric,
             title=f"Comparison of {metric.capitalize()} Across Models and Datasets",
-            save_path=f"{PLOTS_DIR}/model_comparison_{metric}.png",
+            save_path=f"{FIGURES_DIR}/model_comparison_{metric}.png",
         )
 
     plot_combined_heatmaps(
-        metrics_data, metrics, datasets, models, save_path=f"{PLOTS_DIR}/heatmaps.png"
+        metrics_data, metrics, datasets, models, save_path=f"{FIGURES_DIR}/heatmaps.png"
     )
 
     for dataset_name in datasets:
@@ -104,18 +108,20 @@ def main():
             dataset_name,
             metrics,
             models,
-            save_path=f"{PLOTS_DIR}/radar_chart_{dataset_name}.png",
+            save_path=f"{FIGURES_DIR}/radar_chart_{dataset_name}.png",
         )
 
     for model_name, value in PARAMS_GRID_MAP.items():
         params = list(value.keys())
-        logger.info(f"Plotting interactions (GridSpec) of {model_name} between {params}...")
+        logger.info(
+            f"Plotting interactions (GridSpec) of {model_name} between {params}..."
+        )
         plot_interactions_with_gridspec(
             metrics_data,
             params,
             datasets,
             model_name,
-            save_path=f"{PLOTS_DIR}/interactions_{model_name}.png",
+            save_path=f"{FIGURES_DIR}/interactions_{model_name}.png",
         )
 
 

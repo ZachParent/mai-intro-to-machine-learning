@@ -3,49 +3,42 @@ import pandas as pd
 import os
 import logging
 from tools.clustering import PARAMS_GRID_MAP
+from tools.dimensionality_reduction import PCA
 from tools.analysis.plots import *
-from tools.analysis.tables import (
-    generate_best_models_table,
-    generate_top_models_by_dataset,
-    generate_model_best_configs_table,
-)
-from tools.config import METRICS_DATA_PATH, PLOTS_DIR, TABLES_DIR
+from tools.config import FIGURES_DIR, CLUSTERED_DATA_DIR
+from pathlib import Path
+from umap import UMAP
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--verbose", "-v", action="store_true", help="Whether to print verbose output")
+parser.add_argument(
+    "--verbose", "-v", action="store_true", help="Whether to print verbose output"
+)
 
 logger = logging.getLogger(__name__)
 
-
-def compute_analysis(metrics_data: pd.Series, metrics_data_config: dict):
-    print(metrics_data_config)
-    print(metrics_data)
-    pass
-
+VISUALIZATION_METHODS = {"pca": PCA, "umap": UMAP}
 
 def get_metrics_from_row(row: pd.Series) -> pd.Series:
     return row.loc[["ari", "purity", "dbi", "f_measure"]]
 
 
-def get_config_from_row(row: pd.Series) -> dict:
-    params_keys = PARAMS_GRID_MAP[row["model"]].keys()
+def get_config_from_filepath(filepath: Path) -> dict:
+    dataset_name = filepath.parent.parent.parent.name
+    reduction_method = filepath.parent.parent.name
+    clustering_model = filepath.parent.name
+    params_str = filepath.stem.split(",")
+    params = {param.split("=")[0]: param.split("=")[1] for param in params_str}
     return {
-        "dataset_name": row["dataset"],
-        "model_name": row["model"],
-        "params": {key: row[key] for key in params_keys},
+        "dataset": dataset_name,
+        "reduction_method": reduction_method,
+        "clustering_model": clustering_model,
+        "params": params,
     }
 
-
-metrics = ["ari", "chi", "dbi", "f_measure", "runtime"]
-models = [
-    "fuzzy_cmeans",
-    "kmeans",
-    "gmeans",
-    "global_kmeans",
-    "optics",
-    "spectral_clustering",
-] 
-datasets = ["hepatitis", "mushroom", "vowel"]
+def plot_visualization(ax, two_d_data: np.ndarray, labels: np.ndarray):
+    ax.scatter(two_d_data[:, 0], two_d_data[:, 1], c=labels, cmap="viridis")
+    ax.set_xlabel("Dimension 1")
+    ax.set_ylabel("Dimension 2")
 
 
 def main():
@@ -54,69 +47,27 @@ def main():
         logging.basicConfig(level=logging.INFO)
     else:
         logging.basicConfig(level=logging.WARNING)
+    clustered_paths = list(CLUSTERED_DATA_DIR.glob("**/*.csv"))
+    logger.info(f"Found {len(clustered_paths)} clustered data files")
 
-    metrics_data = pd.read_csv(METRICS_DATA_PATH)
+    clustered_data_dfs = {}
+    for path in clustered_paths:
+        clustered_data_dfs[path] = pd.read_csv(path)
 
     # Create output directories
-    os.makedirs(PLOTS_DIR, exist_ok=True)
-    os.makedirs(TABLES_DIR, exist_ok=True)
+    os.makedirs(FIGURES_DIR, exist_ok=True)
 
-    # Generate tables
-    logger.info("Generating LaTeX tables...")
-
-    # Overall best models table
-    generate_best_models_table(metrics_data, f"{TABLES_DIR}/best_models_overall.tex")
-
-    # Per-dataset top models tables
-    for dataset_name in datasets:
-        logger.info(f"Generating table for {dataset_name}...")
-        generate_top_models_by_dataset(
-            metrics_data, dataset_name, f"{TABLES_DIR}/top_models_{dataset_name}.tex"
-        )
-
-    # Per-model best configurations tables
-    for model_name in models:
-        logger.info(f"Generating best configs table for {model_name}...")
-        generate_model_best_configs_table(
-            metrics_data, model_name, f"{TABLES_DIR}/best_configs_{model_name}.tex"
-        )
-
-    # Generate plots
-    logger.info("Generating plots...")
-
-    plot_pairplot(data=metrics_data, vars=metrics, save_path=f"{PLOTS_DIR}/pairplot.png")
-
-    for metric in metrics:
-        plot_model_comparisons(
-            data=metrics_data,
-            metric=metric,
-            title=f"Comparison of {metric.capitalize()} Across Models and Datasets",
-            save_path=f"{PLOTS_DIR}/model_comparison_{metric}.png",
-        )
-
-    plot_combined_heatmaps(
-        metrics_data, metrics, datasets, models, save_path=f"{PLOTS_DIR}/heatmaps.png"
-    )
-
-    for dataset_name in datasets:
-        plot_radar_chart(
-            metrics_data,
-            dataset_name,
-            metrics,
-            models,
-            save_path=f"{PLOTS_DIR}/radar_chart_{dataset_name}.png",
-        )
-
-    for model_name, value in PARAMS_GRID_MAP.items():
-        params = list(value.keys())
-        logger.info(f"Plotting interactions (GridSpec) of {model_name} between {params}...")
-        plot_interactions_with_gridspec(
-            metrics_data,
-            params,
-            datasets,
-            model_name,
-            save_path=f"{PLOTS_DIR}/interactions_{model_name}.png",
-        )
+    logger.info("Generating visualizations...")
+    for path, df in clustered_data_dfs.items():
+        config = get_config_from_filepath(path)
+        for visualization_method_name, visualization_method in VISUALIZATION_METHODS.items():
+            two_d_data = visualization_method.fit_transform(df.iloc[:, :-1])
+            (two_d_data, df["cluster"].values)
+            fig, ax = plt.subplots()
+            plot_visualization(two_d_data, df["cluster"].values)
+            ax.set_title(f"{config['reduction_method']} {config['clustering_model']} {visualization_method_name}")
+            fig.savefig(f"{FIGURES_DIR}/{config['dataset']}/{config['reduction_method']}/{config['clustering_model']}/{visualization_method_name}_{','.join([f'{k}={v}' for k, v in config['params'].items()])}.png")
+            plt.close(fig)
 
 
 if __name__ == "__main__":
