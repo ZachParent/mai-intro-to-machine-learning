@@ -6,21 +6,21 @@ from .optics import Optics, OpticsParamsGrid
 from .spectral_clustering import SpectralClustering, SpectralClusteringParamsGrid
 
 CLUSTERING_MODEL_MAP = {
-    "kmeans": KMeans,
-    "fuzzy_cmeans": FuzzyCMeans,
-    "gmeans": GMeans,
+    # "kmeans": KMeans,
+    # "fuzzy_cmeans": FuzzyCMeans,
+    # "gmeans": GMeans,
     "global_kmeans": GlobalKMeans,
     "optics": Optics,
-    "spectral_clustering": SpectralClustering,
+    # "spectral_clustering": SpectralClustering,
 }
 
 CLUSTERING_PARAMS_GRID_MAP = {
-    "kmeans": KMeansParamsGrid,
-    "fuzzy_cmeans": FuzzyCMeansParamsGrid,
-    "gmeans": GMeansParamsGrid,
+    # "kmeans": KMeansParamsGrid,
+    # "fuzzy_cmeans": FuzzyCMeansParamsGrid,
+    # "gmeans": GMeansParamsGrid,
     "global_kmeans": GlobalKmeansParams,
     "optics": OpticsParamsGrid,
-    "spectral_clustering": SpectralClusteringParamsGrid,
+    # "spectral_clustering": SpectralClusteringParamsGrid,
 }
 
 __all__ = [

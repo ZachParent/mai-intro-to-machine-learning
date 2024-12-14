@@ -99,7 +99,7 @@ def plot_interactions(data, model_name, paramsGrid, save_path=None):
     """
 
     # Filter data for the selected model
-    data = data[data["model"] == model_name]
+    data = data[data["clustering_model"] == model_name]
 
     # Ensure that the parameters in paramsGrid exist in the dataset
     for param in paramsGrid:
@@ -134,7 +134,7 @@ def plot_interactions(data, model_name, paramsGrid, save_path=None):
 
 def plot_pairplot(data, vars, save_path=None):
     # vars = ['ari', 'purity', 'dbi', 'f_measure']
-    sns.pairplot(data, vars=vars, hue="model")
+    sns.pairplot(data, vars=vars, hue="clustering_model")
 
     if save_path:
         plt.savefig(save_path, format="png", dpi=300)
@@ -183,7 +183,7 @@ def plot_model_comparisons(data, metric, title, save_path=None):
         title (str): Title of the plot.
     """
     plt.figure(figsize=(10, 6))
-    sns.barplot(data=data, x="dataset", y=metric, hue="model", errorbar="sd", palette="viridis")
+    sns.barplot(data=data, x="dataset", y=metric, hue="clustering_model", errorbar="sd", palette="viridis")
     plt.title(title, fontsize=14)
     plt.xlabel("Dataset", fontsize=12)
     plt.ylabel(metric.capitalize(), fontsize=12)
@@ -220,7 +220,7 @@ def plot_combined_heatmaps(data, metrics, datasets, models, save_path=None):
     for i, metric in enumerate(metrics):
         # Pivot table for the heatmap
         pivot_table = data.pivot_table(
-            index="model", columns="dataset", values=metric, aggfunc="mean"
+            index="clustering_model", columns="dataset", values=metric, aggfunc="mean"
         ).reindex(
             index=models, columns=datasets
         )  # Ensure consistent order
@@ -277,7 +277,7 @@ def plot_radar_chart(data, dataset_name, metrics, models, save_path=None):
     plt.figure(figsize=(8, 8))
 
     for model in models:
-        model_data = normalized_data[normalized_data["model"] == model]
+        model_data = normalized_data[normalized_data["clustering_model"] == model]
         if not model_data.empty:
             # Extract metric values
             values = model_data[metrics].mean().tolist()
@@ -312,7 +312,7 @@ def plot_all_interactions(data, model_name, params, metric, save_dir=None):
         save_dir (str or None): Directory to save the plots. If None, plots are shown interactively.
     """
     # Filter the data for the selected model
-    subset = data[data["model"] == model_name]
+    subset = data[data["clustering_model"] == model_name]
 
     # Ensure the specified columns exist in the dataset
     if not set(params + [metric]).issubset(data.columns):
@@ -378,8 +378,8 @@ def plot_interactions_with_gridspec(df, col_names, datasets, model_name, save_pa
     outer_grid = GridSpec(1, total_datasets, figure=fig, wspace=0.05)  # Reduced from 0.1
 
     # Prepare a placeholder for the colorbar data
-    heatmap_min = max(0.00001, df[df["model"] == model_name]["f_measure"].min())
-    heatmap_max = df[df["model"] == model_name]["f_measure"].max()
+    heatmap_min = max(0.00001, df[df["clustering_model"] == model_name]["f_measure"].min())
+    heatmap_max = df[df["clustering_model"] == model_name]["f_measure"].max()
     norm = LogNorm(heatmap_min, heatmap_max, clip=True)
 
     for dataset_idx, dataset_name in enumerate(datasets):
@@ -392,7 +392,7 @@ def plot_interactions_with_gridspec(df, col_names, datasets, model_name, save_pa
             hspace=0.05,  # Add tight spacing between rows
         )
 
-        filtered_df = df[(df["dataset"] == dataset_name) & (df["model"] == model_name)]
+        filtered_df = df[(df["dataset"] == dataset_name) & (df["clustering_model"] == model_name)]
 
         for i, ((col_name1, col_name2), inner_idx) in enumerate(
             zip(itertools.product(col_names, repeat=2), range(num_cols * num_cols))

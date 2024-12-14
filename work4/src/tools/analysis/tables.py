@@ -6,7 +6,7 @@ def generate_best_models_table(metrics_df: pd.DataFrame, output_path: str):
     """Generate a LaTeX table showing the best performing models for each dataset based on f_measure."""
 
     # Select relevant columns
-    columns = ["dataset", "model", "f_measure", "ari", "chi", "dbi", "runtime"]
+    columns = ["dataset", "clustering_model", "reduction_method", "f_measure", "ari", "chi", "dbi", "clustering_runtime", "reduction_runtime"]
 
     # Get best model for each dataset
     best_models = (
@@ -29,7 +29,7 @@ def generate_top_models_by_dataset(metrics_df: pd.DataFrame, dataset_name: str, 
     """Generate a LaTeX table showing the top 10 configurations for a specific dataset."""
 
     # Filter for the dataset and select relevant columns
-    columns = ["model", "f_measure", "ari", "chi", "dbi", "runtime"]
+    columns = ["clustering_model", "reduction_method", "f_measure", "ari", "chi", "dbi", "clustering_runtime", "reduction_runtime"]
     dataset_results = metrics_df[metrics_df["dataset"] == dataset_name]
 
     # Write summary table
@@ -128,13 +128,13 @@ def generate_model_best_configs_table(
         output_path_base: Base path to save the LaTeX tables (will append _config and _performance)
     """
     # Filter for the specific model
-    model_results = metrics_df[metrics_df["model"] == model_name]
+    model_results = metrics_df[metrics_df["clustering_model"] == model_name]
 
     # Get parameter columns for this model
     param_cols = [
         col
         for col in model_results.columns
-        if col not in ["dataset", "model", "f_measure", "ari", "chi", "dbi", "runtime"]
+        if col not in ["dataset", "clustering_model", "reduction_method", "f_measure", "ari", "chi", "dbi", "clustering_runtime", "reduction_runtime"]
         and not model_results[col].isna().all()
     ]
 
@@ -158,7 +158,7 @@ def generate_model_best_configs_table(
     write_latex_table(config_df, config_path, config_caption, precision=5)
 
     # Generate performance metrics table
-    metrics_columns = ["dataset", "f_measure", "ari", "chi", "dbi", "runtime"]
+    metrics_columns = ["dataset", "f_measure", "ari", "chi", "dbi", "clustering_runtime", "reduction_runtime"]
     metrics_df = best_configs.loc[:, metrics_columns]
     metrics_df = format_column_names(metrics_df)
 

@@ -2,6 +2,7 @@ import argparse
 import pandas as pd
 import os
 import logging
+from tools.dimensionality_reduction import REDUCTION_PARAMS_GRID_MAP
 from tools.clustering import CLUSTERING_PARAMS_GRID_MAP
 from tools.analysis.plots import *
 from tools.analysis.tables import (
@@ -36,18 +37,14 @@ def get_config_from_row(row: pd.Series) -> dict:
         "dataset_name": row["dataset"],
         "clustering_model": row["clustering_model"],
         "reduction_method": row["reduction_method"],
-        "params": {key: row[key] for key in clustering_params_keys},
+        "params": {key: row[key] for key in reduction_params_keys + clustering_params_keys},
     }
 
 
-metrics = ["ari", "chi", "dbi", "f_measure", "runtime"]
+metrics = ["ari", "chi", "dbi", "f_measure", "clustering_runtime", "reduction_runtime"]
 models = [
-    "fuzzy_cmeans",
-    "kmeans",
-    "gmeans",
     "global_kmeans",
     "optics",
-    "spectral_clustering",
 ]
 datasets = ["hepatitis", "mushroom", "vowel"]
 
