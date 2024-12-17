@@ -21,3 +21,15 @@ https://www.nytimes.com/2015/07/10/upshot/when-algorithms-discriminate.htm
 ![[T12_2023_students.pdf#page=14&rect=52,44,951,385]]
 ### [[T12_2023_students.pdf#page=15&selection=0,0,2,14|EXAMPLES OF BIAS IN NLP]]
 ![[T12_2023_students.pdf#page=15&rect=24,18,955,424]]
+![[T12_2023_students 2024-12-17 10.47.03]]
+### [[T12_2023_students.pdf#page=20&selection=0,0,8,8|EXAMPLE OF BIAS IN MACHINE LEARNING]]
+**COMPAS** is a decision support tool used by some US justice systems. Judges and parole officers use the system to score criminal defendants likelihood of recidivism (reoffending)
+
+**Black defendants** were predicted as higher risk than they actually were
+
+**White defendants** were predicted as lower risk than they actually were
+
+## [[T12_2023_students.pdf#page=23&selection=26,0,26,19|Equality and Equity]]
+![[T12_2023_students.pdf#page=23&rect=46,32,948,525]]
+### [[T12_2023_students.pdf#page=35&selection=0,0,6,4|PERSPECTIVES IMPACTED BY BIAS]]
+![[T12_2023_students.pdf#page=35&rect=52,62,930,394]]
