@@ -33,3 +33,25 @@ https://www.nytimes.com/2015/07/10/upshot/when-algorithms-discriminate.htm
 ![[T12_2023_students.pdf#page=23&rect=46,32,948,525]]
 ### [[T12_2023_students.pdf#page=35&selection=0,0,6,4|PERSPECTIVES IMPACTED BY BIAS]]
 ![[T12_2023_students.pdf#page=35&rect=52,62,930,394]]
+# exam
+includes questionnaire 20-30 questions
+similar to quizzes
+
+small question in which you write
+never ask about formulas
+will not be computing or filling tablers
+
+could be 
+> explain how to perform PCA
+
+you would have to explain the process
+
+> how does optics perform clustering
+
+explain it in natural language
+
+we will need to bring our laptops. the open questions will likely be on paper
+
+the questionnaire will probably be on laptops
+
+it will be one section first: probably questionnaire then open ended questions
