@@ -224,6 +224,7 @@ def plot_interactions(df, col_names):
             if np.issubdtype(unique_vals.dtype, np.number):
                 unique_vals.sort()
             sorted_data = [df[df[col_name1] == val]["mean_f1"].tolist() for val in unique_vals]
+            print('custom boxplot of', col_name1)
             custom_boxplot(ax, sorted_data)
         else:
             # Off-diagonal plots: show interaction between variables
