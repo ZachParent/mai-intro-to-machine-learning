@@ -1,9 +1,9 @@
 from sklearn.base import TransformerMixin, BaseEstimator
 from sklearn.decomposition import PCA as SklearnPCA
 
-# TODO: choose reasonable n_components and kernel
 PCA_PARAMS_GRID_MAP = {
     "n_components": [2, 3],
+    "svd_solver": ["auto"],  
 }
 
 # TODO: implement our own PCA

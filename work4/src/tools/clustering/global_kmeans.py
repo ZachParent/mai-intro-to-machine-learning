@@ -11,12 +11,9 @@ import os
 import pickle
 from pathlib import Path
 
-# TODO: choose reasonable parameters
 GlobalKmeansParams = {
-    "n_clusters": [2, 3],
-    # "max_iterations": [100, 300, 500],
-    # "tolerance": [1e-5, 1e-4, 1e-3],
-    # "random_state": RANDOM_STATE,
+    "n_clusters": N_CLUSTERS,
+    "random_state": RANDOM_STATE,
 }
 
 

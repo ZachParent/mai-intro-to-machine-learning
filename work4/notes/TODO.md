@@ -21,8 +21,8 @@
 - [ ] get data
 	- [ ] @carlos implement PCA
 	- [ ] @carlos also maintain existing scikit implementation for comparison
-	- [ ] @kacper choose appropriate params for dimensionality reduction models
-	- [ ] @kacper choose appropriate params for clustering models
+	- [x] @kacper choose appropriate params for dimensionality reduction models
+	- [x] @kacper choose appropriate params for clustering models
 
 ## report
 our PCA imp vs scikit PCA
