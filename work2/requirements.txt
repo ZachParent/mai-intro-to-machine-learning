@@ -11,6 +11,7 @@ decorator==5.1.1
 exceptiongroup==1.2.2
 executing==2.1.0
 flake8==7.1.1
+flit_core==3.10.1
 fontawesomefree==6.6.0
 fonttools==4.53.1
 importlib_metadata==8.5.0
@@ -61,6 +62,7 @@ scikit-learn==1.5.2
 scikit-posthocs==0.10.0
 scipy==1.13.1
 seaborn==0.13.2
+setuptools==74.1.2
 six==1.16.0
 sklearn-relief==1.0.0b2
 stack-data==0.6.3

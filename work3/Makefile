@@ -17,7 +17,7 @@ ZIP_FILE_NAME = $(SUBMISSION_NAME).zip
 
 ## Run all scripts
 .PHONY: all
-all: clean-outputs run-preprocessing run-models run-metrics run-analysis
+all: run-preprocessing run-models run-metrics run-analysis
 
 ## Delete all compiled Python files
 .PHONY: clean
@@ -34,14 +34,14 @@ clean-outputs:
 .PHONY: run-preprocessing
 run-preprocessing:
 	@echo ">>> Running preprocessing for all datasets..."
-	$(PYTHON_INTERPRETER) src/scripts/1_run_preprocessing.py
+	$(PYTHON_INTERPRETER) src/1_run_preprocessing.py
 
 ## Run all models for all datasets
 .PHONY: run-models
 run-models:
 	for dataset in hepatitis vowel mushroom; do \
 		for model in kmeans fuzzy_cmeans gmeans global_kmeans optics spectral_clustering; do \
-			python src/scripts/2_run_model.py --dataset=$$dataset --model=$$model --verbose; \
+			python src/2_run_model.py --dataset=$$dataset --model=$$model --verbose; \
 		done; \
 	done
 
@@ -49,13 +49,13 @@ run-models:
 .PHONY: run-metrics
 run-metrics:
 	@echo ">>> Calculating metrics for all clustered datasets..."
-	$(PYTHON_INTERPRETER) src/scripts/3_run_metrics.py --verbose
+	$(PYTHON_INTERPRETER) src/3_run_metrics.py --verbose
 
 ## Perform statistical analysis on results
 .PHONY: run-analysis
 run-analysis:
 	@echo ">>> Performing statistical analysis on results..."
-	$(PYTHON_INTERPRETER) src/scripts/4_run_analysis.py --verbose
+	$(PYTHON_INTERPRETER) src/4_run_analysis.py --verbose
 
 ## Lint using flake8 and black (use `make format` to do formatting)
 .PHONY: lint
@@ -96,7 +96,7 @@ zip: clean
 	(cd .. && \
 	mkdir -p $(SUBMISSION_NAME) && \
 	cp -r $(PROJECT_DIR)/* $(SUBMISSION_NAME)/ && \
-	cp $(SUBMISSION_NAME)/report/report.pdf $(SUBMISSION_NAME)/$(SUBMISSION_NAME).pdf && \
+	cp $(SUBMISSION_NAME)/report/report.pdf $(SUBMISSION_NAME)/$(PROJECT_NAME)-report.pdf && \
 	zip -r $(ZIP_FILE_NAME) $(SUBMISSION_NAME) -x "*.pyc" -x "*.pyo" -x "*.pyd" -x "*.so" -x "*.dll" -x "*.dylib" \
 	-x "*/__pycache__/*" -x "*/$(ENV_NAME)/*" -x "*/.git/*" -x "*.zip" -x "*.egg-info/*" \
 	-x "*.aux" -x "*.log" -x "*.toc" -x "*.out" -x "*.synctex.gz" -x "*.fls" -x "*.fdb_latexmk" -x "*.bbl" -x "*.blg" \

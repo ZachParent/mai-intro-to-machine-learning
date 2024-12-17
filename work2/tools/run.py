@@ -5,22 +5,22 @@ from typing import List, Tuple, Dict
 import pandas as pd
 from sklearn.metrics import confusion_matrix, accuracy_score, f1_score
 
-from tools.metrics import train_and_evaluate_model, cross_validate
-from tools.knn import KNNClassifier
-from tools.distance import (
+from metrics import train_and_evaluate_model, cross_validate
+from knn import KNNClassifier
+from distance import (
     ManhattanDistance,
     EuclideanDistance,
     ChebyshevDistance,
     MahalanobisDistance,
 )
-from tools.voting import MajorityClassVote, InverseDistanceWeightedVote, ShepardsWorkVote
-from tools.preprocess import (
+from voting import MajorityClassVote, InverseDistanceWeightedVote, ShepardsWorkVote
+from preprocess import (
     preprocess_hepatitis_datasets,
     load_datasets,
     preprocess_mushroom_datasets,
 )
-from tools.weighting import InformationGainWeighting, ReliefFWeighting, EqualWeighting
-from tools.reduction import GCNN, ENNTH, drop3, edited_nearest_neighbor
+from weighting import InformationGainWeighting, ReliefFWeighting, EqualWeighting
+from reduction import GCNN, ENNTH, drop3, edited_nearest_neighbor
 import numpy as np
 from sklearn.svm import SVC as SVMClassifier
 
