@@ -1,8 +1,8 @@
-from .pca import PCA, PCA_PARAMS_GRID_MAP
+from .pca import PCA, OurPCA, PCA_PARAMS_GRID_MAP
 from .kernel_pca import KernelPCA, KERNEL_PCA_PARAMS_GRID_MAP
 
 REDUCTION_METHOD_MAP = {
-    "pca": PCA,
+    "pca": OurPCA,
     "kernel_pca": KernelPCA,
 }
 
