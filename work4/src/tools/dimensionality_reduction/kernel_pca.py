@@ -8,5 +8,3 @@ KERNEL_PCA_PARAMS_GRID_MAP = {
 
 class KernelPCA(SklearnKernelPCA):
     pass
-
-
