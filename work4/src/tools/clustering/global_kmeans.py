@@ -13,6 +13,8 @@ from pathlib import Path
 
 GlobalKmeansParams = {
     "n_clusters": N_CLUSTERS,
+    "max_iterations": [100],
+    "tolerance": [1e-3],
     "random_state": RANDOM_STATE,
 }
 
