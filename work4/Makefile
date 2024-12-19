@@ -43,8 +43,8 @@ run-preprocessing:
 .PHONY: run-dimensionality-reduction
 run-dimensionality-reduction:
 	@echo ">>> Running dimensionality reduction for all datasets..."
-	for dataset in hepatitis vowel mushroom; do \
-		for method in pca kernel_pca; do \
+	for dataset in vowel mushroom; do \
+		for method in pca sklearn_pca kernel_pca; do \
 			python src/2_run_dimensionality_reduction.py --dataset=$$dataset --method=$$method --verbose; \
 		done; \
 	done

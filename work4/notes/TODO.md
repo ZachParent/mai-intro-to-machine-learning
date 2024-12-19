@@ -2,7 +2,7 @@
 
 ## by 2024-12-20 (friday)
 
-- [ ] @zach drop a dataset (hepatitis)
+- [x] @zach drop a dataset (hepatitis)
 - [ ] plots
 	- [ ] @carlos update metrics plots, considering reduction methods
 	- [ ] @carlos update metrics tables, considering reduction methods
@@ -18,9 +18,9 @@
 	- [ ] @zach intro and conclusion
 
 ## by 2024-12-17 (tuesday)
-- [ ] get data
-	- [ ] @carlos implement PCA
-	- [ ] @carlos also maintain existing scikit implementation for comparison
+- [x] get data
+	- [x] @carlos implement PCA
+	- [x] @carlos also maintain existing scikit implementation for comparison
 	- [x] @kacper choose appropriate params for dimensionality reduction models
 	- [x] @kacper choose appropriate params for clustering models
 

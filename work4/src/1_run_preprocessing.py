@@ -23,7 +23,7 @@ def main():
 
     os.makedirs(PREPROCESSED_DATA_DIR, exist_ok=True)
 
-    datasets = ["hepatitis", "mushroom", "vowel"]
+    datasets = ["mushroom", "vowel"]
 
     for dataset in datasets:
         logger.info(f"Preprocessing {dataset}")
