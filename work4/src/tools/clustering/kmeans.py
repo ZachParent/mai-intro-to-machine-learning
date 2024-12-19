@@ -69,6 +69,9 @@ class KMeans(ClusterMixin, BaseEstimator):
 
     def _assign_clusters(self, data):
         distances = np.array(
-            [[euclidean(point, centroid) for centroid in self.centroids_] for point in data]
+            [
+                [euclidean(point, centroid) for centroid in self.centroids_]
+                for point in data
+            ]
         )
         return np.argmin(distances, axis=1)

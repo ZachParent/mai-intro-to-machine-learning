@@ -4,7 +4,10 @@ import os
 from itertools import product
 import logging
 import time
-from tools.dimensionality_reduction import REDUCTION_METHOD_MAP, REDUCTION_PARAMS_GRID_MAP
+from tools.dimensionality_reduction import (
+    REDUCTION_METHOD_MAP,
+    REDUCTION_PARAMS_GRID_MAP,
+)
 from tools.config import PREPROCESSED_DATA_DIR, REDUCED_DATA_DIR
 
 parser = argparse.ArgumentParser()
@@ -22,7 +25,9 @@ parser.add_argument(
     choices=REDUCTION_METHOD_MAP.keys(),
     required=True,
 )
-parser.add_argument("--verbose", "-v", action="store_true", help="Whether to print verbose output")
+parser.add_argument(
+    "--verbose", "-v", action="store_true", help="Whether to print verbose output"
+)
 
 logger = logging.getLogger(__name__)
 
@@ -67,7 +72,8 @@ def main():
         reduced_data = pd.concat(
             [
                 pd.DataFrame(
-                    reduced_data, columns=[f"dim_{i}" for i in range(reduced_data.shape[1])]
+                    reduced_data,
+                    columns=[f"dim_{i}" for i in range(reduced_data.shape[1])],
                 ),
                 preprocessed_data.iloc[:, -1],
             ],
@@ -75,7 +81,8 @@ def main():
         )
 
         reduced_data_path = (
-            reduced_data_dir / f"{','.join(f'{k}={v}' for k, v in param_dict.items())}.csv"
+            reduced_data_dir
+            / f"{','.join(f'{k}={v}' for k, v in param_dict.items())}.csv"
         )
         reduced_data.to_csv(reduced_data_path, index=False)
 

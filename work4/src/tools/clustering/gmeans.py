@@ -35,7 +35,9 @@ class GMeans(ClusterMixin, BaseEstimator):
             data = data.to_numpy()
 
         # Initialize with one cluster
-        kmeans = KMeans(n_clusters=1, max_iterations=300, random_state=self.random_state)
+        kmeans = KMeans(
+            n_clusters=1, max_iterations=300, random_state=self.random_state
+        )
         clusters = kmeans.fit_predict(data)
         centroids = kmeans.centroids_
 
@@ -67,7 +69,9 @@ class GMeans(ClusterMixin, BaseEstimator):
                 continue
 
             # Apply KMeans with k=2 to split the cluster
-            sub_kmeans = KMeans(n_clusters=2, max_iterations=300, random_state=self.random_state)
+            sub_kmeans = KMeans(
+                n_clusters=2, max_iterations=300, random_state=self.random_state
+            )
             sub_clusters = sub_kmeans.fit_predict(cluster_data)
             sub_centroids = sub_kmeans.centroids_
 
@@ -97,7 +101,9 @@ class GMeans(ClusterMixin, BaseEstimator):
         n_features = data.shape[1]
 
         # Project data onto principal components
-        pca = PCA(n_components=min(n_features, len(data) - 1), random_state=self.random_state)
+        pca = PCA(
+            n_components=min(n_features, len(data) - 1), random_state=self.random_state
+        )
         projected_data = pca.fit_transform(data)
 
         # Test each principal component

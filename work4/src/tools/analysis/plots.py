@@ -49,7 +49,8 @@ def plot_interactions_grid(df, col_names, metrics, save_path=None):
             # Diagonal: Plot distribution of each metric for the given column
             sns.boxplot(data=df, x=col_name1, y=metrics[0], ax=ax)
             ax.set_title(
-                f"Distribution of {metrics[0].upper()} by {col_name1.capitalize()}", fontsize=10
+                f"Distribution of {metrics[0].upper()} by {col_name1.capitalize()}",
+                fontsize=10,
             )
         else:
             # Off-diagonal: Plot interaction heatmap between two columns for each metric
@@ -59,7 +60,9 @@ def plot_interactions_grid(df, col_names, metrics, save_path=None):
                 columns=col_name2,
                 aggfunc="mean",
             )
-            sns.heatmap(pivot_table, ax=ax, cmap="coolwarm", annot=True, fmt=".3f", cbar=False)
+            sns.heatmap(
+                pivot_table, ax=ax, cmap="coolwarm", annot=True, fmt=".3f", cbar=False
+            )
             ax.set_title(
                 f"Interaction of {col_name1.capitalize()} and {col_name2.capitalize()} on {metrics[0].upper()}",
                 fontsize=10,
@@ -112,8 +115,12 @@ def plot_interactions(data, model_name, paramsGrid, save_path=None):
     # Create interaction plots for each parameter in paramsGrid
     metrics = ["ari", "purity", "dbi", "f_measure"]  # List of metrics to visualize
     for param in paramsGrid:
-        fig, axes = plt.subplots(len(metrics), 1, figsize=(8, 5 * len(metrics)), sharex=True)
-        if len(metrics) == 1:  # If only one metric, make axes a list for uniform indexing
+        fig, axes = plt.subplots(
+            len(metrics), 1, figsize=(8, 5 * len(metrics)), sharex=True
+        )
+        if (
+            len(metrics) == 1
+        ):  # If only one metric, make axes a list for uniform indexing
             axes = [axes]
 
         # Plot each metric
@@ -183,7 +190,14 @@ def plot_model_comparisons(data, metric, title, save_path=None):
         title (str): Title of the plot.
     """
     plt.figure(figsize=(10, 6))
-    sns.barplot(data=data, x="dataset", y=metric, hue="clustering_model", errorbar="sd", palette="viridis")
+    sns.barplot(
+        data=data,
+        x="dataset",
+        y=metric,
+        hue="clustering_model",
+        errorbar="sd",
+        palette="viridis",
+    )
     plt.title(title, fontsize=14)
     plt.xlabel("Dataset", fontsize=12)
     plt.ylabel(metric.capitalize(), fontsize=12)
@@ -212,7 +226,9 @@ def plot_combined_heatmaps(data, metrics, datasets, models, save_path=None):
     n_cols = 2  # Number of columns for the heatmap grid
     n_rows = (n_metrics + n_cols - 1) // n_cols  # Calculate rows needed
 
-    fig, axes = plt.subplots(n_rows, n_cols, figsize=(14, 6 * n_rows), constrained_layout=True)
+    fig, axes = plt.subplots(
+        n_rows, n_cols, figsize=(14, 6 * n_rows), constrained_layout=True
+    )
 
     # Flatten axes to easily iterate over them, even for 2D array
     axes = axes.flatten()
@@ -328,11 +344,14 @@ def plot_all_interactions(data, model_name, params, metric, save_dir=None):
     # Iterate over each pair of parameters
     for param_x, param_y in param_combinations:
         plt.figure(figsize=(10, 6))
-        sns.lineplot(data=subset, x=param_x, y=metric, hue=param_y, marker="o", palette="viridis")
+        sns.lineplot(
+            data=subset, x=param_x, y=metric, hue=param_y, marker="o", palette="viridis"
+        )
 
         # Add labels and title
         plt.title(
-            f"Interaction Plot: {model_name} ({param_x} vs {metric} by {param_y})", fontsize=14
+            f"Interaction Plot: {model_name} ({param_x} vs {metric} by {param_y})",
+            fontsize=14,
         )
         plt.xlabel(param_x, fontsize=12)
         plt.ylabel(metric, fontsize=12)
@@ -341,7 +360,9 @@ def plot_all_interactions(data, model_name, params, metric, save_dir=None):
 
         # Save or display the plot
         if save_dir:
-            save_path = f"{save_dir}/{model_name}_{param_x}_vs_{param_y}_interaction.png"
+            save_path = (
+                f"{save_dir}/{model_name}_{param_x}_vs_{param_y}_interaction.png"
+            )
             plt.savefig(save_path, format="png", dpi=300)
             print(f"Saved interaction plot: {save_path}")
         else:
@@ -369,16 +390,22 @@ def custom_boxplot(ax, data):
     ax.spines["right"].set_visible(False)
 
 
-def plot_interactions_with_gridspec(df, col_names, datasets, model_name, save_path=None):
+def plot_interactions_with_gridspec(
+    df, col_names, datasets, model_name, save_path=None
+):
     num_cols = len(col_names)
     total_datasets = len(datasets)
 
     # Create the main figure and grid for datasets
     fig = plt.figure(figsize=(10 * total_datasets, 10))
-    outer_grid = GridSpec(1, total_datasets, figure=fig, wspace=0.05)  # Reduced from 0.1
+    outer_grid = GridSpec(
+        1, total_datasets, figure=fig, wspace=0.05
+    )  # Reduced from 0.1
 
     # Prepare a placeholder for the colorbar data
-    heatmap_min = max(0.00001, df[df["clustering_model"] == model_name]["f_measure"].min())
+    heatmap_min = max(
+        0.00001, df[df["clustering_model"] == model_name]["f_measure"].min()
+    )
     heatmap_max = df[df["clustering_model"] == model_name]["f_measure"].max()
     norm = LogNorm(heatmap_min, heatmap_max, clip=True)
 
@@ -392,7 +419,9 @@ def plot_interactions_with_gridspec(df, col_names, datasets, model_name, save_pa
             hspace=0.05,  # Add tight spacing between rows
         )
 
-        filtered_df = df[(df["dataset"] == dataset_name) & (df["clustering_model"] == model_name)]
+        filtered_df = df[
+            (df["dataset"] == dataset_name) & (df["clustering_model"] == model_name)
+        ]
 
         for i, ((col_name1, col_name2), inner_idx) in enumerate(
             zip(itertools.product(col_names, repeat=2), range(num_cols * num_cols))
@@ -427,7 +456,10 @@ def plot_interactions_with_gridspec(df, col_names, datasets, model_name, save_pa
             else:
                 # Off-diagonal: Interaction heatmap
                 pivot_table = filtered_df.pivot_table(
-                    values="f_measure", index=col_name1, columns=col_name2, aggfunc="mean"
+                    values="f_measure",
+                    index=col_name1,
+                    columns=col_name2,
+                    aggfunc="mean",
                 )
                 sns.heatmap(
                     pivot_table,

@@ -79,7 +79,9 @@ class GlobalKMeans(ClusterMixin, BaseEstimator):
 
             self.centroids[1] = kmeans.centroids_
             self.clusters[1] = kmeans.labels_
-            self.inertia[1] = self._compute_wcss(data, kmeans.labels_, kmeans.centroids_)
+            self.inertia[1] = self._compute_wcss(
+                data, kmeans.labels_, kmeans.centroids_
+            )
 
             distance_matrix = cdist(data, kmeans.centroids_)
 
@@ -111,7 +113,9 @@ class GlobalKMeans(ClusterMixin, BaseEstimator):
 
             for idx in candidate_indices:
                 candidate_centroid = data[idx].reshape(1, -1)
-                current_centroids = np.vstack((self.centroids[k - 1], candidate_centroid))
+                current_centroids = np.vstack(
+                    (self.centroids[k - 1], candidate_centroid)
+                )
 
                 kmeans = KMeans(
                     n_clusters=k,
@@ -155,7 +159,9 @@ class GlobalKMeans(ClusterMixin, BaseEstimator):
         Select top candidates based on minimum distances using np.argpartition
         for improved efficiency.
         """
-        candidate_indices = np.argpartition(min_distances, -n_candidates)[-n_candidates:]
+        candidate_indices = np.argpartition(min_distances, -n_candidates)[
+            -n_candidates:
+        ]
         return candidate_indices
 
     def _compute_wcss(self, X, labels, centroids):

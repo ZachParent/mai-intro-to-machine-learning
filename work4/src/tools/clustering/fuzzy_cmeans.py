@@ -14,7 +14,11 @@ FuzzyCMeansParamsGrid = {
 # Implementation of the Generalized Suppressed Fuzzy C-means algorithm
 class FuzzyCMeans(ClusterMixin, BaseEstimator):
     def __init__(
-        self, n_clusters: int, fuzzyness: float, suppression_rule="theta", suppression_param=0.5
+        self,
+        n_clusters: int,
+        fuzzyness: float,
+        suppression_rule="theta",
+        suppression_param=0.5,
     ):
         self.n_clusters = n_clusters
         self.fuzzyness = fuzzyness
@@ -28,7 +32,9 @@ class FuzzyCMeans(ClusterMixin, BaseEstimator):
         n_samples, n_features = X.shape
 
         # Initialize cluster prototypes (randomly for this example)
-        self.cluster_prototypes_ = X[np.random.choice(n_samples, self.n_clusters, replace=False)]
+        self.cluster_prototypes_ = X[
+            np.random.choice(n_samples, self.n_clusters, replace=False)
+        ]
 
         # Initialize fuzzy membership matrix
         U = self._initialize_membership(X)
@@ -70,7 +76,9 @@ class FuzzyCMeans(ClusterMixin, BaseEstimator):
 
     def _initialize_membership(self, X):
         U = np.random.rand(len(X), self.n_clusters)
-        U = U / np.sum(U, axis=1, keepdims=True)  # Normalize to satisfy probabilistic constraint
+        U = U / np.sum(
+            U, axis=1, keepdims=True
+        )  # Normalize to satisfy probabilistic constraint
         return U
 
     def _compute_distances(self, X):
@@ -114,7 +122,10 @@ class FuzzyCMeans(ClusterMixin, BaseEstimator):
             return 1 / (1 + u_w * (u_w ** (2 * param / (1 - m) / (1 - param)) - 1))
         elif rule == "kappa":
             return 1 / (
-                1 - u_w + u_w * (0.5 - (2 * param - 1) / 2 * np.sin(np.pi * u_w)) ** (2 / (1 - m))
+                1
+                - u_w
+                + u_w
+                * (0.5 - (2 * param - 1) / 2 * np.sin(np.pi * u_w)) ** (2 / (1 - m))
             )
         elif rule == "tau":
             return (1 - param) / (1 + u_w * param)

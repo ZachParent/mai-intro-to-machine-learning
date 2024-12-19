@@ -53,7 +53,10 @@ def preprocess_dataset(df):
                 "num",
                 Pipeline(
                     steps=[
-                        ("imputer", SimpleImputer(strategy="mean")),  # Fill missing with mean
+                        (
+                            "imputer",
+                            SimpleImputer(strategy="mean"),
+                        ),  # Fill missing with mean
                         ("scaler", MinMaxScaler()),  # Min-Max scaling
                     ]
                 ),
@@ -88,12 +91,16 @@ def preprocess_dataset(df):
         processed_array[:, len(numeric_cols) :], columns=categorical_cols
     )
 
-    encoded_categorical_binary_df = processed_categorical_df.drop(non_binary_cols, axis=1)
+    encoded_categorical_binary_df = processed_categorical_df.drop(
+        non_binary_cols, axis=1
+    )
 
     # Label Encoder
     for col in binary_cols:
         le = LabelEncoder()
-        encoded_categorical_binary_df[col] = le.fit_transform(encoded_categorical_binary_df[col])
+        encoded_categorical_binary_df[col] = le.fit_transform(
+            encoded_categorical_binary_df[col]
+        )
 
     # One-hot encode categorical features (the literature suggests OneHotEcoding for k-means clustering approaches )
     ohe = OneHotEncoder(sparse_output=False)
@@ -112,7 +119,11 @@ def preprocess_dataset(df):
     )
 
     final_df = pd.concat(
-        [processed_numeric_df, encoded_categorical_binary_df, encoded_categorical_non_binary_df],
+        [
+            processed_numeric_df,
+            encoded_categorical_binary_df,
+            encoded_categorical_non_binary_df,
+        ],
         axis=1,
     )
 

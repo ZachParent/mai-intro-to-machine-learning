@@ -21,7 +21,9 @@ from tools.metrics import (
 )
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--verbose", "-v", action="store_true", help="Whether to print verbose output")
+parser.add_argument(
+    "--verbose", "-v", action="store_true", help="Whether to print verbose output"
+)
 
 logger = logging.getLogger(__name__)
 
@@ -32,7 +34,9 @@ def load_true_labels(dataset_name):
         raise FileNotFoundError(f"Dataset file not found: {preprocessed_data_path}")
     preprocessed_data = pd.read_csv(preprocessed_data_path)
     if "class" not in preprocessed_data.columns:
-        raise KeyError(f"'class' column not found in the dataset: {preprocessed_data_path}")
+        raise KeyError(
+            f"'class' column not found in the dataset: {preprocessed_data_path}"
+        )
     return preprocessed_data["class"].values
 
 
@@ -61,7 +65,13 @@ def compute_metrics(df: pd.DataFrame, true_labels: np.ndarray) -> pd.Series:
     ari = adjusted_rand_index(true_labels, matched_predicted_labels)
     f1 = f_measure(true_labels, matched_predicted_labels)
 
-    metrics = {"dbi": dbi, "chi": chi, "ari": ari, "f_measure": f1, "n_clusters": n_clusters}
+    metrics = {
+        "dbi": dbi,
+        "chi": chi,
+        "ari": ari,
+        "f_measure": f1,
+        "n_clusters": n_clusters,
+    }
     return pd.Series(metrics, index=metrics.keys())
 
 
@@ -104,18 +114,31 @@ def get_reduction_runtime(runtime_df: pd.DataFrame, clustered_data_config: dict)
                 except ValueError:
                     condition = condition & (runtime_df[k].astype(str) == str(v))
             else:
-                logging.warning(f"Parameter {k} not found in reduction runtime DataFrame columns")
+                logging.warning(
+                    f"Parameter {k} not found in reduction runtime DataFrame columns"
+                )
         return runtime_df[condition]["runtime"].values[0]
     except (IndexError, KeyError) as e:
-        logger.warning(f"Reduction runtime not found for config {clustered_data_config}. Error: {e}")
+        logger.warning(
+            f"Reduction runtime not found for config {clustered_data_config}. Error: {e}"
+        )
         return np.nan
+
 
 def get_clustering_runtime(runtime_df: pd.DataFrame, clustered_data_config: dict):
     try:
         # First filter by dataset and model
-        condition = (runtime_df["dataset"] == clustered_data_config["dataset"]) & (
-            runtime_df["reduction_method"] == clustered_data_config["reduction_method"]
-        ) & (runtime_df["clustering_model"] == clustered_data_config["clustering_model"])
+        condition = (
+            (runtime_df["dataset"] == clustered_data_config["dataset"])
+            & (
+                runtime_df["reduction_method"]
+                == clustered_data_config["reduction_method"]
+            )
+            & (
+                runtime_df["clustering_model"]
+                == clustered_data_config["clustering_model"]
+            )
+        )
 
         for k, v in clustered_data_config["params"].items():
             if k in runtime_df.columns:
@@ -125,10 +148,14 @@ def get_clustering_runtime(runtime_df: pd.DataFrame, clustered_data_config: dict
                 except ValueError:
                     condition = condition & (runtime_df[k].astype(str) == str(v))
             else:
-                logging.warning(f"Parameter {k} not found in clustering runtime DataFrame columns")
+                logging.warning(
+                    f"Parameter {k} not found in clustering runtime DataFrame columns"
+                )
         return runtime_df[condition]["runtime"].values[0]
     except (IndexError, KeyError) as e:
-        logger.warning(f"Clustering runtime not found for config {clustered_data_config}. Error: {e}")
+        logger.warning(
+            f"Clustering runtime not found for config {clustered_data_config}. Error: {e}"
+        )
         return np.nan
 
 
@@ -143,15 +170,21 @@ def main():
     reduction_runtime_df = load_reduction_runtime_df()
     clustering_runtime_df = load_clustering_runtime_df()
     filepaths = sorted(list(CLUSTERED_DATA_DIR.glob("**/*.csv")))
-    filepaths = [filepath for filepath in filepaths if "runtime.csv" not in filepath.name]
+    filepaths = [
+        filepath for filepath in filepaths if "runtime.csv" not in filepath.name
+    ]
 
     output_data = []
     for filepath in filepaths:
         clustered_data_config = get_config_from_filepath(filepath)
         logger.info(f"Computing metrics for config {clustered_data_config}")
 
-        reduction_runtime = get_reduction_runtime(reduction_runtime_df, clustered_data_config)
-        clustering_runtime = get_clustering_runtime(clustering_runtime_df, clustered_data_config)
+        reduction_runtime = get_reduction_runtime(
+            reduction_runtime_df, clustered_data_config
+        )
+        clustering_runtime = get_clustering_runtime(
+            clustering_runtime_df, clustered_data_config
+        )
         curr_output_data = {
             "dataset": clustered_data_config["dataset"],
             "reduction_method": clustered_data_config["reduction_method"],

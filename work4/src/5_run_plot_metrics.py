@@ -37,7 +37,9 @@ def get_config_from_row(row: pd.Series) -> dict:
         "dataset_name": row["dataset"],
         "clustering_model": row["clustering_model"],
         "reduction_method": row["reduction_method"],
-        "params": {key: row[key] for key in reduction_params_keys + clustering_params_keys},
+        "params": {
+            key: row[key] for key in reduction_params_keys + clustering_params_keys
+        },
     }
 
 
@@ -66,20 +68,26 @@ def main():
     logger.info("Generating LaTeX tables...")
 
     # Overall best models table
-    generate_best_models_table(metrics_data, f"{METRICS_TABLES_DIR}/best_models_overall.tex")
+    generate_best_models_table(
+        metrics_data, f"{METRICS_TABLES_DIR}/best_models_overall.tex"
+    )
 
     # Per-dataset top models tables
     for dataset_name in datasets:
         logger.info(f"Generating table for {dataset_name}...")
         generate_top_models_by_dataset(
-            metrics_data, dataset_name, f"{METRICS_TABLES_DIR}/top_models_{dataset_name}.tex"
+            metrics_data,
+            dataset_name,
+            f"{METRICS_TABLES_DIR}/top_models_{dataset_name}.tex",
         )
 
     # Per-model best configurations tables
     for model_name in models:
         logger.info(f"Generating best configs table for {model_name}...")
         generate_model_best_configs_table(
-            metrics_data, model_name, f"{METRICS_TABLES_DIR}/best_configs_{model_name}.tex"
+            metrics_data,
+            model_name,
+            f"{METRICS_TABLES_DIR}/best_configs_{model_name}.tex",
         )
 
     # Generate plots
@@ -98,7 +106,11 @@ def main():
         )
 
     plot_combined_heatmaps(
-        metrics_data, metrics, datasets, models, save_path=f"{METRICS_PLOTS_DIR}/heatmaps.png"
+        metrics_data,
+        metrics,
+        datasets,
+        models,
+        save_path=f"{METRICS_PLOTS_DIR}/heatmaps.png",
     )
 
     for dataset_name in datasets:
