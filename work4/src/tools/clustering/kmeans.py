@@ -3,14 +3,6 @@ import numpy as np
 import pandas as pd
 from scipy.spatial.distance import euclidean
 from sklearn.base import BaseEstimator, ClusterMixin
-from tools.config import N_CLUSTERS, RANDOM_STATE
-
-KMeansParamsGrid = {
-    "n_clusters": N_CLUSTERS,
-    "max_iterations": [100, 300, 500],
-    "tolerance": [1e-5, 1e-4, 1e-3],
-    "random_state": RANDOM_STATE,
-}
 
 
 class KMeans(ClusterMixin, BaseEstimator):

@@ -13,9 +13,6 @@ METRICS_TABLES_DIR = DATA_DIR / "5_metrics_tables"
 VISUALIZATIONS_DIR = DATA_DIR / "6_visualizations"
 NON_REDUCED_DATA_NAME = "non_reduced"
 
-N_CLUSTERS = [2, 11]
-RANDOM_STATE = [4]
-
 REPORT_DIR = PROJECT_ROOT / "report"
 FIGURES_DIR = REPORT_DIR / "figures"
 TABLES_DIR = REPORT_DIR / "tables"

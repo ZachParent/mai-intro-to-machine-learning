@@ -4,7 +4,6 @@ import logging
 from sklearn.base import BaseEstimator, ClusterMixin
 from tools.clustering.kmeans import KMeans
 from scipy.spatial.distance import cdist
-from tools.config import N_CLUSTERS, RANDOM_STATE
 
 logger = logging.getLogger(__name__)
 import pickle
