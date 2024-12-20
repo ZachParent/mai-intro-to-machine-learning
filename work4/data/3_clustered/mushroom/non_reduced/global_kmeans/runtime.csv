@@ -1,0 +1,2 @@
+dataset,reduction_method,clustering_model,n_clusters,max_iterations,tolerance,random_state,runtime
+mushroom,non_reduced,global_kmeans,2,100,0.001,4,8.052595138549805

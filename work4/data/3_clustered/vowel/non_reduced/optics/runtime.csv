@@ -1,0 +1,2 @@
+dataset,reduction_method,clustering_model,metric,algorithm,min_samples,xi,min_cluster_size,runtime
+vowel,non_reduced,optics,manhattan,ball_tree,20,0.1,10,0.252302885055542

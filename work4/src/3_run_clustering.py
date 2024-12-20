@@ -63,10 +63,13 @@ def main():
         input_file_basename = os.path.splitext(os.path.basename(args.input_file_path))[
             0
         ]
+        reduction_config = get_config_from_filepath(Path(args.input_file_path))
+
     else:
         input_dataset = os.path.splitext(os.path.basename(args.input_file_path))[0]
         reduction_method = NON_REDUCED_DATA_NAME
         input_file_basename = ""
+        reduction_config = {'params': {}}
 
     features_data = input_data.iloc[:, :-1]
 
@@ -88,7 +91,6 @@ def main():
     tok = time.time()
 
     logger.info(f"Time taken: {tok - tik} seconds")
-    reduction_config = get_config_from_filepath(Path(args.input_file_path))
     runtime_data = {
         "dataset": input_dataset,
         "reduction_method": reduction_method,

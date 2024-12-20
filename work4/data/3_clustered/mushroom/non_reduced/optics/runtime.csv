@@ -1,0 +1,2 @@
+dataset,reduction_method,clustering_model,metric,algorithm,min_samples,xi,min_cluster_size,runtime
+mushroom,non_reduced,optics,euclidean,ball_tree,10,0.1,5,16.662426233291626
