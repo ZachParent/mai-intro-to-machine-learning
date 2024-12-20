@@ -4,22 +4,8 @@ import os
 from itertools import product
 import logging
 import time
-from tools.clustering import (
-    KMeans,
-    FuzzyCMeans,
-    GMeans,
-    GlobalKMeans,
-    Optics,
-    SpectralClustering,
-    KMeansParamsGrid,
-    FuzzyCMeansParamsGrid,
-    GMeansParamsGrid,
-    GlobalKmeansParams,
-    OpticsParamsGrid,
-    SpectralClusteringParamsGrid,
-)
 from tools.config import CLUSTERED_DATA_DIR, NON_REDUCED_DATA_NAME
-from tools.clustering import CLUSTERING_MODEL_MAP, CLUSTERING_PARAMS_GRID_MAP
+from tools.clustering import CLUSTERING_MODEL_MAP, CLUSTERING_PARAMS_MAP
 
 
 parser = argparse.ArgumentParser()
@@ -27,14 +13,7 @@ parser.add_argument(
     "--model",
     type=str,
     help="The name of the model to run",
-    choices=[
-        "kmeans",
-        "fuzzy_cmeans",
-        "gmeans",
-        "global_kmeans",
-        "optics",
-        "spectral_clustering",
-    ],
+    choices=CLUSTERING_MODEL_MAP.keys(),
     required=True,
 )
 parser.add_argument(
@@ -53,15 +32,6 @@ parser.add_argument(
 )
 
 logger = logging.getLogger(__name__)
-
-model_map = {
-    "global_kmeans": GlobalKMeans,
-    "optics": Optics,
-}
-params_grid_map = {
-    "global_kmeans": GlobalKmeansParams,
-    "optics": OpticsParamsGrid,
-}
 
 
 def main():
@@ -92,38 +62,37 @@ def main():
     )
     os.makedirs(clustered_data_dir, exist_ok=True)
 
-    params_grid = CLUSTERING_PARAMS_GRID_MAP[args.model]
+    params = CLUSTERING_PARAMS_MAP[args.model][input_dataset]
+
     runtimes = []
-    for params in product(*params_grid.values()):
-        param_dict = dict(zip(params_grid.keys(), params))
-        model = CLUSTERING_MODEL_MAP[args.model](**param_dict)
+    model = CLUSTERING_MODEL_MAP[args.model](**params)
 
-        logger.info(
-            f"Running {input_dataset}/{reduction_method}/{args.model}, params: {', '.join(f'{k}={v}' for k, v in param_dict.items())}..."
-        )
-        tik = time.time()
-        clusters = model.fit_predict(features_data)
-        tok = time.time()
+    logger.info(
+        f"Running {input_dataset}/{reduction_method}/{args.model}, params: {', '.join(f'{k}={v}' for k, v in params.items())}..."
+    )
+    tik = time.time()
+    clusters = model.fit_predict(features_data)
+    tok = time.time()
 
-        logger.info(f"Time taken: {tok - tik} seconds")
-        runtime_data = {
-            "dataset": input_dataset,
-            "reduction_method": reduction_method,
-            "clustering_model": args.model,
-            **param_dict,
-            "runtime": tok - tik,
-        }
-        runtimes.append(runtime_data)
+    logger.info(f"Time taken: {tok - tik} seconds")
+    runtime_data = {
+        "dataset": input_dataset,
+        "reduction_method": reduction_method,
+        "clustering_model": args.model,
+        **params,
+        "runtime": tok - tik,
+    }
+    runtimes.append(runtime_data)
 
-        clustered_data = pd.concat(
-            [input_data.iloc[:, :-1], pd.Series(clusters, name="cluster")], axis=1
-        )
+    clustered_data = pd.concat(
+        [input_data.iloc[:, :-1], pd.Series(clusters, name="cluster")], axis=1
+    )
 
-        clustered_data_path = (
-            clustered_data_dir
-            / f"{input_file_basename + ',' if input_file_basename else ''}{','.join(f'{k}={v}' for k, v in param_dict.items())}.csv"
-        )
-        clustered_data.to_csv(clustered_data_path, index=False)
+    clustered_data_path = (
+        clustered_data_dir
+        / f"{input_file_basename + ',' if input_file_basename else ''}{','.join(f'{k}={v}' for k, v in params.items())}.csv"
+    )
+    clustered_data.to_csv(clustered_data_path, index=False)
 
     runtime_df = pd.DataFrame(runtimes)
     runtime_df.to_csv(clustered_data_dir / "runtime.csv", index=False)

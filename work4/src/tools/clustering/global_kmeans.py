@@ -7,15 +7,22 @@ from scipy.spatial.distance import cdist
 from tools.config import N_CLUSTERS, RANDOM_STATE
 
 logger = logging.getLogger(__name__)
-import os
 import pickle
 from pathlib import Path
 
-GlobalKmeansParams = {
-    "n_clusters": N_CLUSTERS,
-    "max_iterations": [100],
-    "tolerance": [1e-3],
-    "random_state": RANDOM_STATE,
+GLOBAL_KMEANS_PARAMS_MAP = {
+    "mushroom": {
+        "n_clusters": 2,
+        "max_iterations": 100,
+        "tolerance": 1e-3,
+        "random_state": 4,
+    },
+    "vowel": {
+        "n_clusters": 11,
+        "max_iterations": 100,
+        "tolerance": 1e-4,
+        "random_state": 4,
+    },
 }
 
 
