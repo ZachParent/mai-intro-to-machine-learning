@@ -36,12 +36,19 @@ def get_config_from_filepath(filepath: Path) -> dict:
         "params": params,
     }
 
-
 def plot_visualization(ax, two_d_data: np.ndarray, labels: np.ndarray):
-    ax.scatter(two_d_data[:, 0], two_d_data[:, 1], c=labels, cmap="viridis")
-    ax.set_xlabel("Dimension 1")
-    ax.set_ylabel("Dimension 2")
-
+    scatter = ax.scatter(
+        two_d_data[:, 0], two_d_data[:, 1], c=labels, cmap="viridis", s=10
+    )
+    ax.axis("off")  # Remove the axis
+    legend = ax.legend(
+        *scatter.legend_elements(),
+        loc="upper right",
+        title="Clusters",
+        frameon=False,
+        bbox_to_anchor=(1.1, 1.0)
+    )
+    ax.add_artist(legend)
 
 def main():
     args = parser.parse_args()
@@ -77,9 +84,6 @@ def main():
 
             fig, ax = plt.subplots()
             plot_visualization(ax, two_d_data, df["cluster"].values)
-            ax.set_title(
-                f"{config['reduction_method']} {config['clustering_model']} {visualization_method_name}"
-            )
 
             output_dir = (
                 VISUALIZATIONS_DIR
