@@ -3,7 +3,7 @@ import pandas as pd
 import os
 import logging
 from tools.dimensionality_reduction import REDUCTION_PARAMS_GRID_MAP
-from tools.clustering import CLUSTERING_PARAMS_GRID_MAP
+from tools.clustering import CLUSTERING_PARAMS_MAP
 from tools.analysis.plots import *
 from tools.analysis.tables import (
     generate_best_models_table,
@@ -32,7 +32,9 @@ def get_metrics_from_row(row: pd.Series) -> pd.Series:
 
 def get_config_from_row(row: pd.Series) -> dict:
     reduction_params_keys = REDUCTION_PARAMS_GRID_MAP[row["reduction_method"]].keys()
-    clustering_params_keys = CLUSTERING_PARAMS_GRID_MAP[row["clustering_model"]].keys()
+    clustering_params_keys = CLUSTERING_PARAMS_MAP[row["dataset"]][
+        row["clustering_model"]
+    ].keys()
     return {
         "dataset_name": row["dataset"],
         "clustering_model": row["clustering_model"],
@@ -48,7 +50,7 @@ models = [
     "global_kmeans",
     "optics",
 ]
-datasets = ["hepatitis", "mushroom", "vowel"]
+datasets = ["mushroom", "vowel"]
 
 
 def main():
@@ -122,8 +124,8 @@ def main():
             save_path=f"{METRICS_PLOTS_DIR}/radar_chart_{dataset_name}.png",
         )
 
-    for model_name, value in CLUSTERING_PARAMS_GRID_MAP.items():
-        params = list(value.keys())
+    for model_name, value in CLUSTERING_PARAMS_MAP.items():
+        params = list(value[datasets[0]].keys())
         logger.info(
             f"Plotting interactions (GridSpec) of {model_name} between {params}..."
         )

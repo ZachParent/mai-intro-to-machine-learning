@@ -2,7 +2,6 @@ import argparse
 import pandas as pd
 import os
 import logging
-from tools.clustering import CLUSTERING_PARAMS_GRID_MAP
 from tools.dimensionality_reduction import PCA
 from tools.analysis.plots import *
 from tools.config import VISUALIZATIONS_DIR, CLUSTERED_DATA_DIR
