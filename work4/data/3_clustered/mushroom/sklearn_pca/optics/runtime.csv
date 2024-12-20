@@ -1,0 +1,7 @@
+dataset,reduction_method,clustering_model,metric,algorithm,min_samples,xi,min_cluster_size,n_components,runtime
+mushroom,sklearn_pca,optics,euclidean,ball_tree,10,0.1,5,4,3.2646310329437256
+mushroom,sklearn_pca,optics,euclidean,ball_tree,10,0.1,5,2,2.840700149536133
+mushroom,sklearn_pca,optics,euclidean,ball_tree,10,0.1,5,3,2.8834969997406006
+mushroom,sklearn_pca,optics,euclidean,ball_tree,10,0.1,5,11,3.564542770385742
+mushroom,sklearn_pca,optics,euclidean,ball_tree,10,0.1,5,10,3.4320530891418457
+mushroom,sklearn_pca,optics,euclidean,ball_tree,10,0.1,5,12,3.5464370250701904

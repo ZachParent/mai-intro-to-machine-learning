@@ -1,0 +1,7 @@
+dataset,reduction_method,clustering_model,n_clusters,max_iterations,tolerance,random_state,n_components,runtime
+vowel,pca,global_kmeans,11,100,0.0001,4,4,17.085610151290894
+vowel,pca,global_kmeans,11,100,0.0001,4,2,11.964711904525757
+vowel,pca,global_kmeans,11,100,0.0001,4,3,13.283982038497925
+vowel,pca,global_kmeans,11,100,0.0001,4,11,7.355859756469727
+vowel,pca,global_kmeans,11,100,0.0001,4,10,8.191428899765015
+vowel,pca,global_kmeans,11,100,0.0001,4,12,7.340818166732788
