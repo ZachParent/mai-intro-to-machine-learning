@@ -1,4 +1,5 @@
 import argparse
+from pathlib import Path
 import pandas as pd
 import os
 from itertools import product
@@ -33,6 +34,18 @@ parser.add_argument(
 
 logger = logging.getLogger(__name__)
 
+def get_config_from_filepath(filepath: Path) -> dict:
+    dataset_name = filepath.parent.parent.parent.name
+    reduction_method = filepath.parent.parent.name
+    clustering_model = filepath.parent.name
+    params_str = filepath.stem.split(",")
+    params = {param.split("=")[0]: param.split("=")[1] for param in params_str}
+    return {
+        "dataset": dataset_name,
+        "reduction_method": reduction_method,
+        "clustering_model": clustering_model,
+        "params": params,
+    }
 
 def main():
     args = parser.parse_args()
@@ -75,11 +88,13 @@ def main():
     tok = time.time()
 
     logger.info(f"Time taken: {tok - tik} seconds")
+    reduction_config = get_config_from_filepath(Path(args.input_file_path))
     runtime_data = {
         "dataset": input_dataset,
         "reduction_method": reduction_method,
         "clustering_model": args.model,
         **params,
+        **reduction_config["params"],
         "runtime": tok - tik,
     }
     runtimes.append(runtime_data)
@@ -94,8 +109,14 @@ def main():
     )
     clustered_data.to_csv(clustered_data_path, index=False)
 
-    runtime_df = pd.DataFrame(runtimes)
-    runtime_df.to_csv(clustered_data_dir / "runtime.csv", index=False)
+    RUNTIME_DATA_PATH = clustered_data_dir / "runtime.csv"
+    if not RUNTIME_DATA_PATH.exists():
+        runtime_df = pd.DataFrame(runtimes)
+        runtime_df.to_csv(RUNTIME_DATA_PATH, index=False)
+    else:
+        runtime_df = pd.read_csv(RUNTIME_DATA_PATH)
+        runtime_df = pd.concat([runtime_df, pd.DataFrame(runtimes)], ignore_index=True)
+        runtime_df.to_csv(RUNTIME_DATA_PATH, index=False)
 
 
 if __name__ == "__main__":
