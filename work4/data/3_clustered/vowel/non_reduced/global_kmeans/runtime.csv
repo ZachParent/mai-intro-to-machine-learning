@@ -1,0 +1,2 @@
+dataset,reduction_method,clustering_model,n_clusters,max_iterations,tolerance,random_state,runtime
+vowel,non_reduced,global_kmeans,11,100,0.0001,4,5.841409921646118

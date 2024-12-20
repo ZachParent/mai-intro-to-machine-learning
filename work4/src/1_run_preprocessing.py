@@ -7,7 +7,9 @@ from tools.config import RAW_DATA_DIR, PREPROCESSED_DATA_DIR
 from tools.preprocess import preprocess_dataset
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--verbose", "-v", action="store_true", help="Whether to print verbose output")
+parser.add_argument(
+    "--verbose", "-v", action="store_true", help="Whether to print verbose output"
+)
 
 logger = logging.getLogger(__name__)
 
@@ -21,7 +23,7 @@ def main():
 
     os.makedirs(PREPROCESSED_DATA_DIR, exist_ok=True)
 
-    datasets = ["hepatitis", "mushroom", "vowel"]
+    datasets = ["mushroom", "vowel"]
 
     for dataset in datasets:
         logger.info(f"Preprocessing {dataset}")

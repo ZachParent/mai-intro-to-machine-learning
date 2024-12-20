@@ -1,0 +1,40 @@
+\section{Methods}
+\label{sec:methods}
+
+\paragraph{Dimensionality Reduction}
+In this study, we implement our own version of Principal Component Analysis (PCA)
+as the primary dimensionality reduction technique. Our implementation follows
+the standard PCA algorithm, computing eigenvalues and eigenvectors of the
+covariance matrix to identify principal components. For validation and
+comparison purposes, we maintain a parallel implementation using
+scikit-learn's PCA \cite{scikit-learn}, which serves as our baseline.
+This approach builds upon our previous work with clustering algorithms \cite{our-clustering-work}.
+
+\paragraph{Clustering}
+We employ two distinct clustering algorithms: Global K-Means \cite{global_kmeans} 
+and OPTICS \cite{1999-optics}. For Global K-Means, we use dataset-specific 
+configurations: the Mushroom dataset uses \texttt{n\_clusters=2}, 
+\texttt{max\_iterations=100}, and \texttt{tolerance=1e-3}, while the Vowel 
+dataset uses \texttt{n\_clusters=11}, \texttt{max\_iterations=100}, and 
+\texttt{tolerance=1e-4}. The OPTICS algorithm is similarly tuned with dataset-specific 
+parameters: for Mushroom, we use \texttt{min\_samples=10}, \texttt{min\_cluster\_size=5}, 
+and \texttt{xi=0.1} with euclidean metric, while Vowel uses \texttt{min\_samples=20}, 
+\texttt{min\_cluster\_size=10}, and \texttt{xi=0.1} with manhattan metric.
+
+\paragraph{Metrics}
+To evaluate the effectiveness of our dimensionality reduction and clustering
+approaches, we employ several metrics. For clustering quality assessment,
+we use both internal metrics (Davies-Bouldin Index, Calinski-Harabasz Index)
+and external metrics (Adjusted Rand Index, F-Measure). Additionally, we measure
+the computational efficiency and accuracy of our PCA implementation against
+the scikit-learn baseline.
+
+\paragraph{Visualization}
+Our visualization strategy employs two main techniques: PCA and UMAP.
+While PCA serves both as a dimensionality reduction method and visualization
+tool, we specifically use it to project high-dimensional data onto
+2D and 3D spaces for visual analysis. UMAP complements this by providing
+an alternative visualization approach, particularly useful for preserving
+local structure in the data. Both techniques are applied to visualize
+the original data distributions and the resulting cluster assignments.
+

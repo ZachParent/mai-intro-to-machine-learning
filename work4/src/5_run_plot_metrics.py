@@ -3,7 +3,7 @@ import pandas as pd
 import os
 import logging
 from tools.dimensionality_reduction import REDUCTION_PARAMS_GRID_MAP
-from tools.clustering import CLUSTERING_PARAMS_GRID_MAP
+from tools.clustering import CLUSTERING_PARAMS_MAP
 from tools.analysis.plots import *
 from tools.analysis.tables import (
     generate_best_models_table,
@@ -32,12 +32,16 @@ def get_metrics_from_row(row: pd.Series) -> pd.Series:
 
 def get_config_from_row(row: pd.Series) -> dict:
     reduction_params_keys = REDUCTION_PARAMS_GRID_MAP[row["reduction_method"]].keys()
-    clustering_params_keys = CLUSTERING_PARAMS_GRID_MAP[row["clustering_model"]].keys()
+    clustering_params_keys = CLUSTERING_PARAMS_MAP[row["dataset"]][
+        row["clustering_model"]
+    ].keys()
     return {
         "dataset_name": row["dataset"],
         "clustering_model": row["clustering_model"],
         "reduction_method": row["reduction_method"],
-        "params": {key: row[key] for key in reduction_params_keys + clustering_params_keys},
+        "params": {
+            key: row[key] for key in reduction_params_keys + clustering_params_keys
+        },
     }
 
 
@@ -46,7 +50,7 @@ models = [
     "global_kmeans",
     "optics",
 ]
-datasets = ["hepatitis", "mushroom", "vowel"]
+datasets = ["mushroom", "vowel"]
 
 
 def main():
@@ -66,62 +70,70 @@ def main():
     logger.info("Generating LaTeX tables...")
 
     # Overall best models table
-    generate_best_models_table(metrics_data, f"{METRICS_TABLES_DIR}/best_models_overall.tex")
+    generate_best_models_table(
+        metrics_data, f"{METRICS_TABLES_DIR}/best_models_overall.tex"
+    )
 
     # Per-dataset top models tables
     for dataset_name in datasets:
         logger.info(f"Generating table for {dataset_name}...")
         generate_top_models_by_dataset(
-            metrics_data, dataset_name, f"{METRICS_TABLES_DIR}/top_models_{dataset_name}.tex"
+            metrics_data,
+            dataset_name,
+            f"{METRICS_TABLES_DIR}/top_models_{dataset_name}.tex",
         )
 
     # Per-model best configurations tables
     for model_name in models:
         logger.info(f"Generating best configs table for {model_name}...")
         generate_model_best_configs_table(
-            metrics_data, model_name, f"{METRICS_TABLES_DIR}/best_configs_{model_name}.tex"
+            metrics_data,
+            model_name,
+            f"{METRICS_TABLES_DIR}/best_configs_{model_name}.tex",
         )
 
     # Generate plots
     logger.info("Generating plots...")
 
-    plot_pairplot(
-        data=metrics_data, vars=metrics, save_path=f"{METRICS_PLOTS_DIR}/pairplot.png"
-    )
+    # plot_pairplot(
+    #     data=metrics_data, vars=metrics, save_path=f"{METRICS_PLOTS_DIR}/pairplot.png"
+    # )
 
-    for metric in metrics:
-        plot_model_comparisons(
-            data=metrics_data,
-            metric=metric,
-            title=f"Comparison of {metric.capitalize()} Across Models and Datasets",
-            save_path=f"{METRICS_PLOTS_DIR}/model_comparison_{metric}.png",
-        )
+    # for metric in metrics:
+    #     plot_model_comparisons(
+    #         data=metrics_data,
+    #         metric=metric,
+    #         title=f"Comparison of {metric.capitalize()} Across Models and Datasets",
+    #         save_path=f"{METRICS_PLOTS_DIR}/model_comparison_{metric}.png",
+    #     )
 
-    plot_combined_heatmaps(
-        metrics_data, metrics, datasets, models, save_path=f"{METRICS_PLOTS_DIR}/heatmaps.png"
-    )
+    # plot_combined_heatmaps(
+    #     metrics_data,
+    #     metrics,
+    #     datasets,
+    #     models,
+    #     save_path=f"{METRICS_PLOTS_DIR}/heatmaps.png",
+    # )
 
     for dataset_name in datasets:
-        plot_radar_chart(
+        plot_f_measure_comparison(
             metrics_data,
             dataset_name,
-            metrics,
-            models,
-            save_path=f"{METRICS_PLOTS_DIR}/radar_chart_{dataset_name}.png",
+            save_path=f"{METRICS_PLOTS_DIR}/f_measure_comparison_{dataset_name}.png",
         )
 
-    for model_name, value in CLUSTERING_PARAMS_GRID_MAP.items():
-        params = list(value.keys())
-        logger.info(
-            f"Plotting interactions (GridSpec) of {model_name} between {params}..."
-        )
-        plot_interactions_with_gridspec(
-            metrics_data,
-            params,
-            datasets,
-            model_name,
-            save_path=f"{METRICS_PLOTS_DIR}/interactions_{model_name}.png",
-        )
+    # for model_name, value in CLUSTERING_PARAMS_MAP.items():
+    #     params = list(value[datasets[0]].keys())
+    #     logger.info(
+    #         f"Plotting interactions (GridSpec) of {model_name} between {params}..."
+    #     )
+    #     plot_interactions_with_gridspec(
+    #         metrics_data,
+    #         params,
+    #         datasets,
+    #         model_name,
+    #         save_path=f"{METRICS_PLOTS_DIR}/interactions_{model_name}.png",
+    #     )
 
 
 if __name__ == "__main__":

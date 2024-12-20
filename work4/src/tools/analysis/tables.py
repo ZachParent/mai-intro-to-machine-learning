@@ -6,7 +6,17 @@ def generate_best_models_table(metrics_df: pd.DataFrame, output_path: str):
     """Generate a LaTeX table showing the best performing models for each dataset based on f_measure."""
 
     # Select relevant columns
-    columns = ["dataset", "clustering_model", "reduction_method", "f_measure", "ari", "chi", "dbi", "clustering_runtime", "reduction_runtime"]
+    columns = [
+        "dataset",
+        "clustering_model",
+        "reduction_method",
+        "f_measure",
+        "ari",
+        "chi",
+        "dbi",
+        "clustering_runtime",
+        "reduction_runtime",
+    ]
 
     # Get best model for each dataset
     best_models = (
@@ -25,11 +35,22 @@ def generate_best_models_table(metrics_df: pd.DataFrame, output_path: str):
     write_latex_table(best_models, output_path, caption, precision=4)
 
 
-def generate_top_models_by_dataset(metrics_df: pd.DataFrame, dataset_name: str, output_path: str):
+def generate_top_models_by_dataset(
+    metrics_df: pd.DataFrame, dataset_name: str, output_path: str
+):
     """Generate a LaTeX table showing the top 10 configurations for a specific dataset."""
 
     # Filter for the dataset and select relevant columns
-    columns = ["clustering_model", "reduction_method", "f_measure", "ari", "chi", "dbi", "clustering_runtime", "reduction_runtime"]
+    columns = [
+        "clustering_model",
+        "reduction_method",
+        "f_measure",
+        "ari",
+        "chi",
+        "dbi",
+        "clustering_runtime",
+        "reduction_runtime",
+    ]
     dataset_results = metrics_df[metrics_df["dataset"] == dataset_name]
 
     # Write summary table
@@ -54,7 +75,9 @@ def format_column_names(df: pd.DataFrame) -> pd.DataFrame:
     return result
 
 
-def write_latex_table(df: pd.DataFrame, filename: str, caption: str, precision: int = 3):
+def write_latex_table(
+    df: pd.DataFrame, filename: str, caption: str, precision: int = 3
+):
     """Write DataFrame to a LaTeX table.
 
     Args:
@@ -134,7 +157,18 @@ def generate_model_best_configs_table(
     param_cols = [
         col
         for col in model_results.columns
-        if col not in ["dataset", "clustering_model", "reduction_method", "f_measure", "ari", "chi", "dbi", "clustering_runtime", "reduction_runtime"]
+        if col
+        not in [
+            "dataset",
+            "clustering_model",
+            "reduction_method",
+            "f_measure",
+            "ari",
+            "chi",
+            "dbi",
+            "clustering_runtime",
+            "reduction_runtime",
+        ]
         and not model_results[col].isna().all()
     ]
 
@@ -152,13 +186,19 @@ def generate_model_best_configs_table(
     config_df = format_column_names(config_df)
 
     config_path = output_path_base.replace(".tex", "_config.tex")
-    config_caption = (
-        f"Best Parameter Configurations for {model_name.replace('_', ' ').title()} by Dataset"
-    )
+    config_caption = f"Best Parameter Configurations for {model_name.replace('_', ' ').title()} by Dataset"
     write_latex_table(config_df, config_path, config_caption, precision=5)
 
     # Generate performance metrics table
-    metrics_columns = ["dataset", "f_measure", "ari", "chi", "dbi", "clustering_runtime", "reduction_runtime"]
+    metrics_columns = [
+        "dataset",
+        "f_measure",
+        "ari",
+        "chi",
+        "dbi",
+        "clustering_runtime",
+        "reduction_runtime",
+    ]
     metrics_df = best_configs.loc[:, metrics_columns]
     metrics_df = format_column_names(metrics_df)
 

@@ -4,16 +4,24 @@ import logging
 from sklearn.base import BaseEstimator, ClusterMixin
 from tools.clustering.kmeans import KMeans
 from scipy.spatial.distance import cdist
-from tools.config import N_CLUSTERS, RANDOM_STATE
 
 logger = logging.getLogger(__name__)
-import os
 import pickle
 from pathlib import Path
 
-GlobalKmeansParams = {
-    "n_clusters": N_CLUSTERS,
-    "random_state": RANDOM_STATE,
+GLOBAL_KMEANS_PARAMS_MAP = {
+    "mushroom": {
+        "n_clusters": 2,
+        "max_iterations": 100,
+        "tolerance": 1e-3,
+        "random_state": 4,
+    },
+    "vowel": {
+        "n_clusters": 11,
+        "max_iterations": 100,
+        "tolerance": 1e-4,
+        "random_state": 4,
+    },
 }
 
 
@@ -79,7 +87,9 @@ class GlobalKMeans(ClusterMixin, BaseEstimator):
 
             self.centroids[1] = kmeans.centroids_
             self.clusters[1] = kmeans.labels_
-            self.inertia[1] = self._compute_wcss(data, kmeans.labels_, kmeans.centroids_)
+            self.inertia[1] = self._compute_wcss(
+                data, kmeans.labels_, kmeans.centroids_
+            )
 
             distance_matrix = cdist(data, kmeans.centroids_)
 
@@ -111,7 +121,9 @@ class GlobalKMeans(ClusterMixin, BaseEstimator):
 
             for idx in candidate_indices:
                 candidate_centroid = data[idx].reshape(1, -1)
-                current_centroids = np.vstack((self.centroids[k - 1], candidate_centroid))
+                current_centroids = np.vstack(
+                    (self.centroids[k - 1], candidate_centroid)
+                )
 
                 kmeans = KMeans(
                     n_clusters=k,
@@ -155,7 +167,9 @@ class GlobalKMeans(ClusterMixin, BaseEstimator):
         Select top candidates based on minimum distances using np.argpartition
         for improved efficiency.
         """
-        candidate_indices = np.argpartition(min_distances, -n_candidates)[-n_candidates:]
+        candidate_indices = np.argpartition(min_distances, -n_candidates)[
+            -n_candidates:
+        ]
         return candidate_indices
 
     def _compute_wcss(self, X, labels, centroids):

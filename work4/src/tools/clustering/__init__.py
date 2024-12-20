@@ -1,41 +1,17 @@
-from .kmeans import KMeans, KMeansParamsGrid
-from .gmeans import GMeans, GMeansParamsGrid
-from .global_kmeans import GlobalKMeans, GlobalKmeansParams
-from .fuzzy_cmeans import FuzzyCMeans, FuzzyCMeansParamsGrid
-from .optics import Optics, OpticsParamsGrid
-from .spectral_clustering import SpectralClustering, SpectralClusteringParamsGrid
+from .global_kmeans import GlobalKMeans, GLOBAL_KMEANS_PARAMS_MAP
+from .optics import Optics, OPTICS_PARAMS_MAP
 
 CLUSTERING_MODEL_MAP = {
-    # "kmeans": KMeans,
-    # "fuzzy_cmeans": FuzzyCMeans,
-    # "gmeans": GMeans,
     "global_kmeans": GlobalKMeans,
     "optics": Optics,
-    # "spectral_clustering": SpectralClustering,
 }
 
-CLUSTERING_PARAMS_GRID_MAP = {
-    # "kmeans": KMeansParamsGrid,
-    # "fuzzy_cmeans": FuzzyCMeansParamsGrid,
-    # "gmeans": GMeansParamsGrid,
-    "global_kmeans": GlobalKmeansParams,
-    "optics": OpticsParamsGrid,
-    # "spectral_clustering": SpectralClusteringParamsGrid,
+CLUSTERING_PARAMS_MAP = {
+    "global_kmeans": GLOBAL_KMEANS_PARAMS_MAP,
+    "optics": OPTICS_PARAMS_MAP,
 }
 
 __all__ = [
-    "KMeans",
-    "KMeansParamsGrid",
-    "GMeans",
-    "GMeansParamsGrid",
-    "GlobalKMeans",
-    "GlobalKmeansParams",
-    "FuzzyCMeans",
-    "FuzzyCMeansParamsGrid",
-    "Optics",
-    "OpticsParamsGrid",
-    "SpectralClustering",
-    "SpectralClusteringParamsGrid",
     "CLUSTERING_MODEL_MAP",
-    "CLUSTERING_PARAMS_GRID_MAP",
+    "CLUSTERING_PARAMS_MAP",
 ]
