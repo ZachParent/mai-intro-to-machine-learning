@@ -1,0 +1,2 @@
+dataset,reduction_method,clustering_model,n_clusters,max_iterations,tolerance,random_state,runtime
+mushroom,kernel_pca,global_kmeans,2,100,0.001,4,6.915209770202637
