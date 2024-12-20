@@ -35,11 +35,43 @@ def generate_best_models_table(metrics_df: pd.DataFrame, output_path: str):
     write_latex_table(best_models, output_path, caption, precision=4)
 
 
+def generate_best_reduction_method_table(metrics_df: pd.DataFrame, output_path: str):
+    """Generate a LaTeX table showing the best performing models for each reduction method based on f_measure."""
+
+    # Select relevant columns
+    columns = [
+        "dataset",
+        "clustering_model",
+        "reduction_method",
+        "f_measure",
+        "ari",
+        "chi",
+        "dbi",
+        "clustering_runtime",
+        "reduction_runtime",
+    ]
+
+    # Get best model for each dataset
+    best_models = (
+        metrics_df.sort_values("f_measure", ascending=False)
+        .groupby("reduction_method")
+        .first()
+        .reset_index()
+        .loc[:, columns]
+    )
+
+    # Format the table
+    best_models = format_column_names(best_models)
+
+    # Write to LaTeX
+    caption = "Best Performing Models by Reduction Method (Based on F-Measure)"
+    write_latex_table(best_models, output_path, caption, precision=4)
+
+
 def generate_top_models_by_dataset(
     metrics_df: pd.DataFrame, dataset_name: str, output_path: str
 ):
     """Generate a LaTeX table showing the top 10 configurations for a specific dataset."""
-
     # Filter for the dataset and select relevant columns
     columns = [
         "clustering_model",
@@ -55,6 +87,27 @@ def generate_top_models_by_dataset(
 
     # Write summary table
     caption = f"Top 10 Configurations for {dataset_name.title()} Dataset"
+    write_latex_table_summary(dataset_results, columns, output_path, caption)
+
+def generate_top_models_by_reduction_method(
+    metrics_df: pd.DataFrame, reduction_method: str, output_path: str
+):
+    """Generate a LaTeX table showing the top 10 configurations for a specific reduction method."""
+    # Filter for the dataset and select relevant columns
+    columns = [
+        "clustering_model",
+        "reduction_method",
+        "f_measure",
+        "ari",
+        "chi",
+        "dbi",
+        "clustering_runtime",
+        "reduction_runtime",
+    ]
+    dataset_results = metrics_df[metrics_df["reduction_method"] == reduction_method]
+
+    # Write summary table
+    caption = f"Top 10 Configurations for {reduction_method.title()}"
     write_latex_table_summary(dataset_results, columns, output_path, caption)
 
 

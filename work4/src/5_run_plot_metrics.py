@@ -7,7 +7,9 @@ from tools.clustering import CLUSTERING_PARAMS_MAP
 from tools.analysis.plots import *
 from tools.analysis.tables import (
     generate_best_models_table,
+    generate_best_reduction_method_table,
     generate_top_models_by_dataset,
+    generate_top_models_by_reduction_method,
     generate_model_best_configs_table,
 )
 from tools.config import METRICS_DATA_PATH, METRICS_PLOTS_DIR, METRICS_TABLES_DIR
@@ -51,6 +53,7 @@ models = [
     "optics",
 ]
 datasets = ["mushroom", "vowel"]
+reduction_methods = ["pca", "kernel_pca", "non_reduced","sklearn_pca"]
 
 
 def main():
@@ -74,6 +77,10 @@ def main():
         metrics_data, f"{METRICS_TABLES_DIR}/best_models_overall.tex"
     )
 
+    generate_best_reduction_method_table(
+        metrics_data, f"{METRICS_TABLES_DIR}/best_reduction_method_overall.tex"
+    )
+
     # Per-dataset top models tables
     for dataset_name in datasets:
         logger.info(f"Generating table for {dataset_name}...")
@@ -82,6 +89,16 @@ def main():
             dataset_name,
             f"{METRICS_TABLES_DIR}/top_models_{dataset_name}.tex",
         )
+
+    # Per-dataset top models tables
+    for rm in reduction_methods:
+        logger.info(f"Generating table for {rm}...")
+        generate_top_models_by_reduction_method(
+            metrics_data,
+            rm,
+            f"{METRICS_TABLES_DIR}/top_models_{rm}.tex",
+        )
+
 
     # Per-model best configurations tables
     for model_name in models:
