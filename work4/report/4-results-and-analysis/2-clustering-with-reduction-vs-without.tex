@@ -2,7 +2,7 @@
 \label{subsec:clustering-with-reduction-vs-without}
 
 This section analyses the performance of the clustering algorithms with and without reductions of the feature space.
-As mentioned previously in the report, the reductions of the feature space is done by applying different
+As mentioned previously in the report, the reductions of the feature space are done by applying different
 implementations of PCA. The PCA implementations are the following:
 
 \begin{itemize}
@@ -11,14 +11,62 @@ implementations of PCA. The PCA implementations are the following:
     \item Kernel PCA via SKLearn
 \end{itemize}
 
-% Highlight differences in clustering between the PCA implementations and also to no-PCA
-% Examine if the PCA implementations are able to reduce the feature space effectively and improve the clustering performance
+Figures \ref{fig:clustering-results} display the results of the clustering algorithms
+with and without PCA against the two datasets used, `Mushroom' and `Vowel'.
+Mean of the F-measure is used to track the performance of the algorithms.
 
-% Compare if PCA's have impact on accuracy and efficiency
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.45\textwidth]{../data/5_metrics_plots/f_measure_comparison_mushroom.png}
+    \includegraphics[width=0.45\textwidth]{../data/5_metrics_plots/f_measure_comparison_vowel.png}
+    \caption{Mean F-measure score with and without PCA for Mushroom (left) and Vowel (right) datasets.}
+\label{fig:clustering-results}
+\end{figure}
 
-% If possible, show potential impact on runtime and memory usage
 
-% IF SPACE ALLOWS, mention future experiments on parameter tuning for PCA
+From analysing the results, it is evident that the PCA implementations generally have an 
+impact on the clustering performance.
 
+For the `Global K-Means' algorithm, each of the three 
+PCA implementations have a positive impact on the clustering performance for both datasets.
+On the `Mushroom' dataset, `Global-KMeans' achieves an F-Measure score of approximately 0.37
+without PCA. Applying Kernel PCA via SKLearn, the F-Measure score increases to approximately 0.53. 
+Our own implementation of PCA, as well as PCA vs SKLearn, achieves an F-Measure score of approximately 0.70,
+which is the highest score achieved.  
+A similar situation is observed for the `Vowel' dataset. Without PCA, `Global-KMeans'
+achieves an F-Measure score of approximately 0.082. Applying Kernel PCA via SKLearn,
+the F-Measure score increases to approximately 0.11. Our own implementation of PCA,
+as well as PCA viaLearn, once again achieve the highest score of approximately 0.12.
 
+Upon analysing the results for the `OPTICS' algorithm, it is evident that the PCA implementations
+have an opposite effect on the clustering performance. For the `Mushroom' dataset, `OPTICS' achieves
+an F-Measure score of approximately 0.02 without PCA. Applying any of the PCA implementations
+results in a decrease in the F-Measure score, resulting in an F-Measure score of approximately 0.0 
+for all three PCA implementations.
+The same situation is observed for the `Vowel' dataset. Without PCA, `OPTICS' achieves an F-Measure score
+of approximately 0.058. Applying any of the PCA implementations results in a decrease in the F-Measure score.
+When applying Kernel PCA via SKLearn, the F-Measure score decreases slightly to approximately 0.043.
+Once again, our own implementation of PCA and PCA via SKLearn result in the same F-Measure
+score of approximately 0.04.
 
+PCA improves `Global K-Means' performance by reducing dimensionality and putting 
+an emphasis on the most important features. This is evident in the results, where the
+F-Measure score is higher when PCA is applied. However, the same cannot be said for `OPTICS'.
+PCA reducing the dimensionality of the feature space may have a negative
+impact on the performance of `OPTICS' because it's density-based approach is sensitive
+to transformations that distort local density structures, which are critical for detecting
+clusters\cite{sepin2023comparisonclusteringalgorithmsstatistical}.
+
+\vspace{1em}
+
+\autoref{tab:best_models_overall} highlights the best-performing models by dataset.
+For both datasets, the best performing model is `Global K-Means', as opposed to `OPTICS'.
+This isn't surprising as we have seen previously that `OPTICS' has a lower F-Measure score.
+
+\input{../data/5_metrics_tables/best_models_overall.tex}
+
+When comparing the reduction methods, \autoref{tab:best_reduction_method_overall} demonstrates the impact of
+different PCA implementations. Once again, the results are consistent with the previous analysis:
+`Global K-Means' outperforms `OPTICS' in every method. 
+
+\input{../data/5_metrics_tables/best_reduction_method_overall.tex}
