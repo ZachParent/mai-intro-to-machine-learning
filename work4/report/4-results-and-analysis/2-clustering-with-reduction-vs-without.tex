@@ -27,6 +27,8 @@ Mean of the F-measure is used to track the performance of the algorithms.
 From analysing the results, it is evident that the PCA implementations generally have an 
 impact on the clustering performance.
 
+\vspace{1em}
+
 For the `Global K-Means' algorithm, each of the three 
 PCA implementations have a positive impact on the clustering performance for both datasets.
 On the `Mushroom' dataset, `Global-KMeans' achieves an F-Measure score of approximately 0.37
@@ -38,6 +40,8 @@ achieves an F-Measure score of approximately 0.082. Applying Kernel PCA via SKLe
 the F-Measure score increases to approximately 0.11. Our own implementation of PCA,
 as well as PCA viaLearn, once again achieve the highest score of approximately 0.12.
 
+\vspace{1em}
+
 Upon analysing the results for the `OPTICS' algorithm, it is evident that the PCA implementations
 have an opposite effect on the clustering performance. For the `Mushroom' dataset, `OPTICS' achieves
 an F-Measure score of approximately 0.02 without PCA. Applying any of the PCA implementations
@@ -48,6 +52,8 @@ of approximately 0.058. Applying any of the PCA implementations results in a dec
 When applying Kernel PCA via SKLearn, the F-Measure score decreases slightly to approximately 0.043.
 Once again, our own implementation of PCA and PCA via SKLearn result in the same F-Measure
 score of approximately 0.04.
+
+\vspace{1em}
 
 PCA improves `Global K-Means' performance by reducing dimensionality and putting 
 an emphasis on the most important features. This is evident in the results, where the
