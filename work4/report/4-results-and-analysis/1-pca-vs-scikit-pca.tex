@@ -42,11 +42,18 @@ The results of the reduced datasets using our PCA implementation are shown in Fi
     \label{fig:our_pca_datasets}
 \end{figure}
 
+Table~\ref{tab:aggregated_results} highlights the comparison of average reduction runtime and F-measure across different
+reduction methods and clustering models. It is easy to note that \texttt{SklearnPCA} achieves the fastest average
+reduction runtime (0.003899 seconds), followed closely by \texttt{Our PCA} (0.011565 seconds).
+However, \texttt{IncrementalPCA} is significantly slower (0.074605 seconds).
+In terms of clustering performance, measured by the F-measure, \texttt{Global Kmeans} consistently outperforms
+\texttt{OPTICS} for all reduction methods. Notably, both \texttt{Our PCA} and \texttt{SklearnPCA} paired with
+\texttt{Global Kmeans} achieve the highest average F-measure (0.410158), while \texttt{IncrementalPCA}
+combined with \texttt{Global Kmeans} achieves a slightly lower score of 0.381697.
 
-
-\begin{table}[ht]
+\begin{table}[ht!]
     \centering
-    \caption{Aggregated Results for PCA Approaches}
+    
     \begin{tabular}{l|l|c|c}
     \hline
     \textbf{Reduction Method} & \textbf{Clustering Model} & \textbf{Avg. Reduction Runtime} & \textbf{Avg. F-Measure} \\ \hline
@@ -59,8 +66,9 @@ The results of the reduced datasets using our PCA implementation are shown in Fi
     Our PCA              & Global Kmeans & 0.011565 & 0.410158 \\ 
     Our PCA           & OPTICS         & 0.011565 & 0.021457 \\ \hline
     \end{tabular}
+    \caption{Aggregated Results for PCA Approaches}
     \label{tab:aggregated_results}
-    \end{table}
+\end{table}
     
 
 

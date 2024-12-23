@@ -12,8 +12,8 @@ class PCA(TransformerMixin, BaseEstimator):
         self.mean_vector = None
         self.eigenvalues = None
         self.eigenvectors = None
-        self.sorted_eigenvalues = None
-        self.sorted_eigenvectors = None
+        self.eigenvalues_ = None
+        self.eigenvectors_ = None
 
     def fit(self, X, y=None):
         # Compute the mean vector and center the data
@@ -26,6 +26,9 @@ class PCA(TransformerMixin, BaseEstimator):
         # Ensure covariance matrix is symmetric
         covariance_matrix = (covariance_matrix + covariance_matrix.T) / 2
 
+        print("Covariance Matrix (pca):")
+        print(covariance_matrix)
+
         # Compute eigenvalues and eigenvectors
         eigenvalues, eigenvectors = np.linalg.eig(covariance_matrix)
         eigenvalues = np.real(eigenvalues)
@@ -33,37 +36,37 @@ class PCA(TransformerMixin, BaseEstimator):
 
         # Sort eigenvalues and eigenvectors in descending order
         sorted_indices = np.argsort(eigenvalues)[::-1]
-        self.sorted_eigenvalues = eigenvalues[sorted_indices]
-        self.sorted_eigenvectors = eigenvectors[:, sorted_indices]
+        self.eigenvalues_ = eigenvalues[sorted_indices]
+        self.eigenvectors_ = eigenvectors[:, sorted_indices]
 
 
-        self.sorted_eigenvectors[:, 1] *= -1
+        self.eigenvectors_[:, 1] *= -1
 
-        # self.explained_variance_ = self.sorted_eigenvalues
-        # self.components_ = self.sorted_eigenvectors
+        # self.explained_variance_ = self.eigenvalues_
+        # self.components_ = self.eigenvectors_
 
 
-        # print(self.sorted_eigenvectors[:1])
+        # print(self.eigenvectors_[:1])
         # # Enforce consistent orientation for eigenvectors
-        # for i in range(self.sorted_eigenvectors.shape[1]):
+        # for i in range(self.eigenvectors_.shape[1]):
         #     # Align eigenvector based on the sign of the first element
-        #     if self.sorted_eigenvectors[0, i] < 0:
-        #         self.sorted_eigenvectors[:, i] *= -1
+        #     if self.eigenvectors_[0, i] < 0:
+        #         self.eigenvectors_[:, i] *= -1
 
         return self
 
     def transform(self, X):
-        if self.sorted_eigenvectors is None:
+        if self.eigenvectors_ is None:
             raise ValueError("PCA not fitted. Call `fit` first.")
 
         # Center the data and project it
         centered_data = X - self.mean_vector
-        projection_matrix = self.sorted_eigenvectors[:, : self.n_components]
+        projection_matrix = self.eigenvectors_[:, : self.n_components]
         return np.dot(centered_data, projection_matrix)
 
     def inverse_transform(self, X_transformed):
         # Reconstruct the data from the reduced dimensions
-        projection_matrix = self.sorted_eigenvectors[:, : self.n_components]
+        projection_matrix = self.eigenvectors_[:, : self.n_components]
         return np.dot(X_transformed, projection_matrix.T) + self.mean_vector
     
 

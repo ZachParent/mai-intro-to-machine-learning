@@ -3,6 +3,7 @@ import pandas as pd
 import os
 from itertools import product
 import logging
+import numpy as np
 import time
 from tools.dimensionality_reduction import (
     REDUCTION_METHOD_MAP,
@@ -47,6 +48,11 @@ def main():
     reduced_data_dir = REDUCED_DATA_DIR / args.dataset / args.method
     os.makedirs(reduced_data_dir, exist_ok=True)
 
+    logger.info(f"Original Matrix Information:")
+    logger.info(f"Shape: {features_data.shape}")
+    logger.info(f"Feature Means: {np.mean(features_data, axis=0)}")
+    logger.info(f"Feature Std Devs: {np.std(features_data, axis=0)}")
+
     runtimes = []
     params_grid = REDUCTION_PARAMS_GRID_MAP[args.method]
     for params in product(*params_grid.values()):
@@ -70,8 +76,13 @@ def main():
         runtimes.append(runtime_data)
 
         if param_dict['n_components'] == 2:
-            print(f"Eigenvalues ({args.method}):", model.explained_variance_)
-            print(f"Eigenvectors ({args.method}):", model.components_)
+            logger.info(f"args method: {args.method}")
+            if args.method in ['kernel_pca', 'pca']:
+                logger.info(f"Eigenvalues ({args.method}): {model.eigenvalues_}")
+                logger.info(f"Eigenvectors ({args.method}): {model.eigenvectors_}")
+            else:
+                logger.info(f"Eigenvalues ({args.method}): {model.explained_variance_}")
+                logger.info(f"Eigenvectors ({args.method}): {model.components_}")
 
         reduced_data = pd.concat(
             [
