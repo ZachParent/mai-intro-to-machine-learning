@@ -565,3 +565,48 @@ def plot_f_measure_comparison(results, dataset_name, save_path=None):
         logger.info(f"Figure saved to {save_path}")
     else:
         plt.show()
+
+
+def plot_dataset_with_top_features(data, features, target_column, save_path):
+    """
+    Plot the dataset using the top two features.
+
+    Parameters:
+    - data: DataFrame containing the dataset.
+    - features: List of two feature names to use for plotting.
+    - target_column: Name of the target column in the dataset.
+    - dataset_name: Name of the dataset (for title purposes).
+
+    Returns:
+    - A scatter plot visualizing the dataset based on the top two features.
+    """
+    if len(features) != 2:
+        raise ValueError("The 'features' parameter must contain exactly two feature names.")
+    
+    plt.figure(figsize=(8, 6))
+    
+    # Scatter plot using seaborn
+    sns.scatterplot(
+        data=data, 
+        x=features[0], 
+        y=features[1], 
+        hue=target_column, 
+        palette="viridis", 
+        s=50, 
+        alpha=0.7, 
+        edgecolor="k"
+    )
+    
+    # Customize the plot
+    # plt.title(f"{dataset_name} Dataset: Visualization Using Top Features", fontsize=14)
+    plt.xlabel(features[0], fontsize=12)
+    plt.ylabel(features[1], fontsize=12)
+    plt.legend(title=target_column, fontsize=10, title_fontsize=12, loc='best')
+    plt.grid(True, linestyle='--', alpha=0.6)
+    plt.tight_layout()
+
+    if save_path:
+        plt.savefig(save_path, format="png", dpi=300)
+        logger.info(f"Figure saved to {save_path}")
+    else:
+        plt.show()

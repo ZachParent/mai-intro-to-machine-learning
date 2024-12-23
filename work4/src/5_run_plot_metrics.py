@@ -12,7 +12,7 @@ from tools.analysis.tables import (
     generate_top_models_by_reduction_method,
     generate_model_best_configs_table,
 )
-from tools.config import METRICS_DATA_PATH, METRICS_PLOTS_DIR, METRICS_TABLES_DIR
+from tools.config import METRICS_DATA_PATH, METRICS_PLOTS_DIR, METRICS_TABLES_DIR, PREPROCESSED_DATA_DIR
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -64,6 +64,8 @@ def main():
         logging.basicConfig(level=logging.WARNING)
 
     metrics_data = pd.read_csv(METRICS_DATA_PATH)
+    vowel_path = f"{PREPROCESSED_DATA_DIR}/vowel.csv"
+    vowel_df = pd.read_csv(vowel_path)
 
     # Create output directories
     os.makedirs(METRICS_PLOTS_DIR, exist_ok=True)
@@ -71,6 +73,8 @@ def main():
 
     # Generate tables
     logger.info("Generating LaTeX tables...")
+
+
 
     # Overall best models table
     generate_best_models_table(
@@ -111,6 +115,13 @@ def main():
 
     # Generate plots
     logger.info("Generating plots...")
+
+    plot_dataset_with_top_features(
+        vowel_df,
+        ['Feature_0', 'Feature_1'],
+        target_column='class',
+        save_path=f"{METRICS_PLOTS_DIR}/vowel_dataset.png"
+    )
 
     # plot_pairplot(
     #     data=metrics_data, vars=metrics, save_path=f"{METRICS_PLOTS_DIR}/pairplot.png"

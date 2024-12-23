@@ -78,7 +78,7 @@ def main():
                 preprocessed_data.iloc[:, -1],
             ],
             axis=1,
-        )
+        )   
 
         reduced_data_path = (
             reduced_data_dir
