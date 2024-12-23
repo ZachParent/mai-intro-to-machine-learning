@@ -6,7 +6,6 @@ PCA_PARAMS_GRID_MAP = {
     "n_components": [2, 3, 4, 10, 11, 12],
 }
 
-
 class PCA(TransformerMixin, BaseEstimator):
     def __init__(self, n_components: int = 2):
         self.n_components = n_components
@@ -17,21 +16,31 @@ class PCA(TransformerMixin, BaseEstimator):
         self.sorted_eigenvectors = None
 
     def fit(self, X, y=None):
+        # Compute the mean vector and center the data
         self.mean_vector = np.mean(X, axis=0)
         centered_data = X - self.mean_vector
+
+        # Compute the covariance matrix
         covariance_matrix = np.cov(centered_data, rowvar=False)
 
         # Ensure covariance matrix is symmetric
         covariance_matrix = (covariance_matrix + covariance_matrix.T) / 2
 
+        # Compute eigenvalues and eigenvectors
         eigenvalues, eigenvectors = np.linalg.eig(covariance_matrix)
         eigenvalues = np.real(eigenvalues)
         eigenvectors = np.real(eigenvectors)
 
-        # Sort eigenvalues and eigenvectors
+        # Sort eigenvalues and eigenvectors in descending order
         sorted_indices = np.argsort(eigenvalues)[::-1]
         self.sorted_eigenvalues = eigenvalues[sorted_indices]
         self.sorted_eigenvectors = eigenvectors[:, sorted_indices]
+
+        # Enforce consistent orientation for eigenvectors
+        for i in range(self.sorted_eigenvectors.shape[1]):
+            # Align eigenvector based on the sign of the first element
+            if self.sorted_eigenvectors[0, i] < 0:
+                self.sorted_eigenvectors[:, i] *= -1
 
         return self
 
@@ -39,13 +48,16 @@ class PCA(TransformerMixin, BaseEstimator):
         if self.sorted_eigenvectors is None:
             raise ValueError("PCA not fitted. Call `fit` first.")
 
+        # Center the data and project it
         centered_data = X - self.mean_vector
         projection_matrix = self.sorted_eigenvectors[:, : self.n_components]
         return np.dot(centered_data, projection_matrix)
 
     def inverse_transform(self, X_transformed):
+        # Reconstruct the data from the reduced dimensions
         projection_matrix = self.sorted_eigenvectors[:, : self.n_components]
         return np.dot(X_transformed, projection_matrix.T) + self.mean_vector
+
 
     def plot_original_data(self, X, feature_names=None):
         plt.figure(figsize=(8, 6))
@@ -92,6 +104,9 @@ class PCA(TransformerMixin, BaseEstimator):
         plt.ylabel("Feature 2")
         plt.legend()
         plt.show()
+
+
+
 
 # # Helper function to load data from .arff file
 # def load_arff(file_path):

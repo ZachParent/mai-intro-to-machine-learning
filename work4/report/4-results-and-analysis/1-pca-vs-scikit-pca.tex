@@ -1,36 +1,125 @@
-\subsection{PCA vs scikit PCA}
+First we plot the original datasets to visualize the data distribution.
+The original Vowel dataset is shown in Figure \ref{fig:vowel_dataset}.
+The original Mushroom dataset cannot give us meaningful visual information at this time 
+since all its features are categorical and one-hot encoded. 
+
+\begin{figure}[h!]
+    \centering
+    % Segunda subfigura
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/vowel_dataset.png}
+        % \caption{Reduced Vowel dataset}
+        \label{Img6}
+    \end{subfigure}
+    
+    \caption{Visualization of the original Vowel dataset}
+    \label{fig:vowel_dataset}
+\end{figure}
+
+We developed our own implementation of PCA and compared it with several scikit-learn based PCA implementations.
+The results of the reduced datasets using our PCA implementation are shown in Figure \ref{fig:our_pca_datasets}.
+
+\begin{figure}[h!]
+    \centering
+    % Primera subfigura 
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/mushroom_our_pca.png}
+        \caption{Reduced Mushroom dataset}
+        \label{our_pca_mushroom}
+    \end{subfigure}
+    \hfill
+    % Segunda subfigura
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/vowel_our_pca.png}
+        \caption{Reduced Vowel dataset}
+        \label{our_pca_vowel}
+    \end{subfigure}
+    
+    \caption{Visualization of the reduced datasets using our PCA implementation.}
+    \label{fig:our_pca_datasets}
+\end{figure}
+
+
+\subsection{Our PCA vs sklearn.decomposition.PCA}
 \label{subsec:pca-vs-scikit-pca}
 
 
-% Based on the code in src/tools/dimensionality_reduction/pca.py generate a section
-% that compares the PCA implementation in scikit-learn with the one implemented in the
-% project. The comparison should be based on the following aspects: 
-% 1. Performance
-% 2. Memory usage.
 
-% Generate it in latex code 
-
-
-\begin{figure}[ht!]
+\begin{figure}[h!]
     \centering
-    % Replace 'vowel_top_features.png' with your actual image filename
-    \includegraphics[width=0.8\textwidth]{figures/vowel_dataset.png}
-    \caption{Visualization of the Vowel dataset using the top two features, \textit{F3} and \textit{F2}. Points are colored based on the target class (\textit{class}). This plot demonstrates how the features help distinguish different classes.}
-    \label{fig:vowel_top_features}
+    % Primera subfigura
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/mushroom_sklearn_pca.png}
+        \caption{Reduced Mushroom dataset}
+        \label{subfig:mushroom_sklearn_pca}
+    \end{subfigure}
+    \hfill
+    % Segunda subfigura
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/vowel_sklearn_pca.png}
+        \caption{Reduced Vowel dataset}
+        \label{subfig:vowel_sklearn_pca}
+    \end{subfigure}
+    
+    \caption{Visualization of the reduced datasets using Scikit-learn basic PCA.}
+    \label{fig:sklearn_pca_datasets}
 \end{figure}
 
-The results from the comparison between the project's PCA implementation and the scikit PCA implementation can be seen in Table \ref{tab:pca-vs-scikit-pca}.
+The visualization compares the reduced datasets obtained using our custom PCA implementation (Figure \ref{fig:our_pca_datasets}) 
+with those derived from the Scikit-learn PCA implementation (Figure \ref{fig:sklearn_pca_datasets}).
+Both methods produce qualitatively similar results, preserving the overall structure and class separability of the datasets.
+In the Mushroom dataset (subplots \ref{subfig:mushroom_sklearn_pca}), the two main clusters corresponding to the two classes are clearly distinguishable in both implementations,
+indicating consistency in dimensionality reduction. For the Vowel dataset (subplots \ref{subfig:vowel_sklearn_pca}),
+the distribution of the reduced data points aligns closely between the two approaches, with clusters for different classes exhibiting comparable orientations and separations.
 
-\begin{table}[h]
+
+
+% The results from the comparison between the project's PCA implementation and the scikit PCA implementation can be seen in Table \ref{tab:pca-vs-scikit-pca}.
+
+% \begin{table}[h]
+%     \centering
+%     \begin{tabular}{|c|c|c|}
+%         \hline
+%         & \textbf{Project PCA} & \textbf{Scikit PCA} \\ \hline
+%         \textbf{Performance} & 0.005s & 0.002s \\ \hline
+%         \textbf{Memory usage} & 0.0001 MB & 0.0001 MB \\ \hline
+%     \end{tabular}
+%     \caption{Comparison between the project's PCA implementation and the scikit PCA implementation.}
+%     \label{tab:pca-vs-scikit-pca}
+% \end{table}
+
+% The scikit PCA implementation is faster than the project's PCA implementation, but the difference in performance is not significant. The memory usage of both implementations is the same.
+
+
+
+\subsection{Our PCA vs sklearn.decomposition.IncrementalPCA}
+\label{subsec:pca-vs-incremental-pca}
+
+
+\begin{figure}[h!]
     \centering
-    \begin{tabular}{|c|c|c|}
-        \hline
-        & \textbf{Project PCA} & \textbf{Scikit PCA} \\ \hline
-        \textbf{Performance} & 0.005s & 0.002s \\ \hline
-        \textbf{Memory usage} & 0.0001 MB & 0.0001 MB \\ \hline
-    \end{tabular}
-    \caption{Comparison between the project's PCA implementation and the scikit PCA implementation.}
-    \label{tab:pca-vs-scikit-pca}
-\end{table}
+    % Primera subfigura
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/mushroom_incremental_pca.png}
+        \caption{Reduced Mushroom dataset}
+        \label{Img5}
+    \end{subfigure}
+    \hfill
+    % Segunda subfigura
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/vowel_incremental_pca.png}
+        \caption{Reduced Vowel dataset}
+        \label{Img6}
+    \end{subfigure}
+    
+    \caption{Visualization of the reduced datasets using Incremental PCA.}
+    \label{Img5_6}
+\end{figure}
 
-The scikit PCA implementation is faster than the project's PCA implementation, but the difference in performance is not significant. The memory usage of both implementations is the same.
