@@ -39,7 +39,10 @@ class PCA(TransformerMixin, BaseEstimator):
 
         self.sorted_eigenvectors[:, 1] *= -1
 
-        
+        # self.explained_variance_ = self.sorted_eigenvalues
+        # self.components_ = self.sorted_eigenvectors
+
+
         # print(self.sorted_eigenvectors[:1])
         # # Enforce consistent orientation for eigenvectors
         # for i in range(self.sorted_eigenvectors.shape[1]):
@@ -62,6 +65,8 @@ class PCA(TransformerMixin, BaseEstimator):
         # Reconstruct the data from the reduced dimensions
         projection_matrix = self.sorted_eigenvectors[:, : self.n_components]
         return np.dot(X_transformed, projection_matrix.T) + self.mean_vector
+    
+
 
 
     def plot_original_data(self, X, feature_names=None):

@@ -69,6 +69,10 @@ def main():
         }
         runtimes.append(runtime_data)
 
+        if param_dict['n_components'] == 2:
+            print(f"Eigenvalues ({args.method}):", model.explained_variance_)
+            print(f"Eigenvectors ({args.method}):", model.components_)
+
         reduced_data = pd.concat(
             [
                 pd.DataFrame(

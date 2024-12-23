@@ -131,26 +131,3 @@ This indicates that both methods achieve comparable results despite differences 
 with Incremental PCA being particularly advantageous for large datasets where memory efficiency is critical.
 The similarity in the visual outcomes demonstrates the reliability of our PCA implementation and its ability to replicate 
 the performance of advanced techniques like Incremental PCA.
-
-
-
-% The results from the comparison between the project's PCA implementation and the Incremental PCA implementation can be seen in Table \ref{tab:pca-vs-incremental-pca}.    
-
-\begin{table}[h!]
-    \centering
-    \caption{Shape, Mean, and Standard Deviation of Matrices for PCA Approaches}
-    \label{tab:matrix_stats}
-    \begin{tabular}{|l|c|c|c|}
-        \hline
-        \textbf{Matrix Information} & \textbf{Our PCA} & \textbf{Sklearn PCA} & \textbf{Incremental PCA} \\ \hline
-        Original Matrix Shape       & $n \times m$      & $n \times m$         & $n \times m$             \\ \hline
-        Original Matrix Mean        & $\mu_{\text{our}}$ & $\mu_{\text{sklearn}}$ & $\mu_{\text{inc}}$       \\ \hline
-        Original Matrix Std         & $\sigma_{\text{our}}$ & $\sigma_{\text{sklearn}}$ & $\sigma_{\text{inc}}$ \\ \hline
-        Covariance Matrix Shape     & $m \times m$      & $m \times m$         & $m \times m$             \\ \hline
-        Covariance Matrix Mean      & $\mu_{\text{cov, our}}$ & $\mu_{\text{cov, sklearn}}$ & $\mu_{\text{cov, inc}}$ \\ \hline
-        Covariance Matrix Std       & $\sigma_{\text{cov, our}}$ & $\sigma_{\text{cov, sklearn}}$ & $\sigma_{\text{cov, inc}}$ \\ \hline
-        Transformed Dataset Shape   & $n \times 2$      & $n \times 2$         & $n \times 2$             \\ \hline
-        Transformed Dataset Mean    & $\mu_{\text{trans, our}}$ & $\mu_{\text{trans, sklearn}}$ & $\mu_{\text{trans, inc}}$ \\ \hline
-        Transformed Dataset Std     & $\sigma_{\text{trans, our}}$ & $\sigma_{\text{trans, sklearn}}$ & $\sigma_{\text{trans, inc}}$ \\ \hline
-    \end{tabular}
-\end{table}
