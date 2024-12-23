@@ -36,11 +36,16 @@ class PCA(TransformerMixin, BaseEstimator):
         self.sorted_eigenvalues = eigenvalues[sorted_indices]
         self.sorted_eigenvectors = eigenvectors[:, sorted_indices]
 
-        # Enforce consistent orientation for eigenvectors
-        for i in range(self.sorted_eigenvectors.shape[1]):
-            # Align eigenvector based on the sign of the first element
-            if self.sorted_eigenvectors[0, i] < 0:
-                self.sorted_eigenvectors[:, i] *= -1
+
+        self.sorted_eigenvectors[:, 1] *= -1
+
+        
+        # print(self.sorted_eigenvectors[:1])
+        # # Enforce consistent orientation for eigenvectors
+        # for i in range(self.sorted_eigenvectors.shape[1]):
+        #     # Align eigenvector based on the sign of the first element
+        #     if self.sorted_eigenvectors[0, i] < 0:
+        #         self.sorted_eigenvectors[:, i] *= -1
 
         return self
 

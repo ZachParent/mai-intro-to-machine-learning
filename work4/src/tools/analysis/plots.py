@@ -138,8 +138,6 @@ def plot_interactions(data, model_name, paramsGrid, save_path=None):
     else:
         plt.show()
 
-
-
 ## Actually used in run_plot_metrics.py
 def plot_pairplot(data, vars, save_path=None):
     # vars = ['ari', 'purity', 'dbi', 'f_measure']
