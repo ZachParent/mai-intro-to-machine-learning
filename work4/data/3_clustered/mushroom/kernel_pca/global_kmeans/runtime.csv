@@ -12,7 +12,7 @@ mushroom,kernel_pca,global_kmeans,2,100,0.001,4,3,poly,1.0,10.261888027191162
 mushroom,kernel_pca,global_kmeans,2,100,0.001,4,10,poly,1.0,7.130929946899414
 mushroom,kernel_pca,global_kmeans,2,100,0.001,4,2,rbf,1.0,6.750845193862915
 mushroom,kernel_pca,global_kmeans,2,100,0.001,4,4,poly,0.1,7.075262069702148
-mushroom,kernel_pca,global_kmeans,2,100,0.001,4,12,rbf,1.0,6.9997358322143555
+mushroom,kernel_pca,global_kmeans,2,100,0.001,4,12,rbf,1.0,6.999735832214356
 mushroom,kernel_pca,global_kmeans,2,100,0.001,4,11,rbf,1.0,6.949393033981323
 mushroom,kernel_pca,global_kmeans,2,100,0.001,4,11,rbf,0.1,7.087735891342163
 mushroom,kernel_pca,global_kmeans,2,100,0.001,4,3,poly,0.1,8.79411768913269
@@ -22,4 +22,12 @@ mushroom,kernel_pca,global_kmeans,2,100,0.001,4,4,poly,1.0,6.804932117462158
 mushroom,kernel_pca,global_kmeans,2,100,0.001,4,10,rbf,0.1,6.839709997177124
 mushroom,kernel_pca,global_kmeans,2,100,0.001,4,4,rbf,1.0,10.394098043441772
 mushroom,kernel_pca,global_kmeans,2,100,0.001,4,11,poly,0.1,6.8827760219573975
-mushroom,kernel_pca,global_kmeans,2,100,0.001,4,3,rbf,1,6.805109024047852
+mushroom,kernel_pca,global_kmeans,2,100,0.001,4,3,rbf,1.0,6.805109024047852
+mushroom,kernel_pca,global_kmeans,2,100,0.001,4,3,rbf,1.0,8.268715620040894
+mushroom,kernel_pca,global_kmeans,2,100,0.001,4,2,rbf,1.0,8.666198253631592
+mushroom,kernel_pca,global_kmeans,2,100,0.001,4,2,rbf,0.1,8.288029909133911
+mushroom,kernel_pca,global_kmeans,2,100,0.001,4,2,poly,1.0,8.367019653320312
+mushroom,kernel_pca,global_kmeans,2,100,0.001,4,2,poly,0.1,9.6091570854187
+mushroom,kernel_pca,global_kmeans,2,100,0.001,4,3,poly,1.0,12.444955110549929
+mushroom,kernel_pca,global_kmeans,2,100,0.001,4,3,rbf,0.1,8.618669748306274
+mushroom,kernel_pca,global_kmeans,2,100,0.001,4,3,poly,0.1,11.11657190322876

@@ -5,3 +5,9 @@ mushroom,sklearn_pca,global_kmeans,2,100,0.001,4,3,6.783437013626099
 mushroom,sklearn_pca,global_kmeans,2,100,0.001,4,11,9.219786882400513
 mushroom,sklearn_pca,global_kmeans,2,100,0.001,4,10,14.7362539768219
 mushroom,sklearn_pca,global_kmeans,2,100,0.001,4,12,9.574550151824951
+mushroom,sklearn_pca,global_kmeans,2,100,0.001,4,11,11.47571349143982
+mushroom,sklearn_pca,global_kmeans,2,100,0.001,4,4,39.32837104797363
+mushroom,sklearn_pca,global_kmeans,2,100,0.001,4,12,11.966522932052612
+mushroom,sklearn_pca,global_kmeans,2,100,0.001,4,10,18.38151788711548
+mushroom,sklearn_pca,global_kmeans,2,100,0.001,4,2,12.598023891448976
+mushroom,sklearn_pca,global_kmeans,2,100,0.001,4,3,8.27445650100708

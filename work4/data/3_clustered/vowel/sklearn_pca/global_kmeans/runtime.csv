@@ -5,3 +5,12 @@ vowel,sklearn_pca,global_kmeans,11,100,0.0001,4,3,13.259608268737791
 vowel,sklearn_pca,global_kmeans,11,100,0.0001,4,11,7.555462121963501
 vowel,sklearn_pca,global_kmeans,11,100,0.0001,4,10,8.268835067749023
 vowel,sklearn_pca,global_kmeans,11,100,0.0001,4,12,7.376142978668213
+vowel,sklearn_pca,global_kmeans,11,100,0.0001,4,11,9.312506675720217
+vowel,sklearn_pca,global_kmeans,11,100,0.0001,4,4,21.14899706840515
+vowel,sklearn_pca,global_kmeans,11,100,0.0001,4,12,9.95106077194214
+vowel,sklearn_pca,global_kmeans,11,100,0.0001,4,10,10.347934484481812
+vowel,sklearn_pca,global_kmeans,11,100,0.0001,4,2,15.515896081924438
+vowel,sklearn_pca,global_kmeans,11,100,0.0001,4,3,17.64694046974182
+vowel,sklearn_pca,global_kmeans,11,100,0.0001,4,11,9.968754529953005
+vowel,sklearn_pca,global_kmeans,11,100,0.0001,4,4,21.021180152893063
+vowel,sklearn_pca,global_kmeans,11,100,0.0001,4,12,9.148789167404175

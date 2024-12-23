@@ -1,7 +1,13 @@
 dataset,reduction_method,clustering_model,metric,algorithm,min_samples,xi,min_cluster_size,n_components,runtime
 mushroom,pca,optics,euclidean,ball_tree,10,0.1,5,4,3.1420068740844727
 mushroom,pca,optics,euclidean,ball_tree,10,0.1,5,2,2.81241226196289
-mushroom,pca,optics,euclidean,ball_tree,10,0.1,5,3,2.9717929363250732
-mushroom,pca,optics,euclidean,ball_tree,10,0.1,5,11,3.5221266746520996
+mushroom,pca,optics,euclidean,ball_tree,10,0.1,5,3,2.971792936325073
+mushroom,pca,optics,euclidean,ball_tree,10,0.1,5,11,3.5221266746521
 mushroom,pca,optics,euclidean,ball_tree,10,0.1,5,10,3.9529240131378174
 mushroom,pca,optics,euclidean,ball_tree,10,0.1,5,12,3.5570852756500244
+mushroom,pca,optics,euclidean,ball_tree,10,0.1,5,11,4.285221576690674
+mushroom,pca,optics,euclidean,ball_tree,10,0.1,5,4,3.90690279006958
+mushroom,pca,optics,euclidean,ball_tree,10,0.1,5,12,4.367602109909058
+mushroom,pca,optics,euclidean,ball_tree,10,0.1,5,10,4.229066848754883
+mushroom,pca,optics,euclidean,ball_tree,10,0.1,5,2,3.6866304874420166
+mushroom,pca,optics,euclidean,ball_tree,10,0.1,5,3,3.7568562030792236

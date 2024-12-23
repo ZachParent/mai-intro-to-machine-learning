@@ -39,6 +39,7 @@ def get_config_from_filepath(filepath: Path) -> dict:
     reduction_method = filepath.parent.parent.name
     clustering_model = filepath.parent.name
     params_str = filepath.stem.split(",")
+    print('params str', params_str)
     params = {param.split("=")[0]: param.split("=")[1] for param in params_str}
     return {
         "dataset": dataset_name,

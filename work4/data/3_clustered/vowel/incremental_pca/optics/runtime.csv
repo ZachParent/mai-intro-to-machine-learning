@@ -1,0 +1,7 @@
+dataset,reduction_method,clustering_model,metric,algorithm,min_samples,xi,min_cluster_size,n_components,runtime
+vowel,incremental_pca,optics,manhattan,ball_tree,20,0.1,10,11,0.3659186363220215
+vowel,incremental_pca,optics,manhattan,ball_tree,20,0.1,10,4,0.3580443859100342
+vowel,incremental_pca,optics,manhattan,ball_tree,20,0.1,10,12,0.3628609180450439
+vowel,incremental_pca,optics,manhattan,ball_tree,20,0.1,10,10,0.3696279525756836
+vowel,incremental_pca,optics,manhattan,ball_tree,20,0.1,10,2,0.3593673706054687
+vowel,incremental_pca,optics,manhattan,ball_tree,20,0.1,10,3,0.3609323501586914

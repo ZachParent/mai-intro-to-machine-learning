@@ -43,6 +43,27 @@ The results of the reduced datasets using our PCA implementation are shown in Fi
 \end{figure}
 
 
+
+\begin{table}[ht]
+    \centering
+    \caption{Aggregated Results for PCA Approaches}
+    \begin{tabular}{l|l|c|c}
+    \hline
+    \textbf{Reduction Method} & \textbf{Clustering Model} & \textbf{Avg. Reduction Runtime} & \textbf{Avg. F-Measure} \\ \hline
+    IncrementalPCA & Global Kmeans & 0.074605 & 0.381697 \\ 
+    IncrementalPCA & OPTICS         & 0.074605 & 0.024717 \\ 
+    
+    \textbf{SklearnPCA}     & \textbf{Global Kmeans} & \textbf{0.003899} & \textbf{0.410158} \\ 
+    SklearnPCA     & OPTICS         & 0.003899 & 0.021456 \\ 
+    
+    Our PCA              & Global Kmeans & 0.011565 & 0.410158 \\ 
+    Our PCA           & OPTICS         & 0.011565 & 0.021457 \\ \hline
+    \end{tabular}
+    \label{tab:aggregated_results}
+    \end{table}
+    
+
+
 \subsection{Our PCA vs sklearn.decomposition.PCA}
 \label{subsec:pca-vs-scikit-pca}
 

@@ -5,3 +5,9 @@ mushroom,sklearn_pca,optics,euclidean,ball_tree,10,0.1,5,3,2.8834969997406006
 mushroom,sklearn_pca,optics,euclidean,ball_tree,10,0.1,5,11,3.564542770385742
 mushroom,sklearn_pca,optics,euclidean,ball_tree,10,0.1,5,10,3.4320530891418457
 mushroom,sklearn_pca,optics,euclidean,ball_tree,10,0.1,5,12,3.5464370250701904
+mushroom,sklearn_pca,optics,euclidean,ball_tree,10,0.1,5,11,4.269635200500488
+mushroom,sklearn_pca,optics,euclidean,ball_tree,10,0.1,5,4,3.8604965209960938
+mushroom,sklearn_pca,optics,euclidean,ball_tree,10,0.1,5,12,4.340484619140625
+mushroom,sklearn_pca,optics,euclidean,ball_tree,10,0.1,5,10,4.248581409454346
+mushroom,sklearn_pca,optics,euclidean,ball_tree,10,0.1,5,2,3.6856532096862793
+mushroom,sklearn_pca,optics,euclidean,ball_tree,10,0.1,5,3,3.838651180267334

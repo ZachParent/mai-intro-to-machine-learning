@@ -4,4 +4,13 @@ vowel,sklearn_pca,optics,manhattan,ball_tree,20,0.1,10,2,0.2261281013488769
 vowel,sklearn_pca,optics,manhattan,ball_tree,20,0.1,10,3,0.2279107570648193
 vowel,sklearn_pca,optics,manhattan,ball_tree,20,0.1,10,11,0.2541110515594482
 vowel,sklearn_pca,optics,manhattan,ball_tree,20,0.1,10,10,0.2344398498535156
-vowel,sklearn_pca,optics,manhattan,ball_tree,20,0.1,10,12,0.23700904846191406
+vowel,sklearn_pca,optics,manhattan,ball_tree,20,0.1,10,12,0.237009048461914
+vowel,sklearn_pca,optics,manhattan,ball_tree,20,0.1,10,11,0.371577501296997
+vowel,sklearn_pca,optics,manhattan,ball_tree,20,0.1,10,4,0.3538877964019775
+vowel,sklearn_pca,optics,manhattan,ball_tree,20,0.1,10,12,0.3615798950195312
+vowel,sklearn_pca,optics,manhattan,ball_tree,20,0.1,10,10,0.3640422821044922
+vowel,sklearn_pca,optics,manhattan,ball_tree,20,0.1,10,2,0.4174365997314453
+vowel,sklearn_pca,optics,manhattan,ball_tree,20,0.1,10,3,0.3596601486206054
+vowel,sklearn_pca,optics,manhattan,ball_tree,20,0.1,10,11,0.3780388832092285
+vowel,sklearn_pca,optics,manhattan,ball_tree,20,0.1,10,4,0.3615355491638183
+vowel,sklearn_pca,optics,manhattan,ball_tree,20,0.1,10,12,0.3619093894958496
