@@ -96,7 +96,6 @@ the distribution of the reduced data points aligns closely between the two appro
 % The scikit PCA implementation is faster than the project's PCA implementation, but the difference in performance is not significant. The memory usage of both implementations is the same.
 
 
-
 \subsection{Our PCA vs sklearn.decomposition.IncrementalPCA}
 \label{subsec:pca-vs-incremental-pca}
 
@@ -108,7 +107,7 @@ the distribution of the reduced data points aligns closely between the two appro
         \centering
         \includegraphics[width=\textwidth]{figures/mushroom_incremental_pca.png}
         \caption{Reduced Mushroom dataset}
-        \label{Img5}
+        \label{subfig:mushroom_incremental_pca}
     \end{subfigure}
     \hfill
     % Segunda subfigura
@@ -116,10 +115,20 @@ the distribution of the reduced data points aligns closely between the two appro
         \centering
         \includegraphics[width=\textwidth]{figures/vowel_incremental_pca.png}
         \caption{Reduced Vowel dataset}
-        \label{Img6}
+        \label{subfig:vowel_incremental_pca}
     \end{subfigure}
     
     \caption{Visualization of the reduced datasets using Incremental PCA.}
-    \label{Img5_6}
+    \label{fig:incremental_pca_datasets}
 \end{figure}
+
+The visualization compares the reduced datasets obtained using our custom PCA implementation (Figure \ref{fig:our_pca_datasets}) with those derived from Incremental PCA (Figure ]\ref{fig:incremental_pca_datasets}).
+Both methods effectively capture the structure of the data, preserving the class separability in the reduced dimensionality space.
+In the Mushroom dataset (subplots \ref{subfig:mushroom_incremental_pca}), the clustering of the two classes remains consistent between the two approaches, 
+with both implementations producing similar geometric distributions. For the Vowel dataset (subplots \ref{subfig:vowel_incremental_pca}), 
+Incremental PCA closely aligns with the results from our PCA implementation, maintaining the orientation and separation of class clusters.
+This indicates that both methods achieve comparable results despite differences in computation techniques,
+with Incremental PCA being particularly advantageous for large datasets where memory efficiency is critical.
+The similarity in the visual outcomes demonstrates the reliability of our PCA implementation and its ability to replicate 
+the performance of advanced techniques like Incremental PCA.
 
