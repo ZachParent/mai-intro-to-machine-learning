@@ -1,11 +1,15 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-\subsection{Key Findings}
+\paragraph{Implementation Comparison}
+This work has investigated the effectiveness of dimensionality reduction techniques, particularly PCA, in improving clustering performance and visualization. Through our implementation of PCA and its comparison with scikit-learn's versions, we demonstrated that our approach achieves comparable performance while maintaining computational efficiency. The empirical results showed that our PCA implementation achieved an average reduction runtime of 0.011565 seconds, positioning it between scikit-learn's standard PCA (0.003899 seconds) and Incremental PCA (0.074605 seconds).
 
-\subsection{Practical Implications}
+\paragraph{Clustering Performance Analysis}
+Our analysis revealed significant differences in how dimensionality reduction affects different clustering algorithms. Global K-Means consistently benefited from PCA preprocessing, achieving improved F-measure scores (reaching 0.53 with Kernel PCA for the Mushroom dataset and 0.11 for the Vowel dataset). However, OPTICS showed decreased performance when applied to PCA-reduced data, suggesting that density-based clustering algorithms may be sensitive to the transformation of local density structures during dimensionality reduction.
 
-\subsection{Limitations and Future Work}
+\paragraph{Visualization Findings}
+The visualization experiments demonstrated that different datasets require distinct approaches for optimal representation. The Mushroom dataset was best visualized using kernel PCA with global k-means clustering, resulting in well-separated, compact clusters. In contrast, the Vowel dataset required a more sophisticated approach combining UMAP visualization with kernel PCA reduction, effectively capturing its complex 11-class structure despite the challenges of overlapping clusters.
 
-\subsection{Final Remarks}
+\paragraph{Recommendations and Future Directions}
+These findings have important practical implications for data analysis pipelines. They suggest that while dimensionality reduction can significantly improve clustering performance and visualization, the choice of reduction method and clustering algorithm should be carefully considered based on the dataset's characteristics. Future work could explore adaptive methods that automatically select optimal reduction and clustering parameters based on data properties, as well as investigating the theoretical foundations of why certain clustering algorithms perform differently on reduced datasets.
 
