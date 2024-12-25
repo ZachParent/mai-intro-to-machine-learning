@@ -28,18 +28,21 @@ The best visualization configurations for each dataset demonstrate distinct char
 \paragraph{Mushroom dataset}
 For the mushroom dataset (Figure \ref{subfig:best_mushroom_viz}), kernel PCA reduction combined with global k-means clustering produces two well-separated and compact clusters. This configuration uses the following parameters:
 \begin{itemize}
-    \item PCA: \texttt{n\_components=3}, \texttt{kernel=rbf}, \texttt{gamma=0.1}
-    \item Clustering: \texttt{n\_clusters=2}, \texttt{max\_iterations=100}, \texttt{tolerance=0.001}
+    \item \textbf{Reduction}: Kernel PCA (\texttt{pca\_n\_components=3}, \texttt{kernel=rbf}, \texttt{gamma=0.1}).
+    \item \textbf{Clustering}: Global k-means (\texttt{n\_clusters=2}, \texttt{max\_iterations=100}, \texttt{tolerance=0.001}, \texttt{random\_state=4}).
+    \item \textbf{Visualization}: PCA visualization.
 \end{itemize}
+
 
 The effectiveness of this configuration stems from kernel PCA's ability to capture non-linear relationships in the categorical features of the mushroom dataset, resulting in clearly separable clusters.
 
 \paragraph{Vowel dataset}
 For the vowel dataset (Figure \ref{subfig:best_vowel_viz}), UMAP visualization with kernel PCA reduction and global k-means clustering provides the most interpretable representation. The configuration uses:
 \begin{itemize}
-    \item UMAP: \texttt{n\_components=11}
-    \item Kernel PCA: \texttt{kernel=rbf}, \texttt{gamma=1}
-    \item Clustering: \texttt{n\_clusters=11}, \texttt{max\_iterations=100}, \texttt{tolerance=0.0001}
+    \item \textbf{Reduction}: Kernel PCA (\texttt{kernel=rbf}, \texttt{gamma=1}).
+    \item \textbf{Clustering}: Global k-means (\texttt{n\_clusters=11}, \texttt{max\_iterations=100}, \texttt{tolerance=0.0001}, \texttt{random\_state=4}).
+    \item \textbf{Visualization}: UMAP (\texttt{umap\_n\_components=11}).
 \end{itemize}
+
 
 While the vowel dataset's clusters appear as lines rather than compact blobs, this configuration effectively captures the dataset's complex structure with its 11 distinct vowel classes. UMAP's ability to preserve both local and global structures makes it particularly suitable for visualizing this high-dimensional dataset with overlapping clusters.
