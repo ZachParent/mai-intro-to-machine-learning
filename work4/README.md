@@ -18,60 +18,50 @@ This markdown file outlines the requirements, project structure and how to run t
 ## Project Structure
 
 ```
-work3/
+work4/
 ├── data/
 |   ├── 0_raw/
-│   │   ├── hepatitis.arff
 │   │   ├── mushroom.arff
 │   │   └── vowel.arff
 |   ├── 1_preprocessed/
-│   │   ├── hepatitis.csv
 │   │   ├── mushroom.csv
 │   │   └── vowel.csv
-│   ├── 2_clustered/
+│   ├── 3_clustered/
 │   │   ├── ...
 │   └── 3_metrics.csv
-├── notebooks/
+│   └── 4_metrics.csv
 ├── references/
 ├── report/
-|   ├── 2-data/
-|   ├── 3-methods
 |   ├── 4-results-and-analysis/
 │   ├── figures/
 │   ├── tables/
-│   ├── 1-introduction.tex
+│   ├── 1-abstract.tex
+│   ├── 2-background-and-related-work.tex
+│   ├── 3-methods.tex
 │   ├── 5-conclusion.tex
 │   ├── 6-appendix.tex
 │   ├── report.pdf
 │   └── report.tex
 ├── src/
-│   ├── __init__.py
+│   ├── notebooks/
 │   ├── 1_run_preprocessing.py
-│   ├── 2_run_model.py
-│   ├── 3_run_metrics.py
-│   ├── 4_run_analysis.py
+│   ├── 2_run_dimensionality_reduction.py
+│   ├── 3_run_clustering.py
+│   ├── 4_run_metrics.py
+│   ├── 5_run_plot_metrics.py
+│   ├── 6_run_visualizations.py
 │   └── tools/
 │   │   ├── analysis/
-│   │   │   ├── plots.py
-│   │   │   └── tables.py
 │   │   ├── clustering/
-│   │   │   ├── __init__.py
-│   │   │   ├── kmeans.py
-│   │   │   ├── fuzzy_cmeans.py
-│   │   │   ├── gmeans.py
-│   │   │   ├── global_kmeans.py
-│   │   │   ├── optics.py
-│   │   │   └── spectral_clustering.py
+│   │   ├── dimensionality_reduction/
 │   │   ├── __init__.py
 │   │   ├── config.py
 │   │   ├── metrics.py
 │   │   └── preprocess.py
-├── mai-iml-work3-report.pdf
+├── mai-iml-work4-report.pdf
 ├── Makefile
-├── pyproject.toml
 ├── README.md
 ├── requirements.txt
-└── setup.cfg
 ```
 
 ## Getting Started
@@ -100,7 +90,7 @@ python3.9 -m pip install -r requirements.txt
 
 ## Execution of Project
 
-Preprocesses the data, run all of the models for each dataset, outputs metrics and performs analysis to generate plots and tables:
+Run the command below to preprocesses the data, run dimensionality reduction on all datasets, run clustering, and acquire metrics, plots and visualizations.
 ```bash
 make all
 ```
@@ -109,70 +99,77 @@ make all
 
 **To run preprocessing on all datasets:**
 ```bash
-python src/1_run_preprocessing.py -v
+python src/1_run_preprocessing.py 
 ```
 
-**To run a model for one dataset manually:**
+**To run dimensionality reduction:**
 ```bash
-python src/2_run_model.py --dataset <dataset_name> --model <model_name> -v
+python src/2_run_dimensionality_reduction.py --dataset <dataset_name> --method <method_name>
 ```
 
 *Command Line Options*
 
 - `--dataset`: Choose dataset (required)
-  - `hepatitis`: Use hepatitis dataset
   - `mushroom`: Use mushroom dataset
-  - `synthetic`: Use synthetic dataset
   - `vowel`: Use vowel dataset
 
-- `--model`: Choose model (required)
-  - `kmeans`: Standard k-means model
-  - `fuzzy_cmeans` Fuzzy c-means model
-  - `gmeans` G-means model
-  - `global_kmeans` Global k-means model
-  - `optics` OPTICS model
-  - `spectral_clustering` Spectral clustering model
+- `--method`: Choose reduction method (required)
+  - `pca`: Use PCA
+  - `sklearn_pca`: Use sklearn PCA
+  - `kernel_pca`: Use kernel PCA
+  - `incremental_pca`?: Use incremental PCA
 
-The clustered data will be saved in the `data/2_clustered/` directory.
+**To run clustering:**
+```bash
+python src/3_run_clustering.py
+```
+
+*Command Line Options*
+
+- `--model`: Choose model (required)
+  - `global_kmeans`: Use global k-means
+  - `optics`: Use optics
+
+- `--input_file_path`: Input file path (required)
+
+- `--reduced`: Whether the input data is reduced
 
 **To run metrics:**
 ```bash
-python src/3_run_metrics.py -v
+python src/4_run_metrics.py
 ```
 
-This command will generate metrics for all clustered data in the `data/2_clustered/` directory and save them in the `data/3_metrics.csv` file.
-
-**To run analysis:**
+**To run plot metrics:**
 ```bash
-python src/4_run_analysis.py -v
+python src/5_run_plot_metrics.py
 ```
 
-This command will perform analysis on the metrics data in the `data/3_metrics.csv` file and save the plots and tables in the `report/figures/` and `report/tables/` directories.
+**To run visualisations:**
+```bash
+python src/6_run_visualizations.py
+```
 
 ### Example Commands
 Here are some example commands to help you get started.
 
 Example 1: Run preprocessing on all datasets
 ```bash
-python src/1_run_preprocessing.py -v
+python src/1_run_preprocessing.py 
 ```
 
-Example 2: Run the fuzzy c-means model on the hepatitis dataset
+Example 2: Run metrics on all available data
 ```bash
-python src/2_run_model.py --dataset hepatitis --model fuzzy_cmeans -v
+python src/4_run_metrics.py 
 ```
 
-Example 3: Run the kmeans model on the mushroom dataset
+Example 3: Run plot metrics on all available data
 ```bash
-python src/2_run_model.py --dataset mushroom --model kmeans -v
+python src/5_run_plot_metrics.py 
 ```
 
-Example 4: Run metrics on all available clustered data
+Example 4: Run visualisations on all available data
 ```bash
-python src/3_run_metrics.py -v
+python src/6_run_visualizations.py
 ```
 
-Example 5: Run analysis on all available metrics data
-```bash
-python src/4_run_analysis.py -v
-```
+
