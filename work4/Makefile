@@ -128,7 +128,7 @@ zip: clean
 	zip -r $(ZIP_FILE_NAME) $(SUBMISSION_NAME) -x "*.pyc" -x "*.pyo" -x "*.pyd" -x "*.so" -x "*.dll" -x "*.dylib" \
 	-x "*/__pycache__/*" -x "*/$(ENV_NAME)/*" -x "*/.git/*" -x "*.zip" -x "*.egg-info/*" \
 	-x "*.aux" -x "*.log" -x "*.toc" -x "*.out" -x "*.synctex.gz" -x "*.fls" -x "*.fdb_latexmk" -x "*.bbl" -x "*.blg" \
-	-x '**/2_clustered/*' && \
+	-x '**/2_reduced/*' -x '**/3_clustered/*' -x '**/5_metrics_plots/*' -x '**/6_visualizations/*' && \
 	mv $(ZIP_FILE_NAME) $(PROJECT_DIR)/ && \
 	rm -rf $(SUBMISSION_NAME))
 	@echo ">>> Created $(ZIP_FILE_NAME)"
