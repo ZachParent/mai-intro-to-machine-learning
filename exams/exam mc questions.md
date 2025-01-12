@@ -114,6 +114,21 @@ Select one:
 
 ---
 
+## Correct Answers for T1
+
+1. b
+2. b
+3. b
+4. c
+5. b
+6. c
+7. c
+8. c
+9. c
+10. b
+
+---
+
 ## T2: Classification Algorithms
 
 ### Question 11
@@ -225,6 +240,21 @@ Select one:
 - b. ROC-AUC
 - c. MSE
 - d. Mean Absolute Error
+
+---
+
+## Correct Answers for T2
+
+11. c
+12. c
+13. b
+14. c
+15. b
+16. a
+17. b
+18. d
+19. a
+20. b
 
 ---
 
@@ -342,6 +372,21 @@ Select one:
 
 ---
 
+## Correct Answers for T3
+
+21. b
+22. b
+23. b
+24. b
+25. a
+26. c
+27. c
+28. a
+29. b
+30. b
+
+---
+
 ## T4: Model Evaluation and Validation
 
 ### Question 31
@@ -456,38 +501,8 @@ Select one:
 
 ---
 
-## Correct Answers
+## Correct Answers for T4
 
-1. b
-2. b
-3. b
-4. c
-5. b
-6. c
-7. c
-8. c
-9. c
-10. b
-11. c
-12. c
-13. b
-14. c
-15. b
-16. a
-17. b
-18. d
-19. a
-20. b
-21. b
-22. b
-23. b
-24. b
-25. a
-26. c
-27. c
-28. a
-29. b
-30. b
 31. b
 32. c
 33. b
@@ -498,11 +513,10 @@ Select one:
 38. b
 39. a
 40. c
-# Quiz: T5 to T7
 
 ## T5: Ensemble Learning and Model Aggregation
 
-### Question 1
+### Question 41
 
 What is the primary purpose of ensemble learning?
 
@@ -513,7 +527,7 @@ Select one:
 - c. To decrease training time
 - d. To simplify model complexity
 
-### Question 2
+### Question 42
 
 Which ensemble method creates multiple models by training on random subsets of data?
 
@@ -524,7 +538,7 @@ Select one:
 - c. Bagging
 - d. Feature Scaling
 
-### Question 3
+### Question 43
 
 In Random Forests, how are trees trained?
 
@@ -535,7 +549,7 @@ Select one:
 - c. By optimizing the maximum margin between classes
 - d. By clustering data points before training
 
-### Question 4
+### Question 44
 
 Which boosting algorithm adjusts the weights of data points after each iteration?
 
@@ -546,7 +560,7 @@ Select one:
 - c. Random Forests
 - d. Bagging
 
-### Question 5
+### Question 45
 
 What is a primary difference between bagging and boosting?
 
@@ -557,7 +571,7 @@ Select one:
 - c. Boosting is only applicable to classification tasks
 - d. Bagging uses fewer models than boosting
 
-### Question 6
+### Question 46
 
 What is the role of a meta-model in stacking?
 
@@ -568,7 +582,7 @@ Select one:
 - c. To initialize base models
 - d. To perform clustering before training
 
-### Question 7
+### Question 47
 
 Which of the following is true about Gradient Boosting Machines (GBM)?
 
@@ -579,7 +593,7 @@ Select one:
 - c. They only work on regression tasks
 - d. They cannot handle missing values
 
-### Question 8
+### Question 48
 
 Which metric is commonly optimized in ensemble models for classification tasks?
 
@@ -590,7 +604,7 @@ Select one:
 - c. R-Squared
 - d. Sum of Squared Errors
 
-### Question 9
+### Question 49
 
 How does Random Forest handle overfitting?
 
@@ -601,7 +615,7 @@ Select one:
 - c. By averaging predictions across multiple trees
 - d. By adding regularization terms to cost functions
 
-### Question 10
+### Question 50
 
 What is a potential drawback of ensemble learning methods?
 
@@ -614,9 +628,24 @@ Select one:
 
 ---
 
+## Correct Answers for T5
+
+41. b
+42. c
+43. b
+44. b
+45. b
+46. a
+47. a
+48. b
+49. c
+50. a
+
+---
+
 ## T6: Dimensionality Reduction
 
-### Question 11
+### Question 51
 
 What is the primary goal of dimensionality reduction?
 
@@ -627,7 +656,7 @@ Select one:
 - c. To cluster data points into distinct groups
 - d. To improve the accuracy of a classification model
 
-### Question 12
+### Question 52
 
 Which of the following techniques is a linear dimensionality reduction method?
 
@@ -638,7 +667,7 @@ Select one:
 - c. UMAP (Uniform Manifold Approximation and Projection)
 - d. SOM (Self-Organizing Maps)
 
-### Question 13
+### Question 53
 
 What is a key assumption of PCA?
 
@@ -649,7 +678,7 @@ Select one:
 - c. Variance explains important features
 - d. Clusters are linearly separable
 
-### Question 14
+### Question 54
 
 What does ICA aim to achieve in dimensionality reduction?
 
@@ -660,7 +689,7 @@ Select one:
 - c. Create a low-dimensional projection for clustering
 - d. Identify clusters in categorical data
 
-### Question 15
+### Question 55
 
 Which dimensionality reduction technique focuses on preserving local relationships?
 
@@ -671,7 +700,7 @@ Select one:
 - c. t-SNE
 - d. Factor Analysis
 
-### Question 16
+### Question 56
 
 What is the main output of a PCA transformation?
 
@@ -682,7 +711,7 @@ Select one:
 - c. A list of independent features
 - d. A similarity matrix
 
-### Question 17
+### Question 57
 
 How does regularization impact dimensionality reduction techniques?
 
@@ -693,7 +722,7 @@ Select one:
 - c. It prevents overfitting by penalizing complexity
 - d. It improves the interpretability of clusters
 
-### Question 18
+### Question 58
 
 Which application is best suited for ICA?
 
@@ -704,7 +733,7 @@ Select one:
 - c. Clustering customers
 - d. Visualizing high-dimensional data
 
-### Question 19
+### Question 59
 
 Which of the following methods is commonly used for visualizing high-dimensional data?
 
@@ -715,7 +744,7 @@ Select one:
 - c. UMAP
 - d. All of the above
 
-### Question 20
+### Question 60
 
 What is one drawback of t-SNE compared to PCA?
 
@@ -728,9 +757,24 @@ Select one:
 
 ---
 
+## Correct Answers for T6
+
+51. b
+52. a
+53. c
+54. b
+55. c
+56. b
+57. c
+58. b
+59. d
+60. a
+
+---
+
 ## T7: Introduction to Unsupervised Learning and Clustering
 
-### Question 21
+### Question 61
 
 What is the primary goal of clustering in unsupervised learning?
 
@@ -741,7 +785,7 @@ Select one:
 - c. Train models on labeled datasets
 - d. Minimize error rates
 
-### Question 22
+### Question 62
 
 Which of the following algorithms is a density-based clustering method?
 
@@ -752,7 +796,7 @@ Select one:
 - c. Hierarchical Clustering
 - d. Mean Shift
 
-### Question 23
+### Question 63
 
 What is the role of the "k" parameter in K-Means clustering?
 
@@ -763,7 +807,7 @@ Select one:
 - c. Number of features
 - d. Number of neighbors
 
-### Question 24
+### Question 64
 
 Which clustering method can handle non-spherical clusters?
 
@@ -774,7 +818,7 @@ Select one:
 - c. Agglomerative Clustering
 - d. Hierarchical Clustering
 
-### Question 25
+### Question 65
 
 What is a limitation of K-Means clustering?
 
@@ -785,7 +829,7 @@ Select one:
 - c. It assumes clusters are spherical
 - d. It doesn’t require specifying the number of clusters
 
-### Question 26
+### Question 66
 
 What is the purpose of the Silhouette Score?
 
@@ -796,7 +840,7 @@ Select one:
 - c. To select the number of neighbors
 - d. To improve training accuracy
 
-### Question 27
+### Question 67
 
 Which clustering technique produces a dendrogram?
 
@@ -807,7 +851,7 @@ Select one:
 - c. Hierarchical Clustering
 - d. Mean Shift
 
-### Question 28
+### Question 68
 
 Which clustering technique uses a "core point" concept?
 
@@ -818,7 +862,7 @@ Select one:
 - c. Agglomerative Clustering
 - d. Factor Analysis
 
-### Question 29
+### Question 69
 
 Which metric evaluates the cohesion and separation of clusters?
 
@@ -829,7 +873,7 @@ Select one:
 - c. R-Squared
 - d. Mean Squared Error
 
-### Question 30
+### Question 70
 
 What is a practical application of clustering?
 
@@ -842,43 +886,24 @@ Select one:
 
 ---
 
-## Correct Answers
+## Correct Answers for T7
 
-1. b
-2. c
-3. b
-4. b
-5. b
-6. a
-7. a
-8. b
-9. c
-10. a
-11. b
-12. a
-13. c
-14. b
-15. c
-16. b
-17. c
-18. b
-19. d
-20. a
-21. b
-22. b
-23. a
-24. b
-25. c
-26. b
-27. c
-28. a
-29. a
-30. a
+61. b
+62. b
+63. a
+64. b
+65. c
+66. b
+67. c
+68. a
+69. a
+70. a
+
 # Quiz: T8 to T10
 
 ## T8: Advanced Clustering Techniques and Soft Clustering
 
-### Question 1
+### Question 71
 
 What is the primary difference between hard and soft clustering?
 
@@ -889,7 +914,7 @@ Select one:
 - c. Hard clustering uses probabilistic methods, while soft clustering uses deterministic methods
 - d. Hard clustering is unsupervised, while soft clustering is supervised
 
-### Question 2
+### Question 72
 
 Which clustering method assigns probabilities of cluster membership to data points?
 
@@ -900,7 +925,7 @@ Select one:
 - c. DBSCAN
 - d. Hierarchical Clustering
 
-### Question 3
+### Question 73
 
 What is the Expectation-Maximization (EM) algorithm used for?
 
@@ -911,7 +936,7 @@ Select one:
 - c. Estimating parameters for probabilistic models in clustering
 - d. Determining the number of clusters in a dataset
 
-### Question 4
+### Question 74
 
 Which of the following is an example of a probabilistic clustering method?
 
@@ -922,7 +947,7 @@ Select one:
 - c. Gaussian Mixture Models (GMM)
 - d. Agglomerative Clustering
 
-### Question 5
+### Question 75
 
 What is a limitation of Fuzzy C-Means clustering?
 
@@ -933,7 +958,7 @@ Select one:
 - c. It doesn’t handle noise or outliers well
 - d. It only works with categorical data
 
-### Question 6
+### Question 76
 
 Which clustering algorithm is most suitable for overlapping clusters?
 
@@ -944,7 +969,7 @@ Select one:
 - c. DBSCAN
 - d. Hierarchical Clustering
 
-### Question 7
+### Question 77
 
 How does the EM algorithm alternate between steps?
 
@@ -955,7 +980,7 @@ Select one:
 - c. By splitting and merging clusters iteratively
 - d. By assigning data points to the nearest cluster
 
-### Question 8
+### Question 78
 
 What is the main advantage of Gaussian Mixture Models (GMM) over K-Means?
 
@@ -966,7 +991,7 @@ Select one:
 - c. GMM doesn’t require specifying the number of clusters
 - d. GMM is a supervised learning algorithm
 
-### Question 9
+### Question 79
 
 Which clustering algorithm is based on density estimation?
 
@@ -977,7 +1002,7 @@ Select one:
 - c. Fuzzy C-Means
 - d. K-Means
 
-### Question 10
+### Question 80
 
 What is the role of membership weights in Fuzzy C-Means?
 
@@ -990,9 +1015,24 @@ Select one:
 
 ---
 
+## Correct Answers for T8
+
+71. b
+72. b
+73. c
+74. c
+75. b
+76. b
+77. b
+78. a
+79. b
+80. c
+
+---
+
 ## T9: Factor Analysis and Dimensionality Reduction
 
-### Question 11
+### Question 81
 
 What is the primary goal of factor analysis?
 
@@ -1003,7 +1043,7 @@ Select one:
 - c. To cluster data points into distinct groups
 - d. To separate noise from the signal in data
 
-### Question 12
+### Question 82
 
 What is the main difference between PCA and factor analysis?
 
@@ -1014,7 +1054,7 @@ Select one:
 - c. PCA explains total variance, while factor analysis explains shared variance
 - d. PCA is a probabilistic model, while factor analysis is deterministic
 
-### Question 13
+### Question 83
 
 Which method is commonly used to compute latent variables in factor analysis?
 
@@ -1025,7 +1065,7 @@ Select one:
 - c. Expectation-Maximization
 - d. Gradient Descent
 
-### Question 14
+### Question 84
 
 What does the eigenvector associated with the largest eigenvalue represent in PCA?
 
@@ -1036,7 +1076,7 @@ Select one:
 - c. The smallest principal component
 - d. The noise component in the data
 
-### Question 15
+### Question 85
 
 What is the purpose of rotation in factor analysis?
 
@@ -1047,7 +1087,7 @@ Select one:
 - c. To align factors with principal components
 - d. To scale the data to a standard range
 
-### Question 16
+### Question 86
 
 Which of the following methods is used to reduce high-dimensional data while preserving variance?
 
@@ -1058,7 +1098,7 @@ Select one:
 - c. LDA
 - d. Factor Analysis
 
-### Question 17
+### Question 87
 
 What is a limitation of factor analysis?
 
@@ -1069,7 +1109,7 @@ Select one:
 - c. It requires the number of factors to be pre-specified
 - d. It only works for categorical data
 
-### Question 18
+### Question 88
 
 Which of the following dimensionality reduction techniques is best suited for visualizing data in 2D?
 
@@ -1080,7 +1120,7 @@ Select one:
 - c. t-SNE
 - d. Factor Analysis
 
-### Question 19
+### Question 89
 
 What is the difference between PCA and ICA?
 
@@ -1091,7 +1131,7 @@ Select one:
 - c. PCA focuses on shared variance, while ICA focuses on covariance
 - d. PCA works on non-linear data, while ICA works only on linear data
 
-### Question 20
+### Question 90
 
 What is the primary output of factor analysis?
 
@@ -1104,9 +1144,24 @@ Select one:
 
 ---
 
+## Correct Answers for T9
+
+81. b
+82. c
+83. a
+84. a
+85. a
+86. b
+87. c
+88. c
+89. a
+90. b
+
+---
+
 ## T10: Visualization Techniques
 
-### Question 21
+### Question 91
 
 What is the primary goal of visualization in machine learning?
 
@@ -1117,7 +1172,7 @@ Select one:
 - c. To cluster similar data points
 - d. To optimize hyperparameters
 
-### Question 22
+### Question 92
 
 Which technique maps high-dimensional data into a lower-dimensional grid while preserving topology?
 
@@ -1128,7 +1183,7 @@ Select one:
 - c. SOM (Self-Organizing Maps)
 - d. UMAP
 
-### Question 23
+### Question 93
 
 What does Multi-Dimensional Scaling (MDS) aim to preserve?
 
@@ -1139,7 +1194,7 @@ Select one:
 - c. Cluster centers
 - d. Probabilities of cluster membership
 
-### Question 24
+### Question 94
 
 Which visualization technique uses neighborhood relationships to embed data?
 
@@ -1150,7 +1205,7 @@ Select one:
 - c. t-SNE
 - d. Factor Analysis
 
-### Question 25
+### Question 95
 
 What is a drawback of t-SNE compared to UMAP?
 
@@ -1161,7 +1216,7 @@ Select one:
 - c. t-SNE assumes data is linear
 - d. t-SNE doesn’t work on high-dimensional data
 
-### Question 26
+### Question 96
 
 Which of the following is a feature of Self-Organizing Maps (SOM)?
 
@@ -1172,7 +1227,7 @@ Select one:
 - c. Focuses on maximizing variance
 - d. Outputs probabilistic cluster memberships
 
-### Question 27
+### Question 97
 
 What is a key advantage of MDS over PCA?
 
@@ -1183,7 +1238,7 @@ Select one:
 - c. MDS doesn’t require scaling of data
 - d. MDS doesn’t reduce dimensionality
 
-### Question 28
+### Question 98
 
 Which visualization technique works by projecting data onto principal components?
 
@@ -1194,7 +1249,7 @@ Select one:
 - c. SOM
 - d. UMAP
 
-### Question 29
+### Question 99
 
 What is a limitation of MDS?
 
@@ -1205,7 +1260,7 @@ Select one:
 - c. It cannot work with large datasets
 - d. It doesn’t support categorical data
 
-### Question 30
+### Question 100
 
 Which visualization method is best for interactive exploration of clusters in data?
 
@@ -1220,41 +1275,21 @@ Select one:
 
 ## Correct Answers
 
-1. b
-2. b
-3. c
-4. c
-5. b
-6. b
-7. b
-8. a
-9. b
-10. c
-11. b
-12. c
-13. a
-14. a
-15. a
-16. b
-17. c
-18. c
-19. a
-20. b
-21. b
-22. c
-23. b
-24. c
-25. b
-26. b
-27. b
-28. a
-29. b
-30. d
+91. b
+92. c
+93. b
+94. c
+95. b
+96. b
+97. b
+98. a
+99. b
+100. d
 # Quiz: T11 to T12
 
 ## T11: Recommender Systems
 
-### Question 1
+### Question 101
 
 What is the primary goal of a recommender system?
 
@@ -1265,7 +1300,7 @@ Select one:
 - c. To classify items into categories
 - d. To analyze the content of items
 
-### Question 2
+### Question 102
 
 Which of the following techniques is used in collaborative filtering?
 
@@ -1276,7 +1311,7 @@ Select one:
 - c. Both a and b
 - d. None of the above
 
-### Question 3
+### Question 103
 
 What is a limitation of collaborative filtering?
 
@@ -1287,7 +1322,7 @@ Select one:
 - c. It doesn’t require user feedback
 - d. It performs poorly with small datasets
 
-### Question 4
+### Question 104
 
 Which recommender system technique uses features of the items to recommend similar items?
 
@@ -1298,7 +1333,7 @@ Select one:
 - c. Hybrid filtering
 - d. Group recommender systems
 
-### Question 5
+### Question 105
 
 What is the primary advantage of hybrid recommender systems?
 
@@ -1309,7 +1344,7 @@ Select one:
 - c. They require less computational power
 - d. They only use collaborative filtering
 
-### Question 6
+### Question 106
 
 Which of the following is an evaluation metric for recommender systems?
 
@@ -1320,7 +1355,7 @@ Select one:
 - c. F1 Score
 - d. All of the above
 
-### Question 7
+### Question 107
 
 What is a conversational recommender system?
 
@@ -1331,7 +1366,7 @@ Select one:
 - c. A system that only works with explicit feedback
 - d. A system that assigns probabilities to user preferences
 
-### Question 8
+### Question 108
 
 Which of the following describes the "cold-start problem"?
 
@@ -1342,7 +1377,7 @@ Select one:
 - c. The system’s inability to handle sparse data
 - d. Difficulty in scaling to large datasets
 
-### Question 9
+### Question 109
 
 What is the primary challenge in group recommender systems?
 
@@ -1353,7 +1388,7 @@ Select one:
 - c. Evaluating precision and recall
 - d. Scaling recommendations in real time
 
-### Question 10
+### Question 110
 
 What is a key characteristic of content-based recommender systems?
 
@@ -1366,9 +1401,24 @@ Select one:
 
 ---
 
+## Correct Answers for T11
+
+101. b
+102. c
+103. a
+104. b
+105. b
+106. d
+107. b
+108. b
+109. a
+110. b
+
+---
+
 ## T12: Bias and Fairness in Machine Learning
 
-### Question 11
+### Question 111
 
 What is "bias" in the context of machine learning?
 
@@ -1379,7 +1429,7 @@ Select one:
 - c. The process of selecting important features
 - d. The variance in model predictions across datasets
 
-### Question 12
+### Question 112
 
 What is "fairness" in machine learning?
 
@@ -1390,7 +1440,7 @@ Select one:
 - c. Achieving the highest accuracy possible
 - d. Avoiding overfitting in the training phase
 
-### Question 13
+### Question 113
 
 Which of the following is an example of a biased dataset?
 
@@ -1401,7 +1451,7 @@ Select one:
 - c. A dataset with missing values
 - d. A dataset with more categorical features than numerical ones
 
-### Question 14
+### Question 114
 
 What is the "cold-start" problem’s relationship to fairness?
 
@@ -1412,7 +1462,7 @@ Select one:
 - c. It measures fairness through cross-validation
 - d. It prevents data leakage in model training
 
-### Question 15
+### Question 115
 
 Which of the following is a method to mitigate bias in data?
 
@@ -1423,7 +1473,7 @@ Select one:
 - c. Sampling strategies to balance class representation
 - d. Hyperparameter tuning
 
-### Question 16
+### Question 116
 
 What does "anti-classification" in fairness refer to?
 
@@ -1434,7 +1484,7 @@ Select one:
 - c. Regularizing the model to reduce overfitting
 - d. Allowing predictions based on sensitive attributes
 
-### Question 17
+### Question 117
 
 What is "calibration" in the context of fairness?
 
@@ -1445,7 +1495,7 @@ Select one:
 - c. Regularizing model coefficients
 - d. Balancing the dataset to avoid bias
 
-### Question 18
+### Question 118
 
 What is a real-world example of bias in machine learning?
 
@@ -1456,7 +1506,7 @@ Select one:
 - c. Poor performance on validation datasets
 - d. Low precision in spam detection systems
 
-### Question 19
+### Question 119
 
 What is "representation bias"?
 
@@ -1467,7 +1517,7 @@ Select one:
 - c. The inability of a model to generalize across datasets
 - d. Variance in predictions due to noise in data
 
-### Question 20
+### Question 120
 
 Which fairness approach requires equal performance metrics across groups?
 
@@ -1480,25 +1530,15 @@ Select one:
 
 ---
 
-## Correct Answers
+## Correct Answers for T12
 
-1. b
-2. c
-3. a
-4. b
-5. b
-6. d
-7. b
-8. b
-9. a
-10. b
-11. a
-12. b
-13. b
-14. a
-15. c
-16. a
-17. a
-18. a
-19. b
-20. b
+111. a
+112. b
+113. b
+114. a
+115. c
+116. a
+117. a
+118. a
+119. b
+120. b
